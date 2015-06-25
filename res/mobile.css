@@ -1,0 +1,40 @@
+body{font-family: 'lucida grande', 'lucida sans unicode', 'lucida', 'helvetica', 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;text-align:justify;font-weight:lighter;letter-spacing:0;margin: 0;padding: 0}
+a{text-decoration: none;text-transform: none;color: #4e4e4e;}
+div.content,article{margin:0;}
+h1{margin:1rem 0;font-size:1.2rem;font-weight:bold;color:#000000;letter-spacing:0;}
+h1.trainingdetail {margin:0;font-size:1rem;font-weight:bold;color:#000000;letter-spacing:0;border-bottom:1px solid #e5e5e5;padding: 0 1rem;line-height: 3rem;}
+nav{text-align: center;border-bottom:1px solid #e5e5e5;line-height: 2.5rem;background: #f4f4f4;color:#4e4e4e; }
+nav span{margin: 0 0.5rem;line-height: 2rem;}
+nav span a{text-decoration: none;text-transform: none;color:#4e4e4e; padding: 0 1rem;line-height: 2rem; }
+nav span a.disabled{color:#e5e5e5;}
+div.search{height: 2rem;line-height: 2rem;margin: 0.5rem 0; text-align: center;padding: 0 1rem;}
+div.search input{height: 2rem;line-height: 2rem;margin: 0;padding: 0 1rem 0 2rem;width: 100%; background-image: url('/res/img/bg-bt-search.png'); background-repeat: no-repeat;background-position:0.6rem center;background-size:1rem 1rem;background-origin:padding-box;border: 1px solid #e5e5e5;font-size: 1rem;
+    -moz-border-radius: 1rem;      /* Gecko browsers */
+    -webkit-border-radius: 1rem;   /* Webkit browsers */
+    border-radius:1rem;            /* W3C syntax */}
+
+div.content ul,article ul{margin: 0;padding: 0;list-style: none; overflow: hidden;}
+div.content ul li,article ul li{margin: 0;padding:0;list-style: none; font-size: 0;border-bottom:1px solid #e5e5e5; margin: 0;}
+article ul li a{display: block;font-size:0;text-transform: none; text-decoration: none;padding: 0.6rem 1rem;margin:0;background: url("/res/img/bg-traininglist-normal.png");background-repeat: no-repeat;background-position:center right;background-size:0.8rem 1.6rem;background-origin: content-box; }
+div.content ul li h2,article ul li h2{margin:0;padding:0;font-size: 1rem; color: #4e4e4e;font-weight: normal;}
+div.content ul li span,article ul li span{margin: 0 1rem 0 0;padding:0;font-size:0.8rem;  color:#9d9ea2; display: inline-block; width: auto;}
+
+article ul li a:active{background: url("/res/img/bg-traininglist-active.png"); background-repeat: no-repeat;background-position:center right;background-size:0.8rem 1.6rem;background-origin: content-box;background-color:#f4f4f4;}
+article ul li a:active h2, article ul li a:active span{color:#00c1f9}
+table.trainingdetail{margin: 0;padding: 0;border: none; vertical-align: top;width: 100%;}
+table.trainingdetail tr{padding:0 1rem;}
+table.trainingdetail tr td{padding:0.5rem 0;}
+table.trainingdetail tr td:nth-of-type(odd){text-align: right; width: 6rem;vertical-align: top;}
+table.trainingdetail tr td:nth-of-type(even){text-align: left; padding-right: 1rem;}
+table.trainingdetail tr:nth-of-type(even){background-color: #f4f4f4}
+
+
+div.content ul p,article ul p{margin: 0;padding: 0;font-size: 1rem;}
+div.footer,footer{text-align: center;line-height: 1.5rem; margin: 2em 0;}
+
+footer.trainingdetail{height: 3rem;padding: 0;line-height: 1rem;border-top: 1px solid #e5e5e5; position: fixed;bottom:0; margin:0; display: block;width: 100%; background-color: #ffffff }
+footer.trainingdetail a{text-decoration: none;text-transform: none; font-size: 1rem;color: #9d9ea2;padding:1rem;}
+footer.trainingdetail a.btnup{background-image: url("/res/img/btn-up.png");background-repeat: no-repeat;background-position:center right;background-size:1rem 1rem;background-origin: padding-box;float: left;margin: 0; padding-right: 1.5rem;}
+footer.trainingdetail a.btnjoin{margin: 0;float: right;}
+
+#introduce{padding:1rem; text-align:left;color:#4e4e4e;}

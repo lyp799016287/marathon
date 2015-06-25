@@ -1,0 +1,670 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>新闻中心 - 健康报网――国家健康门户</title>
+<meta name="keywords" content="健康，健康知识，健康小常识，健康生活，寻医问药，养生，医改，医疗，中医中药，医院，药品，疾病，保健，心理，减肥，美容，护肤。">
+<meta name="description" content="健康报网，专业的健康资讯国家门户网站，健康报社官方网站。《健康报》是中华人民共和国卫生部主管的最具影响的全国性卫生行业报。提供最专业、最完善的医疗卫生政策动向、医学、健康知识等健康信息服务，包括行业快讯、医改，农村卫生，社区卫生，科技，管理，医学人文，中医中药，医生园地，寻医问药，健康生活，深度，时评，海外，舆情等频道。">
+
+<link href="http://www.jkb.com.cn/statics/css/reset_new.css" rel="stylesheet" type="text/css" />
+<link href="http://www.jkb.com.cn/statics/css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://www.jkb.com.cn/statics/js/jquery.min.js"></script>
+<script type="text/javascript" src="http://www.jkb.com.cn/statics/js/jquery.SuperSlide.js"></script>
+<script type="text/javascript" src="http://www.jkb.com.cn/statics/js/index.js"></script>
+
+</head>
+<body>
+<!--[if IE 6]>
+<script src="js/DDPngMin.js"></script>
+<script>DD_belatedPNG.fix('.png a,.png img,.png');</script>
+<![endif]-->
+
+<div class="topbg">
+  <div class="wrap">
+    <div class="top-col-1" style="width:508px"><span class="bakehome"><a href="http://www.jkb.com.cn/">健康报首页</a></span> <span class="fl" id="time"><script language="javascript">showDate()</script></span>
+
+<ul id="dropdown_nav">
+        <li><a class="app">客户端</a>
+          <ul class="sub_nav">
+            <li><a href="https://itunes.apple.com/fr/app/jian-kang-bao-yue-du-qiiphone/id504496777?mt=8"><img src="/statics/images/ico-jkb-app.jpg" /></a></li>
+            <li><a href="http://as.baidu.com/a/item?docid=1447002&pre=web_am_software&pos=software_1013_0&f=web_alad_2_3%40next%40software_1013_0&qq-pf-to=pcqq.c2c"><img src="/statics/images/ico-jkb-andr.jpg"/></a></li>
+            <li><a href="
+https://itunes.apple.com/cn/app/jian-kang-bao-yue-du-qiipad-ban/id489833338?mt=8"><img src="/statics/images/ico-jkb-pad.jpg" /></a></li>
+          </ul>
+        </li>
+        <li><a class="mob">手机端</a> </li>
+        <li><a class="sina" target="_blank" href="http://weibo.com/jkb1931"></a></li>
+        <li><a class="weibo"></a>
+          <ul class="sub_nav">
+            <li> <img src="/statics/images/ico-jkb-weixin.jpg" /> </li>
+          </ul>
+        </li>
+      </ul>
+
+	</div>
+    <div class="top-col-2">
+      <script type="text/javascript">document.write('<iframe src="http://www.jkb.com.cn/index.php?m=member&c=index&a=mini&forward='+encodeURIComponent(location.href)+'&siteid=1" allowTransparency="true"  width="270" height="38" frameborder="0" scrolling="no"></iframe>')</script>
+    </div>
+    <div class="top-col-3"> <a class="fav" href="javascript:window.external.AddFavorite('http://www.jkb.com.cn','健康报网――国家健康门户')">收藏</a><a  href="http://www.jkb.com.cn/sitemap.html"class="map">网站地图</a><a onClick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://www.jkb.com.cn');" href="">设为首页</a> </div>
+    <div id="s2" style="display: none;"></div>
+    <p class="clear"></p>
+  </div>
+</div>
+<div class="wrap">
+  <div class="navbox">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td align="left" valign="top"><div class="nav c50">
+          <dl>
+            <dt><a href="http://www.jkb.com.cn/news/" target="_blank">新闻</a> </dt>
+            <dd><a href="http://www.jkb.com.cn/news/familyPlanning/" target="_blank">人口计生</a></dd>
+            <dd><a href="http://www.jkb.com.cn/news/publicHealth/" target="_blank">公共卫生</a></dd>
+            <dd><a href="http://www.jkb.com.cn/news/commentary/" target="_blank">时评</a></dd>
+          </dl>
+          <dl>
+            <dt><a href="http://www.jkb.com.cn/xunyiwenyao/" target="_blank">寻医问药</a> </dt>
+            <dd><a href="http://www.jkb.com.cn/TCM/" target="_blank">中医中药</a></dd>
+            <dd><a href="http://www.jkb.com.cn/ruralHealth/" target="_blank">农村卫生</a></dd>
+            <dd><a href="http://www.jkb.com.cn/doctorsCorner/" target="_blank">医生园地</a></dd>
+          </dl>
+          <dl>
+            <dt><a href="http://www.jkb.com.cn/video/" target="_blank">视频</a> </dt>
+            <dd><a href="http://www.jkb.com.cn/news/industrialEconomy/" target="_blank">产业经济</a></dd>
+            <dd><a href="http://www.jkb.com.cn/educationTraining/" target="_blank">教育培训</a></dd>
+          </dl>
+          <dl>
+            <dt><a href="http://www.jkb.com.cn/opinionSituation/" target="_blank">舆情</a> </dt>
+            <dd><a href="http://www.jkb.com.cn/thinkingDiscussion/" target="_blank">探讨思考</a></dd>
+            <dd><a href="http://www.jkb.com.cn/governmentAffairs/" target="_blank">政务信息</a></dd>
+            <dd><a href="http://www.jkb.com.cn/management/" target="_blank">管理</a></dd>
+          </dl>
+          <dl>
+            <dt><a href="http://www.jkb.com.cn/healthyLiving/" target="_blank">健康生活</a></dt>
+            <dd><a href="http://www.jkb.com.cn/communityHealth/" target="_blank">社区卫生</a></dd>
+            <dd><a href="http://www.jkb.com.cn/medicalFrontier/" target="_blank">医学前沿</a></dd>
+            <dd><a href="http://www.jkb.com.cn/medicalHumanities/" target="_blank">医学人文</a></dd>
+          </dl>
+          <dl>
+            <dt>社区</dt>
+            <dd><a href="http://www.jkb.com.cn/foodDrugSafety/">食品药品</a></dd>
+            <dd><a href="http://hr.jkb.com.cn/" target="_blank">人才招聘</a></dd>
+          </dl>
+        </div></td>
+      <td valign="top" align="right"><div class="nav-els">
+          <div class="sub-els"><strong>地方频道</strong><a href="http://www.jkb.com.cn/hainan/" target="_blank">琼</a><a href="http://www.jkb.com.cn/hunan/" target="_blank">湘</a><a href="http://www.jkb.com.cn/localnews/beijing/" target="_blank">京</a><a href="http://www.jkb.com.cn/localnews/tianjin/" target="_blank">津</a><a href="http://www.jkb.com.cn/localnews/shanghai/" target="_blank">沪</a><a href="http://www.jkb.com.cn/localnews/neimeng/" target="_blank">蒙</a><a href="http://www.jkb.com.cn/localnews//xinjiang" target="_blank">疆</a><a href="http://www.jkb.com.cn/localnews/ningxia/" target="_blank">宁</a><a href="http://www.jkb.com.cn/localnews/heilj/" target="_blank">黑</a><a href="http://www.jkb.com.cn/localnews/jilin/" target="_blank">吉</a><a href="http://www.jkb.com.cn/localnews/ningxia/" target="_blank">辽</a><a href="http://www.jkb.com.cn/localnews/hebei/" target="_blank">冀</a><a href="http://www.jkb.com.cn/localnews/shanxi/" target="_blank">晋</a><span class="ico" onmouseover=show(1,this); onmouseout=popupClose();></span></div>
+          <div class="sub-els"><strong>健康报系</strong><a href="http://118.144.77.21/jkb" target="_blank">健康报</a><a href="http://118.144.77.21/jkwzb/paperindex.htm" target="_blank">健康文摘报</a><a href="http://www.jkb.com.cn/chinahealth/">中国卫生</a><a href="http://www.jkb.com.cn/dzjk/">大众健康</a><span></span></div>
+          <div id=s1 class=subMenu1 onmouseover=popupNoClose(); onmouseout=popupClose();> <a href="http://www.jkb.com.cn/localnews/beijing/" target="_blank">北京市</a> <a href="http://www.jkb.com.cn/localnews/tianjin/" target="_blank">天津市</a> <a href="http://www.jkb.com.cn/localnews/shanghai/" target="_blank">上海市</a><a href="http://www.jkb.com.cn/localnews/neimeng/" target="_blank">内蒙古自治区</a><a href="http://www.jkb.com.cn/localnews//xinjiang" target="_blank">新疆维吾尔自治区</a><a href="http://www.jkb.com.cn/localnews/ningxia/" target="_blank">宁夏回族自治区</a><a href="http://www.jkb.com.cn/localnews/heilj/" target="_blank">黑龙江省</a> <a href="http://www.jkb.com.cn/localnews/jilin/" target="_blank">吉林省</a> <a href="http://www.jkb.com.cn/localnews/liaoning/" target="_blank">辽宁省</a><a href="http://www.jkb.com.cn/localnews/hebei/" target="_blank">河北省</a> <a href="http://www.jkb.com.cn/localnews/shanxi/" target="_blank">山西省</a><a href="http://www.jkb.com.cn/localnews/henan/" target="_blank">河南省</a><a href="http://www.jkb.com.cn/localnews/jiangsu/" target="_blank">江苏省</a><a href="http://www.jkb.com.cn/localnews/anhui/" target="_blank">安徽省</a><a href="http://www.jkb.com.cn/localnews/zhejiang/" target="_blank">浙江省</a><a href="http://www.jkb.com.cn/localnews/fujian/" target="_blank">福建省</a><a href="http://www.jkb.com.cn/localnews/hubei/" target="_blank">湖北省</a><a href="http://www.jkb.com.cn/hainan/" target="_blank">海南省</a><a href="http://www.jkb.com.cn/localnews/gansu/" target="_blank">甘肃省</a><a href="http://www.jkb.com.cn/localnews/shanxipro/" target="_blank">陕西省</a><a href="http://www.jkb.com.cn/localnews/guizhou/" target="_blank">贵州省</a><a href="http://www.jkb.com.cn/localnews/jsbt/" target="_blank">新疆生产建设兵团</a><a href="http://www.jkb.com.cn/localnews/qingdao/" target="_blank">青岛</a></div>
+        </div></td>
+    </tr>
+  </table>
+</div>
+
+
+
+
+  <div class="sub-head"> <a class="fl"><img src="http://www.jkb.com.cn/statics/images//sub-logo.gif" /></a>
+    <div class="soRight">
+       <form action="http://www.jkb.com.cn/index.php" method="get" target="_blank">
+            <input type="hidden" name="m" value="search"/>
+            <input type="hidden" name="c" value="index"/>
+            <input type="hidden" name="a" value="init"/>
+            <input type="hidden" name="typeid" value="1" id="typeid"/>
+            <input type="hidden" name="siteid" value="1" id="siteid"/>
+            <input type="text" class="inpt" name="q" id="q"/><input name="" type="image" src="http://www.jkb.com.cn/statics/images//sobtn.gif" class="sobtn" />
+        </form>
+    </div>
+  </div>
+  <p class="clear"></p>
+  <div class="sub-nav c50"> <a href="http://www.jkb.com.cn/">首 页</a> 
+    
+       
+      |<a href="http://www.jkb.com.cn/news/industryNews/">行业快讯</a> 
+       
+      |<a href="http://www.jkb.com.cn/news/technology/">科技</a> 
+       
+      |<a href="http://www.jkb.com.cn/news/healthCareReform/">医改</a> 
+       
+      |<a href="http://www.jkb.com.cn/news/dynamicSenior/">业界高层</a> 
+       
+      |<a href="http://www.jkb.com.cn/news/familyPlanning/">人口计生</a> 
+       
+      |<a href="http://www.jkb.com.cn/news/industrialEconomy/">产业经济</a> 
+       
+      |<a href="http://www.jkb.com.cn/news/publicHealth/">公共卫生</a> 
+       
+      |<a href="http://www.jkb.com.cn/news/depth/">深度</a> 
+       
+      |<a href="http://www.jkb.com.cn/news/commentary/">时评</a> 
+       
+      |<a href="http://www.jkb.com.cn/news/character/">人物</a> 
+       
+      |<a href="http://www.jkb.com.cn/news/overseas/">海外</a> 
+          
+  </div>
+  <div class="news-left">
+    <div>
+      <div class="sub-tit">
+        <h3>行业快讯</h3>
+        <span class="more"><a class="red" href="http://www.jkb.com.cn/news/industryNews/" target="_blank">更多<img src="http://www.jkb.com.cn/statics/images//more2.gif" align="absmiddle" class="ml5"/></a></span> </div>
+      <div class="news-col-1 fl">
+                      <div class="news-area"><a href="http://www.jkb.com.cn/news/industryNews/2015/0506/368371.html" target="_blank"><img src="http://www.jkb.com.cn/uploadfile/2015/0506/thumb_310_160_20150506045317150.jpg" width="310" height="160"></a>
+          <p class="blue2"><a href="http://www.jkb.com.cn/news/industryNews/2015/0506/368371.html" title="发改委：绝大部分药价不会上涨" style=""  target="_blank">发改委：绝大部分药价不会上涨</a></p>
+        </div>
+                         
+     	<dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/industryNews/2015/0506/368373.html" title="六月起药价全面放开 企业已悄然酝酿提价" style=""  target="_blank">六月起药价全面放开 企业已悄然...</a></dt>
+          <dd class="c80">　　分析人士认为，从目前的情况来看，发...</dd>
+        </dl>
+            
+        
+     	<dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/industryNews/2015/0506/368371.html" title="发改委：绝大部分药价不会上涨" style=""  target="_blank">发改委：绝大部分药价不会上涨</a></dt>
+          <dd class="c80">　　昨日，在河北省大厂回族自治县人民医...</dd>
+        </dl>
+            
+        
+     	<dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/industryNews/2015/0506/368360.html" title="取消大部分药品政府定价后，会发生什么？（图）" style=""  target="_blank">取消大部分药品政府定价后，会发...</a></dt>
+          <dd class="c80"></dd>
+        </dl>
+       
+      </div>
+      <div class="news-col-1 fr mt-10">
+            
+        
+     	<dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/industryNews/2015/0506/368349.html" title="进口烤紫菜被检出大肠菌群严重超标　" style=""  target="_blank">进口烤紫菜被检出大肠菌群严重超标　</a></dt>
+          <dd class="c80">  新华网长春５月５日专电（记者刘硕）...</dd>
+        </dl>
+            
+        
+     	<dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/industryNews/2015/0506/368347.html" title="婴幼儿配方乳粉抽检合格率近97％" style=""  target="_blank">婴幼儿配方乳粉抽检合格率近97％</a></dt>
+          <dd class="c80"> 新华网北京５月５日电（记者董峻、徐博...</dd>
+        </dl>
+            
+        
+     	<dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/industryNews/2015/0506/368346.html" title="湖北首例人感染H7N9禽流感患者康复" style=""  target="_blank">湖北首例人感染H7N9禽流感患者康复</a></dt>
+          <dd class="c80">  5日上午，湖北省首例人感染H7N9禽流...</dd>
+        </dl>
+            
+        
+     	<dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/industryNews/2015/0506/368345.html" title="贵阳：医院停车费看病不看病两个价 公开征意见" style=""  target="_blank">贵阳：医院停车费看病不看病两个...</a></dt>
+          <dd class="c80">  贵阳市发改委昨日传出消息：贵阳中心...</dd>
+        </dl>
+            
+        
+     	<dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/industryNews/2015/0506/368328.html" title="中国已实现艾滋病检测产品全线国产化" style=""  target="_blank">中国已实现艾滋病检测产品全线国产化</a></dt>
+          <dd class="c80">　　中新网北京5月5日电(记者 陈建)中国...</dd>
+        </dl>
+            
+        
+     	<dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/industryNews/2015/0506/368321.html" title="网站标榜“海南唯一”吃罚单 海南口腔医院被罚万元" style=""  target="_blank">网站标榜&ldquo;海南唯一&rdquo;吃罚单 海...</a></dt>
+          <dd class="c80">　　海南口腔医院官方网站页面截图　　商...</dd>
+        </dl>
+            
+                   </div> 
+       
+      <p class="clear"></p>
+    </div>
+    <div class="mt20"><script language="javascript" src="http://www.jkb.com.cn/caches/poster_js/22.js"></script></div>
+    <div class="mt20">
+      <div class="sub-tit mt10">
+        <h3>人口计生</h3>
+        <span class="more"><a class="red" href="http://www.jkb.com.cn/news/familyPlanning/" target="_blank">更多<img src="http://www.jkb.com.cn/statics/images//more2.gif" align="absmiddle" class="ml5"/></a></span> </div>
+      <div class="news-col-1 fl">
+                      <div class="news-area"><a href="http://www.jkb.com.cn/news/familyPlanning/2015/0327/364994.html" target="_blank"><img src="http://www.jkb.com.cn/uploadfile/2015/0327/thumb_310_160_20150327092427909.jpg" width="310" height="160"></a>
+          <p class="blue2"><a href="http://www.jkb.com.cn/news/familyPlanning/2015/0327/364994.html" title="“单独两孩”政策遇冷了吗？" style=""  target="_blank">“单独两孩”政策遇冷了吗？</a></p>
+        </div>
+                                  <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/familyPlanning/2015/0504/368132.html" title="云南“单独两孩”实施一年遇冷 预期与现实差距大" style=""  target="_blank">云南&ldquo;单独两孩&rdquo;实施一年遇冷 ...</a></dt>
+          <dd class="c80">  前言：2014年3月28日，云南省人大常...</dd>
+        </dl>
+      	        <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/familyPlanning/2015/0504/368061.html" title="七部门启动整治“两非”行动 " style=""  target="_blank">七部门启动整治“两非”行动 </a></dt>
+          <dd class="c80">  本报讯（记者谭嘉）4月30日，国家卫...</dd>
+        </dl>
+      	        <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/familyPlanning/2015/0429/367833.html" title="64县试点计生家庭科学育儿" style=""  target="_blank">64县试点计生家庭科学育儿</a></dt>
+          <dd class="c80">  本报讯（记者甘贝贝）近日，国家卫生...</dd>
+        </dl>
+      	            </div>
+      <div class="news-col-1 fr mt-10">
+                      <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/familyPlanning/2015/0421/367090.html" title="流动人口动态监测调查启动" style=""  target="_blank">流动人口动态监测调查启动</a></dt>
+          <dd class="c80">  本报讯（记者甘贝贝）4月20日，国家...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/familyPlanning/2015/0420/366963.html" title="浙江失独家庭可报销辅助生育费" style=""  target="_blank">浙江失独家庭可报销辅助生育费</a></dt>
+          <dd class="c80">  本报讯（特约记者林莉通讯员黄亦冰何...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/familyPlanning/2015/0417/366831.html" title="我国老年人达2.12亿" style=""  target="_blank">我国老年人达2.12亿</a></dt>
+          <dd class="c80">  本报讯（记者甘贝贝）在近日于京召开...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/familyPlanning/2015/0416/366687.html" title="今年免费孕前体检要覆盖八成目标人群" style=""  target="_blank">今年免费孕前体检要覆盖八成目标人群</a></dt>
+          <dd class="c80">  本报讯（记者甘贝贝）国家卫生计生委...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/familyPlanning/2015/0414/366495.html" title="上海加大推广独生子女保险计划" style=""  target="_blank">上海加大推广独生子女保险计划</a></dt>
+          <dd class="c80">  新华网上海４月１３日电（记者王涛）...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/familyPlanning/2015/0414/366489.html" title="上海女白领：要孩子不要老公 欲做独身“试管妈妈”" style=""  target="_blank">上海女白领：要孩子不要老公 欲...</a></dt>
+          <dd class="c80">　　中新网上海4月13日电 (陈静 潘佳)...</dd>
+        </dl>
+                    
+        
+      </div>
+      <p class="clear"></p>
+    </div>
+    <div class="mt20"><script language="javascript" src="http://www.jkb.com.cn/caches/poster_js/22.js"></script></div>
+    <div class="mt20">
+      <div class="sub-tit">
+        <h3>科技</h3>
+        <span class="more"><a class="red" href="http://www.jkb.com.cn/news/technology/" target="_blank">更多<img src="http://www.jkb.com.cn/statics/images//more2.gif" align="absmiddle" class="ml5"/></a></span> </div>
+      <div class="news-col-1 fl">
+                      <div class="news-area"><a href="http://www.jkb.com.cn/news/technology/2015/0428/367770.html" target="_blank"><img src="http://www.jkb.com.cn/uploadfile/2015/0428/thumb_310_160_20150428020530470.jpg" width="310" height="160"></a>
+          <p class="blue2"><a href="http://www.jkb.com.cn/news/technology/2015/0428/367770.html" title="戴着Apple Watch的一天：逼格不够 囧！囧！囧！" style=""  target="_blank">戴着Apple Watch的一天：逼格不...</a></p>
+        </div>
+                                  <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/technology/2015/0504/368110.html" title="细胞端粒藏着长寿秘密 一项新发现有望延长寿命" style=""  target="_blank">细胞端粒藏着长寿秘密 一项新发...</a></dt>
+          <dd class="c80">　　人类从未停止对生命的探索，其最原始...</dd>
+        </dl>
+      	        <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/technology/2015/0503/368034.html" title="研究指出高个子患心脏病的几率更低" style=""  target="_blank">研究指出高个子患心脏病的几率更低</a></dt>
+          <dd class="c80">　　研究指出：平均来说，每矮2 5英寸就...</dd>
+        </dl>
+      	        <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/technology/2015/0502/368012.html" title="中外科学家揭示人类干细胞衰老机理" style=""  target="_blank">中外科学家揭示人类干细胞衰老机理</a></dt>
+          <dd class="c80">　　中新社北京5月1日电 (记者 张素)记...</dd>
+        </dl>
+      	            </div>
+      <div class="news-col-1 fr mt-10">
+                      <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/technology/2015/0428/367770.html" title="戴着Apple Watch的一天：逼格不够 囧！囧！囧！" style=""  target="_blank">戴着Apple Watch的一天：逼格不...</a></dt>
+          <dd class="c80">  2015年最佳装逼神器Apple Watch中午...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/technology/2015/0428/367735.html" title="AHA新指南完善40岁以上成人先天性心脏病的诊断与治疗" style=""  target="_blank">AHA新指南完善40岁以上成人先天性...</a></dt>
+          <dd class="c80">美国40岁以上先天性心脏病（CHD）患者数...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/technology/2015/0427/367674.html" title="英国研究发现甲状腺问题会损害女性生育能力" style=""  target="_blank">英国研究发现甲状腺问题会损害女...</a></dt>
+          <dd class="c80">　　英国一项研究发现，甲状腺问题可能会...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/technology/2015/0427/367653.html" title="口服胰岛素：1型糖尿病预防的曙光！" style=""  target="_blank">口服胰岛素：1型糖尿病预防的曙光！</a></dt>
+          <dd class="c80">2015年4月21日在线发表于JAMA上的一项预...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/technology/2015/0427/367604.html" title="互联网+时代 聪明的患者可以做什么" style=""  target="_blank">互联网+时代 聪明的患者可以做什么</a></dt>
+          <dd class="c80">　　照片中26岁的基廷，颇自信地托着一颗...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/technology/2015/0424/367503.html" title="科技项目大幅提升 医药卫生执行力" style=""  target="_blank">科技项目大幅提升 医药卫生执行力</a></dt>
+          <dd class="c80">　　十二五期间，重大新药创制、艾滋病和...</dd>
+        </dl>
+                    
+        
+      </div>
+      <p class="clear"></p>
+    </div>
+    <div class="mt20"><script language="javascript" src="http://www.jkb.com.cn/caches/poster_js/22.js"></script></div>
+    <div class="mt20">
+      <div class="sub-tit">
+        <h3>医改</h3>
+        <span class="more"><a class="red" href="http://www.jkb.com.cn/news/healthCareReform/" target="_blank">更多<img src="http://www.jkb.com.cn/statics/images//more2.gif" align="absmiddle" class="ml5"/></a></span> </div>
+      <div class="news-col-1 fl">
+                      <div class="news-area"><a href="http://www.jkb.com.cn/news/healthCareReform/2015/0427/367602.html" target="_blank"><img src="http://www.jkb.com.cn/uploadfile/2015/0427/thumb_310_160_20150427093051110.jpg" width="310" height="160"></a>
+          <p class="blue2"><a href="http://www.jkb.com.cn/news/healthCareReform/2015/0427/367602.html" title="药价能否再降 新医改这些都与你有关" style=""  target="_blank">药价能否再降 新医改这些都与你有关</a></p>
+        </div>
+                                  <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/healthCareReform/2015/0505/368202.html" title="公立医院结亲乡镇医院：住院14天 花费不足450元" style=""  target="_blank">公立医院结亲乡镇医院：住院14天...</a></dt>
+          <dd class="c80">　　4月28日，附近村民来到兖州中医院漕...</dd>
+        </dl>
+      	        <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/healthCareReform/2015/0505/368189.html" title="南京公立医院改革要求齐步走 " style=""  target="_blank">南京公立医院改革要求齐步走 </a></dt>
+          <dd class="c80">  本报讯（通讯员薛峰特约记者纪平）日...</dd>
+        </dl>
+      	        <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/healthCareReform/2015/0505/368185.html" title="辽宁为医师多点执业“松绑”" style=""  target="_blank">辽宁为医师多点执业“松绑”</a></dt>
+          <dd class="c80">  本报讯（记者阎红）取消执业地点数量...</dd>
+        </dl>
+      	            </div>
+      <div class="news-col-1 fr mt-10">
+                      <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/healthCareReform/2015/0505/368170.html" title="黔东南新农合住院补偿封顶线提至20万元v" style=""  target="_blank">黔东南新农合住院补偿封顶线提至2...</a></dt>
+          <dd class="c80">  本报讯（记者张晔通讯员周锋）日前，...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/healthCareReform/2015/0504/368056.html" title="重庆药交平台助力“三医”联动" style=""  target="_blank">重庆药交平台助力“三医”联动</a></dt>
+          <dd class="c80">  本报讯（记者肖莉丽黎军）日前，中国...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/healthCareReform/2015/0504/368054.html" title="河南出新规严惩违规使用新农合资金 " style=""  target="_blank">河南出新规严惩违规使用新农合资金 </a></dt>
+          <dd class="c80">  本报讯记者胡晓军从近日召开的河南省...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/healthCareReform/2015/0430/367986.html" title="武汉长沙合肥南昌四市医保年底可异地即时结算" style=""  target="_blank">武汉长沙合肥南昌四市医保年底可...</a></dt>
+          <dd class="c80">　　今年底，武汉、长沙、合肥、南昌4市...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/healthCareReform/2015/0429/367931.html" title="李克强：不断提高医疗卫生水平 满足人民群众健康需求" style=""  target="_blank">李克强：不断提高医疗卫生水平 ...</a></dt>
+          <dd class="c80">  新华网北京4月29日电 2015年深化医...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/healthCareReform/2015/0429/367900.html" title="南京：年底前全面取消药品加成" style=""  target="_blank">南京：年底前全面取消药品加成</a></dt>
+          <dd class="c80">　　本报讯 记者昨天从南京市召开的综合...</dd>
+        </dl>
+                    
+        
+      </div>
+      <p class="clear"></p>
+    </div>
+    <div class="mt20"><script language="javascript" src="http://www.jkb.com.cn/caches/poster_js/22.js"></script></div>
+    <div class="mt20">
+      <div class="sub-tit">
+        <h3>公共卫生</h3>
+        <span class="more"><a class="red" href="http://www.jkb.com.cn/news/publicHealth/" target="_blank">更多<img src="http://www.jkb.com.cn/statics/images//more2.gif" align="absmiddle" class="ml5"/></a></span> </div>
+      <div class="news-col-1 fl">
+                      <div class="news-area"><a href="http://www.jkb.com.cn/news/publicHealth/2015/0427/367660.html" target="_blank"><img src="http://www.jkb.com.cn/uploadfile/2015/0427/thumb_310_160_20150427021125404.jpg" width="310" height="160"></a>
+          <p class="blue2"><a href="http://www.jkb.com.cn/news/publicHealth/2015/0427/367660.html" title="婴儿游泳监管存在空白 卫生状况引发市民担忧 " style=""  target="_blank">婴儿游泳监管存在空白 卫生状况...</a></p>
+        </div>
+                                  <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/publicHealth/2015/0506/368350.html" title="进口烤紫菜被检出大肠菌群严重超标　" style=""  target="_blank">进口烤紫菜被检出大肠菌群严重超标　</a></dt>
+          <dd class="c80">  新华网长春５月５日专电（记者刘硕）...</dd>
+        </dl>
+      	        <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/publicHealth/2015/0506/368348.html" title="婴幼儿配方乳粉抽检合格率近97％" style=""  target="_blank">婴幼儿配方乳粉抽检合格率近97％</a></dt>
+          <dd class="c80"> 新华网北京５月５日电（记者董峻、徐博...</dd>
+        </dl>
+      	        <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/publicHealth/2015/0506/368317.html" title="中医院校自创塑形操" style=""  target="_blank">中医院校自创塑形操</a></dt>
+          <dd class="c80">　　5月4日，南京中医药大学的一千多名学...</dd>
+        </dl>
+      	            </div>
+      <div class="news-col-1 fr mt-10">
+                      <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/publicHealth/2015/0506/368316.html" title="赛技能" style=""  target="_blank">赛技能</a></dt>
+          <dd class="c80">　　5月4日，贵州省人民医院举办第一届青...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/publicHealth/2015/0506/368315.html" title="H7N9患者出院" style=""  target="_blank">H7N9患者出院</a></dt>
+          <dd class="c80">　　5月5日，湖北首位人感染H7N9流感患者...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/publicHealth/2015/0506/368309.html" title="山东：集体食堂集体减盐 " style=""  target="_blank">山东：集体食堂集体减盐 </a></dt>
+          <dd class="c80">  本报讯（记者杨凤欧一平通讯员宋美岑...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/publicHealth/2015/0505/368237.html" title="山西三所爱婴医院评估不合格被责令整改" style=""  target="_blank">山西三所爱婴医院评估不合格被责...</a></dt>
+          <dd class="c80">　　中新网太原5月5日电 (李娜)山西省卫...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/publicHealth/2015/0505/368191.html" title="严禁推介治疗性生物制品当疫苗" style=""  target="_blank">严禁推介治疗性生物制品当疫苗</a></dt>
+          <dd class="c80">  本报讯（记者张磊）5月4日，国家卫生...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/news/publicHealth/2015/0505/368183.html" title="甘肃：学校食品安全县级以上政府负总责 " style=""  target="_blank">甘肃：学校食品安全县级以上政府...</a></dt>
+          <dd class="c80">  本报讯（记者方剑平郭海霞）甘肃省食...</dd>
+        </dl>
+                    
+        
+      </div>
+      <p class="clear"></p>
+    </div>
+    <div class="mt20"><script language="javascript" src="http://www.jkb.com.cn/caches/poster_js/22.js"></script></div>
+    <div class="mt20">
+      <div class="sub-tit">
+        <h3>食品药品</h3>
+        <span class="more"><a class="red" href="http://www.jkb.com.cn/foodDrugSafety/" target="_blank">更多<img src="http://www.jkb.com.cn/statics/images//more2.gif" align="absmiddle" class="ml5"/></a></span> </div>
+      <div class="news-col-1 fl">
+                      <div class="news-area"><a href="http://www.jkb.com.cn/foodDrugSafety/food/2015/0414/366520.html" target="_blank"><img src="http://www.jkb.com.cn/uploadfile/2015/0414/thumb_310_160_20150414050344536.jpg" width="310" height="160"></a>
+          <p class="blue2"><a href="http://www.jkb.com.cn/foodDrugSafety/food/2015/0414/366520.html" title="海淘保健品当心鱼目混珠 洋保健品也有质量问题" style=""  target="_blank">海淘保健品当心鱼目混珠 洋保健...</a></p>
+        </div>
+                                  <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/foodDrugSafety/drugs/2015/0505/368195.html" title="药械警戒" style=""  target="_blank">药械警戒</a></dt>
+          <dd class="c80">　　可能导致结果不正确　　美艾利尔血凝...</dd>
+        </dl>
+      	        <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/foodDrugSafety/food/2015/0505/368193.html" title="甘肃：学校食品安全县级以上政府负总责" style=""  target="_blank">甘肃：学校食品安全县级以上政府...</a></dt>
+          <dd class="c80">　　本报讯 （记者方剑平 郭海霞）甘肃...</dd>
+        </dl>
+      	        <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/foodDrugSafety/drugs/2015/0504/368078.html" title="“止咳水”列入第二类精神药品管理" style=""  target="_blank">“止咳水”列入第二类精神药品管理</a></dt>
+          <dd class="c80">　　本报讯 （记者刘志勇）自今年5月1日...</dd>
+        </dl>
+      	            </div>
+      <div class="news-col-1 fr mt-10">
+                      <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/foodDrugSafety/drugs/2015/0427/367609.html" title="江苏苏中药业生脉注射液发生热原反应" style=""  target="_blank">江苏苏中药业生脉注射液发生热原反应</a></dt>
+          <dd class="c80">　　本报讯 （记者刘志勇）4月24日，国...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/foodDrugSafety/drugs/2015/0427/367608.html" title="大剂量甲氧氯普胺可致锥体外系反应" style=""  target="_blank">大剂量甲氧氯普胺可致锥体外系反应</a></dt>
+          <dd class="c80">　　本报讯 （记者刘志勇）国家食品药品...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/foodDrugSafety/food/2015/0427/367607.html" title="新食品安全法体现严惩重处" style=""  target="_blank">新食品安全法体现严惩重处</a></dt>
+          <dd class="c80">　　本报讯 （记者叶龙杰）4月24日，在...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/foodDrugSafety/food/2015/0423/367382.html" title="食品安全更多矛盾浮出水面" style=""  target="_blank">食品安全更多矛盾浮出水面</a></dt>
+          <dd class="c80">□本报记者 刘志勇□　　4月22日~23日，...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/foodDrugSafety/food/2015/0422/367240.html" title="“舌尖安全”重修法更需重执法" style=""  target="_blank">“舌尖安全”重修法更需重执法</a></dt>
+          <dd class="c80">□本报记者 叶龙杰□　　屡屡发生的食品...</dd>
+        </dl>
+                <dl class="news-li">
+          <dt class="c00"><a href="http://www.jkb.com.cn/foodDrugSafety/drugs/2015/0421/367123.html" title="抗菌药物管理进入AMS时代" style=""  target="_blank">抗菌药物管理进入AMS时代</a></dt>
+          <dd class="c80">本报记者 马 佳　　近日在京举行的第四...</dd>
+        </dl>
+                    
+        
+      </div>
+      <p class="clear"></p>
+    </div>
+  </div>
+  <div class="sub-right">
+    <div class="bgf9">
+      <div class="sub-tit">
+        <h3>读者调查</h3>
+      </div>
+      <script language="javascript" src="http://www.jkb.com.cn/index.php?m=vote&c=index&a=show&action=js&subjectid=2&type=3"></script>
+    </div>
+    <div class="mt20"><script language="javascript" src="http://www.jkb.com.cn/caches/poster_js/23.js"></script></div>
+    <div class="bgf9 mt20">
+      <div class="sub-tit">
+        <h3 class="red"><a href="http://www.jkb.com.cn/news/commentary/">时评</a></h3>
+      </div>
+      <div class="list f14">
+              <ul>
+                  <li><a href="http://www.jkb.com.cn/news/commentary/2015/0506/368358.html" target="_blank" title="评论：药价放权更需强化政府责任意识" style="" >评论：药价放权更需强化政府责任意识</a></li>
+                <li><a href="http://www.jkb.com.cn/news/commentary/2015/0505/368278.html" target="_blank" title="评论：私人诊所，走的人多就成了大路" style="" >评论：私人诊所，走的人多就成了大路</a></li>
+                <li><a href="http://www.jkb.com.cn/news/commentary/2015/0502/368016.html" target="_blank" title="评论：医生睡倒在手术室提醒了什么" style="" >评论：医生睡倒在手术室提醒了什么</a></li>
+                <li><a href="http://www.jkb.com.cn/news/commentary/2015/0430/367959.html" target="_blank" title="医疗市场需要多元化的存在 " style="" >医疗市场需要多元化的存在 </a></li>
+                <li><a href="http://www.jkb.com.cn/news/commentary/2015/0430/367958.html" target="_blank" title="五星级酒店缘何深陷“清洁门” " style="" >五星级酒店缘何深陷“清洁门” </a></li>
+          	      </div>
+    </div>
+    <div class="bgf9 mt20">
+      <div class="sub-tit">
+        <h3 class="red"><a href="http://www.jkb.com.cn/news/healthCareReform/">医改</a></h3>
+      </div>
+      <div class="list f14">
+              <ul>
+                  <li><a href="http://www.jkb.com.cn/news/healthCareReform/2015/0505/368202.html" target="_blank" title="公立医院结亲乡镇医院：住院14天 花费不足450元" style="" >公立医院结亲乡镇医院：住院14天 花费不足450元</a></li>
+                <li><a href="http://www.jkb.com.cn/news/healthCareReform/2015/0505/368189.html" target="_blank" title="南京公立医院改革要求齐步走 " style="" >南京公立医院改革要求齐步走 </a></li>
+                <li><a href="http://www.jkb.com.cn/news/healthCareReform/2015/0505/368185.html" target="_blank" title="辽宁为医师多点执业“松绑”" style="" >辽宁为医师多点执业“松绑”</a></li>
+                <li><a href="http://www.jkb.com.cn/news/healthCareReform/2015/0505/368170.html" target="_blank" title="黔东南新农合住院补偿封顶线提至20万元v" style="" >黔东南新农合住院补偿封顶线提至20万元v</a></li>
+                <li><a href="http://www.jkb.com.cn/news/healthCareReform/2015/0504/368056.html" target="_blank" title="重庆药交平台助力“三医”联动" style="" >重庆药交平台助力“三医”联动</a></li>
+          	      </div>
+    </div>
+    <div class="mt20"><script language="javascript" src="http://www.jkb.com.cn/caches/poster_js/23.js"></script></div>
+    <div class="sub-tit mt20">
+      <h3>新闻排行</h3>
+    </div>
+        <ul class="hot-list c50">
+                  <li class="hd"><a href="http://www.jkb.com.cn/news/industryNews/2010/1208/189350.html" target="_blank">健康报网联系方式</a></li>
+                                        <li><a href="http://www.jkb.com.cn/news/industryNews/2015/0430/367948.html" target="_blank">方便就医减轻看病负担要更见实效 </a></li>
+                                         <li><a href="http://www.jkb.com.cn/news/industryNews/2015/0504/368059.html" target="_blank">七部门启动整治“两非”行动 </a></li>
+                                         <li><a href="http://www.jkb.com.cn/news/industryNews/2015/0504/368058.html" target="_blank">城乡医疗救助制度年内整合建立 </a></li>
+                                         <li><a href="http://www.jkb.com.cn/news/depth/2013/1204/130349.html" target="_blank">危险的“0号胶囊”</a></li>
+                                         <li><a href="http://www.jkb.com.cn/news/industryNews/2015/0430/367946.html" target="_blank">全国5万多家医疗机构上医责险 </a></li>
+                                         <li><a href="http://www.jkb.com.cn/news/industryNews/2015/0429/367847.html" target="_blank">基层医疗卫生机构财务集中核算将规范</a></li>
+                                         <li><a href="http://www.jkb.com.cn/news/industryNews/2015/0430/367949.html" target="_blank">“主席叮嘱我再接再厉” </a></li>
+                                         <li><a href="http://www.jkb.com.cn/news/industryNews/2015/0504/368053.html" target="_blank">河南出新规严惩违规使用新农合资金 </a></li>
+                                         <li><a href="http://www.jkb.com.cn/news/commentary/2015/0429/367877.html" target="_blank">破除以药补医为何这么难 </a></li>
+                       </ul>
+        <div class="sub-tit mt20">
+      <h3 class="red"><a href="http://www.jkb.com.cn/news/depth/">深度</a></h3>
+    </div>
+    <div class="bgf9">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                  <td width="46%" align="center" valign="middle"><img src="http://www.jkb.com.cn/uploadfile/2015/0424/thumb_155_0_20150424072844119.jpg" width="120" height="80"></td>
+          <td width="54%" align="left" valign="middle"><div class="info">
+              <h4><a href="http://www.jkb.com.cn/news/depth/2015/0424/367486.html" target="_blank">支架滥用是个伪命题？</a></h4>
+              <p>□实习记者 荆伟龙□　　CFP供图　　支...<a href="http://www.jkb.com.cn/news/depth/2015/0424/367486.html" class="red"><a href="http://www.jkb.com.cn/news/depth/2015/0424/367486.html" target="_blank">[详细]</a></p>
+            </div></td>
+            
+        </tr>
+              </table>
+      <div class="list f14">
+              <ul>
+                  <li><a href="http://www.jkb.com.cn/news/depth/2015/0505/368192.html" target="_blank">改造人类胚胎基因引来伦理争议</a></li>
+                   <li><a href="http://www.jkb.com.cn/news/depth/2015/0504/368037.html" target="_blank">如何避免过度应用新技术 </a></li>
+                   <li><a href="http://www.jkb.com.cn/news/depth/2015/0430/367951.html" target="_blank">登革热今年还会“欺负”广州吗 </a></li>
+                   <li><a href="http://www.jkb.com.cn/news/depth/2015/0430/367950.html" target="_blank">医患纠纷治标治本需要合力 </a></li>
+                   <li><a href="http://www.jkb.com.cn/news/depth/2015/0429/367851.html" target="_blank">中国针灸界：且行且思考 </a></li>
+           
+        </ul>
+              </div>
+    </div>
+    <div class="mt20"><script language="javascript" src="http://www.jkb.com.cn/caches/poster_js/23.js"></script></div>
+    <div class="bgf9 mt20">
+      <div class="sub-tit">
+        <h3 class="red"><a href="http://www.jkb.com.cn/news/industrialEconomy/">产业经济</a></h3>
+      </div>
+      <div class="list f14">
+                <ul>
+                  <li><a href="http://www.jkb.com.cn/news/industrialEconomy/medicaldevices/2015/0506/368318.html" target="_blank">药品将进入市场定价时代</a></li>
+                   <li><a href="http://www.jkb.com.cn/news/industrialEconomy/vocationnews/2015/0505/368196.html" target="_blank">东软率先发力“互联网+社保”</a></li>
+                   <li><a href="http://www.jkb.com.cn/news/industrialEconomy/vocationnews/2015/0505/368194.html" target="_blank">分子诊断技术助力个性化医疗</a></li>
+                   <li><a href="http://www.jkb.com.cn/news/industrialEconomy/vocationnews/2015/0504/368077.html" target="_blank">重庆药交平台助力“三医”联动</a></li>
+                   <li><a href="http://www.jkb.com.cn/news/industrialEconomy/pension/2015/0430/367963.html" target="_blank">养老服务体系建设融资获支持</a></li>
+           
+        </ul>
+              </div>
+    </div>
+    <div class="sub-tit mt20">
+      <h3 class="red"><a href="http://www.jkb.com.cn/news/character/">人物</a></h3>
+    </div>
+    <div class="bgf9">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                  <td width="46%" align="center" valign="middle"><img src="http://www.jkb.com.cn/uploadfile/2015/0424/thumb_155_0_20150424073513634.jpg" width="120" height="80"></td>
+          <td width="54%" align="left" valign="middle"><div class="info">
+              <h4><a href="http://www.jkb.com.cn/news/character/2015/0424/367491.html" target="_blank">严苍山：行医当有割股之心 </a></h4>
+              <p>潘华敏　　严苍山（1898~1968） 现代著...<a href="http://www.jkb.com.cn/news/character/2015/0424/367491.html" class="red"><a href="http://www.jkb.com.cn/news/character/2015/0424/367491.html" target="_blank">[详细]</a></p>
+            </div></td>
+            
+        </tr>
+              </table>
+      <div class="list f14">
+              <ul>
+                  <li><a href="http://www.jkb.com.cn/news/character/2015/0424/367491.html" target="_blank">严苍山：行医当有割股之心 </a></li>
+                   <li><a href="http://www.jkb.com.cn/news/character/2015/0424/367490.html" target="_blank">葛建一：要为医患构建利益共同体平台 </a></li>
+                   <li><a href="http://www.jkb.com.cn/news/character/2015/0424/367489.html" target="_blank">连方：病人的需求是我努力的方向 </a></li>
+                   <li><a href="http://www.jkb.com.cn/news/character/2015/0417/366805.html" target="_blank">季庆英：我庆幸自己选择了医务社工 </a></li>
+                   <li><a href="http://www.jkb.com.cn/news/character/2015/0417/366804.html" target="_blank">邓云山：后学景慕的“治麻神医” </a></li>
+           
+        </ul>
+                
+      </div>
+    </div>
+    <div class="mt20"><script language="javascript" src="http://www.jkb.com.cn/caches/poster_js/23.js"></script></div>
+    <div class="bgf9 mt20">
+      <div class="sub-tit mt10">
+        <h3 class="red"><a href="http://www.jkb.com.cn/news/overseas/">海外</a></h3>
+      </div>
+      <div class="list f14">
+              <ul>
+                  <li><a href="http://www.jkb.com.cn/news/overseas/2015/0502/368020.html" target="_blank">英"瓷娃娃"打喷嚏会骨折(图)</a></li>
+                   <li><a href="http://www.jkb.com.cn/news/overseas/2015/0428/367824.html" target="_blank">自费疫苗值得打吗？国外已纳入计划的可优先接种</a></li>
+                   <li><a href="http://www.jkb.com.cn/news/overseas/2015/0428/367793.html" target="_blank">百事将在美国更换阿斯巴甜 中国市场仍使用</a></li>
+                   <li><a href="http://www.jkb.com.cn/news/overseas/2015/0427/367596.html" target="_blank">专家支招让娃不挑食 </a></li>
+                   <li><a href="http://www.jkb.com.cn/news/overseas/2015/0427/367595.html" target="_blank">离婚经历或增心脏病风险 </a></li>
+           
+        </ul>
+                
+      </div>
+    </div>
+    <div class="mt20">
+    <div class="bgf9 mt20">
+      <div class="sub-tit mt10">
+        <h3 class="red"><a href="http://www.jkb.com.cn/healthnews/">健康资讯</a></h3>
+      </div>
+      <div class="list f14">
+              <ul>
+                  <li><a href="http://www.jkb.com.cn/healthnews/2015/0506/368369.html" target="_blank">2015年世界哮喘日首届哮喘老人关爱行动启动仪...</a></li>
+                   <li><a href="http://www.jkb.com.cn/healthnews/2015/0506/368366.html" target="_blank">五月放大招!医生树携手北京协和医院&ldquo;皮肤病...</a></li>
+                   <li><a href="http://www.jkb.com.cn/healthnews/2015/0506/368365.html" target="_blank">其实，人人都需要一段“素缘”</a></li>
+                   <li><a href="http://www.jkb.com.cn/healthnews/2015/0506/368364.html" target="_blank">中医药传承和发展的新动力</a></li>
+                   <li><a href="http://www.jkb.com.cn/healthnews/2015/0506/368357.html" target="_blank">温医一院省内首家上线“趣医院”平台</a></li>
+                   <li><a href="http://www.jkb.com.cn/healthnews/2015/0506/368356.html" target="_blank">以爱之名，博奥颐和基因检测京东众筹活动高潮...</a></li>
+                   <li><a href="http://www.jkb.com.cn/healthnews/2015/0506/368355.html" target="_blank">健康▪爱合一，博奥颐和基因检测母亲节享大礼</a></li>
+                   <li><a href="http://www.jkb.com.cn/healthnews/2015/0506/368354.html" target="_blank"> “互联网+”时代，控糖卫士助力糖尿病管理</a></li>
+                   <li><a href="http://www.jkb.com.cn/healthnews/2015/0506/368352.html" target="_blank">拒当“腹愁者联盟” 天际开创阿里云膳食新纪元</a></li>
+                   <li><a href="http://www.jkb.com.cn/healthnews/2015/0506/368351.html" target="_blank">&ldquo;甲状旁腺肿瘤克星&rdquo;魏伯俊专家团队加入微医...</a></li>
+           
+        </ul>
+                
+      </div>
+    </div>
+    
+    
+    
+     </div>
+  </div>
+    <p class="clear"></p>
+    
+  <div class="flink mt10 c50">
+    <div class="slideTxtBox5">
+      <div class="hd">
+        <ul>
+          <li>友情链接</li>
+        </ul>
+      </div>
+      <div class="bd">
+        <ul>
+          <li>
+            <div class="alink"><a href="http://www.jkb.com.cn">健康报网</a></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+ <script language="javascript">jQuery(".slideTxtBox5").slide();</script>
+  <div class="footer"><a href="http://www.jkb.com.cn/aboutus">关于我们</a> | <a href="http://www.jkb.com.cn/aboutus/shengming.html">网站声明</a> | <a href="http://jkb.com.cn/jkbactivists/">报社活动</a> | <a href="http://www.jkb.com.cn/news/industryNews/2010/1208/189350.html"  target="_blank"  >联系我们</a>  | 广告报价 | <a href="http://www.jkb.com.cn/sitemap.html"  target="_blank" >网站地图</a></div>
+  <div class="copyright">Copyright(C) 1999-2014 健康报社 版权所有 违者必究<br />
+    <span>互联网新闻信息服务许可证1012006037</span> | <span>广播电视节目制作经营许可证 (京)字第03884号</span><br />
+	<span>互联网出版许可证（京）字283号 </span> | <span>京ICP备14006568号-1</span> | <span>京公网安备11010102001488号</span> | <span>卫网核总第18号</span>
+    </div>
+</div>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F74a0f48f3156a98cd3e671b295dd4de0' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,1330 @@
+[ 2015-05-18T11:37:56+08:00 ] 192.168.16.50 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000440s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000575s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000665s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0008s ]
+
+[ 2015-05-18T11:37:56+08:00 ] 192.168.16.50 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000442s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000559s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000650s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0009s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T11:38:01+08:00 ] 192.168.16.50 /edit/list/search
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000452s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000564s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000657s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0019s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw WHERE 1=1 and  status = 3 LIMIT 0, 20 [ RunTime:0.0005s ]
+SQL: SELECT count(1) as total FROM t_info_raw WHERE 1=1 and  status = 3 [ RunTime:0.0004s ]
+
+[ 2015-05-18T11:38:05+08:00 ] 192.168.16.50 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000431s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000553s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000643s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0019s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 7; [ RunTime:0.0004s ]
+
+[ 2015-05-18T11:38:13+08:00 ] 192.168.16.50 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000437s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000557s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000649s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0009s ]
+
+[ 2015-05-18T11:38:13+08:00 ] 192.168.16.50 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000450s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000567s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000659s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0010s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T11:38:17+08:00 ] 192.168.16.50 /edit/list/search
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000437s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000552s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000643s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw WHERE 1=1 and  status = 2 LIMIT 0, 20 [ RunTime:0.0005s ]
+SQL: SELECT count(1) as total FROM t_info_raw WHERE 1=1 and  status = 2 [ RunTime:0.0004s ]
+
+[ 2015-05-18T11:38:28+08:00 ] 192.168.16.50 /edit/list/search
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000449s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000566s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000658s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw WHERE 1=1 and  status = 4 LIMIT 0, 20 [ RunTime:0.0005s ]
+SQL: SELECT count(1) as total FROM t_info_raw WHERE 1=1 and  status = 4 [ RunTime:0.0004s ]
+
+[ 2015-05-18T11:38:30+08:00 ] 192.168.16.50 /edit/list/search
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000445s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000563s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000652s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw WHERE 1=1 and  status = 1 LIMIT 0, 20 [ RunTime:0.0005s ]
+SQL: SELECT count(1) as total FROM t_info_raw WHERE 1=1 and  status = 1 [ RunTime:0.0004s ]
+
+[ 2015-05-18T11:38:43+08:00 ] 192.168.16.50 /edit/list/search
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000438s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000554s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000646s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw WHERE 1=1 and  status = 1 LIMIT 40, 20 [ RunTime:0.0005s ]
+SQL: SELECT count(1) as total FROM t_info_raw WHERE 1=1 and  status = 1 [ RunTime:0.0004s ]
+
+[ 2015-05-18T11:38:44+08:00 ] 192.168.16.50 /edit/list/search
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000445s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000564s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000657s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw WHERE 1=1 and  status = 1 LIMIT 20, 20 [ RunTime:0.0005s ]
+SQL: SELECT count(1) as total FROM t_info_raw WHERE 1=1 and  status = 1 [ RunTime:0.0004s ]
+
+[ 2015-05-18T11:38:45+08:00 ] 192.168.16.50 /edit/list/search
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000447s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000563s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000656s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw WHERE 1=1 and  status = 1 LIMIT 0, 20 [ RunTime:0.0005s ]
+SQL: SELECT count(1) as total FROM t_info_raw WHERE 1=1 and  status = 1 [ RunTime:0.0004s ]
+
+[ 2015-05-18T11:38:47+08:00 ] 192.168.16.50 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000439s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000557s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000660s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0010s ]
+
+[ 2015-05-18T11:38:47+08:00 ] 192.168.16.50 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000445s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000562s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000655s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0009s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T11:38:51+08:00 ] 192.168.16.50 /edit/list/search
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000434s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000554s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000646s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw WHERE 1=1  and source = '中华人民共和国国家卫生和计划生育委员会'  LIMIT 0, 20 [ RunTime:0.0006s ]
+SQL: SELECT count(1) as total FROM t_info_raw WHERE 1=1  and source = '中华人民共和国国家卫生和计划生育委员会'  [ RunTime:0.0004s ]
+
+[ 2015-05-18T11:38:54+08:00 ] 192.168.16.50 /edit/list/search
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000436s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000562s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000653s ]
+
+[ 2015-05-18T11:38:56+08:00 ] 192.168.16.50 /edit/list/search
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000434s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000553s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000656s ]
+
+[ 2015-05-18T11:38:57+08:00 ] 192.168.16.50 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000449s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000575s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000666s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0019s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0009s ]
+
+[ 2015-05-18T11:38:57+08:00 ] 192.168.16.50 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000439s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000562s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000653s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0009s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T11:39:01+08:00 ] 192.168.16.50 /edit/list/search
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000453s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000566s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000657s ]
+
+[ 2015-05-18T11:39:03+08:00 ] 192.168.16.50 /edit/list/search
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000445s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000559s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000651s ]
+
+[ 2015-05-18T11:39:03+08:00 ] 192.168.16.50 /edit/list/search
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000038s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000450s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000563s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000655s ]
+
+[ 2015-05-18T11:39:04+08:00 ] 192.168.16.50 /edit/list/search
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000434s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000560s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000650s ]
+
+[ 2015-05-18T11:39:04+08:00 ] 192.168.16.50 /edit/list/search
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000434s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000554s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000655s ]
+
+[ 2015-05-18T11:39:14+08:00 ] 192.168.16.50 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000450s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000567s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000658s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0009s ]
+
+[ 2015-05-18T11:39:14+08:00 ] 192.168.16.50 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000024s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000447s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000566s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000658s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0009s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T11:39:19+08:00 ] 192.168.16.50 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000446s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000570s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000661s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 40, 20 [ RunTime:0.0010s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T11:39:20+08:00 ] 192.168.16.50 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000446s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000567s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000659s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 60, 20 [ RunTime:0.0011s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T11:39:22+08:00 ] 192.168.16.50 /edit/list/search
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000433s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000555s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000646s ]
+
+[ 2015-05-18T11:39:28+08:00 ] 192.168.16.50 /edit/list/search
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000434s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000553s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000642s ]
+
+[ 2015-05-18T11:39:30+08:00 ] 192.168.16.50 /edit/list/search
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000432s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000550s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000642s ]
+
+[ 2015-05-18T11:39:36+08:00 ] 192.168.16.50 /edit/list/search
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000434s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000560s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000651s ]
+
+[ 2015-05-18T11:46:23+08:00 ] 192.168.16.50 /edit/list/search
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000437s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000551s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000643s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw WHERE 1=1 and  status = 1 LIMIT 0, 20 [ RunTime:0.0005s ]
+SQL: SELECT count(1) as total FROM t_info_raw WHERE 1=1 and  status = 1 [ RunTime:0.0004s ]
+
+[ 2015-05-18T11:46:25+08:00 ] 192.168.16.50 /edit/list/search
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000433s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000554s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000657s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw WHERE 1=1 and  status = 1 LIMIT 20, 20 [ RunTime:0.0005s ]
+SQL: SELECT count(1) as total FROM t_info_raw WHERE 1=1 and  status = 1 [ RunTime:0.0004s ]
+
+[ 2015-05-18T11:46:25+08:00 ] 192.168.16.50 /edit/list/search
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000431s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000550s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000643s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw WHERE 1=1 and  status = 1 LIMIT 40, 20 [ RunTime:0.0005s ]
+SQL: SELECT count(1) as total FROM t_info_raw WHERE 1=1 and  status = 1 [ RunTime:0.0004s ]
+
+[ 2015-05-18T11:46:26+08:00 ] 192.168.16.50 /edit/list/search
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000435s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000551s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000642s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw WHERE 1=1 and  status = 1 LIMIT 0, 20 [ RunTime:0.0004s ]
+SQL: SELECT count(1) as total FROM t_info_raw WHERE 1=1 and  status = 1 [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:04:09+08:00 ] 192.168.16.64 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000439s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000555s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000646s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0010s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:04:09+08:00 ] 192.168.16.64 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000024s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000451s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000580s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000670s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0008s ]
+
+[ 2015-05-18T14:04:22+08:00 ] 192.168.16.64 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000439s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000570s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000661s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 12; [ RunTime:0.0005s ]
+
+[ 2015-05-18T14:04:43+08:00 ] 192.168.16.64 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000431s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000553s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000644s ]
+ERR: 参数错误或者未定义:id
+
+[ 2015-05-18T14:04:46+08:00 ] 192.168.16.64 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000444s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000565s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000659s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0019s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0010s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:04:46+08:00 ] 192.168.16.64 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000451s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000570s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000661s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0008s ]
+
+[ 2015-05-18T14:04:53+08:00 ] 192.168.16.64 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000432s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000552s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000640s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 13; [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:06:18+08:00 ] 192.168.16.64 /edit/detail/saveNews
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000448s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000563s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000657s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0019s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: UPDATE t_info_raw SET title = '中国防疫队在尼泊尔地震重灾区开展防疫工作', summary = '<div><br></div>', content = '<div>应尼泊尔救灾部门要求，正在尼参与救灾的中国政府医疗防疫队3日派出一个6人特遣组，从首都加德满都出发，乘直升机进入辛杜帕尔乔克县皮帕旦达村开展防疫工作。 　　皮帕旦达村距辛杜帕尔乔克县城约6公里，依山而建。据村民介绍，地震前这里有7000多居民，地震中死亡50人，近300个家庭的房屋倒塌，是重灾区中的重灾区。记者在现场看到，皮帕旦达村房屋损毁超过80％，土地上显露出一条明显裂缝，部分地区弥漫着腐败气味。一些村民正在清理废墟、寻找食物。 　　为完成防疫任务，特遣组成员当天在山路上负重徒步行进16公里，对19个自然村开展公共卫生和疫情勘查，对74个废墟点、15处遗体掩埋地及15个帐篷等进行了防疫消杀；并培训了19名防疫志愿者，为他们配备了必要的消杀设备。 　　当地村民争相为防疫队提供信息，年轻人主动帮防疫队员扛设备。从加德满都回乡救灾的村民罗姆说，中国防疫队是首支进入皮帕旦达村的国际救援队，这些天村里面临的疫情威胁让他十分担忧，中国防疫队来得非常及时，让他感受到关心和希望。他也呼吁外界给予这个悲伤的村庄更多的关注。(来源：新华网2015年05月4号)<br></div>', status = 2 WHERE id = 13 [ RunTime:0.0295s ]
+
+[ 2015-05-18T14:06:25+08:00 ] 192.168.16.64 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000441s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000557s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000660s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0019s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0010s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:06:25+08:00 ] 192.168.16.64 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000444s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000562s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000651s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0008s ]
+
+[ 2015-05-18T14:06:42+08:00 ] 192.168.16.64 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000450s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000569s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000659s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0020s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 17; [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:07:06+08:00 ] 192.168.16.64 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000438s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000563s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000654s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0020s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0009s ]
+
+[ 2015-05-18T14:07:06+08:00 ] 192.168.16.64 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000437s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000550s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000642s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0020s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0010s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:07:12+08:00 ] 192.168.16.64 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000450s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000565s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000657s ]
+ERR: 参数错误或者未定义:id
+
+[ 2015-05-18T14:07:14+08:00 ] 192.168.16.64 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000437s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000571s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000662s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0008s ]
+
+[ 2015-05-18T14:07:14+08:00 ] 192.168.16.64 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000436s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000548s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000638s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0010s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:07:19+08:00 ] 192.168.16.64 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000024s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000436s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000554s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000645s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0019s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0010s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:07:19+08:00 ] 192.168.16.64 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000460s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000572s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000663s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0016s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0008s ]
+
+[ 2015-05-18T14:11:35+08:00 ] 192.168.16.40 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000437s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000556s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000658s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0008s ]
+
+[ 2015-05-18T14:11:35+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000024s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000457s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000567s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000660s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0009s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:11:43+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000024s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000441s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000551s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000643s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0019s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0009s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:11:45+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000449s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000568s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000659s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 20, 20 [ RunTime:0.0010s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:11:47+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000435s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000573s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000666s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0009s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:11:48+08:00 ] 192.168.16.40 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000431s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000554s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000656s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0019s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 12; [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:12:44+08:00 ] 192.168.16.40 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000038s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000457s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000564s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000658s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 12; [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:13:00+08:00 ] 192.168.16.40 /edit/detail/saveNews
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000443s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000567s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000660s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: UPDATE t_info_raw SET title = '通过中国人的手传递温暖', summary = '<div><br></div>', content = '<div>医道转载自《健康报》</div><div><br></div><div>5月3日，中国政府援尼医疗卫生前方指挥组组长许树强专程前往位于加德满都的一个志愿者营地，代表中国政府医疗防疫队伍，向中国人在尼泊尔开设的医院赠送了6箱震后救灾常用药品。该医院负责人同一群中国志愿者驻扎在尼泊尔新皇宫的围墙旁边，通过参加各种救援行动帮助尼泊尔人民抗震救灾。 　　一个中国民间救援组织的领队李浩介绍，自从尼泊尔发生地震之后，来自中国国内的各种民间救援力量便自发来到尼泊尔，前往受地震伤害的各个地区搜寻幸存者，帮助挖掘遇难者遗体，“在此之后，我们参与各种援助物资的运送及分发工作。”在这个中国民间救援组织的营地，悬挂着中国国旗及各个救援组织的队旗，与不远处韩国、日本等国民间组织的旗帜遥遥相对。 　　“地震发生之后，志愿参与救援行动的中国人最多时达到600多人。”在中国政府医疗防疫队驻地，在尼泊尔经商的梅方传先生告诉记者，震后第二天他曾前往新皇宫看望这些志愿者，这些志愿者既有滞留尼泊尔的游客，也有专程从中国国内赶过来的队伍，“在加德满都的各个受灾点，往往能够看到我们中国人的身影。通过中国政府及民间的多方支援，中国人的形象在尼泊尔极大提升，尼泊尔人感受到了中国快速发展给世界带来的正能量，也看到我们中国人散发的人道主义力量。” 　　“随着抗震救灾转入防疫阶段，我们亟需来自祖国政府的支援。”李浩说，现在营地还居住着40多名中国志愿者，缺乏基础的医疗卫生知识、消杀手段及各种药品。这些燃眉之急因为中国政府医疗防疫队的到来而得到缓解。5月2日，中国政府医疗防疫队还派出防疫小组来到新皇宫外的志愿者营地，向这些中国志愿者赠送了消杀药品及手摇式喷雾器，并现场示范，手把手教志愿者如何配置消毒水、开展环境消杀及确保水质安全。 　　“民间的力量更需要团结在政府大树的旁边。”李浩说，由于前期挖掘遗体等工作，部分志愿者的精神状态受到影响，“来自祖国的支援让我们感到坚强，同时也从中感受到信心。我们将把中国政府医疗防疫队伍赠送的这些药品分发给更多的尼泊尔灾民，使尼泊尔灾民能够通过中国人的手，感受到心连心的温暖。”(作者：健康报记者叶龙杰)<br></div>', status = 2 WHERE id = 12 [ RunTime:0.0290s ]
+
+[ 2015-05-18T14:13:09+08:00 ] 192.168.16.40 /edit/detail/pubNews
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000440s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000559s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000652s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: UPDATE t_info_raw SET title = '通过中国人的手传递温暖', summary = '', content = '医道转载自《健康报》5月3日，中国政府援尼医疗卫生前方指挥组组长许树强专程前往位于加德满都的一个志愿者营地，代表中国政府医疗防疫队伍，向中国人在尼泊尔开设的医院赠送了6箱震后救灾常用药品。该医院负责人同一群中国志愿者驻扎在尼泊尔新皇宫的围墙旁边，通过参加各种救援行动帮助尼泊尔人民抗震救灾。 　　一个中国民间救援组织的领队李浩介绍，自从尼泊尔发生地震之后，来自中国国内的各种民间救援力量便自发来到尼泊尔，前往受地震伤害的各个地区搜寻幸存者，帮助挖掘遇难者遗体，“在此之后，我们参与各种援助物资的运送及分发工作。”在这个中国民间救援组织的营地，悬挂着中国国旗及各个救援组织的队旗，与不远处韩国、日本等国民间组织的旗帜遥遥相对。 　　“地震发生之后，志愿参与救援行动的中国人最多时达到600多人。”在中国政府医疗防疫队驻地，在尼泊尔经商的梅方传先生告诉记者，震后第二天他曾前往新皇宫看望这些志愿者，这些志愿者既有滞留尼泊尔的游客，也有专程从中国国内赶过来的队伍，“在加德满都的各个受灾点，往往能够看到我们中国人的身影。通过中国政府及民间的多方支援，中国人的形象在尼泊尔极大提升，尼泊尔人感受到了中国快速发展给世界带来的正能量，也看到我们中国人散发的人道主义力量。” 　　“随着抗震救灾转入防疫阶段，我们亟需来自祖国政府的支援。”李浩说，现在营地还居住着40多名中国志愿者，缺乏基础的医疗卫生知识、消杀手段及各种药品。这些燃眉之急因为中国政府医疗防疫队的到来而得到缓解。5月2日，中国政府医疗防疫队还派出防疫小组来到新皇宫外的志愿者营地，向这些中国志愿者赠送了消杀药品及手摇式喷雾器，并现场示范，手把手教志愿者如何配置消毒水、开展环境消杀及确保水质安全。 　　“民间的力量更需要团结在政府大树的旁边。”李浩说，由于前期挖掘遗体等工作，部分志愿者的精神状态受到影响，“来自祖国的支援让我们感到坚强，同时也从中感受到信心。我们将把中国政府医疗防疫队伍赠送的这些药品分发给更多的尼泊尔灾民，使尼泊尔灾民能够通过中国人的手，感受到心连心的温暖。”(作者：健康报记者叶龙杰)', status = 3 WHERE id = 12 [ RunTime:0.0021s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 12; [ RunTime:0.0004s ]
+SQL: SHOW COLUMNS FROM `t_material` [ RunTime:0.0016s ]
+SQL: INSERT INTO `t_material` (`url`,`status`) VALUES (NULL,'1') [ RunTime:0.0004s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL:             INSERT INTO t_info_summary(type, title, author, pub_date, source, src_type, src_url, summary, material_id, `status`)
+            VALUES(2, '通过中国人的手传递温暖', '', '', '中华人民共和国国家卫生和计划生育委员会', 0, 'http://www.nhfpc.gov.cn/yjb/s3586/201505/0e737c9dd2604c3eaf9e2ec54ec2f870.shtml', '', 33, 1) [ RunTime:0.0004s ]
+SQL: SELECT info_id FROM t_info_summary WHERE `type` = 2 AND material_id = 33 [ RunTime:0.0004s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: INSERT INTO t_info_entity(info_id, content) VALUES(27799, '医道转载自《健康报》5月3日，中国政府援尼医疗卫生前方指挥组组长许树强专程前往位于加德满都的一个志愿者营地，代表中国政府医疗防疫队伍，向中国人在尼泊尔开设的医院赠送了6箱震后救灾常用药品。该医院负责人同一群中国志愿者驻扎在尼泊尔新皇宫的围墙旁边，通过参加各种救援行动帮助尼泊尔人民抗震救灾。 　　一个中国民间救援组织的领队李浩介绍，自从尼泊尔发生地震之后，来自中国国内的各种民间救援力量便自发来到尼泊尔，前往受地震伤害的各个地区搜寻幸存者，帮助挖掘遇难者遗体，“在此之后，我们参与各种援助物资的运送及分发工作。”在这个中国民间救援组织的营地，悬挂着中国国旗及各个救援组织的队旗，与不远处韩国、日本等国民间组织的旗帜遥遥相对。 　　“地震发生之后，志愿参与救援行动的中国人最多时达到600多人。”在中国政府医疗防疫队驻地，在尼泊尔经商的梅方传先生告诉记者，震后第二天他曾前往新皇宫看望这些志愿者，这些志愿者既有滞留尼泊尔的游客，也有专程从中国国内赶过来的队伍，“在加德满都的各个受灾点，往往能够看到我们中国人的身影。通过中国政府及民间的多方支援，中国人的形象在尼泊尔极大提升，尼泊尔人感受到了中国快速发展给世界带来的正能量，也看到我们中国人散发的人道主义力量。” 　　“随着抗震救灾转入防疫阶段，我们亟需来自祖国政府的支援。”李浩说，现在营地还居住着40多名中国志愿者，缺乏基础的医疗卫生知识、消杀手段及各种药品。这些燃眉之急因为中国政府医疗防疫队的到来而得到缓解。5月2日，中国政府医疗防疫队还派出防疫小组来到新皇宫外的志愿者营地，向这些中国志愿者赠送了消杀药品及手摇式喷雾器，并现场示范，手把手教志愿者如何配置消毒水、开展环境消杀及确保水质安全。 　　“民间的力量更需要团结在政府大树的旁边。”李浩说，由于前期挖掘遗体等工作，部分志愿者的精神状态受到影响，“来自祖国的支援让我们感到坚强，同时也从中感受到信心。我们将把中国政府医疗防疫队伍赠送的这些药品分发给更多的尼泊尔灾民，使尼泊尔灾民能够通过中国人的手，感受到心连心的温暖。”(作者：健康报记者叶龙杰)') [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:13:12+08:00 ] 192.168.16.40 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000451s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000573s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000664s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0019s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0008s ]
+
+[ 2015-05-18T14:13:12+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000436s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000552s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000643s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0010s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:13:20+08:00 ] 192.168.16.40 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000451s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000564s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000654s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 14; [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:13:24+08:00 ] 192.168.16.40 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000454s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000580s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000671s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0009s ]
+
+[ 2015-05-18T14:13:24+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000449s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000564s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000656s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0009s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:13:28+08:00 ] 192.168.16.40 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000024s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000434s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000553s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000647s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0019s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 15; [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:13:32+08:00 ] 192.168.16.40 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000437s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000559s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000667s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0008s ]
+
+[ 2015-05-18T14:13:32+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000435s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000553s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000646s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0009s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:13:35+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000024s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000448s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000554s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000659s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0010s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:13:42+08:00 ] 192.168.16.40 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000451s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000564s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000655s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 30; [ RunTime:0.0005s ]
+
+[ 2015-05-18T14:13:51+08:00 ] 192.168.16.40 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000431s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000562s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000664s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0019s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0008s ]
+
+[ 2015-05-18T14:13:51+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000442s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000567s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000661s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0010s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:13:54+08:00 ] 192.168.16.40 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000431s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000554s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000645s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 14; [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:13:57+08:00 ] 192.168.16.40 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000024s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000438s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000555s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000657s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0008s ]
+
+[ 2015-05-18T14:13:57+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000454s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000573s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000666s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0009s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:13:59+08:00 ] 192.168.16.40 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000445s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000562s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000656s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 15; [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:14:42+08:00 ] 192.168.16.40 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000449s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000565s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000658s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0019s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 15; [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:14:49+08:00 ] 192.168.16.40 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000437s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000554s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000645s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0009s ]
+
+[ 2015-05-18T14:14:49+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000447s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000569s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000662s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0009s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:14:51+08:00 ] 192.168.16.40 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000451s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000562s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000654s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 15; [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:15:04+08:00 ] 192.168.16.40 /edit/detail/saveNews
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000447s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000561s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000653s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: UPDATE t_info_raw SET title = '5月3日西藏灾区和援尼抗震救灾医疗防疫工作进展', summary = '<div><br></div>', content = '<p class=\"MsoNormal\"><span class=\"font\" style=\"font-family:宋体\">（本</span><span class=\"font\" style=\"font-family:Helvetica\">App</span><span class=\"font\" style=\"font-family:宋体\">所有内容，凡注明</span><span class=\"colour\" style=\"color:rgb(51, 51, 51)\"><span class=\"font\" style=\"font-family:Arial\">“</span><span class=\"font\" style=\"font-family:宋体\">来源：医道</span><span class=\"font\" style=\"font-family:Arial\">”</span></span><span class=\"font\" style=\"font-family:宋体\">，版权均归医道所有，欢迎转载，但请务必注明</span><span class=\"colour\" style=\"color:rgb(51, 51, 51)\"><span class=\"font\" style=\"font-family:Arial\">“</span><span class=\"font\" style=\"font-family:宋体\">来源：医道</span><span class=\"font\" style=\"font-family:Arial\">”</span></span><span class=\"font\" style=\"font-family:宋体\">，否则将追究法律责任。本</span><span class=\"font\" style=\"font-family:Helvetica\">App</span><span class=\"font\" style=\"font-family:宋体\">注明来源为其他媒体的内容为转载，转载仅作观点分享，版权归原作者所有，如有侵犯版权，请及时联系我们。）</span><br></p><div>国家卫生计生委继续指导西藏卫生计生部门做好地震灾区医疗救治和卫生防疫工作。截至5月3日，西藏自治区各级医疗救治点累计巡诊治疗11667人，灾区疫苗接种点接种625人次，完成外环境消杀66.6万平方米，开展健康教育4.06万人次。灾区无重大传染病疫情和突发公共事件报告。　　同时，我援尼医疗防疫各项工作继续有序推进。截至北京时间5月3日14时，累计救治伤员905人，其中诊治中国籍伤员24人；开展各类检查2656次、手术173台次，发放药品290人份；开展外环境消杀7万余平方米，消毒公共场所138个，采集检测水样93份。中国政府医疗防疫队加强灾民安置点卫生知识宣传工作，采取张贴尼（英）文宣传单等多种形式，倡导“勤洗手、喝开水、吃熟食”卫生理念，引导灾民养成良好个人卫生习惯，预防传染病的发生。<br></div>', status = 2 WHERE id = 15 [ RunTime:0.0023s ]
+
+[ 2015-05-18T14:15:11+08:00 ] 192.168.16.40 /edit/detail/saveNews
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000457s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000571s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000666s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: UPDATE t_info_raw SET title = '5月3日西藏灾区和援尼抗震救灾医疗防疫工作进展', summary = '<div><br></div>', content = '<p class=\"MsoNormal\"><span class=\"font\" style=\"font-family:宋体\">（本</span><span class=\"font\" style=\"font-family:Helvetica\">App</span><span class=\"font\" style=\"font-family:宋体\">所有内容，凡注明</span><span class=\"colour\" style=\"color:rgb(51, 51, 51)\"><span class=\"font\" style=\"font-family:Arial\">“</span><span class=\"font\" style=\"font-family:宋体\">来源：医道</span><span class=\"font\" style=\"font-family:Arial\">”</span></span><span class=\"font\" style=\"font-family:宋体\">，版权均归医道所有，欢迎转载，但请务必注明</span><span class=\"colour\" style=\"color:rgb(51, 51, 51)\"><span class=\"font\" style=\"font-family:Arial\">“</span><span class=\"font\" style=\"font-family:宋体\">来源：医道</span><span class=\"font\" style=\"font-family:Arial\">”</span></span><span class=\"font\" style=\"font-family:宋体\">，否则将追究法律责任。本</span><span class=\"font\" style=\"font-family:Helvetica\">App</span><span class=\"font\" style=\"font-family:宋体\">注明来源为其他媒体的内容为转载，转载仅作观点分享，版权归原作者所有，如有侵犯版权，请及时联系我们。）</span><br></p><div>国家卫生计生委继续指导西藏卫生计生部门做好地震灾区医疗救治和卫生防疫工作。截至5月3日，西藏自治区各级医疗救治点累计巡诊治疗11667人，灾区疫苗接种点接种625人次，完成外环境消杀66.6万平方米，开展健康教育4.06万人次。灾区无重大传染病疫情和突发公共事件报告。　　同时，我援尼医疗防疫各项工作继续有序推进。截至北京时间5月3日14时，累计救治伤员905人，其中诊治中国籍伤员24人；开展各类检查2656次、手术173台次，发放药品290人份；开展外环境消杀7万余平方米，消毒公共场所138个，采集检测水样93份。中国政府医疗防疫队加强灾民安置点卫生知识宣传工作，采取张贴尼（英）文宣传单等多种形式，倡导“勤洗手、喝开水、吃熟食”卫生理念，引导灾民养成良好个人卫生习惯，预防传染病的发生。<br></div>', status = 2 WHERE id = 15 [ RunTime:0.0104s ]
+
+[ 2015-05-18T14:15:15+08:00 ] 192.168.16.40 /edit/detail/pubNews
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000456s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000567s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000659s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: UPDATE t_info_raw SET title = '5月3日西藏灾区和援尼抗震救灾医疗防疫工作进展', summary = '', content = '（本App所有内容，凡注明“来源：医道”，版权均归医道所有，欢迎转载，但请务必注明“来源：医道”，否则将追究法律责任。本App注明来源为其他媒体的内容为转载，转载仅作观点分享，版权归原作者所有，如有侵犯版权，请及时联系我们。）国家卫生计生委继续指导西藏卫生计生部门做好地震灾区医疗救治和卫生防疫工作。截至5月3日，西藏自治区各级医疗救治点累计巡诊治疗11667人，灾区疫苗接种点接种625人次，完成外环境消杀66.6万平方米，开展健康教育4.06万人次。灾区无重大传染病疫情和突发公共事件报告。　　同时，我援尼医疗防疫各项工作继续有序推进。截至北京时间5月3日14时，累计救治伤员905人，其中诊治中国籍伤员24人；开展各类检查2656次、手术173台次，发放药品290人份；开展外环境消杀7万余平方米，消毒公共场所138个，采集检测水样93份。中国政府医疗防疫队加强灾民安置点卫生知识宣传工作，采取张贴尼（英）文宣传单等多种形式，倡导“勤洗手、喝开水、吃熟食”卫生理念，引导灾民养成良好个人卫生习惯，预防传染病的发生。', status = 3 WHERE id = 15 [ RunTime:0.0020s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 15; [ RunTime:0.0004s ]
+SQL: SHOW COLUMNS FROM `t_material` [ RunTime:0.0015s ]
+SQL: INSERT INTO `t_material` (`url`,`status`) VALUES (NULL,'1') [ RunTime:0.0004s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL:             INSERT INTO t_info_summary(type, title, author, pub_date, source, src_type, src_url, summary, material_id, `status`)
+            VALUES(2, '5月3日西藏灾区和援尼抗震救灾医疗防疫工作进展', '', '', '中华人民共和国国家卫生和计划生育委员会', 0, 'http://www.nhfpc.gov.cn/yjb/s3586/201505/e44b04d3f28945fa86730b83f5753a20.shtml', '', 34, 1) [ RunTime:0.0004s ]
+SQL: SELECT info_id FROM t_info_summary WHERE `type` = 2 AND material_id = 34 [ RunTime:0.0004s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: INSERT INTO t_info_entity(info_id, content) VALUES(27800, '（本App所有内容，凡注明“来源：医道”，版权均归医道所有，欢迎转载，但请务必注明“来源：医道”，否则将追究法律责任。本App注明来源为其他媒体的内容为转载，转载仅作观点分享，版权归原作者所有，如有侵犯版权，请及时联系我们。）国家卫生计生委继续指导西藏卫生计生部门做好地震灾区医疗救治和卫生防疫工作。截至5月3日，西藏自治区各级医疗救治点累计巡诊治疗11667人，灾区疫苗接种点接种625人次，完成外环境消杀66.6万平方米，开展健康教育4.06万人次。灾区无重大传染病疫情和突发公共事件报告。　　同时，我援尼医疗防疫各项工作继续有序推进。截至北京时间5月3日14时，累计救治伤员905人，其中诊治中国籍伤员24人；开展各类检查2656次、手术173台次，发放药品290人份；开展外环境消杀7万余平方米，消毒公共场所138个，采集检测水样93份。中国政府医疗防疫队加强灾民安置点卫生知识宣传工作，采取张贴尼（英）文宣传单等多种形式，倡导“勤洗手、喝开水、吃熟食”卫生理念，引导灾民养成良好个人卫生习惯，预防传染病的发生。') [ RunTime:0.0003s ]
+
+[ 2015-05-18T14:15:16+08:00 ] 192.168.16.40 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000439s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000558s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000649s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0010s ]
+
+[ 2015-05-18T14:15:17+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000458s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000568s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000657s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0008s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:15:26+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000445s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000559s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000663s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 60, 20 [ RunTime:0.0011s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:15:44+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000438s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000552s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000645s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0010s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:15:47+08:00 ] 192.168.16.40 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000431s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000552s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000645s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 14; [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:17:11+08:00 ] 192.168.16.40 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000447s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000561s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000652s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 14; [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:18:36+08:00 ] 192.168.16.40 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000445s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000556s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000659s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0019s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 14; [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:18:40+08:00 ] 192.168.16.40 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000461s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000577s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000666s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0009s ]
+
+[ 2015-05-18T14:18:40+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000442s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000556s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000648s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0009s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:18:44+08:00 ] 192.168.16.40 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000440s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000565s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000657s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 14; [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:20:34+08:00 ] 192.168.16.40 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000449s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000563s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000658s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 14; [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:20:44+08:00 ] 192.168.16.40 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000457s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000579s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000669s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0019s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0009s ]
+
+[ 2015-05-18T14:20:44+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000446s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000557s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000649s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0007s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:20:49+08:00 ] 192.168.16.40 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000448s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000570s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000662s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 14; [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:23:10+08:00 ] 192.168.16.40 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000443s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000562s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000652s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0009s ]
+
+[ 2015-05-18T14:23:10+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000453s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000567s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000658s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0007s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:23:15+08:00 ] 192.168.16.40 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000438s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000556s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000649s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 14; [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:23:32+08:00 ] 192.168.16.40 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000443s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000558s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000665s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 14; [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:23:51+08:00 ] 192.168.16.40 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000438s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000568s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000661s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0019s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 14; [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:28:31+08:00 ] 192.168.16.40 /edit/detail/saveNews
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000452s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000558s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000651s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: UPDATE t_info_raw SET title = '劳动节，他们的一天这样度过', summary = '<div><br></div>', content = '<div class=\"align-left\"><span class=\"font\" style=\"font-family:宋体\"><b>（本</b></span><span class=\"font\" style=\"font-family:Helvetica\"><b>App</b></span><span class=\"font\" style=\"font-family:宋体\"><b>所有内容，凡注明</b></span><span class=\"colour\" style=\"color:rgb(51, 51, 51)\"><span class=\"font\" style=\"font-family:Arial\"><b>“</b></span><span class=\"font\" style=\"font-family:宋体\"><b>来源：医道</b></span><span class=\"font\" style=\"font-family:Arial\"><b>”</b></span></span><span class=\"font\" style=\"font-family:宋体\"><b>，版权均归医道所有，欢迎转载，但请务必注明</b></span><span class=\"colour\" style=\"color:rgb(51, 51, 51)\"><span class=\"font\" style=\"font-family:Arial\"><b>“</b></span><span class=\"font\" style=\"font-family:宋体\"><b>来源：医道</b></span><span class=\"font\" style=\"font-family:Arial\"><b>”</b></span></span><span class=\"font\" style=\"font-family:宋体\"><b>，否则将追究法律责任。本</b></span><span class=\"font\" style=\"font-family:Helvetica\"><b>App</b></span><span class=\"font\" style=\"font-family:宋体\"><b>注明来源为其他媒体的内容为转载，转载仅作观点分享，版权归原作者所有，如有侵犯版权，请及时联系我们。）</b></span><br></div><div class=\"align-left\"><br></div><div class=\"align-left\">中国政府医疗队：加紧收治震区伤员 &nbsp; 　　5月1日是国际劳动节，在尼泊尔杜力克市的帐篷医院，中国政府医疗队依旧在加紧收治伤员。进入震后第七天，随着当地道路条件的改善，更多的伤员或自行前来寻求救治，或通过尼泊尔军方转运过来。 　　■X线检查室 　　做完一个体位的检查后，医疗队队员、放射科专家丁少夔赶紧离开站位，和充当翻译的志愿者一起，帮助躺在担架上的伤员摆下一个体位，然后又马上回到数字移动式X线机后继续工作。 　　穿着6公斤重的防护服，丁少夔满身是汗。他告诉记者，由于需要做放射检查的伤员太多，自己已将每天的饮水量控制在一瓶矿泉水以内，希望少上厕所，别让伤员等。“3天时间，我完成了320个位次的放射检查，身体所接受的辐射量相当于在国内3年～5年所接受的辐射量。”丁少夔说，国内设备已基本实现对诊断医生的零辐射，“但在抗震救灾现场，相关的防护设施不可能一步到位。” 　　医疗队医疗组组长胡卫建说，国内的放射科医生一天最多做20个位次的检查，而在帐篷医院，由于伤员太多，收治前期、收治入院后的效果评估都需要放射检查，给放射人员带来了巨大的压力。医疗队已紧急为丁少夔做了一次血象检测，结果显示他的白细胞计数从出国前的6200减少到4700。 　　“这个数值还是在正常范围内的。”丁少夔说，“虽然身体受了一点影响，但想到更多的人因此获救，就觉得非常值得。” 　　■帐篷手术室 　　看着躺在手术床上的伤员缓缓移动拇指，医疗队队员、麻醉科专家陈谦兴奋地说：“看，他的拇指动了，说明神经没有受到损伤。”这名伤员被地震落石砸断右臂肱骨，出现粉碎性骨折。中国专家经过综合评估，决定为他施行全麻状态下的手法复位术。 　　手术过程中，医疗队队员、骨科专家张斌专注地为伤员复位；陈谦则手拿氧气罩，罩住伤员的口鼻部位，同时关注着体征变化。 　　此时，另一名地震伤员已被尼泊尔士兵抬到帐篷手术室外面等候；在更远一点的门诊区，又有10多名地震伤员被转运过来。“今天已经治疗了多少伤员？我还真没记清，应该有20多个了吧？”趁着两名伤员交替的空隙，张斌告诉记者。 　　对一名食指骨折的伤员，张斌的印象最为深刻。“伤员的左手食指骨头完全外露，坐了8个小时的车过来找到医疗队，原本是让我们给他切掉食指的。”张斌说，“综合评估之后，我给他做了伤口清创，然后插入克式针进行骨头固定。这样能保住他的食指，即使神经功能不可完全恢复，对生活的影响也就不那么大了。” 　　“现在，住院区内还收治着93名伤员。为了给更多危重伤员腾出床位，我们不断配合尼方劝说一些轻伤员出院。”医疗队医疗组副组长金晓东说。 　　■后勤食堂区 　　中午，医疗队队长杜波向队员们宣读了国家卫生计生委发来的劳动节慰问信，慰问信对医疗队在第一时间出发前往尼泊尔震区给予了高度评价。现场，中国政府援尼医疗卫生前方指挥组组长许树强也向全体队员致以劳动节的问候。之后，医疗队队员、四川省人民医院营养科厨师长胡泽军将一份份午餐递送给队员，其中的苹果和在当地购买的功能饮料，是“五一”劳动节的加餐。 　　“4月26日中午接到出发通知，只有4个小时准备队员7天的应急食品。”胡泽军说，在救灾前线，首先要考虑的是确保60名队员吃饱吃好。 　　4月28日，抵达尼泊尔后的第二天，胡泽军便和队友乘着尼泊尔军方提供的汽车，前往驻地几公里之外的市场采购食品。然而，如何让队员吃饱又吃好同样是道难题。 　　“为了让每一名队员吃得健康，我们主要购买易于烹煮的食材，确保能够通过高温消灭致病菌。”胡泽军说，“为了保障不出现交叉感染，饭食都必须经我盛放，不允许队员自己动手。” 　　每天早上4时30分，当帐篷医院营地还处于夜色中时，胡泽军与另一名队员便已起床工作。“60人吃在国门之外，全靠自己保障，为的就是尽量减少受援国的负担。”胡泽军说。 &nbsp; 　　中国援塞抗疫医疗队：为零感染而战 　　5月1日，由江苏省组建的中国援塞抗疫医疗队队员一如往常地忙碌着。 　　8时30分，随着新一批队员的抵达，作为埃博拉病人隔离和治疗定点医院的中塞友好医院像一台苏醒的机器，开始启动。简洁明了的交接班工作之后，感染控制组的队员们首先忙碌起来。“感控工作就是50分钟实打实的体力活。”感控组队员吴晓松这样给工作下定义。 　　在护士长秦玉玲的“监控”下，感控组的范春红和许筱伦开始穿戴隔离装备，她们的动作快速而准确。一刻钟后，她们拿着提前准备好的消毒用品和新垃圾袋进入缓冲间——这里就是感控的战场。 　　进入第二缓冲间后，范春红首先用消毒液喷洒门把手、拖鞋、椅子、垃圾箱及其内垃圾表面、垃圾箱踩踏处、消毒液箱盖、地面；然后她捞出前一天浸泡的雨靴，用清水漂洗，装入垃圾袋中，放置在二缓门口。“每一个动作都要轻柔、缓慢。因为目前还不能排除病毒可以通过气溶胶传染，所以要尽量减少病毒飞舞起来造成的风险。”秦玉玲向记者解释。 　　接下来是二缓工作最难的一个步骤：为5只每只容积为25升、用于浸泡胶靴的整理箱更换含氯消毒液。范春红穿着厚厚的隔离服，小心地在倾斜湿滑的地面上挪动脚步，吃力地挨个抬起重25公斤的整理箱，将旧消毒液倾倒到池子中。完成两个箱子消毒液的更换后，年过半百的范春红体能似乎已经到了极限，她努力伸伸腰，之后又继续投入工作中。 　　另一名护士许筱伦负责危险性更高的第一缓冲间和喷淋间。除了要消毒物体表面以及更换一个整理箱的消毒液，许筱伦还要负责把二缓、一缓及喷淋间的垃圾全部进行消毒，并送到指定位置等待焚烧销毁。搬运多个几乎一人高的垃圾袋可不是一件容易的事。 　　整整50分钟后，两名浑身湿透的感控人员完成任务，从二缓的玻璃门走出。“劳动节的劳动最光荣。”几乎虚脱的两人拖着疲惫脚步出门还不忘幽默一把。 　　秦玉玲说，截至目前，中国救援队是唯一一支在援塞过程中无人感染埃博拉的国际救援队。（来源：健康报2015年5月4日1版）<br></div><div>中国政府医疗队：加紧收治震区伤员 &nbsp; 　　<br></div><div>5月1日是国际劳动节，在尼泊尔杜力克市的帐篷医院，中国政府医疗队依旧在加紧收治伤员。进入震后第七天，随着当地道路条件的改善，更多的伤员或自行前来寻求救治，或通过尼泊尔军方转运过来。 　　<br></div><div>■X线检查室 　　做完一个体位的检查后，医疗队队员、放射科专家丁少夔赶紧离开站位，和充当翻译的志愿者一起，帮助躺在担架上的伤员摆下一个体位，然后又马上回到数字移动式X线机后继续工作。 　　穿着6公斤重的防护服，丁少夔满身是汗。他告诉记者，由于需要做放射检查的伤员太多，自己已将每天的饮水量控制在一瓶矿泉水以内，希望少上厕所，别让伤员等。“3天时间，我完成了320个位次的放射检查，身体所接受的辐射量相当于在国内3年～5年所接受的辐射量。”丁少夔说，国内设备已基本实现对诊断医生的零辐射，“但在抗震救灾现场，相关的防护设施不可能一步到位。” 　　医疗队医疗组组长胡卫建说，国内的放射科医生一天最多做20个位次的检查，而在帐篷医院，由于伤员太多，收治前期、收治入院后的效果评估都需要放射检查，给放射人员带来了巨大的压力。医疗队已紧急为丁少夔做了一次血象检测，结果显示他的白细胞计数从出国前的6200减少到4700。 　　“这个数值还是在正常范围内的。”丁少夔说，“虽然身体受了一点影响，但想到更多的人因此获救，就觉得非常值得。” 　　<br></div><div>■帐篷手术室 　　看着躺在手术床上的伤员缓缓移动拇指，医疗队队员、麻醉科专家陈谦兴奋地说：“看，他的拇指动了，说明神经没有受到损伤。”这名伤员被地震落石砸断右臂肱骨，出现粉碎性骨折。中国专家经过综合评估，决定为他施行全麻状态下的手法复位术。 　　手术过程中，医疗队队员、骨科专家张斌专注地为伤员复位；陈谦则手拿氧气罩，罩住伤员的口鼻部位，同时关注着体征变化。 　　此时，另一名地震伤员已被尼泊尔士兵抬到帐篷手术室外面等候；在更远一点的门诊区，又有10多名地震伤员被转运过来。“今天已经治疗了多少伤员？我还真没记清，应该有20多个了吧？”趁着两名伤员交替的空隙，张斌告诉记者。 　　对一名食指骨折的伤员，张斌的印象最为深刻。“伤员的左手食指骨头完全外露，坐了8个小时的车过来找到医疗队，原本是让我们给他切掉食指的。”张斌说，“综合评估之后，我给他做了伤口清创，然后插入克式针进行骨头固定。这样能保住他的食指，即使神经功能不可完全恢复，对生活的影响也就不那么大了。” 　　“现在，住院区内还收治着93名伤员。为了给更多危重伤员腾出床位，我们不断配合尼方劝说一些轻伤员出院。”医疗队医疗组副组长金晓东说。 　　<br></div><div>■后勤食堂区 　　中午，医疗队队长杜波向队员们宣读了国家卫生计生委发来的劳动节慰问信，慰问信对医疗队在第一时间出发前往尼泊尔震区给予了高度评价。现场，中国政府援尼医疗卫生前方指挥组组长许树强也向全体队员致以劳动节的问候。之后，医疗队队员、四川省人民医院营养科厨师长胡泽军将一份份午餐递送给队员，其中的苹果和在当地购买的功能饮料，是“五一”劳动节的加餐。 　　“4月26日中午接到出发通知，只有4个小时准备队员7天的应急食品。”胡泽军说，在救灾前线，首先要考虑的是确保60名队员吃饱吃好。 　　4月28日，抵达尼泊尔后的第二天，胡泽军便和队友乘着尼泊尔军方提供的汽车，前往驻地几公里之外的市场采购食品。然而，如何让队员吃饱又吃好同样是道难题。 　　“为了让每一名队员吃得健康，我们主要购买易于烹煮的食材，确保能够通过高温消灭致病菌。”胡泽军说，“为了保障不出现交叉感染，饭食都必须经我盛放，不允许队员自己动手。” 　　每天早上4时30分，当帐篷医院营地还处于夜色中时，胡泽军与另一名队员便已起床工作。“60人吃在国门之外，全靠自己保障，为的就是尽量减少受援国的负担。”胡泽军说。 &nbsp; 　　中国援塞抗疫医疗队：为零感染而战 　　5月1日，由江苏省组建的中国援塞抗疫医疗队队员一如往常地忙碌着。 　　8时30分，随着新一批队员的抵达，作为埃博拉病人隔离和治疗定点医院的中塞友好医院像一台苏醒的机器，开始启动。简洁明了的交接班工作之后，感染控制组的队员们首先忙碌起来。“感控工作就是50分钟实打实的体力活。”感控组队员吴晓松这样给工作下定义。 　　在护士长秦玉玲的“监控”下，感控组的范春红和许筱伦开始穿戴隔离装备，她们的动作快速而准确。一刻钟后，她们拿着提前准备好的消毒用品和新垃圾袋进入缓冲间——这里就是感控的战场。 　　进入第二缓冲间后，范春红首先用消毒液喷洒门把手、拖鞋、椅子、垃圾箱及其内垃圾表面、垃圾箱踩踏处、消毒液箱盖、地面；然后她捞出前一天浸泡的雨靴，用清水漂洗，装入垃圾袋中，放置在二缓门口。“每一个动作都要轻柔、缓慢。因为目前还不能排除病毒可以通过气溶胶传染，所以要尽量减少病毒飞舞起来造成的风险。”秦玉玲向记者解释。 　　接下来是二缓工作最难的一个步骤：为5只每只容积为25升、用于浸泡胶靴的整理箱更换含氯消毒液。范春红穿着厚厚的隔离服，小心地在倾斜湿滑的地面上挪动脚步，吃力地挨个抬起重25公斤的整理箱，将旧消毒液倾倒到池子中。完成两个箱子消毒液的更换后，年过半百的范春红体能似乎已经到了极限，她努力伸伸腰，之后又继续投入工作中。 　　另一名护士许筱伦负责危险性更高的第一缓冲间和喷淋间。除了要消毒物体表面以及更换一个整理箱的消毒液，许筱伦还要负责把二缓、一缓及喷淋间的垃圾全部进行消毒，并送到指定位置等待焚烧销毁。搬运多个几乎一人高的垃圾袋可不是一件容易的事。 　　整整50分钟后，两名浑身湿透的感控人员完成任务，从二缓的玻璃门走出。“劳动节的劳动最光荣。”几乎虚脱的两人拖着疲惫脚步出门还不忘幽默一把。 　　秦玉玲说，截至目前，中国救援队是唯一一支在援塞过程中无人感染埃博拉的国际救援队。（来源：健康报2015年5月4日1版）<br></div>', status = 2 WHERE id = 14 [ RunTime:0.0180s ]
+
+[ 2015-05-18T14:28:34+08:00 ] 192.168.16.40 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000452s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000573s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000665s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 14; [ RunTime:0.0005s ]
+
+[ 2015-05-18T14:28:45+08:00 ] 192.168.16.40 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000444s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000572s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000663s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0008s ]
+
+[ 2015-05-18T14:28:45+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000462s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000568s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000661s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0007s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:29:05+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000447s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000565s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000657s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 60, 20 [ RunTime:0.0008s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:29:55+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000463s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000570s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000663s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0007s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:29:58+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000441s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000556s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000647s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0019s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 20, 20 [ RunTime:0.0007s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:29:59+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000441s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000553s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000644s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 40, 20 [ RunTime:0.0008s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:30:00+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000434s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000554s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000642s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 60, 20 [ RunTime:0.0008s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:30:04+08:00 ] 192.168.16.40 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000021s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000430s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000554s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000646s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 7; [ RunTime:0.0004s ]
+
+[ 2015-05-18T14:31:05+08:00 ] 192.168.16.40 /edit/detail/getDetail
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000449s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000565s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000658s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0019s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT * FROM t_info_raw WHERE id = 14; [ RunTime:0.0005s ]
+
+[ 2015-05-18T14:31:27+08:00 ] 192.168.16.40 /edit/list/getsource
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000443s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000564s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000653s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0018s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT distinct source FROM t_info_raw; [ RunTime:0.0008s ]
+
+[ 2015-05-18T14:31:27+08:00 ] 192.168.16.40 /edit/list/newsList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000453s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000566s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000658s ]
+SQL: SHOW COLUMNS FROM `t_info_raw` [ RunTime:0.0017s ]
+SQL: SET NAMES 'utf8'; [ RunTime:0.0002s ]
+SQL: SELECT id, title, `status` FROM t_info_raw ORDER BY `status` LIMIT 0, 20 [ RunTime:0.0006s ]
+SQL: SELECT count(1) as total FROM t_info_raw where 1=1  [ RunTime:0.0004s ]
+

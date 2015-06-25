@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="cleartype" content="on">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<link rel="stylesheet" type="text/css" media="all" href="/admin.css" />
+<title>管理注册</title>
+<script type="text/javascript" src="/res/js/jquery.min.js"></script>
+<script type="text/javascript" src="/res/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="/res/js/jquery.md5.js"></script>
+</head>
+<body>
+	
+	
+	<div id="login" >
+		<header>
+			<h1 class="title">管理注册</h1>
+		</header>
+		<hr />
+		<form action="/login/login/regist" method="post" enctype="application/x-www-form-urlencoded" >
+			<label><span>用户名：</span><input type="text" name='name' id="name"  /></label>
+			<label class="error" for="name"></label>
+			<label><span>密&nbsp;&nbsp;&nbsp;码：</span><input id='password' type="password" name="password" /></label>
+			<label class="error" for="password"></label>
+			<hr />
+			<input class="button" type='submit' value="注册" />
+			<a class="login_reg" href="/index.htm" >登录</a>
+		</form>
+	</div>
+
+<script type="text/javascript">
+	$().ready(function(){
+		$('form').submit(function(){
+			var name = $('#name').val();
+			var password = $('#password').val();
+
+			if(password==''){
+				$('label[for="password"]').text('密码不能为空');
+				$('#password').focus();
+			}else{
+				$('label[for="password"]').text('');
+			}
+
+			if(name==''){
+				$('label[for="name"]').text('用户名不能为空');
+				$('#name').focus();
+			}else{
+				$('label[for="name"]').text('');
+			}
+			
+
+			if(name!=''&&password!=''){
+				$('#password').val($.md5(password));
+			}
+			$.post($('form').attr('action'),
+				{
+					name:name,
+					password:$('#password').val()
+				},
+				function(data){
+					switch(data.code){
+						case 1:{
+							alert('注册成功，即将跳转至登录页面');
+							window.location='/index.htm';
+							break;
+						}
+						default:{
+							alert(data.message);
+							break;
+						}
+					}
+			});
+			return false;	
+		
+		});
+	});
+	
+
+</script>	
+</body>
+</html>

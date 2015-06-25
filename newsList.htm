@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="cleartype" content="on">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<link rel="stylesheet" type="text/css" media="all" href="/admin.css" />
+<title>新闻列表（编辑）</title>
+<script type="text/javascript" src="/res/js/jquery.min.js"></script>
+<script type="text/javascript" src="/res/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="/res/js/jquery.md5.js"></script>
+<script type="text/javascript" src="/res/js/loginstatus.js"></script>
+</head>
+<body>
+<div id="left">
+	<div id="userinfo">
+		<span id='userName'></span>
+	</div>
+	<nav>
+		<li class="current"> 
+		<a  href="/newsList.htm?type=0" >待编辑文章</a>
+		</li>
+		<li><a  href="/paper/news/newslist">原创文章</a></li>
+		<li><a  href="/manage/focus/focuslist">首页轮播</a></li>
+		<li><a  href="/manage/secret/secretlist">密帖列表</a></li>
+		<!--
+		<li>
+		<a  href="/newsList.htm?type=1">已发布文章</a>
+		</li>
+		-->
+	</nav>
+</div>
+<div id="main_body">
+	<header>
+		<form action="" id='form_search' onsubmit="return false;">
+			<label>关键词：<input type="text" name='keyword' id="keyword" /></label> <label>来源：<select
+				name="source" id="source"><option value=''>--全部--</option></select></label> <label>时间：<input
+				type="text" name='bgn_date' id="bgn_date" />~<input type="text" name='end_date' id="end_date" /></label>
+			<label>状态：<select name="status" id="status"><option value='0'>--全部--</option>
+				<option value='1'>未处理</option>
+				<option value='2'>编辑未发布</option>
+				<option value='3'>已发布</option>
+				<option value='4'>已删除</option>
+				<option value='5'>发布后删除</option>
+			</select>
+			<!--
+			1：初始状态（从网页抓取下来）
+			2：编辑未发布
+			3：编辑完成更新到正式环境
+			4：删除
+			5：发布后删除		
+
+			-->
+			</label>
+			<label><button id="btn_search">搜 索</button></label>
+		</form>
+	</header>
+	<hr />
+	<div id="content">
+		<table id='datalist'>
+			<tr>
+				<th class="check"><input type="checkbox" id='checked' /><label for="checked">全选</label></th>
+				<th class="title">文章标题</th>
+				<th class="status">状态</th>
+				<th class="pubdate">发表日期</th>
+				<th class="op">操作</th>
+			</tr>
+		</table>
+		<div id="pager">
+			<span class="total">共100条记录/10页</span>
+			<!--
+			<a href="#" >首页</a>
+			<a href="#" >1</a>
+			<a href="#" >2</a>
+			<a href="#" >3</a>
+			<a href="#" >4</a>
+			<a href="#" >尾页</a>
+			-->
+		</div>
+	</div>
+</div>
+	
+
+<script type="text/javascript">
+		var newsList = {};
+		var param = $.getUrlVars();
+		var page = 1;
+		var btn_flag=0;	//点击按钮
+
+		var _status = ['初始状态','编辑未发布','已发布','已删除','发布后已删除'];
+
+		newsList.goto_page=function(gotopage,type){
+			if(btn_flag==1||type==1){
+				newsList.search(gotopage);
+			}else{
+				newsList.list(gotopage);
+			}
+			
+		};
+
+		newsList.datarender=function(dataList,total,page,pagesize,type){
+			//type=0 list 1 search
+			var datainfo = '';
+			$('#datalist tr.data').remove();
+			$('#pager a,#pager span[class!="total"]').remove();
+			var c_status = '';
+			for(var i=0;i<dataList.length;i++){
+				var op = '';
+				datainfo+='<tr class="data">';
+				datainfo+='<td class="check"><input name="info_id" type="checkbox" value="'+dataList[i].id+'" /></td>';
+				datainfo+='<td class="title">'+dataList[i].title+'</td>';
+				c_status = _status[dataList[i].status-1];
+				if(typeof(c_status)==undefined){
+					c_status='';
+				}
+				datainfo+='<td class="status">'+c_status+'</td>';
+
+				datainfo+='<td class="pubdate">';
+				datainfo+=dataList[i].pub_date==null?'':dataList[i].pub_date;
+				datainfo+='</td>';
+
+				datainfo+='<td class="op">';
+				if(dataList[i].status==1||dataList[i].status==2){
+					op+='<a href="/newsDetail.htm?id='+dataList[i].id+'">编辑</a>';
+				}
+				if(dataList[i].status==3){
+					op+='<a href="/newsDetail.htm?id='+dataList[i].id+'">删除</a>';
+				}
+				datainfo+=op;
+				datainfo+='</td>';
+
+				datainfo += '</tr>';
+			}
+			
+			$(datainfo).appendTo('#datalist');
+			var pagesize = pagesize?pagesize:20;
+			var pages = Math.ceil(total / pagesize);
+			var pageNum = 0;
+			if(page==0||page==undefined){
+				pageNum=1;
+			}else{
+				pageNum=page+1;
+			}
+			$('#pager .total').text('共 '+total+' 条记录，第 '+pageNum+'/'+pages+' 页');
+			
+
+			if(pages>1&&pages<=10){
+				for(var i=0;i<pages;i++){
+					if(i!=page){
+						$('#pager').append('<a href="javascript:newsList.goto_page('+i+','+type+')" >'+(i+1)+'</a>');
+					}else{
+						$('#pager').append('<span>'+(i+1)+'</span>');
+					}
+					
+				}
+			}
+			if(pages>10){
+				var c=0;
+				if(c!=page){
+					$('#pager').append('<a class="first" href="javascript:newsList.goto_page('+c+','+type+')" >首页</a>');
+				}else{
+					$('#pager').append('<span>'+(c+1)+'</span>');
+				}
+				if(page-5>0){
+					$('#pager').append('<span>...</span>');
+				}
+				for(var i=page-5;i<page+5&&i<pages;i++){
+					if(i<=c)continue;
+					if(i>=pages)continue;
+					//$('#pager').append('<a href="javascript:newsList.goto_page('+i+')" >'+(i+1)+'</a>');
+					if(i!=page){
+						$('#pager').append('<a href="javascript:newsList.goto_page('+i+','+type+')" >'+(i+1)+'</a>');
+					}else{
+						$('#pager').append('<span>'+(i+1)+'</span>');
+					}
+				}
+
+				if(page+5<pages){
+					$('#pager').append('<span>...</span>');
+				}
+
+				var l=pages-1;
+				if(l!=page){
+					$('#pager').append('<a class="last" href="javascript:newsList.goto_page('+l+','+type+')" >末页</a>');
+				}
+
+				/*
+				for(var i=0;i<5;i++){
+					//$('#pager').append('<a href="javascript:newsList.goto_page('+i+')" >'+(i+1)+'</a>');
+					if(i!=page){
+						$('#pager').append('<a href="javascript:newsList.goto_page('+i+','+type+')" >'+(i+1)+'</a>');
+					}else{
+						$('#pager').append('<span>'+(i+1)+'</span>');
+					}
+				}
+
+				$('#pager').append('<span>...</span>');
+				for(var i=pages-5;i<pages;i++){
+					//$('#pager').append('<a href="javascript:newsList.goto_page('+i+')" >'+(i+1)+'</a>');
+					if(i!=page){
+						$('#pager').append('<a href="javascript:newsList.goto_page('+i+','+type+')" >'+(i+1)+'</a>');
+					}else{
+						$('#pager').append('<span>'+(i+1)+'</span>');
+					}
+				}
+				*/
+				
+			}
+			
+		};
+
+		
+		
+		newsList.getsource=function(){
+			$.get('/edit/list/getsource',{},function(data){
+				if(data.code==1){
+					var dataList = data.data;
+					var datainfo = '';
+					
+					for(var i=0;i<dataList.length;i++){
+						var op = '';
+						datainfo+='<option value="'+$.trim(dataList[i])+'">'+$.trim(dataList[i])+'</option>';
+					}
+					
+					
+					$(datainfo).appendTo('#source');
+				}else{
+
+				}
+			});
+		};
+
+		newsList.search=function(gotopage,type){
+
+			var keyword = $('#keyword').val();
+			var source = $('#source').val();
+			var bgn_date = $('#bgn_date').val();
+			var end_date = $('#end_date').val();
+			var status = $('#status').val();
+
+			if(gotopage){
+				page=gotopage;
+			}else{
+				page=0;
+			}
+
+			$.post('/edit/list/search',{keyword:keyword,source:source,bgn_date:bgn_date,end_date:end_date,status:status,page:page},function(data){
+				if(data.code==1){
+					var dataList = data.data;
+					newsList.datarender(dataList,data.total,page,data.pagesize);
+				}else{
+
+				}
+			});
+		};
+
+		newsList.list= function(page){
+			$.post('/edit/list/newsList',{page:page},function(data){
+				if(data.code==1){
+					var dataList = data.data;
+					newsList.datarender(dataList,data.total,page,data.pagesize,0);
+				}else{
+
+				}
+			});
+
+		};
+
+	$().ready(function(){
+		
+		/*
+		param['page'];
+		if(page==undefined){
+			page=1;
+		}
+		*/
+		
+		if(param['type']){
+			$('nav li a').each(function(){
+				if($(this).attr('href').indexOf('type='+param['type'])!=-1){
+					$(this).parent().addClass('current');
+				}else{
+					$(this).parent().removeClass('current');
+				}
+			});
+		}
+
+		$('#checked').click(function(){
+			if(!$('#checked').is(':checked')){
+				//console.log('0000');
+				$('input[name="info_id"]').each(function(){
+					$(this).removeAttr("checked",false);
+				});
+				$('label[for="checked"]').text('全选');
+			}else{
+				//console.log('1111');
+				$('input[name="info_id"]').each(function(){
+					$(this).prop("checked",true);
+				});
+				$('label[for="checked"]').text('取消');
+			}
+		});	
+
+
+
+		newsList.list(0);
+		newsList.getsource();
+		$('#btn_search').click(function(){
+			btn_flag=1;
+			newsList.search();
+		});
+
+	});
+	
+
+</script>	
+</body>
+</html>

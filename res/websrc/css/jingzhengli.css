@@ -1,0 +1,184 @@
+.cont_bd {min-width:900px;}
+.select_from {padding:0 15px;background:#EAEAEA;}
+.select_from .select_inner {border:none;box-shadow:none;margin:0;}
+.select_from .filter_list .filter_status {line-height:38px;}
+.id_competitive {margin-top:15px;}
+.id_competitive_con {margin-top:3px;padding:10px 0 0 0;background:#f9f9f9;}
+.comp_tab_table {width:100%;border-top:1px solid #d0d0d0;border-spacing:0;}
+.comp_tab_table td {}
+.tab_item {border-top:1px solid #fff;border-bottom:1px solid #fff;background:#eaeaea;}
+.tab_item .in {padding:15px 0 9px 15px;border-right:1px solid #d0d0d0;border-bottom:1px solid #d0d0d0;}
+.comp_tab_table .status_on .in {padding-top:12px;border-top:3px solid #539afb;border-bottom:1px solid #f9f9f9;background:#f9f9f9;}
+.comp_tab_table .status_on {border-top:1px solid #539afb;border-bottom:1px solid #f9f9f9;}
+.tab_item p {padding-bottom:6px;}
+.tab_item .nu {font-size:16px;font-weight:bold;}
+
+.up_green i,
+.down_green i,
+.up_red i,
+.down_red i,
+.right_gray i,
+.tab_item .up_green i,
+.tab_item .down_green i,
+.tab_item .up_red i,
+.tab_item .down_red i,
+.tab_item .right_gray i {display:inline-block;width:12px;height:12px;margin:0 4px;background:url(../images/up_down.png) no-repeat 0 0;vertical-align:middle;}
+.down_green i,
+.tab_item .down_green i {background-position:-15px 0;}
+.up_red i,
+.tab_item .up_red i {background-position:-15px -18px;}
+.down_red i,
+.tab_item .down_red i {background-position:0 -18px;}
+.right_gray i,
+.tab_item .right_gray i {background-position:-30px 0;}
+.up_green,
+.down_green,
+.tab_item .up_green,
+.tab_item .down_green {color:#00a714;}
+.up_red,
+.down_red,
+.tab_item .up_red,
+.tab_item .down_red {color:#ac4545;}
+.tab_item .num {padding-left:5px;}
+
+.comp_cont_hd {padding:10px 20px;background:#f9f9f9;}
+.comp_line {padding:5px 0;position:relative;}
+.comp_line .comp_line_hd,
+.comp_line .comp_line_bd,
+.comp_line .comp_line_bd dt,
+.comp_line .comp_line_bd dd  {float:left;}
+.comp_line .comp_line_bd dt {margin-left:-70px;}
+.comp_line .comp_line_hd {font-weight:normal;position:absolute;top:8px;left:0;}
+.comp_line .comp_line_bd {padding-left:70px;}
+.comp_line .comp_line_bd a,
+.comp_line .comp_line_bd a {display:inline-block;margin-right:34px;height:25px;padding:0 4px 0 5px;line-height:25px;color:#666666;text-align:center;vertical-align:middle;}
+.comp_line .comp_line_bd a.status_on {padding:0 3px 0 4px;border:1px solid #dddddd;border-radius:3px 3px;background:url(../images/btn_bg.png) repeat-x 0 0;box-shadow:0 1px 0.1px 0 #FFFFFF;color:#555;text-decoration:none;}
+.comp_line .comp_line_bd a:hover {padding:0 3px 0 4px;border:1px solid #dddddd;border-radius:3px 3px;background:url(../images/btn_bg.png) repeat-x 0 -25px;box-shadow:0 1px 0.1px 0
+#FFFFFF;color:#555;text-decoration:none;}
+.comp_line1 {border-bottom:1px solid #d0d0d0;}
+.comp_line2 {border-top:1px solid #fff;}
+.wrap_download_t {position:absolute;top:14px;right:0;border-left:1px solid #fff;}
+.wrap_download_t .in {padding:0 5px;border-left:1px solid #d0d0d0;}
+.wrap_download_t .in a {padding-left:15px;}
+
+.comp_cont_bd {background:#fff url(../images/comp_bg_top.png) repeat-x 0 0;padding-top:10px;}
+.id_comp_table {min-width:900px;width:100%;border-spacing:0;}
+.id_comp_table th {padding:10px 0 10px 15px;color:#555;}
+.id_comp_table td {border-bottom:1px solid #d0d0d0;padding:10px 0 10px 15px;vertical-align:top;}
+.id_comp_table .r {text-align:right;}
+.id_comp_table .bdr {border-right:1px solid #d0d0d0;}
+.id_comp_table .keyword,
+.id_comp_table .name {padding-left:20px;}
+.id_comp_table .nor {color:#777;}
+.id_comp_table .red {color:#ac4545;}
+.id_comp_table .bold {font-weight:bold;}
+.id_comp_table .sitename {display:inline-block;width:65px;}
+.id_comp_table .col1 {width:10%}
+.id_comp_table .col2 {width:15%}
+.id_comp_table .col3 {width:30%}
+.id_comp_table .col4 {width:15%}
+.id_comp_table .col5 {width:15%}
+.id_comp_table .col6 {width:15%}
+.id_comp_table .wrap_img img {width:80px;height:80px;}
+.id_comp_table .icon_arrow_d {margin-left:5px;}
+.logo_jd,
+.logo_gm,
+.logo_sn {display:inline-block;zoom:1;width:59px;height:12px;}
+.logo_jd {background:url(../images/logo_360buy.png) no-repeat 0 0;}
+.logo_gm {background:url(../images/logo_gome.png) no-repeat 0 0;}
+.logo_sn {background:url(../images/logo_suning.jpg) no-repeat 0 0;}
+
+.icon_trend {display:inline-block;width:14px;height:14px;vertical-align:middle;background:url(../images/rang.png) no-repeat -154px 0;zoom:1;cursor:pointer;}
+.icon_trend:hover {background-position:-137px 0;}
+.icon_low,
+.icon_hot {display:inline-block;width:14px;height:14px;margin:0 2px;vertical-align:middle;background:url(../images/rang.png) no-repeat -163px -19px;overflow:hidden;}
+.icon_hot {background-position:-182px -19px;}
+
+.page_wrap {padding:30px;background:#fff;}
+.page_wrap .paginator {text-align:center;}
+/*无结果表*/
+.id_table_noresult .col1 {width:8%}
+.id_table_noresult .col2 {width:8%}
+.id_table_noresult .col3 {width:10%}
+.id_table_noresult .col4 {width:11%}
+.id_table_noresult .col5 {width:30%}
+.id_table_noresult .col6 {width:11%}
+.id_table_noresult .col7 {width:11%}
+.id_table_noresult .col8 {width:11%}
+/*高于对手比价商品*/
+.id_table_hight p {padding:5px 0;}
+.id_table_hight .col1 {width:100px;}
+.id_table_hight .col2 {width:auto;}
+.id_table_hight .col3 {width:180px;}
+.id_table_hight .col4 {width:100px;}
+.id_table_hight .col5 {width:150px;}
+.id_table_hight .col6 {width:150px;}
+/*对手有变化*/
+.id_table_haschange .col1 {width:110px;}
+.id_table_haschange .col2 {width:100px;}
+.id_table_haschange .col3 {width:auto;}
+.id_table_haschange .col4 {width:200px;}
+.id_table_haschange .col5 {width:200px;}
+.id_table_haschange .col6 {width:120px;}
+.id_table_haschange .col7 {width:100px;}
+.id_table_haschange .col8 {width:100px;}
+.id_table_haschange .col9 {width:20px;}
+.id_table_noinport td,
+.id_table_lowest td,
+.id_table_haschange td {padding:10px 0;}
+.id_table_noinport p,
+.id_table_lowest p,
+.id_table_haschange p {padding:5px 0 5px 15px;}
+.id_table_noinport .table_bg,
+.id_table_lowest .table_bg,
+.id_table_haschange .table_bg {padding-bottom:10px;background:url(../images/comp_table_bg.png) repeat-x 0 bottom;}
+
+.id_table_hight .wrap_img img,
+.id_table_haschange .wrap_img img {width:100px;height:100px;}
+.wrap_site {position:relative;}
+.wrap_site .layout_popup {display:none;top:27px;width:200px;padding:5px 0;}
+.wrap_site .layout_popup .layout_arrow_top {left:120px;}
+.wrap_site .layout_popup .layout_bd {overflow:hidden;}
+.id_table_price {margin:-1px 0;width:100%;color:#fff;border-spacing:0px;}
+.id_table_price td {padding:10px 0;border-top:1px solid #5c5c5c;border-bottom:1px solid #4b4b4b;}
+.id_table_price .col1 {width:52px;}
+.id_table_price .col2 {width:70px;}
+.id_table_price .col3 {width:auto;}
+.id_table_price .nor {color:#999999;}
+.id_table_price .t {padding-left:15px;}
+.status_hover .layout_popup {display:block;}
+
+.id_table_lowest .col1 {width:140px;;}
+.id_table_lowest .col2 {width:100px;}
+.id_table_lowest .col3 {width:auto;}
+.id_table_lowest .col4 {width:200px;}
+.id_table_lowest .col5 {width:120px;}
+.id_table_lowest .col6 {width:100px;}
+.id_table_lowest .col7 {width:100px;}
+.id_table_lowest .col8 {width:20px;}
+/*易迅未引入*/
+.id_table_noinport .col1 {width:110px;}
+.id_table_noinport .col2 {width:100px;}
+.id_table_noinport .col3 {width:auto;}
+.id_table_noinport .col4 {width:200px;}
+.id_table_noinport .col5 {width:200px;}
+.id_table_noinport .col6 {width:120px;}
+.id_table_noinport .col7 {width:20px;}
+
+
+
+
+
+
+
+.id_comp_table td.no_bottom_border {border-bottom:none 0px;}
+.sale {padding-right:5px;}
+.ui-tooltip-dark{background-color:#535353;border-color:#535353;color:#FFFFFF;}
+.ui-tooltip-rounded{-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;}
+.ui-tooltip-content{padding:0px;}
+.hide{display:none;}
+.tab_item{cursor:pointer;}
+.id_comp_table .table_bg{padding-bottom:10px;background:url(../images/comp_table_bg.png) repeat-x 0 bottom;}
+.wrap_site {padding:5px 0px;}
+.tab_loading {background:#EAEAEA url(../images/ajax_loader.gif) no-repeat center center;}
+

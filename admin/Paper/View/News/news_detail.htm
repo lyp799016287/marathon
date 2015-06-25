@@ -1,0 +1,92 @@
+<!DOCTYPE html">
+<html>
+<head>
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="cleartype" content="on">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit" >
+<title>资讯【医道】</title>
+<style type="text/css">
+	{literal}
+	body{font-family: 'lucida grande', 'lucida sans unicode', 'lucida', 'helvetica', 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;text-align:justify;font-weight:lighter;letter-spacing:0;}
+	div.content{margin:0 1rem;}
+	h1{margin:1rem 0;font-size:1.2rem;font-weight:bold;color:#000000;letter-spacing:0;}
+	div.date{margin:0 0 0.5rem;font-size:1rem;color:#b3b3b3;}
+	#author{margin:0 0 0.5rem;line-height:1.8rem;font-size:1rem;color:#b3b3b3;border-bottom:1px solid #cccccc;}
+	
+	#keywords{margin:0;padding:0;font-size:1rem;color:#b3b3b3;clear:both;overflow:auto;}
+	#keywords p{margin:0;padding:0;}
+	#keywords ul{padding:0;margin:0;}
+	#keywords ul li{
+		margin:0.5rem 1rem 0 0; float:left;border-radius: 1.5rem;padding:0.2rem 0.5rem;background-color:#41b5e6;
+		list-style:none;color:#ffffff;border:1px solid;
+	}
+	#keywords ul li.n1{border-color:#41b5e6;background-color:#41b5e6;}
+	#keywords ul li.n2{border-color:#ffa200;background-color:#ffa200;}
+	#keywords ul li.n3{border-color:#24c7b2;background-color:#24c7b2;}
+	#keywords ul li.n4{border-color:#8ecc61;background-color:#8ecc61;}
+	#keywords ul li.n5{border-color:#ff7f6a;background-color:#ff7f6a;}
+	#keywords ul li.n6{border-color:#a28ddc;background-color:#a28ddc;}
+	#disease{margin:1rem 0 0;padding-bottom:1rem;font-size:1rem;color:#b3b3b3}
+	div.article{margin:0;font-size:1rem;line-height:1.8em;color:#3d3d3d;letter-spacing:0.02rem; padding:0;}
+	#reference{margin:4rem 0 1.5rem;padding:0;font-size:1rem;color:#b3b3b3;letter-spacing:0;}
+	#reference img{height:1.4rem;width:1.1rem;vertical-align:middle; margin-right: 0.1rem;}
+	#reference span{display:inline-block; height:1.5em; line-height:1.5em; text-align:left;vertical-align:middle;}
+	div.footer{margin:1rem;color:#b3b3b3;padding:0 0 1.5rem;position:relative;}
+	div.footer span{display:block;height:1.5rem;font-size:1rem;position:absolute;top:0;}
+	#a-original{left:0;}
+	#a-comments{right:0;margin-left:0.1rem;}
+	div.content img{width: 100%}
+	div.footer span a{text-decoration:none;color:#b3b3b3; text-align:right;}
+	div.footer img{height:1rem;line-height:1.5rem;vertical-align:middle;margin:0 0.5rem 0 0;}
+	hr{height:1px;border:none;background-color:#cccccc;clear:both;margin:1rem 0;}
+	#gototop{display:block;height:2rem;width:2rem;position:fixed;bottom:8rem;right:2rem;}
+	#gototop img{width:100%;}
+	#gototop:hover,#gototop:visited{color:#cccccc}
+	{/literal}
+</style>
+</head>
+<body>
+<a name="top" ></a>
+<div class="content">
+	<h1>{$title}</h1>
+	<div class="date" >
+	{$pub_date} 讨论数：0
+	</div>
+
+
+	{if count($keys) neq 0}
+	<div id="keywords" >
+		<p>关键词：{count($keys)}</p>
+		<ul>
+			{foreach from=$keys key=k item=foo}
+			{if $foo neq ""}<li class="n{$k+1}">{$foo}</li>{/if}
+			{/foreach}		
+		</ul>
+	</div>
+	{/if}
+
+	<div class="article" >
+	{$content}
+	</div>
+	<div id="reference">
+	<span><img alt="来源" src="/res/img/a-reference.png" />来源：{$source} </span>
+	</div>
+</div>
+
+<hr/>
+
+<div class="footer">
+	{if $src_url neq ""}<span id="a-original"><a href="{$src_url}" target="_blank">阅读原文</a></span>{/if}
+	
+</div>
+
+<!--
+<a href="#top" id="gototop"><img src="/res/img/a-uptotop.png" /></a>
+-->
+
+
+</body>
+</html>

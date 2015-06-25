@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="cleartype" content="on">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<link rel="stylesheet" type="text/css" media="all" href="/res/Squire/Squire-UI.css" />
+<link rel="stylesheet" type="text/css" media="all" href="/admin.css" />
+<title>新闻详情（编辑）</title>
+<script type="text/javascript" src="/res/js/jquery.min.js"></script>
+<script type="text/javascript" src="/res/Squire/squire.js"></script>
+<script type="text/javascript" src="/res/Squire/Squire-UI.js"></script>
+<script type="text/javascript" src="/res/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="/res/js/jquery.md5.js"></script>
+<script type="text/javascript" src="/res/js/loginstatus.js"></script>
+</head>
+<body>
+<div id="left">
+	<div id="userinfo">
+		<span id='userName'></span>
+	</div>
+	<nav>
+		<li class="current"> 
+		<a  href="/newsList.htm?type=0" >待编辑文章</a>
+		</li>
+	</nav>
+</div>
+<div id="main_body">
+	<div id="content">
+		<form id="form_detail" method="post" enctype="application/x-www-form-urlencoded">
+			<input type="hidden" id="id" name='id' value="" />
+			<div>
+			<label>标题：<input type="text" id="title" name="title" style="width:70%" /></label>
+			</div>
+			<div>
+				<label>原文链接：<a id="url" target="_blank" href="javascript:void(0);"></a></label>
+			</div>
+			<div>
+				<label id='source'></label>
+			</div>
+			<div>
+				<label>摘要：</label>
+			</div>
+			<div>
+				<textarea class="hidden" name="summaryBody" id="summaryBody" ></textarea>
+				<textarea id="summary" ></textarea>
+			</div>
+			<div id="imgTag" ></div>
+			
+			<label>正文：</label>
+			<div>
+				<textarea class="hidden" name="mainBody" id="mainBody" ></textarea>
+				<textarea id='main'></textarea>
+			</div>
+			
+
+			<div id="oppanel">
+				<input type="button" id='btn_save' value="保存" />
+				<input type="button" id='btn_preview' value="预览" />
+				<input type="button" id='btn_publish' value="发布" />
+				<input type="button" id='btn_delete' value="删除" />
+			</div>
+		</form>
+			
+		
+	</div>
+	</div>
+	<script type="text/javascript">
+		
+		
+		$().ready(function(){
+
+			var editnews = {}; //namespace
+			var param = $.getUrlVars();
+			var _status = ['初始状态','编辑未发布','已发布','已删除','发布后已删除'];
+
+			var buildPath = 'res/Squire/';
+			var summary_editor = new SquireUI({replace: 'textarea#summary', height: 100,buildPath:buildPath});
+			var main_editor = new SquireUI({replace: 'textarea#main', height: 400,buildPath:buildPath});
+
+			editnews.saveNews = function(){
+				var main_document = main_editor.getHTML();
+				$('#mainBody').val(main_document);
+				var summary_document = summary_editor.getHTML();
+				$('#summaryBody').val(summary_document);
+				$.post('/edit/detail/saveNews',{
+					id:$('#id').val(),
+					title:$('#title').val(),
+					summary:$('#summaryBody').val(),
+					content:$('#mainBody').val()
+				},function(ret){
+					if(ret.code==1){
+						alert('保存成功');
+					}else{
+						alert(ret.message);
+					}
+				});
+			};
+
+			editnews.pubNews = function(){
+				if(!window.confirm('确定发布到外网吗？')){
+					return;
+				}
+				var main_document = main_editor.getHTML();
+				$('#mainBody').val(main_document);
+				var summary_document = summary_editor.getHTML();
+				$('#summaryBody').val(summary_document);
+
+				$.post('/edit/detail/pubNews',{
+					id:$('#id').val(),
+					title:$('#title').val(),
+					summary:$('#summaryBody').val(),
+					content:$('#mainBody').val()
+				},function(ret){
+					if(ret.code==1){
+						alert('发布成功');
+						window.location='/newsList.htm'
+					}else{
+						alert(ret.message);
+					}
+				});
+			};
+
+			editnews.delNews = function(){
+				if(!window.confirm('确定删除该条数据吗？')){
+					return;
+				}
+				$.post('/edit/detail/delNews',{
+					id:$('#id').val()
+				},function(ret){
+					if(ret.code==1){
+						alert('删除成功');
+						window.location.history.back();
+					}else{
+						alert(ret.message);
+					}
+				});
+			};
+
+			 $.post('/edit/detail/getDetail',{id:param['id']},function(data){
+		    	if(data.code==1){
+		    		var realData=data.data;
+		    		$('#id').val(realData.id);
+		    		$('#title').val(realData.title);
+		    		if(realData.imgtag!=''&&realData.imgtag!=null){
+		    			$('#imgTag').append('<img src="'+realData.imgtag+'" />').show();
+		    		}
+		    		$('#summary').val(realData.summary);
+		    		summary_editor.setHTML(realData.summary);
+		    		$('#main').val(realData.content);
+		    		main_editor.setHTML(realData.content);
+		    		$('#url').attr('href',realData.url).text(realData.url);
+		    		$('#source').text('来源：'+realData.source);
+		    		switch(parseInt(realData.status)){
+		    			case 1:{
+		    				$('#btn_save').show();
+		    				$('#btn_preview').show();
+		    				$('#btn_publish').show();
+		    				$('#btn_delete').show();
+		    				break;
+		    			}
+		    			case 2:{
+		    				$('#btn_save').show();
+		    				$('#btn_preview').show();
+		    				$('#btn_publish').show();
+		    				$('#btn_delete').show();
+		    				break;
+		    			}
+		    			case 3:{
+		    				//$('#btn_save').show();
+		    				$('#btn_preview').show();
+		    				break;
+		    			}
+		    			default:{
+		    				break;
+		    			}
+		    		}
+		    		$('#oppanel').append('<span style="margin-left:1rem;">当前状态：'+_status[realData.status-1]+'</span>');
+
+		    	}else{
+
+		    	}
+		    });
+
+		    $('#btn_save').click(function(){
+				editnews.saveNews();
+			});
+			$('#btn_preview').click(function(){
+				window.open('/newsDetailPreview.htm?id='+param['id']);
+			});
+			$('#btn_publish').click(function(){
+				editnews.pubNews();
+			});
+			$('#btn_delete').click(function(){
+				editnews.delNews();
+			});
+
+
+		   
+
+
+	});
+
+		
+
+			
+		
+	</script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+@CHARSET "UTF-8";
+
+body {
+	font-family: 'lucida grande', 'lucida sans unicode', 'lucida',
+		'helvetica', 'Hiragino Sans GB', 'Microsoft YaHei',
+		'WenQuanYi Micro Hei', sans-serif;
+	text-align: justify;
+	font-weight: lighter;
+	letter-spacing: 0;
+	margin: 0;
+	padding: 0;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url(http://fonts.gstatic.com/s/lato/v11/UyBMtLsHKBKXelqf4x7VRQ.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url(http://fonts.gstatic.com/s/lato/v11/1YwB1sO8YE1Lyjf12WNiUA.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+#left{
+	width: 15rem;
+	float: left;
+	height: 100%;
+	border-right:1px solid #cccccc;
+	margin: -16px 0 0 0;
+	padding:0;
+}
+#main_body{
+	margin: 0 0 0 15rem;
+}
+
+#userinfo{text-align: right;padding-right: 1rem;height: 9rem; line-height: 9rem;border-bottom: 1px solid #eeeeee;}
+#userinfo a{margin: 0 0 0 0.5rem;}
+
+#left nav{
+	padding: 0;
+	text-align: right;
+	list-style: none;
+	margin: 0;
+}
+#left nav li{
+	margin: 0;
+	padding: 0;
+	line-height: 5rem;
+}
+#left nav li.current{
+	background-color: #6EA0FF;
+	color: #ffffff;
+}
+
+#left nav li:hover,#left nav li:nth-of-type(even):hover{
+	background-color: #9EA0FF;
+}
+
+
+
+#left nav li a{ 
+	margin: 0 1rem 0 0;
+	padding: 0;
+	line-height: 5rem;
+	text-decoration: none;
+	color: #000000;
+	display: block;
+}
+
+#left nav li a:hover{color: #ffffff;}
+
+
+
+#left nav li.current a{color: #ffffff;font-weight: bolder;}
+
+header {
+	margin: 1rem;
+}
+
+form {
+	border: 1px solid #e5e5e5;
+	font-size: 1rem;
+	-moz-border-radius: 0.5rem; /* Gecko browsers */
+	-webkit-border-radius: 0.5rem; /* Webkit browsers */
+	border-radius: 0.5rem;
+	padding: 1rem;
+}
+
+form label {
+	margin: 0 1rem 0 0;
+	line-height: 1rem;
+}
+
+form label button,#oppanel input[type='button'] {
+	text-algin: center;
+	border: 1px solid #e5e5e5;
+	font-size: 1rem;
+	-moz-border-radius: 0.4rem; /* Gecko browsers */
+	-webkit-border-radius: 0.4rem; /* Webkit browsers */
+	border-radius: 0.4rem;
+	background-color: #dedede;
+	padding: 0.2rem 0.5rem;
+	margin: 0 1rem 0 0;
+}
+
+form a.login_reg{ text-align: right; display: inline-block;float: right;margin:  0 1rem 0 0;}
+
+#content {
+	margin: 1rem;
+	padding: 0.2rem;
+	border: 1px solid #e5e5e5;
+	font-size: 1rem;
+	-moz-border-radius: 0.5rem; /* Gecko browsers */
+	-webkit-border-radius: 0.5rem; /* Webkit browsers */
+	border-radius: 0.5rem;
+}
+
+#datalist {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	background: #ffffff;
+}
+
+#datalist tr th {
+	background-color: #dddddd;
+	text-align: center;
+	letter-spacing:0.1rem;
+}
+
+th.check,td.check {
+	width: 4rem;
+	text-align: center;
+}
+
+th.op,td.op {
+	width: 10rem;
+	text-align: center;
+}
+
+#datalist tr:nth-of-type(odd) {
+	background-color: #eeeeee;
+}
+
+#datalist tr:hover {
+	background-color: #6EA0FF;
+}
+#datalist tr td.status{text-align: center;}
+
+hr {
+	border: none;
+	border-bottom: 1px solid #dedede;
+	height: 0;
+	font-size: 0;
+}
+#pager{text-align:center;line-height: 2rem;border-top:1px solid #ccc;margin: 1rem 0 0;padding: 0.5rem;}
+#pager a{display: inline-block;margin: 0 0.2rem;text-transform: none; text-decoration: none;padding: 0 0.5rem;border: 1px solid #ccc;}
+#pager a:hover{background-color: #eeeeee;}
+#pager span{color: #cccccc;display: inline-block;margin: 0 0.5rem;}
+#pager span.total{color: #000000;}
+#form_detail{border: none;}
+#form_detail label{display: block; border:none; line-height: 1rem;font-size: 1rem;margin: 1rem 0 0 0;}
+#form_detail label input[type='text']{
+	padding: 0.2rem;
+	border: 1px solid #e5e5e5;
+	font-size: 1rem;
+	-moz-border-radius: 0.2rem; /* Gecko browsers */
+	-webkit-border-radius: 0.2rem; /* Webkit browsers */
+	border-radius: 0.2rem;
+}
+#oppanel{text-align: center;height: 3rem;line-height: 3rem;}
+#oppanel input[type='button']{
+	width: 4rem;
+	height: 2rem;
+	text-align: center;
+	border-color: #cccccc;
+	display: none;
+}
+
+iframe {
+    width: 100%;
+    border: 1px #919191 solid;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    padding:0;
+    color: #333;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: right center;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    outline: none;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.075);
+    margin: 1rem 0 0 0;
+}
+textarea.hidden{display: none;}
+
+
+#login {
+	margin: 12% auto 0;
+	padding: 0;
+	border: 1px solid #e5e5e5;
+	font-size: 1rem;
+	-moz-border-radius: 0.5rem; /* Gecko browsers */
+	-webkit-border-radius: 0.5rem; /* Webkit browsers */
+	border-radius: 0.5rem;
+	width: 32rem;
+	background-color: #eeeeee;
+}
+#login header{
+	border:none;
+	margin: 0;
+}
+
+#login form{
+	margin: 0;padding: 0;border: none;
+}
+
+#login label{
+	display: block;
+	line-height: 2rem;
+	margin: 1rem 3rem 0;
+}
+
+#login label.error{color: #ff0000;height: 1rem;line-height: 1rem;margin:0.5rem 3rem;font-size: 0.8rem}
+
+#login label span{
+	display: inline-block;
+	height: 1.5rem;
+	line-height: 1.5rem;
+	width: 4rem;
+	text-align: justify;
+}
+
+
+#login label input{
+	height: 2.5rem;
+	line-height: 2.5rem;
+	display: inline-block;
+	width: 100%;
+	text-indent: 0.5rem;
+	border: 1px solid #cccccc;
+	font-size: 1rem;
+	-moz-border-radius: 0.5rem; /* Gecko browsers */
+	-webkit-border-radius: 0.5rem; /* Webkit browsers */
+	border-radius: 0.5rem;
+}
+#login label input:focus{
+	border-color: #1E90FF;
+}
+
+h1.title{text-align: center;}
+
+#login  input.button{
+	width: 8rem;
+	text-align: center;
+	margin: 1rem auto;
+	display: block;
+	height: 2.5rem;
+	line-height: 2.5rem;
+	padding: 0;
+	letter-spacing: 0.5rem;
+	text-indent: 0.5rem;
+	border: 1px solid #666666;
+	font-size: 1.3rem;
+	-moz-border-radius: 0.5rem; /* Gecko browsers */
+	-webkit-border-radius: 0.5rem; /* Webkit browsers */
+	border-radius: 0.5rem;
+	background-color: #ffffff;
+	color: #666666;
+	font-weight: bold;
+}
+
+td.title{max-width: 25rem;overflow: hidden;}
+
+#imgTag{display: none;}
+
+

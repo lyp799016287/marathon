@@ -1,0 +1,99 @@
+html {color:#333;background:#FFF}
+body,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,form,fieldset,input,textarea,button,p,th,td {padding:0;margin:0}
+fieldset,img {border:0;}
+address,caption,cite,code,dfn,em,th,var,b,i,s {font-style:normal;font-weight:normal}
+ul,li {list-style:none;}
+caption,th {text-align:left;}
+h1,h2,h3,h4,h5,h6 {font-size:100%;}
+input,textarea,select,button{/* border:none; */font-family:inherit;font-size:inherit;font-weight:inherit;#font-size:100%}
+legend{color:#000}
+input[type=search]{-webkit-appearance:none}
+a img, a span, a strong, a s{#cursor:pointer;}
+body,button,select,textarea,input,label, option, fieldset, legend{font-family:Tahoma,\5FAE\8F6F\96C5\9ED1,Verdana;font-size:12px;line-height:18px;color:#555;}
+button{white-space:nowrap;overflow:visible}
+a, a:link {color:#555;text-decoration:none;}
+a:visited {color:#555;}
+a:hover {color:#317EE7;text-decoration:underline;}
+a:focus {outline:none;}
+.hide_clip{position:absolute!important;clip:rect(1px 1px 1px 1px);clip:rect(1px,1px,1px,1px);padding:0!important;border:0!important;height:1px!important;line-height:0!important;width:1px!important;overflow:hidden}
+.clearfix{#zoom:1;clear:both}
+.clearfix:before,.clearfix:after{display:block;content:".";height:0!important;line-height:0!important;visibility:hidden}
+.clearfix:after{clear:both}
+/* right error warn */
+.icon_right,
+.icon_error,
+.icon_warn {display:inline-block;width:14px;height:14px;margin-right:10px;background:url(../images/icon_tips.png) no-repeat 0 0;vertical-align:middle;zoom:1;}
+.icon_warn {background-position: 0 -19px;}
+
+.tip_brow {position:absolute;top:0;left:0;width:100%;height:46px;z-index:9997;}
+.opcity
+{position:absolute;top:0;left:0;width:100%;height:46px;z-index:1;opacity:0.3;-webkit-opacity:0.3;-moz-opacity:0.3;background:#000;filter:alpha(opacity=50,style=1);}
+.tip_brow .inner {position:relative;width:985px;height:46px;margin:0 auto;z-index:2;color:#fff;font-size:16px;line-height:46px;}
+.tip_brow .inner .icon_warn {margin-right:2px;margin-top:-2px;}
+.banner {position:relative;}
+.banner .banner_cont {height:500px;position:relative;z-index:1;}
+.banner .banner_cont ul li {position:absolute;top:0;left:0;width:100%;height:540px;z-index:1;}
+.banner .banner_cont ul .li1 {background:url(../images/login_bg1.jpg) no-repeat top center;}
+.banner .banner_cont ul .li2 {background:url(../images/login_bg2.jpg) no-repeat top center;}
+.banner .banner_nu {position:absolute;top:460px;left:45%;height:15px;z-index:9999;}
+.banner .banner_nu li {float:left;width:14px;height:15px;margin-right:20px;}
+.banner .banner_nu li a {display:block;width:14px;height:15px;background:url(../images/login_icon.png) no-repeat -17px 0;overflow:hidden;text-indent:-99em;}
+.banner .banner_nu .status_on a {background-position:0 0;}
+.wrap_login {position:absolute;top:112px;left:0;width:100%;z-index:9999;}
+.wrap_login .inner {width:985px;margin:0 auto;}
+.wrap_login .inner .login {float:right;width:254px;margin-top:94px;}
+.wrap_login .inner .login h2 {height:20px;line-height:20px;font-size:20px;font-weight:normal;color:#fff;}
+.wrap_login .login_form {border:1px solid #b9bfc1;border-radius:3px;padding:40px 20px;margin-top:20px;background:url(../images/login_bg.png) repeat 0 0;}
+.wrap_login .login_form li {position:relative;}
+.wrap_login .login_form li .ext {position:absolute;left:30px;top:11px;font-size:16px;color:#999;}
+.wrap_login .login_form .focus .ext {display:none;}
+.wrap_login .login_form li .hd {position:absolute;left:10px;top:1px;*top:4px;display:block;width:15px;height:38px;background:url(../images/login_icon.png) no-repeat -170px -111px;}
+.wrap_login .login_form .password .hd {background-position:-170px -174px;}
+.wrap_login .login_form .focus .name_hd {background-position:-170px -219px;}
+.wrap_login .login_form .focus .password_hd {background-position:-170px -263px;}
+.wrap_login .login_form .focus .txt_normal {color:#555;}
+.wrap_login .login_form .txt_mini,
+.wrap_login .login_form .txt_normal {width:180px;height:40px;margin-bottom:15px;border:none;border-radius:3px;padding-left:30px;font-size:16px;color:#999;line-height:40px;}
+.wrap_login .login_form .valida {padding-bottom:10px;}
+.wrap_login .login_form .valida .wrap_img {display:inline-block;width:90px;height:30px;padding-right:12px;vertical-align:middle;}
+.wrap_login .login_form .valida .img {width:90px;height:30px;vertical-align:middle;}
+.wrap_login .login_form .txt_mini {width:98px;*width:96px;height:32px;padding-left:10px;margin:0;line-height:30px;vertical-align:middle;}
+.wrap_login .login_form .remanber label {color:#fff;}
+.wrap_login .login_form .chk {margin-right:5px;margin-top:-2px;vertical-align:middle;}
+.wrap_login .login_form .todo_link {color:#fff;float:right;}
+.wrap_login .login_form .login_btn {display:block;width:210px;height:42px;margin-top:30px;background:url(../images/login_btn.png) no-repeat 0 0;}
+.wrap_login .login_form .login_btn:hover {background-position:0 -47px;}
+.wrap_login .login_form .disable,
+.wrap_login .login_form .disable:hover {background-position:0 -94px;cursor:default;}
+.intr {width:985px;padding-top:80px;margin:0 auto;}
+.intr .intro {float:left;}
+.intr .intro li {float:left;width:94px;margin-right:117px;text-align:center;}
+.intr .intro li .icon {display:block;width:94px;height:93px;margin-bottom:25px;background:url(../images/login_icon.png) no-repeat 0 -17px;}
+.intr .intro .action .icon {background-position: 0 -110px;}
+.intr .intro .team .icon {background-position: -95px -17px;}
+.intr .intro li a {display:block;font-size:18px;cursor:default;}
+.intr .intro li a:hover {text-decoration:none;color:#333;}
+.intr .intro li a:hover .icon {margin-top:-5px;margin-bottom:30px;}
+.intr .download {float:left;}
+.intr .download h3 {padding-bottom:30px;font-size:14px;font-weight:normal;color:#555;}
+.intr .download .chrome,
+.intr .download .firefox {float:left;width:86px;text-align:center;}
+.intr .download .chrome a,
+.intr .download .firefox a {display:block;clear:both;padding-top:11px;}
+.intr .download .icon {display:inline-block;width:60px;height:60px;background:url(../images/login_icon.png) no-repeat -95px -110px;}
+.intr .download .firefox {margin-left:65px;}
+.intr .download .firefox .icon {background-position:-95px -173px;}
+.intr .download .chrome a:hover .icon {background-position:0 -239px;}
+.intr .download .firefox a:hover .icon {background-position:-93px -239px;}
+.intr .download a i {display: inline-block;width: 16px;height: 16px;background:url("../images/icon.png") no-repeat scroll -44px -86px transparent;vertical-align:bottom;}
+.intr .download a:hover i {background-position:-61px -86px;}
+.intr .download a:hover {text-decoration:none;}
+.footer {width:985px;margin:80px auto 0;padding-top:28px;text-align:center;background:url(../images/login_footer_bg.jpg) no-repeat center top;}
+.footer .splite {padding:0 20px;}
+.ecd {display:inline-block;width:63px;height:13px;background:url(../images/login_icon.png) no-repeat -36px 0;vertical-align:middle;}
+/*--- css add by bariwang at 13.8.30 ---*/
+.gw_header {width:985px;height:88px;margin:0 auto;overflow:hidden;}
+.gw_header h1 {float:left;width:142px;height:57px;margin:13px 0 0 0;background:url(../images/logo_gw.png) no-repeat;}
+.gw_header h1 a {display:block;height:57px;line-height:200em;overflow:hidden;}
+.gw_nav_list {float:right;margin:26px -1px 0 0;}
+.gw_nav_list li {float:left;height:36px;padding:0 30px;line-height:36px;border-right:1px solid #e6e6e6;}
