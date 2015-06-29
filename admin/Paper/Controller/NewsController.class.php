@@ -15,14 +15,23 @@ class NewsController extends Controller {
 	/**原文列表**/
     public function newsList(){
 
-		$curr_page = I('page', 1, 'intval');
-		$page_size = 20;
-		
-		$rs = $this->news->getNewsList();
-		
 		$data = array();
 
+		if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'search')){
+			$rdata = array(
+				'pub_date'	=> I('public_date', ''),
+				'status'	=> I('status', '')
+			);
+		
+			$rs = $this->news->getSearchNews($rdata);
+		}else{
+			$rs = $this->news->getNewsList();
+		}
+
 		$zx_list = C('ZX_CATE_LIST');
+		
+		$curr_page = I('page', 1, 'intval');
+		$page_size = 20;
 
 		if(!empty($rs)){
 			$limit = ($curr_page - 1)*$page_size;
@@ -170,6 +179,22 @@ class NewsController extends Controller {
 			$this->ajaxReturn(array('code'=>-1, 'message'=>'发布失败'), 'JSON');
 		}else{
 			$this->ajaxReturn(array('code'=>1, 'message'=>'发布成功'), 'JSON');
+		}
+	}
+
+	public function newsSearch(){
+		
+		$data = array(
+			'pub_date'	=> I('public_date', ''),
+			'status'	=> I('status', '')
+		);
+		
+		$rs = $this->news->getSearchNews($data);
+
+		if($rs === false){
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'系统错误'), 'JSON');
+		}else{
+			$this->ajaxReturn(array('code'=>1, 'message'=>'', 'data'=>$rs), 'JSON');
 		}
 	}
 

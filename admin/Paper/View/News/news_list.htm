@@ -7,11 +7,13 @@
 <meta name="format-detection" content="telephone=no">
 <meta http-equiv="cleartype" content="on">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<link rel="stylesheet" type="text/css" media="all" href="/res/JqueryUI/jquery-ui.min.css" />
 <link rel="stylesheet" type="text/css" media="all" href="/admin.css" />
 <title>原创文章</title>
 <script type="text/javascript" src="/res/js/jquery.min.js"></script>
 <script type="text/javascript" src="/res/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="/res/js/jquery.md5.js"></script>
+<script type="text/javascript" src="/res/JqueryUI/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/res/js/loginstatus.js"></script>
 <style>
 table {
@@ -31,22 +33,24 @@ table {
 </div>
 <div id="main_body">
 	<header>
-		<!--<label>状态：<select id="status" name="status"><option value="0">--全部--</option>
-				<option value="1">有效</option>
-				<option value="2">无效</option>
+		<label>发布时间：<input type="text" name='pub_date' id="pub_date" /></label>
+		<label>状态：<select id="status" name="status"><option value="">--全部--</option>
+				<option value="0">待审核</option>
+				<option value="1">已审核未发布</option>
+				<option value="3">已发布</option>
 			</select>	
 		</label>
-		<label><button id="btn_search">搜 索</button></label>-->
+		<label><button id="btn_search">搜 索</button></label>
 		<label><button id="btn_add">新 增</button></label>
 	</header>
 	<hr />
 	<div id="content">
 		<table id='datalist'>
-			<tr>
+			<tr id="headerlist">
 				<!--<th class="check"><input type="checkbox" id='checked' /><label for="checked">全选</label></th>-->
 				<th class="label" width="10%">分类</th>
 				<th class="title" width="40%">标题</th>
-				<th class="source">发布时间</th>
+				<th class="publish">发布时间</th>
 				<th class="level" width="20%">优先级</th>
 				<th class="status" width="10%">状态</th>
 				<th class="op" width="20%">操作</th>
@@ -57,7 +61,7 @@ table {
 				<!--<td><input type="checkbox" value="{$foo.id}" name="info_id"></td>-->
 				<td class="label">{$foo.category}</td>
 				<td class="title">{$foo.title}</td>
-				<td class="source">{$foo.pub_date}</td>
+				<td class="publish">{$foo.pub_date}</td>
 				<td class="level">{$foo.level}</td>
 				<td class="status">{if $foo.status eq 4}删除{else if $foo.status eq 3}已发布{else if $foo.status eq 1}已审核未发布{else}未审核{/if}</td>
 				<td class="op"><a href="/paper/news/newsprev?id={$foo.id}" target="_blank" class="prevBtn">预览</a> {if $foo.status neq 3}| <a href="javascript:;" sValue="{$foo.id}" class="editBtn">编辑</a>{if $foo.status eq 0}| <a href="javascript:;" sValue="{$foo.id}" class="chkBtn">审核</a>{/if}{if $foo.status eq 1} | <a href="javascript:;" sValue="{$foo.id}" class="pubBtn">发布</a>{/if} | <a href="javascript:;" sValue="{$foo.id}" class="delBtn">删除</a>{/if}</td>
@@ -81,19 +85,20 @@ table {
 <script type="text/javascript">
 var paperPage = {};
 	paperPage.doneAction = function(){
+
+		$( "#pub_date" ).datepicker({
+			dateFormat: "yy-mm-dd"
+		});
 		
 		$(".editBtn").click(function(){
-			console.log($(this).attr('sValue'));
 			window.location.href = "/paper/news/newsshow?id="+$(this).attr('sValue');
 		});
 
 		$(".delBtn").click(function(){
-			console.log($(this).attr('sValue'));
 			paperPage.delAction($(this).attr('sValue'));
 		});
 
 		$(".chkBtn").click(function(){
-			console.log($(this).attr('sValue'));
 			paperPage.chkAction($(this).attr('sValue'));
 		});
 
@@ -103,13 +108,16 @@ var paperPage = {};
 		});*/
 
 		$(".pubBtn").click(function(){
-			console.log($(this).attr('sValue'));
 			paperPage.pubAction($(this).attr('sValue'));
-		})
+		});
 
 		$("#btn_add").click(function(){
 			window.location.href = "/paper/news/newsadd";
-		})
+		});
+
+		$("#btn_search").click(function(){
+			paperPage.searchAction();
+		});
 	}
 
 	paperPage.chkAction = function(id){
@@ -176,6 +184,33 @@ var paperPage = {};
 				alert("接口调用失败");
 			}
 		});
+	}
+
+	paperPage.searchAction = function(){
+		/*var data = {
+			'public_date' : $("#pub_date").val(),
+			'status' : $("#status").val(),
+			'action' : 'search'
+		};*/
+
+
+		window.location.href = "/paper/news/newslist?action=search&public_date="+$("#pub_date").val()+"&status="+$("#status").val();
+
+		/*$.ajax({
+			type : 'POST',
+			url : '/paper/news/newslist/',
+			data : data,
+			dataType : 'json',
+			success: function(rdata) {
+				if(rdata.code == 1){
+					//alert(rdata.message);
+					//window.location.reload();
+				}
+			},
+			error: function() {
+				alert("接口调用失败");
+			}
+		});*/
 	}
 
 	paperPage.init = function(){

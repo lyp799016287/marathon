@@ -7,13 +7,37 @@ class NewsModel extends Model {
 	protected $trueTableName = 't_info_original';
 
 	/**
-	*获取轮播图列表
+	*获取原创文章列表
 	*@author mandyzhou
 	*@return  false/array()
 	*/
-	public function getNewsList($page, $interval){
+	public function getNewsList(){
 
-		$sql = "SELECT id, category, title, source, status, level, pub_date FROM t_info_original WHERE status !=4 ORDER BY create_time DESC, pub_date DESC";
+		$sql = "SELECT id, category, title, source, status, level, pub_date FROM t_info_original WHERE status !=4 ORDER BY pub_date DESC, level DESC";
+		$rs = $this->getRows($sql);
+		return $rs;
+	}
+
+	/**
+	*搜索原创文章列表
+	*@author mandyzhou
+	*@return  false/array()
+	*/
+	public function getSearchNews($data){
+		
+		$condition = '';
+		if(!empty($data['pub_date'])){
+			$condition .= " AND pub_date = '".$data['pub_date']."'";
+		}
+
+		if(!empty($data['status'])){
+			$condition .= " AND status = ".$data['status'];
+		}else{
+			$condition .= " AND status !=4";
+		}
+
+		$sql = "SELECT id, category, title, source, status, level, pub_date FROM t_info_original WHERE 1=1 ".$condition." ORDER BY pub_date DESC, level DESC";
+		//echo $sql;exit;
 		$rs = $this->getRows($sql);
 		return $rs;
 	}
