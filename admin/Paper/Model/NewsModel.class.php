@@ -37,7 +37,7 @@ class NewsModel extends Model {
 		}
 
 		$sql = "SELECT id, category, title, source, status, level, pub_date FROM t_info_original WHERE 1=1 ".$condition." ORDER BY pub_date DESC, level DESC";
-		//echo $sql;exit;
+		echo $sql;exit;
 		$rs = $this->getRows($sql);
 		return $rs;
 	}
