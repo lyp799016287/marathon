@@ -33,11 +33,11 @@ table {
 </div>
 <div id="main_body">
 	<header>
-		<label>发布时间：<input type="text" name='pub_date' id="pub_date" /></label>
-		<label>状态：<select id="status" name="status"><option value="">--全部--</option>
-				<option value="0">待审核</option>
-				<option value="1">已审核未发布</option>
-				<option value="3">已发布</option>
+		<label>发布时间：<input type="text" name='pub_date' id="pub_date" value="{$public_date}" /></label>
+		<label>状态：<select id="status" name="status"><option value="" {if $status eq ''}selected="selected"{/if}>--全部--</option>
+				<option value="0" {if $status eq '0'}selected="selected"{/if}>待审核</option>
+				<option value="1" {if $status eq '1'}selected="selected"{/if}>已审核未发布</option>
+				<option value="3" {if $status eq '3'}selected="selected"{/if}>已发布</option>
 			</select>	
 		</label>
 		<label><button id="btn_search">搜 索</button></label>
@@ -187,30 +187,7 @@ var paperPage = {};
 	}
 
 	paperPage.searchAction = function(){
-		/*var data = {
-			'public_date' : $("#pub_date").val(),
-			'status' : $("#status").val(),
-			'action' : 'search'
-		};*/
-
-
-		window.location.href = "/paper/news/newslist?action=search&public_date="+$("#pub_date").val()+"&status="+$("#status").val();
-
-		/*$.ajax({
-			type : 'POST',
-			url : '/paper/news/newslist/',
-			data : data,
-			dataType : 'json',
-			success: function(rdata) {
-				if(rdata.code == 1){
-					//alert(rdata.message);
-					//window.location.reload();
-				}
-			},
-			error: function() {
-				alert("接口调用失败");
-			}
-		});*/
+		window.location.href = "/paper/news/newslist?action=search&public_date="+$("#pub_date").val()+"&status="+$("#status").val();		
 	}
 
 	paperPage.init = function(){

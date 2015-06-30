@@ -48,6 +48,8 @@ class NewsController extends Controller {
 
 		$total = count($rs);
 		$total_num = ceil($total/$page_size);
+		$this->assign("public_date", I('public_date', ''));
+		$this->assign("status", I('status', ''));
 		$this->assign("list", $data);
 		$this->assign("total", $total);
 		$this->assign("current", $curr_page);
