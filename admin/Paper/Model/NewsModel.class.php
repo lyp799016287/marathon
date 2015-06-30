@@ -30,14 +30,14 @@ class NewsModel extends Model {
 			$condition .= " AND pub_date = '".$data['pub_date']."'";
 		}
 
-		if(!empty($data['status'])){
+		if($data['status'] != ''){
 			$condition .= " AND status = ".$data['status'];
 		}else{
 			$condition .= " AND status !=4";
 		}
 
 		$sql = "SELECT id, category, title, source, status, level, pub_date FROM t_info_original WHERE 1=1 ".$condition." ORDER BY pub_date DESC, level DESC";
-		echo $sql;exit;
+		//echo $sql;exit;
 		$rs = $this->getRows($sql);
 		return $rs;
 	}
