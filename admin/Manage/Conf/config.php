@@ -1,18 +1,14 @@
 <?php
 
 $secret_theme = array(
-	array('id'=>101, 'img'=>'101.jpg'),
-	array('id'=>102, 'img'=>'102.jpg'),
-	array('id'=>103, 'img'=>'103.jpg'),
-	array('id'=>104, 'img'=>'104.jpg'),
-	array('id'=>105, 'img'=>'105.jpg'),
-	array('id'=>106, 'img'=>'106.jpg'),
-	array('id'=>107, 'img'=>'107.jpg'),
-	array('id'=>108, 'img'=>'108.jpg'),
-	array('id'=>109, 'img'=>'109.jpg'),
-	array('id'=>110, 'img'=>'110.jpg'),
-	array('id'=>111, 'img'=>'111.jpg'),
-	array('id'=>112, 'img'=>'112.jpg')
+	array('id'=>101, 'img'=>'#7e88e9'),
+	array('id'=>102, 'img'=>'#00a3ff'),
+	array('id'=>103, 'img'=>'#30c4ea'),
+	array('id'=>104, 'img'=>'#52de7e'),
+	array('id'=>105, 'img'=>'#ff6379'),
+	array('id'=>106, 'img'=>'#ff6d42'),
+	array('id'=>107, 'img'=>'#feb100'),
+	array('id'=>108, 'img'=>'#4e4e4e')
 ); 
 
 return array(

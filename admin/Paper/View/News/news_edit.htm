@@ -162,7 +162,7 @@ paperEdit.getParams = function(){
 	params['action'] = 'edit';
 	params['pub_date'] = $("#pub_date").val();
 
-	console.log(params);
+	//console.log(params);
 
 	return params;
 }
@@ -190,8 +190,8 @@ paperEdit.saveNews = function(){
 		success: function(rdata) {
 			if(rdata.code == 1){
 				alert(rdata.message);
-				window.location.href ="/paper/news/newslist";
-				//window.location.href = document.referrer;
+				//window.location.href ="/paper/news/newslist";
+				window.location.href = document.referrer;
 			}else{
 				alert(rdata.message);
 			}
