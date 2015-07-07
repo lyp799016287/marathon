@@ -41,6 +41,7 @@ class NewsController extends Controller {
 		if(!empty($data)){
 			foreach($data as &$val){
 				$val['category'] = $zx_list[$val['category']];
+				$val['type'] = ($val['type'] == 1)? '新闻' : '资讯';
 			}
 		}
 		

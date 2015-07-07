@@ -48,10 +48,11 @@ table {
 		<table id='datalist'>
 			<tr id="headerlist">
 				<!--<th class="check"><input type="checkbox" id='checked' /><label for="checked">全选</label></th>-->
+				<th class="type" width="10%">大类</th>
 				<th class="label" width="10%">分类</th>
 				<th class="title" width="40%">标题</th>
 				<th class="publish">发布时间</th>
-				<th class="level" width="20%">优先级</th>
+				<th class="level" width="10%">优先级</th>
 				<th class="status" width="10%">状态</th>
 				<th class="op" width="20%">操作</th>
 			</tr>
@@ -59,6 +60,7 @@ table {
 			{foreach from=$list key=k item=foo}
 			<tr class="data">
 				<!--<td><input type="checkbox" value="{$foo.id}" name="info_id"></td>-->
+				<td class="type">{$foo.type}</td>
 				<td class="label">{$foo.category}</td>
 				<td class="title">{$foo.title}</td>
 				<td class="publish">{$foo.pub_date}</td>
