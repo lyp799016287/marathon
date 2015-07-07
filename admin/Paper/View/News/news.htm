@@ -39,6 +39,13 @@
 		<form id="form_detail" method="post">
 			<div><label style="color:red;">*号必填</label></div>
 			<div>
+			<label>大&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类：<select name="type_type" id="type_type" style="width:180px;">
+					<option value='1'>新闻</option>
+					<option value='2'>资讯</option>
+					</select>&nbsp;&nbsp;<span style="color:red;">*</span>
+			</label>
+			</div>
+			<div>
 			<label>分&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类：<select name="label_type" id="label_type" style="width:180px;">
 					<!--<option value="1">指南</option>
 					<option value="2">临床研究</option>
@@ -145,6 +152,7 @@ paperAdd.getParams = function(){
 
 	params['title'] = $("#title").val();
 	params['type'] = $("#label_type").val();
+	params['btype'] = $("#type_type").val();
 	params['keys'] = $("#keys").val();
 	params['url'] = $("#url").val();
 	params['level'] = $("#level_num").val();

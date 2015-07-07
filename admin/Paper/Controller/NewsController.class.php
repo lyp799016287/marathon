@@ -68,6 +68,7 @@ class NewsController extends Controller {
 		$data = array(
 			'title'			=> I('title', '', 'addslashes'),
 			'sub_title'		=> I('sub_title', '', 'addslashes'),
+			'type'			=> I('btype', 1, 'intval'),
 			'category'		=> I('type', 0, 'intval'),
 			'url'			=> I('url'),
 			'keys'			=> I('keys'),
@@ -150,7 +151,7 @@ class NewsController extends Controller {
 		
 		
 		$data = array(
-			'type'		=> 2,
+			'type'		=> $rs[0]['type'],
 			'category'	=> $rs[0]['category'],
 			'title'		=> $rs[0]['title'],
 			'source'	=> $rs[0]['source'],
