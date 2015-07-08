@@ -65,7 +65,7 @@ class NewsController extends Controller {
 
 	/**添加原文**/
 	public function newsPost(){
-		//var_dump($_POST);exit;
+		var_dump($_POST);exit;
 		$data = array(
 			'title'			=> I('title', '', 'addslashes'),
 			'sub_title'		=> I('sub_title', '', 'addslashes'),
