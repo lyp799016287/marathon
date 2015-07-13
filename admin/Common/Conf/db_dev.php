@@ -17,4 +17,12 @@ return array(
 		'db_port'  => '3306',
 		'db_name'  => 'imed'
 	),
+	'DB_STAT' => array(
+		'db_type'  => 'mysql',
+		'db_user'  => 'yzweb',
+		'db_pwd'   => 'yzweb~123',
+		'db_host'  => '192.168.16.221',
+		'db_port'  => '3306',
+		'db_name'  => 'stat'
+	),
 );
