@@ -49,12 +49,25 @@ class UserModel extends Model {
             $new_re = $this->new_user($str_tmp, $endstamp);
             if($new_re === false)
                 return $new_re;
-            $insert_data[$i]['new_user'] = $new_re[0]['new_user'];
-            ## 计算当天的活跃用户数（当天有打开APP的算作活跃用户）
-            $active_re = $this->active_user($str_tmp, $endstamp);
-            if($active_re === false)
+            if(count($new_re) == 0)
+                $insert_data[$i]['new_user'] = 0;
+            else
+                $insert_data[$i]['new_user'] = $new_re[0]['new_user'];
+            ## 计算当天的登录用户数、活跃用户数（=当天有打开APP的登录用户数-新增用户数）
+            $login_re = $this->login_user($str_tmp, $endstamp);
+            if($login_re === false)
                 return false;
-            $insert_data[$i]['active_user'] = $active_re[0]['active_user'];
+            if(count($active_re) == 0)
+            {
+                $insert_data[$i]['login_user'] = 0;
+                $insert_data[$i]['active_user'] = 0;
+            }  
+            else
+            {
+                $insert_data[$i]['login_user'] = $login_re[0]['login_user'];
+                $insert_data[$i]['active_user'] = $login_re[0]['login_user'] - $insert_data[$i]['new_user'];
+            }
+                
 
             $i++;
             $str_tmp = $endstamp;
@@ -78,11 +91,11 @@ class UserModel extends Model {
         return $re;
     }
 
-    private function active_user($bgn_date, $end_stamp)
+    private function login_user($bgn_date, $end_stamp)
     {
         $bgn_stamp = $bgn_date . " 00:00:00";
         $sql = <<<EOF
-        SELECT COUNT(DISTINCT user_uid) active_user 
+        SELECT COUNT(DISTINCT user_uid) login_user 
         FROM t_login_flow 
         WHERE create_time >= '{$bgn_stamp}' AND create_time < '{$end_stamp}' AND `status` IN (1, 2)
 EOF;
@@ -102,6 +115,9 @@ EOF;
         return true;
     }
 
-   
+    public function calRetain()
+    {
+        
+    }
 
 }
