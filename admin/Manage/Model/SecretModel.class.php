@@ -79,7 +79,7 @@ class SecretModel extends Model {
 			return false;
 		}
 
-		$sql = "INSERT INTO t_secret(user_id, type, status, content, theme_id)VALUES('".$data['user_id']."', '".$data['type']."', '0', '".$data['content']."', '".$data['theme']."')";
+		$sql = "INSERT INTO t_secret(user_id, type, status, content, theme_id)VALUES('".$data['user_id']."', '".$data['type']."', '1', '".$data['content']."', '".$data['theme']."')";
 
 		$rs = $this->exeSql($sql, true);
 		return $rs;

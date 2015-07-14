@@ -100,7 +100,7 @@
 				<label>图&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;片：</label>
 				<label><input type="file" name="uploadify" id="uploadify"></label>
 				<label><input type="button" id="uploadBtn" value="上传" /></label>
-				<label><img id="img1" {if $data.img_url}src="/res/News/{$data.img_url}"{/if} /><input type="hidden" id="img_val" /></label>
+				<label><img id="img1" {if $data.img_url}src="/res/News/{$data.img_url}"{/if} /><input type="hidden" id="img_val" value="{$data.img_url}" /></label>
 				<br />
 			</div>
 			
