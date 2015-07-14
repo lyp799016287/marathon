@@ -78,7 +78,7 @@ class UserModel extends Model {
             $str_tmp = $endstamp;
 
         }
-        var_dump($insert_data); exit;
+        // var_dump($insert_data); exit;
         return $this->insert_summary($insert_data);
     }
 
