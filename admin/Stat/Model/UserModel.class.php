@@ -16,7 +16,6 @@ class UserModel extends Model {
     {
         $sql = "SELECT MAX(datestamp) datestamp FROM t_user_summary";
         $date_info = queryByNoModel('t_user_summary', '', $this->stat_config, $sql);
-        var_dump($date_info);
         if($date_info === false)
             return false;
         $str_tmp = "";
@@ -24,7 +23,6 @@ class UserModel extends Model {
         if(count($date_info) > 0)
         {
             $str_tmp = date("Y-m-d", strtotime($date_info[0]['datestamp']) + 86400);
-            var_dump($str_tmp);
         }
         else
         {
@@ -40,14 +38,13 @@ class UserModel extends Model {
         while($str_tmp < $now_date)
         {
             $endstamp = date("Y-m-d", strtotime($str_tmp) + 86400);
-            var_dump($endstamp);
             $endstamp = $endstamp . " 00:00:00";
             ## 计算当天的累计用户数
             $cumul_re = $this->cumulative_user($endstamp);
             if($cumul_re === false)
                 return false;
             $insert_data[$i]['cumulation_user'] = $cumul_re[0]['cumulation_user'];
-            $insert_data[$i]['datestamp'] = $str_tmp;
+            $insert_data[$i]['datestamp'] = date("Y-m-d", strtotime($str_tmp));
             ## 计算当天的新增用户数
             $new_re = $this->new_user($str_tmp, $endstamp);
             if($new_re === false)
@@ -60,7 +57,7 @@ class UserModel extends Model {
             $login_re = $this->login_user($str_tmp, $endstamp);
             if($login_re === false)
                 return false;
-            if(count($active_re) == 0)
+            if(count($login_re) == 0)
             {
                 $insert_data[$i]['login_user'] = 0;
                 $insert_data[$i]['active_user'] = 0;
