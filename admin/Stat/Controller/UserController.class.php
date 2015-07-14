@@ -7,14 +7,12 @@ class UserController extends Controller {
 
 	public function _initialize()
 	{
-		var_dump("init User");
 		$this->user = D('User');
 	}
 
 	## 计算用户数的基础信息
 	public function userSummary()
 	{
-		var_dump("into controller");
 		$re = $this->user->calSummary();
 		$this->writeLog($re, "userSummary");
 	}
