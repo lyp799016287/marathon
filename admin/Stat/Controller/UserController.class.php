@@ -1,7 +1,7 @@
 <?php
 namespace Stat\Controller;
 use Think\Controller;
-use Stat\Model\UserModel as UserModel;
+//use Stat\Model\UserModel as UserModel;
 
 class UserController extends Controller {
 
