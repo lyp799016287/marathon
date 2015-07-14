@@ -14,7 +14,6 @@ class UserModel extends Model {
 
     public function calSummary()
     {
-        var_dump("into model");
         $sql = "SELECT MAX(datestamp) datestamp FROM t_user_summary";
         $date_info = queryByNoModel('t_user_summary', '', $this->stat_config, $sql);
         var_dump($date_info);
@@ -84,7 +83,7 @@ class UserModel extends Model {
 
     private function cumulative_user($endstamp)
     {
-        $sql = "SELECT COUNT(*) cumulation_user FROM t_user_info WHERE `status` = 1 AND create_time < '" . $endstamp;
+        $sql = "SELECT COUNT(*) cumulation_user FROM t_user_info WHERE `status` = 1 AND create_time < '" . $endstamp . "'";
         $cumul_re = $this->query($sql);
         return $cumul_re;
     }
