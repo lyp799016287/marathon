@@ -21,7 +21,8 @@ class UserModel extends Model {
             return false;
         $str_tmp = "";
         $now_date = date("Y-m-d", time());
-        if(count($date_info) > 0)
+        // if(count($date_info) > 0)
+        if(!is_null($date_info[0]['datestamp']))
         {
             $str_tmp = date("Y-m-d", strtotime($date_info[0]['datestamp']) + 86400);
             var_dump($str_tmp);
@@ -132,7 +133,8 @@ EOF;
         if($re === false)
             return false;
         ## update表中的记录
-        if(count($re) > 0)
+        // if(count($re) > 0)
+        if(!is_null($re[0]['date']))
         {
             $sql = "SELECT * FROM t_user_retain WHERE register_date >= '" . $re[0]['date'] . "'";
             $date_info = queryByNoModel('t_user_retain', '', $this->stat_config, $sql);
