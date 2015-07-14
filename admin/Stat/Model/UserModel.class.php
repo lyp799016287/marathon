@@ -32,7 +32,8 @@ class UserModel extends Model {
                 return false;
             $str_tmp = $re[0]['stamp'];
         }
-
+        var_dump($str_tmp);exit;
+        
         $insert_data = array();
         $i = 0;
         while($str_tmp < $now_date)

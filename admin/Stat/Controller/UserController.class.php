@@ -20,7 +20,8 @@ class UserController extends Controller {
 	## 计算用户留存率
 	public function userRetain()
 	{
-		$this->user->calRetain();
+		$re = $this->user->calRetain();
+		$this->writeLog($re, "userRetain");
 	}
 
 	private function writeLog($result, $tag)
