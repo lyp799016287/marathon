@@ -229,13 +229,14 @@ EOF;
             else
                 return;
         }
-        var_dump($max_date); exit;
+        // var_dump($max_date); exit;
 
         $next_date = date('Y-m-d', strtotime($max_date) + 86400);
         $now_date = date('Y-m-d', now());
         while($now_date > $next_date)
         {              
             $day_interval = (strtotime($now_date) - strtotime($max_date)) / 86400;
+            var_dump($day_interval); exit;
             $data = $this->getInsertData($max_date, $day_interval);
             $re = insertByNoModel('t_user_retain', '', $this->stat_config, $data); 
             if($re === false)
