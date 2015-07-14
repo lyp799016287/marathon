@@ -23,6 +23,7 @@ class UserModel extends Model {
         if(count($date_info) > 0)
         {
             $str_tmp = date("Y-m-d", strtotime($date_info[0]['datestamp']) + 86400);
+            var_dump($str_tmp);
         }
         else
         {
@@ -78,7 +79,7 @@ class UserModel extends Model {
 
     private function cumulative_user($endstamp)
     {
-        $sql = "SELECT COUNT(*) cumulation_user FROM t_user_info WHERE create_time < '" . $endstamp;
+        $sql = "SELECT COUNT(*) cumulation_user FROM t_user_info WHERE `status` = 1 AND create_time < '" . $endstamp;
         $cumul_re = $this->query($sql);
         return $cumul_re;
     }
@@ -188,6 +189,7 @@ EOF;
                 if($update_date['update_30'] == 1)
                     $data['retain_30'] = $update_date['retain_30'];
 
+                $data['modify_time'] = now();
                 $condition['register_date'] = $reg_date;
                 $table = 't_user_retain';
                 $update_re = $this->updateTable($table, $condition, $data);
@@ -196,9 +198,110 @@ EOF;
             }
         }
         ## insert表中的记录
-        
+        $sql = "SELECT MAX(register_date) `date` FROM t_user_retain";
+        $re = queryByNoModel('t_user_retain', '', $this->stat_config, $sql);
+        if($re === false)
+            return false;
+        if(count($re) > 0)
+        {
+            $max_date = $re[0]['date'];
+        }
+        else
+        {
+            $sql = "SELECT MIN(SUBSTRING(CAST(create_time AS CHAR(20)), 1, 10)) `date` FROM `t_user_info`";
+            $min_date = $this->query($sql);
+            if($min_date === false)
+                return false;
+            if(count($min_date) > 0)
+            {
+                $min_date = $min_date[0]['date'];
+                $max_date = $min_date;
+            }
+            else
+                return;
+        }
+
+        $next_date = date('Y-m-d', strtotime($max_date) + 86400);
+        $now_date = date('Y-m-d', now());
+        while($now_date > $next_date)
+        {              
+            $day_interval = (strtotime($now_date) - strtotime($max_date)) / 86400;
+            $data = $this->getInsertData($max_date, $day_interval);
+            $re = insertByNoModel('t_user_retain', '', $this->stat_config, $data); 
+            if($re === false)
+                return false;
+
+            $max_date = date('Y-m-d', strtotime($max_date) + 86400);
+            $next_date = date('Y-m-d', strtotime($next_date) + 86400);
+        }
         
         return true;
+    }
+
+
+    private function getInsertData($date, $day_interval)
+    {
+        $insert_data = array();
+        $insert_data['register_date'] = $date;
+        if($day_interval >= 30)
+        {
+            $retain_30 = $this->calRetain($date, 30);
+            if($retain_30 === false)
+                return false;
+            $insert_data['retain_30'] = $retain_30;
+
+            $retain_7 = $this->calRetain($date, 7);
+            if($retain_7 === false)
+                return false;
+            $insert_data['retain_7'] = $retain_7;
+
+            $retain_3 = $this->calRetain($date, 3);
+            if($retain_3 === false)
+                return false;
+            $insert_data['retain_3'] = $retain_3;
+
+            $retain_2 = $this->calRetain($date, 2);
+            if($retain_2 === false)
+                return false;
+            $insert_data['retain_2'] = $retain_2;
+        }
+        elseif($day_interval >= 7)
+        {
+            $retain_7 = $this->calRetain($date, 7);
+            if($retain_7 === false)
+                return false;
+            $insert_data['retain_7'] = $retain_7;
+
+            $retain_3 = $this->calRetain($date, 3);
+            if($retain_3 === false)
+                return false;
+            $insert_data['retain_3'] = $retain_3;
+
+            $retain_2 = $this->calRetain($date, 2);
+            if($retain_2 === false)
+                return false;
+            $insert_data['retain_2'] = $retain_2;
+        }
+        elseif($day_interval >= 3)
+        {
+            $retain_3 = $this->calRetain($date, 3);
+            if($retain_3 === false)
+                return false;
+            $insert_data['retain_3'] = $retain_3;
+
+            $retain_2 = $this->calRetain($date, 2);
+            if($retain_2 === false)
+                return false;
+            $insert_data['retain_2'] = $retain_2;      
+        }
+        elseif($day_interval >= 2)
+        {
+            $retain_2 = $this->calRetain($date, 2);
+            if($retain_2 === false)
+                return false;
+            $insert_data['retain_2'] = $retain_2;
+        }
+        return $insert_data;
     }
 
     private function calRetain($reg_date, $day_interval)
@@ -223,7 +326,5 @@ EOF;
         $result = $obj_mod->where($condition)->save($data);
         return $result;
     }
-
-
-//test
+    
 }
