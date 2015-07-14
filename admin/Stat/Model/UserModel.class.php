@@ -118,6 +118,110 @@ EOF;
     public function calRetain()
     {
         
+        $sql = <<<EOF
+        SELECT MIN(register_date) `date` FROM t_user_retain 
+        WHERE retain_2 IS NULL OR retain_3 IS NULL OR retain_7 IS NULL OR retain_30 IS NULL
+EOF;
+        $re = queryByNoModel('t_user_retain', '', $this->stat_config, $sql);
+        if($re === false)
+            return false;
+        ## update表中的记录
+        if(count($re) > 0)
+        {
+            $sql = "SELECT * FROM t_user_retain WHERE register_date >= '" . $re[0]['date'] . "'";
+            $date_info = queryByNoModel('t_user_retain', '', $this->stat_config, $sql);
+            if($date_info === false)
+                return false;
+            for($i = 0; $i < count($date_info); $i++)
+            {
+                $reg_date = $date_info[$i]['register_date'];
+                $end_date = date("Y-m-d", strtotime("-1 day"));
+                $day_interval = (strtotime($end_date) - strtotime($reg_date)) / 86400; # 时间间隔
+                $update_date['retain_2'] = 0;
+                $update_date['update_2'] = 0;
+                $update_date['retain_3'] = 0;
+                $update_date['update_3'] = 0;
+                $update_date['retain_7'] = 0;
+                $update_date['update_7'] = 0;
+                $update_date['retain_30'] = 0;
+                $update_date['update_30'] = 0;
+
+                if(is_null($date_info[$i]['retain_2']) && $day_interval >= 2)
+                {
+                    $re = $this->calRetain($reg_date, 2);
+                    if($re === false)
+                        return false;
+                    $update_date['retain_2'] = $re[0]['total_retain'];
+                    $update_date['update_2'] = 1;
+                }
+                if(is_null($date_info[$i]['retain_3']) && $day_interval >= 3)
+                {
+                    $this->calRetain($reg_date, 3);
+                    if($re === false)
+                        return false;
+                    $update_date['retain_3'] = $re[0]['total_retain'];
+                    $update_date['update_3'] = 1;
+                }
+                if(is_null($date_info[$i]['retain_7']) && $day_interval >= 7)
+                {
+                    $this->calRetain($reg_date, 7);
+                    if($re === false)
+                        return false;
+                    $update_date['retain_7'] = $re[0]['total_retain'];
+                    $update_date['update_7'] = 1;
+                }
+                if(is_null($date_info[$i]['retain_30']) && $day_interval >= 30)
+                {
+                    $this->calRetain($reg_date, 30);
+                    if($re === false)
+                        return false;
+                    $update_date['retain_30'] = $re[0]['total_retain'];
+                    $update_date['update_30'] = 1;
+                }
+                ## update table
+                if($update_date['update_2'] == 1)
+                    $data['retain_2'] = $update_date['retain_2'];
+                if($update_date['update_3'] == 1)
+                    $data['retain_3'] = $update_date['retain_3'];
+                if($update_date['update_7'] == 1)
+                    $data['retain_7'] = $update_date['retain_7'];
+                if($update_date['update_30'] == 1)
+                    $data['retain_30'] = $update_date['retain_30'];
+
+                $condition['register_date'] = $reg_date;
+                $table = 't_user_retain';
+                $update_re = $this->updateTable($table, $condition, $data);
+                if($update_re === false)
+                    return false;
+            }
+        }
+        ## insert表中的记录
+        
+        
+        return true;
+    }
+
+    private function calRetain($reg_date, $day_interval)
+    {
+        $time1 = $reg_date . " 00:00:00";
+        $time2 = date("Y-m-d H:i:s", strtotime($time1) + 86400);
+        $time3 = date("Y-m-d H:i:s", strtotime($time1) + 86400 * $day_interval);
+        $sql = <<<EOF
+        SELECT COUNT(a.user_uid) total_retain FROM
+        (SELECT user_uid FROM imed.t_user_info WHERE create_time >= {$time1} AND create_time < {$time2} AND `status` = 1) a
+        LEFT JOIN (
+        SELECT user_uid, MIN(create_time) create_time FROM imed.`t_login_flow` 
+        WHERE `status` IN (1, 2) AND create_time >= {$time2} AND create_time < {$time3}
+        GROUP BY user_uid ) b ON a.user_uid = b.user_uid WHERE b.create_time IS NOT NULL;
+EOF;
+        return $this->query($sql);
+    }
+
+    private function updateTable($table, $condition, $data)
+    {
+        $obj_mod = M($table, '', $this->stat_config);
+        $result = $obj_mod->where($condition)->save($data);
+        return $result;
     }
 
 }
