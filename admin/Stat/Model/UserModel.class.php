@@ -14,6 +14,7 @@ class UserModel extends Model {
 
     public function calSummary()
     {
+        var_dump("into model");
         $sql = "SELECT MAX(datestamp) datestamp FROM t_user_summary";
         $date_info = queryByNoModel('t_user_summary', '', $this->stat_config, $sql);
         var_dump($date_info);

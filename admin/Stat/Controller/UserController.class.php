@@ -13,6 +13,7 @@ class UserController extends Controller {
 	## 计算用户数的基础信息
 	public function userSummary()
 	{
+		var_dump("into controller");
 		$re = $this->user->calSummary();
 		$this->writeLog($re, "userSummary");
 	}
