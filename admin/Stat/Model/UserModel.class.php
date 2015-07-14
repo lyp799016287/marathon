@@ -16,6 +16,7 @@ class UserModel extends Model {
     {
         $sql = "SELECT MAX(datestamp) datestamp FROM t_user_summary";
         $date_info = queryByNoModel('t_user_summary', '', $this->stat_config, $sql);
+        var_dump($date_info);
         if($date_info === false)
             return false;
         $str_tmp = "";
@@ -39,6 +40,7 @@ class UserModel extends Model {
         while($str_tmp < $now_date)
         {
             $endstamp = date("Y-m-d", strtotime($str_tmp) + 86400);
+            var_dump($endstamp);
             $endstamp = $endstamp . " 00:00:00";
             ## 计算当天的累计用户数
             $cumul_re = $this->cumulative_user($endstamp);
@@ -72,7 +74,9 @@ class UserModel extends Model {
 
             $i++;
             $str_tmp = $endstamp;
+
         }
+        var_dump($insert_data);
         return $this->insert_summary($insert_data);
     }
 
@@ -326,5 +330,5 @@ EOF;
         $result = $obj_mod->where($condition)->save($data);
         return $result;
     }
-    
+
 }
