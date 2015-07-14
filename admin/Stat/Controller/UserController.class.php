@@ -7,6 +7,7 @@ class UserController extends Controller {
 
 	public function _initialize()
 	{
+		var_dump("init User");
 		$this->user = D('user');
 	}
 
