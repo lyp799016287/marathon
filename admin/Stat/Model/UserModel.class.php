@@ -16,7 +16,7 @@ class UserModel extends Model {
     {
         $sql = "SELECT MAX(datestamp) datestamp FROM t_user_summary";
         $date_info = queryByNoModel('t_user_summary', '', $this->stat_config, $sql);
-        var_dump($date_info);
+        // var_dump($date_info);
         if($date_info === false)
             return false;
         $str_tmp = "";
@@ -25,18 +25,18 @@ class UserModel extends Model {
         if(!is_null($date_info[0]['datestamp']))
         {
             $str_tmp = date("Y-m-d", strtotime($date_info[0]['datestamp']) + 86400);
-            var_dump($str_tmp);
+            // var_dump($str_tmp);
         }
         else
         {
             $sql = "SELECT MIN(SUBSTRING(CAST(create_time AS CHAR(20)), 1, 10)) stamp FROM t_user_info WHERE `status` = 1";
             $re = $this->query($sql);
-            var_dump($re);
+            // var_dump($re);
             if($re === false)
                 return false;
             $str_tmp = $re[0]['stamp'];
         }
-        var_dump($str_tmp);exit;
+        // var_dump($str_tmp);exit;
 
         $insert_data = array();
         $i = 0;
@@ -78,7 +78,7 @@ class UserModel extends Model {
             $str_tmp = $endstamp;
 
         }
-        var_dump($insert_data);
+        var_dump($insert_data); exit;
         return $this->insert_summary($insert_data);
     }
 
