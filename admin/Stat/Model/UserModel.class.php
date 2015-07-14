@@ -136,6 +136,7 @@ EOF;
         // if(count($re) > 0)
         if(!is_null($re[0]['date']))
         {
+            var_dump("into not null");
             $sql = "SELECT * FROM t_user_retain WHERE register_date >= '" . $re[0]['date'] . "'";
             $date_info = queryByNoModel('t_user_retain', '', $this->stat_config, $sql);
             if($date_info === false)
@@ -209,7 +210,8 @@ EOF;
         $re = queryByNoModel('t_user_retain', '', $this->stat_config, $sql);
         if($re === false)
             return false;
-        if(count($re) > 0)
+        // if(count($re) > 0)
+        if(!is_null($re[0]['date']))
         {
             $max_date = $re[0]['date'];
         }
@@ -227,6 +229,7 @@ EOF;
             else
                 return;
         }
+        var_dump($max_date); exit;
 
         $next_date = date('Y-m-d', strtotime($max_date) + 86400);
         $now_date = date('Y-m-d', now());
