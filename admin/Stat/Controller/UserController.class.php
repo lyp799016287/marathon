@@ -8,7 +8,7 @@ class UserController extends Controller {
 	public function _initialize()
 	{
 		var_dump("init User");
-		$this->user = D('user');
+		$this->user = D('User');
 	}
 
 	## 计算用户数的基础信息
