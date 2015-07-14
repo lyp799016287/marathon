@@ -154,7 +154,7 @@ EOF;
 
                 if(is_null($date_info[$i]['retain_2']) && $day_interval >= 2)
                 {
-                    $re = $this->calRetain($reg_date, 2);
+                    $re = $this->calRetainNum($reg_date, 2);
                     if($re === false)
                         return false;
                     $update_date['retain_2'] = $re[0]['total_retain'];
@@ -162,7 +162,7 @@ EOF;
                 }
                 if(is_null($date_info[$i]['retain_3']) && $day_interval >= 3)
                 {
-                    $this->calRetain($reg_date, 3);
+                    $this->calRetainNum($reg_date, 3);
                     if($re === false)
                         return false;
                     $update_date['retain_3'] = $re[0]['total_retain'];
@@ -170,7 +170,7 @@ EOF;
                 }
                 if(is_null($date_info[$i]['retain_7']) && $day_interval >= 7)
                 {
-                    $this->calRetain($reg_date, 7);
+                    $this->calRetainNum($reg_date, 7);
                     if($re === false)
                         return false;
                     $update_date['retain_7'] = $re[0]['total_retain'];
@@ -178,7 +178,7 @@ EOF;
                 }
                 if(is_null($date_info[$i]['retain_30']) && $day_interval >= 30)
                 {
-                    $this->calRetain($reg_date, 30);
+                    $this->calRetainNum($reg_date, 30);
                     if($re === false)
                         return false;
                     $update_date['retain_30'] = $re[0]['total_retain'];
@@ -250,58 +250,58 @@ EOF;
         $insert_data['register_date'] = $date;
         if($day_interval >= 30)
         {
-            $retain_30 = $this->calRetain($date, 30);
+            $retain_30 = $this->calRetainNum($date, 30);
             if($retain_30 === false)
                 return false;
             $insert_data['retain_30'] = $retain_30;
 
-            $retain_7 = $this->calRetain($date, 7);
+            $retain_7 = $this->calRetainNum($date, 7);
             if($retain_7 === false)
                 return false;
             $insert_data['retain_7'] = $retain_7;
 
-            $retain_3 = $this->calRetain($date, 3);
+            $retain_3 = $this->calRetainNum($date, 3);
             if($retain_3 === false)
                 return false;
             $insert_data['retain_3'] = $retain_3;
 
-            $retain_2 = $this->calRetain($date, 2);
+            $retain_2 = $this->calRetainNum($date, 2);
             if($retain_2 === false)
                 return false;
             $insert_data['retain_2'] = $retain_2;
         }
         elseif($day_interval >= 7)
         {
-            $retain_7 = $this->calRetain($date, 7);
+            $retain_7 = $this->calRetainNum($date, 7);
             if($retain_7 === false)
                 return false;
             $insert_data['retain_7'] = $retain_7;
 
-            $retain_3 = $this->calRetain($date, 3);
+            $retain_3 = $this->calRetainNum($date, 3);
             if($retain_3 === false)
                 return false;
             $insert_data['retain_3'] = $retain_3;
 
-            $retain_2 = $this->calRetain($date, 2);
+            $retain_2 = $this->calRetainNum($date, 2);
             if($retain_2 === false)
                 return false;
             $insert_data['retain_2'] = $retain_2;
         }
         elseif($day_interval >= 3)
         {
-            $retain_3 = $this->calRetain($date, 3);
+            $retain_3 = $this->calRetainNum($date, 3);
             if($retain_3 === false)
                 return false;
             $insert_data['retain_3'] = $retain_3;
 
-            $retain_2 = $this->calRetain($date, 2);
+            $retain_2 = $this->calRetainNum($date, 2);
             if($retain_2 === false)
                 return false;
             $insert_data['retain_2'] = $retain_2;      
         }
         elseif($day_interval >= 2)
         {
-            $retain_2 = $this->calRetain($date, 2);
+            $retain_2 = $this->calRetainNum($date, 2);
             if($retain_2 === false)
                 return false;
             $insert_data['retain_2'] = $retain_2;
@@ -309,7 +309,7 @@ EOF;
         return $insert_data;
     }
 
-    private function calRetain($reg_date, $day_interval)
+    private function calRetainNum($reg_date, $day_interval)
     {
         $time1 = $reg_date . " 00:00:00";
         $time2 = date("Y-m-d H:i:s", strtotime($time1) + 86400);
