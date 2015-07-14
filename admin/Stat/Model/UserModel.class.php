@@ -232,7 +232,7 @@ EOF;
         // var_dump($max_date); exit;
 
         $next_date = date('Y-m-d', strtotime($max_date) + 86400);
-        $now_date = date('Y-m-d', now());
+        $now_date = date('Y-m-d', time());
         while($now_date > $next_date)
         {              
             $day_interval = (strtotime($now_date) - strtotime($max_date)) / 86400;
