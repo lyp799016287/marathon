@@ -113,8 +113,12 @@ class NewsController extends Controller {
 		$id = I('id', 0, 'intval');
 		$rs = $this->news->getNewsDetail($id);
 		//var_dump($rs);exit;
+
+		$content = str_replace("\n", "", $rs[0]['content']);
+		$content = str_replace("\r", "", $rs[0]['content']);
 		
 		$this->assign('data', $rs[0]);
+		$this->assign("content", $content);
 		$this->display("news_edit");
 	}
 
