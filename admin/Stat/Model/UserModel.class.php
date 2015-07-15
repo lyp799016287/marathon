@@ -395,7 +395,7 @@ EOF;
                 
                 $sql = <<<EOF
                 SELECT COUNT(user_uid) freq_num FROM t_login_flow 
-                WHERE `status` IN(1, 2) AND create_time >= {$bgn_time} AND create_time < {$end_time}
+                WHERE `status` IN(1, 2) AND create_time >= '{$bgn_time}' AND create_time < '{$end_time}'
 EOF;
                 $re = $this->query($sql);
                 if($re === false)
