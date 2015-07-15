@@ -1,28 +1,22 @@
 <?php
 namespace Stat\Controller;
 use Think\Controller;
-use Stat\Model\UserModel as UserModel;
+use Stat\Model\ShareModel as ShareModel;
 
-class UserController extends Controller {
+class ShareController extends Controller {
 
 	public function _initialize()
 	{
-		$this->user = D('User');
+		$this->share = D('Share');
 	}
 
-	## 计算用户数的基础信息
-	public function userSummary()
+	public function calShareDaily()
 	{
-		$re = $this->user->calSummary();
-		$this->writeLog($re, 'Stat\User\userSummary');
+		$re = $this->share->shareDaily();
+		$this->writeLog($re, "Stat\Share\calShareDaily");
 	}
 
-	## 计算用户留存率
-	public function userRetain()
-	{
-		$re = $this->user->calRetain();
-		$this->writeLog($re, 'Stat\User\userRetain');
-	}
+	
 
 	private function writeLog($result, $tag)
 	{

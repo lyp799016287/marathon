@@ -14,28 +14,28 @@ class InfoController extends Controller {
 	public function scanDaily()
 	{
 		$result = $this->info->calScanDaily();
-		$this->writeLog($result, 'scanDaily');
+		$this->writeLog($result, 'Stat\Info\scanDaily');
 	}
 
 	## 计算每天的评论量
 	public function commentDaily()
 	{
 		$result = $this->info->calCommentDaily();
-		$this->writeLog($result, 'commentDaily');
+		$this->writeLog($result, 'Stat\Info\commentDaily');
 	}
 
 	## 计算每天的分享量
 	public function shareDaily()
 	{
 		$result = $this->info->calShareDaily();
-		$this->writeLog($result, 'shareDaily');
+		$this->writeLog($result, 'Stat\Info\shareDaily');
 	}
 
 	## 将每天的资讯浏览量 评论量 分享量集合
 	public function mergeInfoDaily()
 	{
 		$result = $this->info->mergeInfo();
-		$this->writeLog($result, 'mergeInfoDaily');
+		$this->writeLog($result, 'Stat\Info\mergeInfoDaily');
 	}
 
 	## 跑脚本的内容  写log
