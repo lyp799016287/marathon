@@ -326,10 +326,10 @@ EOF;
         $time3 = date("Y-m-d H:i:s", strtotime($time1) + 86400 * $day_interval);
         $sql = <<<EOF
         SELECT COUNT(a.user_uid) total_retain FROM
-        (SELECT user_uid FROM imed.t_user_info WHERE create_time >= {$time1} AND create_time < {$time2} AND `status` = 1) a
+        (SELECT user_uid FROM imed.t_user_info WHERE create_time >= '{$time1}' AND create_time < '{$time2}' AND `status` = 1) a
         LEFT JOIN (
         SELECT user_uid, MIN(create_time) create_time FROM imed.`t_login_flow` 
-        WHERE `status` IN (1, 2) AND create_time >= {$time2} AND create_time < {$time3}
+        WHERE `status` IN (1, 2) AND create_time >= '{$time2}' AND create_time < '{$time3}'
         GROUP BY user_uid ) b ON a.user_uid = b.user_uid WHERE b.create_time IS NOT NULL;
 EOF;
         return $this->query($sql);
