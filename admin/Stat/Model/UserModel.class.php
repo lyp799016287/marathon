@@ -342,4 +342,76 @@ EOF;
         return $result;
     }
 
+    private function getHourTag()
+    {
+        $hour_ary = array();
+        for($i = 0; $i < 24; $i++)
+        {
+            if($i < 10)
+                $hour_ary[] = " 0" . $i . ":00:00";
+            else
+                $hour_ary[] = " " . $i . ":00:00";
+        }
+        $hour_ary[] = " 00:00:00";
+        return $hour_ary;
+    }
+
+    public function calFreq()
+    {
+        
+        $sql = "SELECT MAX(datestamp) `date` FROM t_user_time";
+        $date_re = queryByNoModel('t_user_time', '', $this->stat_config, $sql);
+        if($date_re === false)
+            return false;
+        $max_date = '';
+        if(!is_null($date_re[0]['date']))
+        {
+            $max_date = $date_re[0]['date'];
+            $max_date = date("Y-m-d", strtotime($max_date) + 86400);
+        }
+        else
+        {
+            $sql = "SELECT MIN(SUBSTRING(CAST(create_time AS CHAR(20)), 1, 10)) `date` FROM t_login_flow";
+            $re = $this->query($sql);
+            if($re === false)
+                return false;
+            if(!is_null($re[0]['date']))
+                $max_date = $re[0]['date'];
+            else
+                return;
+        }
+
+        $hour_ary = $this->getHourTag();
+        $now_date = date("Y-m-d", time());
+        while($max_date < $now_date)
+        {
+            for($i = 0; $i < 24; $i++)
+            {
+                $bgn_time = $max_date . $hour_ary[$i];
+                if($i != 23)
+                    $end_time = $max_date . $hour_ary[$i + 1];
+                else
+                    $end_time = date('Y-m-d', strtotime($max_date) + 86400) . $hour_ary[$i + 1];
+                
+                $sql = <<<EOF
+                SELECT COUNT(user_uid) freq_num FROM t_login_flow 
+                WHERE `status` IN(1, 2) AND create_time >= {$bgn_time} AND create_time < {$end_time}
+EOF;
+                $re = $this->query($sql);
+                if($re === false)
+                    return false;
+                $insert_data = array();
+                $insert_data['datestamp'] = $max_date;
+                $insert_data['hour_tag'] = $i;
+                $insert_data['freq_num'] = $re[0]['freq_num'];
+                $re = insertByNoModel('t_user_time', '', $this->stat_config, $insert_data);
+                if($re === false)
+                    return false;
+            }
+
+            $max_date = date('Y-m-d', strtotime($max_date) + 86400);
+        }
+        return true;
+    }
+
 }

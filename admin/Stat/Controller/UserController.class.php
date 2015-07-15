@@ -24,6 +24,13 @@ class UserController extends Controller {
 		$this->writeLog($re, 'Stat\User\userRetain');
 	}
 
+	## 用户使用（打开）APP的频率
+	public function userFreq()
+	{
+		$re = $this->user->calFreq();
+		$this->writeLog($re, 'Stat\User\userFreq');
+	}
+
 	private function writeLog($result, $tag)
 	{
 		$log_str = "";
