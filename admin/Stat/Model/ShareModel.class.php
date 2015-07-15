@@ -49,7 +49,7 @@ class ShareModel extends Model {
             $channel_result = $this->query($channel_sql);
             if($type_result === false || $channel_result === false)
                 return false;
-            var_dump(type_result); 
+            var_dump($type_result); 
 //             for($i = 0; $i < count($type_result); $i++)
 //                 for($j = 0; $j < count($channel_result); $j++)
 //                 {
