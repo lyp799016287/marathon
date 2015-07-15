@@ -50,29 +50,29 @@ class ShareModel extends Model {
             // var_dump($type_sql);
             if($type_result === false || $channel_result === false)
                 return false;
-            var_dump($type_result); 
-//             for($i = 0; $i < count($type_result); $i++)
-//                 for($j = 0; $j < count($channel_result); $j++)
-//                 {
-//                     $type = $type_result[$i]['type'];
-//                     $channel = $channel_result[$j]['channel'];
-//                     $sql = <<<EOF
-//                     SELECT COUNT(DISTINCT user_id) uv, COUNT(user_id) pv 
-//                     FROM imed.`t_share` WHERE create_time >= '{$bgn_date}' AND create_time < '{$end_date}';
-// EOF;
-//                     $tmp_re = $this->query($sql);
-//                     if($tmp_re === false)
-//                         return false;
-//                     $insert_data = array();
-//                     $insert_data['datestamp'] = $bgn_date;
-//                     $insert_data['type'] = $type;
-//                     $insert_data['channel'] = $channel;
-//                     $insert_data['pv'] = $tmp_re[0]['pv'];
-//                     $insert_data['uv'] = $tmp_re[0]['uv'];
-//                     $insert_re = insertByNoModel('t_share_daily', '', $this->stat_config, $insert_data); 
-//                     if($insert_re === false)
-//                         return false;
-//                 }
+            // var_dump($type_result); 
+            for($i = 0; $i < count($type_result); $i++)
+                for($j = 0; $j < count($channel_result); $j++)
+                {
+                    $type = $type_result[$i]['type'];
+                    $channel = $channel_result[$j]['channel'];
+                    $sql = <<<EOF
+                    SELECT COUNT(DISTINCT user_id) uv, COUNT(user_id) pv 
+                    FROM imed.`t_share` WHERE create_time >= '{$bgn_date}' AND create_time < '{$end_date}';
+EOF;
+                    $tmp_re = $this->query($sql);
+                    if($tmp_re === false)
+                        return false;
+                    $insert_data = array();
+                    $insert_data['datestamp'] = $bgn_date;
+                    $insert_data['type'] = $type;
+                    $insert_data['channel'] = $channel;
+                    $insert_data['pv'] = $tmp_re[0]['pv'];
+                    $insert_data['uv'] = $tmp_re[0]['uv'];
+                    $insert_re = insertByNoModel('t_share_daily', '', $this->stat_config, $insert_data); 
+                    if($insert_re === false)
+                        return false;
+                }
 
             $max_date = date('Y-m-d', strtotime($max_date) + 86400);
         }
