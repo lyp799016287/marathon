@@ -238,7 +238,7 @@ EOF;
             $day_interval = (strtotime($now_date) - strtotime($max_date)) / 86400;
             // var_dump($day_interval); exit;
             $data = $this->getInsertData($max_date, $day_interval);
-            var_dump($data); exit;
+            // var_dump($data); exit;
             if($data === false)
                 return false;
             $re = insertByNoModel('t_user_retain', '', $this->stat_config, $data); 
