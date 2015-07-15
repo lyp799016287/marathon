@@ -42,12 +42,12 @@ class ShareModel extends Model {
         while($max_date < $now_date)
         {
             $bgn_date = $max_date . " 00:00:00";
-            $end_date = date("Y-m-d H:i:s", strtotime($bgn_date));
+            $end_date = date("Y-m-d H:i:s", strtotime($bgn_date) + 86400);
             $type_sql = "SELECT DISTINCT `type` FROM t_share WHERE create_time >= '" . $bgn_date . "' AND create_time <'" . $end_date . "'";
             $channel_sql = "SELECT DISTINCT `channel` FROM t_share WHERE create_time >= '" . $bgn_date . "' AND create_time <'" . $end_date . "'";
             $type_result = $this->query($type_sql);
             $channel_result = $this->query($channel_sql);
-            var_dump($type_sql);
+            // var_dump($type_sql);
             if($type_result === false || $channel_result === false)
                 return false;
             var_dump($type_result); 
