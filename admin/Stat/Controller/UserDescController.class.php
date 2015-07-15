@@ -13,7 +13,7 @@ class UserDescController extends Controller {
 	## 用户设备信息（可实时）
 	public function deviceSummary()
 	{
-		$re = $this->user->calDevice();
+		$re = $this->desc->calDevice();
 		$this->writeLog($re, 'Stat\UserDesc\deviceSummary');
 	}
 
