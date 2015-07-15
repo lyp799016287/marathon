@@ -47,6 +47,7 @@ class ShareModel extends Model {
             $channel_sql = "SELECT DISTINCT `channel` FROM t_share WHERE create_time >= '" . $bgn_date . "' AND create_time <'" . $end_date . "'";
             $type_result = $this->query($type_sql);
             $channel_result = $this->query($channel_sql);
+            var_dump($type_sql);
             if($type_result === false || $channel_result === false)
                 return false;
             var_dump($type_result); 
