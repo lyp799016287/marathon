@@ -176,8 +176,8 @@ EOF;
         if($info_flow == false)
             return false;
 
-        $sql = "SELECT DISTINCT share_date FROM t_share_daily";
-        $info_daily = queryByNoModel('t_share_daily', '', $this->stat_config, $sql);
+        $sql = "SELECT DISTINCT share_date FROM t_share_info_daily";
+        $info_daily = queryByNoModel('t_share_info_daily', '', $this->stat_config, $sql);
         if($info_daily === false)
             return false;
         $date_info = array(); ## 存放尚未统计daily数据的date日期
@@ -209,7 +209,7 @@ EOF;
             if($re === false)
                 return false;
            
-            ## 将当天的数据插入到表t_share_daily中
+            ## 将当天的数据插入到表t_share_info_daily中
             for($k = 0; $k < count($re); $k++)
             {
                 $insert_data = array();
@@ -217,7 +217,7 @@ EOF;
                 $insert_data['pv'] = $re[$k]['pv'];
                 $insert_data['uv'] = $re[$k]['uv'];
                 $insert_data['share_date'] = $date;
-                $insert_re = insertByNoModel('t_share_daily', '', $this->stat_config, $insert_data); 
+                $insert_re = insertByNoModel('t_share_info_daily', '', $this->stat_config, $insert_data); 
                 if($insert_re === false)
                     return false;
             }  
@@ -242,7 +242,7 @@ EOF;
         b.`pv` comment_pv, b.`uv` comment_uv, c.`pv` share_pv, c.uv share_uv 
         FROM t_scan_flow_daily a 
         LEFT JOIN t_info_comment_daily b ON a.`info_id` = b.`info_id` AND a.`scan_date` = b.`comment_date`
-        LEFT JOIN t_share_daily c ON a.`scan_date` = c.`share_date` AND a.`info_id` = c.`info_id` {$time_str};
+        LEFT JOIN t_share_info_daily c ON a.`scan_date` = c.`share_date` AND a.`info_id` = c.`info_id` {$time_str};
 EOF;
         $info_daily = queryByNoModel('t_scan_flow_daily', '', $this->stat_config, $sql);
         if($info_daily === false)
