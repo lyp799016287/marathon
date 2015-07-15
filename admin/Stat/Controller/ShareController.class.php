@@ -16,8 +16,6 @@ class ShareController extends Controller {
 		$this->writeLog($re, "Stat\Share\calShareDaily");
 	}
 
-	
-
 	private function writeLog($result, $tag)
 	{
 		$log_str = "";
