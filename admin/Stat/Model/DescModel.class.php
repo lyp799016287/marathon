@@ -59,7 +59,7 @@ EOF;
                         break;
                 }
             }
-            var_dump($insert_data); exit;
+            // var_dump($insert_data); exit;
             $result = insertByNoModel('t_user_device_flow', '', $this->stat_config, $insert_data);
             if($result === false)
                 return false;
