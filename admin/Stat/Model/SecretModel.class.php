@@ -30,9 +30,10 @@ class SecretModel extends Model {
                 return $update_re;
             $update_data = $update_re['data'];
             $update_data['modify_time'] = date('Y-m-d H:i:s', time());
-            // var_dump($update_data);exit;
             $condition['datestamp'] = $max_date;
+            var_dump($update_data); var_dump($condition);
             $update_re = $this->updateTable('t_secret_daily', $update_data, $condition);
+            var_dump($update_re);
             if($update_re === false)
                 return array('code'=>-1, 'message'=>"更新实时数据失败");
         }
