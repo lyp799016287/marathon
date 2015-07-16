@@ -91,7 +91,8 @@ class FocusController extends Controller {
 			'start_date'	=> I('start_date'),
 			'end_date'		=> I('end_date'),
 			'level'			=> I('level', 1, 'intval'),
-			'action'		=> I('action', '')
+			'action'		=> I('action', ''),
+			'type'			=> I('type', 1, 'intval')
 		);
 		
 		if(ltrim($data['url'],'http://') == ''){

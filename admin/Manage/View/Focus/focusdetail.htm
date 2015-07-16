@@ -37,6 +37,15 @@
 				<label>链接：<input type="text" id="url" name="title" style="width:50%" value="{$data.url}" /></label>
 			</div>
 			<div>
+				<br />
+				<label>类型：<select style="width:180px;" id="img_type" name="img_type">
+								<option value="1">普通新闻</option>
+								<option value="0">活动</option>
+							</select>
+				</label>
+				<br />
+			</div>
+			<div>
 				<label>图片：</label>
 				<label><input type="file" name="uploadify" id="uploadify"></label>
 				<label><input type="button" id="uploadBtn" value="上传" /></label>
@@ -122,8 +131,9 @@ function querySubmit(){
 	params['level'] = $("#level_num").val();
 	params['action'] = 'edit';
 	params['id'] = $("#fid").val();
+	params['type'] = $("#img_type").val();
 
-	console.log(params);
+	//console.log(params);
 	if(params['img'] == ''){
 		alert("请上传图片");
 		return false;
