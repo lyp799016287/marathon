@@ -248,7 +248,6 @@ EOF;
         $info_daily = queryByNoModel('t_scan_flow_daily', '', $this->stat_config, $sql);
         if($info_daily === false)
             return array('code'=>-15, 'message'=>"查询错误：" . $sql);
-        var_dump("step 1");
         for($i = 0; $i < count($info_daily); $i++)
         {
             $insert_data = array();
@@ -265,13 +264,11 @@ EOF;
             if($insert_re === false)
                 return array('code'=>-16, 'message'=>"插入表数据错误：" . 't_info_daily');
         }
-        var_dump("step 2");
         ## 获取文章的发布时间
         $sql = "SELECT DISTINCT info_id FROM t_info_daily WHERE pub_time IS NULL";
         $id_list = queryByNoModel('t_info_daily', '', $this->stat_config, $sql); 
         if($id_list === false)
             return array('code'=>-17, 'message'=>"查询错误：" . $sql);
-        var_dump("step 3");
         if(count($id_list) > 0)
         {
             $in_str = "(";
@@ -280,13 +277,10 @@ EOF;
                     $in_str .= $id_list[$i]['info_id'] . ", ";
                 else
                     $in_str .= $id_list[$i]['info_id'] . ")";
-            var_dump($in_str);
             $sql = "SELECT info_id, create_time FROM t_info_summary WHERE info_id IN" . $in_str;
-            var_dump($sql);
             $list_result = $this->query($sql);
             if($list_result === false)
                 return array('code'=>-18, 'message'=>"查询错误：" . $sql);
-            var_dump("step 4");
             ## 更新t_info_daily表中文章的发布时间
             $obj_mod = M('t_info_daily', '', $this->stat_config);
             $obj_mod->execute("SET NAMES utf8");
