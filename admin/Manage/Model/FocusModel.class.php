@@ -84,7 +84,7 @@ class FocusModel extends Model {
 
 		//$sql = "INSERT INTO t_slider_panel_image (title,url,img_url,level,start_time,end_time,status)VALUES('".$data['title']."', '".$data['url']."', '".$data['img_url']."', '".$data['level']."', '".$data['start_time']."', '".$data['end_time']."', '".$data['status']."')";
 
-		$sql = "INSERT INTO t_slider_panel_image (title,url,img_url,level,start_time,end_time,status)VALUES('".$data['title']."', '".$data['url']."', '".$data['img_url']."', '".$data['level']."', '".$data['start_time']."', '".$data['end_time']."', '1')";
+		$sql = "INSERT INTO t_slider_panel_image (title,type,url,img_url,level,start_time,end_time,status)VALUES('".$data['title']."', '".$data['type']."', '".$data['url']."', '".$data['img_url']."', '".$data['level']."', '".$data['start_time']."', '".$data['end_time']."', '1')";
 
 		$rs = $this->exeSql($sql, true);
 		return $rs;
@@ -102,7 +102,7 @@ class FocusModel extends Model {
 			return false;
 		}
 
-		$sql = "UPDATE t_slider_panel_image SET title = '".$data['title']."', url = '".$data['url']."', img_url = '".$data['img_url']."', level = '".$data['level']."', start_time = '".$data['start_time']."', end_time = '".$data['end_time']."', modify_time = NOW() WHERE id = ".$data['id'];
+		$sql = "UPDATE t_slider_panel_image SET title = '".$data['title']."', type = '".$data['type']."', url = '".$data['url']."', img_url = '".$data['img_url']."', level = '".$data['level']."', start_time = '".$data['start_time']."', end_time = '".$data['end_time']."', modify_time = NOW() WHERE id = ".$data['id'];
 
 		//echo $sql;exit;
 
