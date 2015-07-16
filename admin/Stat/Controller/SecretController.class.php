@@ -13,7 +13,7 @@ class SecretController extends Controller {
 	public function calSecretDaily()
 	{
 		$re = $this->secret->secretDaily();
-		$this->writeLog($re, "Stat\Secret\calSecretDaily");
+		$this->writeLog($re, "Stat/Secret/calSecretDaily");
 	}
 
 	private function writeLog($result, $tag)

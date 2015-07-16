@@ -22,11 +22,11 @@ class InfoModel extends Model {
 EOF;
         $info_flow = queryByNoModel('t_scan_flow', '', $this->stat_config, $sql);
         if($info_flow === false)
-            return false;
+            return array('code'=>-1, 'message'=>'查询错误：' . $sql);
         $sql = "SELECT DISTINCT scan_date FROM t_scan_flow_daily";
         $info_daily = queryByNoModel('t_scan_flow_daily', '', $this->stat_config, $sql);
         if($info_daily === false)
-            return false;
+            return array('code'=>-2, 'message'=>'查询错误：' . $sql);
         $date_info = array(); ## 存放没有统计daily数据的date日期
         for($i = 0; $i < count($info_flow); $i++)
         {
@@ -54,7 +54,7 @@ EOF;
 EOF;
             $re = queryByNoModel('t_scan_flow', '', $this->stat_config, $sql);
             if($re === false)
-                return false;
+                return array('code'=>-3, 'message'=>'查询错误：' . $sql);
             ## 用登录用户的pv量
             $sql = <<<EOF
             SELECT info_id, COUNT(id) no_login_pv FROM t_scan_flow 
@@ -63,9 +63,9 @@ EOF;
 EOF;
             $re_no_login = queryByNoModel('t_scan_flow', '', $this->stat_config, $sql);
             if($re_no_login === false)
-                return false;
+                return array('code'=>-4, 'message'=>'查询错误：' . $sql);
             $re = $this->data_merge($re, $re_no_login);
-            var_dump($re);
+            // var_dump($re);
             ## 将当天的数据插入到表t_scan_flow_daily中
             for($k = 0; $k < count($re); $k++)
             {
@@ -77,10 +77,10 @@ EOF;
                 $insert_data['scan_date'] = $date;
                 $insert_re = insertByNoModel('t_scan_flow_daily', '', $this->stat_config, $insert_data); 
                 if($insert_re === false)
-                    return false;
+                    return array('code'=>-5, 'message'=>'插入表数据错误：' . 't_scan_flow_daily');
             }  
         }
-        return $date_info;
+        return array('code'=>1, 'message'=>'执行成功');
     }
 
 
@@ -114,11 +114,11 @@ EOF;
 EOF;
         $info_flow = $this->query($sql);
         if($info_flow == false)
-            return false;
+            return array('code'=>-6, 'message'=>"查询错误：" . $sql);
         $sql = "SELECT DISTINCT comment_date FROM t_info_comment_daily";
         $info_daily = queryByNoModel('t_info_comment_daily', '', $this->stat_config, $sql);
         if($info_daily === false)
-            return false;
+            return array('code'=>-7, 'message'=>"查询错误：" . $sql);
         $date_info = array(); ## 存放尚未统计daily数据的date日期
         for($i = 0; $i < count($info_flow); $i++)
         {
@@ -146,7 +146,7 @@ EOF;
 EOF;
             $re = $this->query($sql);
             if($re === false)
-                return false;
+                return array('code'=>-8, 'message'=>"查询错误：" . $sql);
            
             ## 将当天的数据插入到表t_info_comment_daily中
             for($k = 0; $k < count($re); $k++)
@@ -158,7 +158,7 @@ EOF;
                 $insert_data['comment_date'] = $date;
                 $insert_re = insertByNoModel('t_info_comment_daily', '', $this->stat_config, $insert_data); 
                 if($insert_re === false)
-                    return false;
+                    return array('code'=>-9, 'message'=>"插入表数据错误：" . 't_info_comment_daily');
             }  
         }
         return $date_info;
@@ -174,12 +174,12 @@ EOF;
 EOF;
         $info_flow = $this->query($sql);
         if($info_flow == false)
-            return false;
+            return array('code'=>-10, 'message'=>"查询错误：" . $sql);
 
         $sql = "SELECT DISTINCT share_date FROM t_share_info_daily";
         $info_daily = queryByNoModel('t_share_info_daily', '', $this->stat_config, $sql);
         if($info_daily === false)
-            return false;
+            return array('code'=>-11, 'message'=>"查询错误：" . $sql);
         $date_info = array(); ## 存放尚未统计daily数据的date日期
         for($i = 0; $i < count($info_flow); $i++)
         {
@@ -207,7 +207,7 @@ EOF;
 EOF;
             $re = $this->query($sql);
             if($re === false)
-                return false;
+                return array('code'=>-12, 'message'=>"查询错误：" . $sql);
            
             ## 将当天的数据插入到表t_share_info_daily中
             for($k = 0; $k < count($re); $k++)
@@ -219,7 +219,7 @@ EOF;
                 $insert_data['share_date'] = $date;
                 $insert_re = insertByNoModel('t_share_info_daily', '', $this->stat_config, $insert_data); 
                 if($insert_re === false)
-                    return false;
+                    return array('code'=>-13, 'message'=>"插入表数据错误：" . 't_share_info_daily');
             }  
         }
         return $date_info;
@@ -233,7 +233,7 @@ EOF;
         $date_info = queryByNoModel('t_info_daily', '', $this->stat_config, $sql);
         $time_str = "";
         if($date_info === false)
-            return false;
+            return array('code'=>-14, 'message'=>"查询错误：" . $sql);
         if(!is_null($date_info[0]['datestamp']))
             $time_str = " WHERE a.scan_date > '" . $date_info[0]['datestamp'] . "'";
 
@@ -246,7 +246,7 @@ EOF;
 EOF;
         $info_daily = queryByNoModel('t_scan_flow_daily', '', $this->stat_config, $sql);
         if($info_daily === false)
-            return false;
+            return array('code'=>-15, 'message'=>"查询错误：" . $sql);
         
         for($i = 0; $i < count($info_daily); $i++)
         {
@@ -262,13 +262,13 @@ EOF;
             $insert_data['share_uv'] = $info_daily[$i]['share_uv'];
             $insert_re = insertByNoModel('t_info_daily', '', $this->stat_config, $insert_data); 
             if($insert_re === false)
-                return false;
+                return array('code'=>-16, 'message'=>"插入表数据错误：" . 't_info_daily');
         }
         ## 获取文章的发布时间
         $sql = "SELECT DISTINCT info_id FROM t_info_daily WHERE pub_time IS NULL";
         $id_list = queryByNoModel('t_info_daily', '', $this->stat_config, $sql); 
         if($id_list === false)
-            return false;
+            return array('code'=>-17, 'message'=>"查询错误：" . $sql);
         if(count($id_list) > 0)
         {
             $in_str = "(";
@@ -280,7 +280,7 @@ EOF;
             $sql = "SELECT info_id, create_time FROM t_info_summary WHERE info_id IN" . $in_str;
             $list_result = $this->query($sql);
             if($list_result === false)
-                return false;
+                return array('code'=>-18, 'message'=>"查询错误：" . $sql);
 
             ## 更新t_info_daily表中文章的发布时间
             $obj_mod = M('t_info_daily', '', $this->stat_config);
@@ -292,10 +292,10 @@ EOF;
                 $data['pub_time'] = $list_result[$i]['create_time'];
                 $result = $obj_mod->where($condition)->save($data);
                 if($result === false)
-                    return false;
+                    return array('code'=>-19, 'message'=>"更新表数据错误：" . 't_info_daily');
             }
         }
-        return true;
+        return array('code'=>1, 'message'=>"执行成功");
     }
 
 }

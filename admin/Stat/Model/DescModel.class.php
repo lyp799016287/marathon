@@ -17,7 +17,7 @@ class DescModel extends Model {
         $sql = "SELECT MAX(login_time) login_time FROM t_user_device_flow";
         $re = queryByNoModel('t_user_device_flow', '', $this->stat_config, $sql);
         if($re === false)
-            return false;
+            return array('code'=>-1, 'message'=>"查询错误：" . $sql);
         $where_clause = ' 1';
         if(!is_null($re[0]['login_time']))
         {
@@ -30,7 +30,7 @@ class DescModel extends Model {
 EOF;
         $flow = $this->query($select_sql);
         if($flow === false)
-            return false;
+            return array('code'=>-2, 'message'=>"查询错误：" . $select_sql);
         for($i = 0; $i < count($flow); $i++)
         {
             $insert_data = array();
@@ -62,9 +62,9 @@ EOF;
             // var_dump($insert_data); exit;
             $result = insertByNoModel('t_user_device_flow', '', $this->stat_config, $insert_data);
             if($result === false)
-                return false;
+                return array('code'=>-3, 'message'=>"插入数据表错误：" . 't_user_device_flow');
         }
-        return true;
+        return array('code'=>1, 'message'=>'执行成功');
     }
 
 }

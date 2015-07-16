@@ -14,28 +14,28 @@ class InfoController extends Controller {
 	public function scanDaily()
 	{
 		$result = $this->info->calScanDaily();
-		$this->writeLog($result, 'Stat\Info\scanDaily');
+		$this->writeLog($result, 'Stat/Info/scanDaily');
 	}
 
 	## 计算每天的评论量
 	public function commentDaily()
 	{
 		$result = $this->info->calCommentDaily();
-		$this->writeLog($result, 'Stat\Info\commentDaily');
+		$this->writeLog($result, 'Stat/Info/commentDaily');
 	}
 
 	## 计算每天的分享量
 	public function shareDaily()
 	{
 		$result = $this->info->calShareDaily();
-		$this->writeLog($result, 'Stat\Info\shareDaily');
+		$this->writeLog($result, 'Stat/Info/shareDaily');
 	}
 
 	## 将每天的资讯浏览量 评论量 分享量集合
 	public function mergeInfoDaily()
 	{
 		$result = $this->info->mergeInfo();
-		$this->writeLog($result, 'Stat\Info\mergeInfoDaily');
+		$this->writeLog($result, 'Stat/Info/mergeInfoDaily');
 	}
 
 	## 跑脚本的内容  写log
@@ -43,14 +43,14 @@ class InfoController extends Controller {
 	{
 		$log_str = "";
 		$time = date('Y-m-d H:i:s', time());
-		$log_str .= $time . ' ' . $tag . ': ';
-		if($result !== false)
-		{
-			for($i = 0; $i < count($result); $i++)
-				$log_str .= $result[$i] . ", ";
-		}
-		else
-			$log_str .= 'execute error';
+		$log_str .= $time . ' ' . $tag . ': ' . $result['code'] . "   " . $result['message'];
+		// if($result !== false)
+		// {
+		// 	for($i = 0; $i < count($result); $i++)
+		// 		$log_str .= $result[$i] . ", ";
+		// }
+		// else
+		// 	$log_str .= 'execute error';
 		$log_str .= "\n";
 		$dir_name = dirname(dirname(dirname(__FILE__)));
 		$dir_name = $dir_name . "/Runtime/ScriptLogs/";

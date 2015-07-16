@@ -18,7 +18,7 @@ class UserModel extends Model {
         $date_info = queryByNoModel('t_user_summary', '', $this->stat_config, $sql);
         // var_dump($date_info);
         if($date_info === false)
-            return false;
+            return array('code'=>-1, 'message'=>'查询错误：' . $sql);
         $str_tmp = "";
         $now_date = date("Y-m-d", time());
         // if(count($date_info) > 0)
@@ -33,7 +33,7 @@ class UserModel extends Model {
             $re = $this->query($sql);
             // var_dump($re);
             if($re === false)
-                return false;
+                return array('code'=>-2, 'message'=>'查询错误：' . $sql);
             $str_tmp = $re[0]['stamp'];
         }
         // var_dump($str_tmp);exit;
@@ -47,13 +47,13 @@ class UserModel extends Model {
             ## 计算当天的累计用户数
             $cumul_re = $this->cumulative_user($endstamp);
             if($cumul_re === false)
-                return false;
+                return array('code'=>-3, 'message'=>'查询错误：' . 'cumulative_user');
             $insert_data[$i]['cumulation_user'] = $cumul_re[0]['cumulation_user'];
             $insert_data[$i]['datestamp'] = date("Y-m-d", strtotime($str_tmp));
             ## 计算当天的新增用户数
             $new_re = $this->new_user($str_tmp, $endstamp);
             if($new_re === false)
-                return $new_re;
+                return array('code'=>-4, 'message'=>'查询错误：' . 'new_user');
             if(count($new_re) == 0)
                 $insert_data[$i]['new_user'] = 0;
             else
@@ -61,7 +61,7 @@ class UserModel extends Model {
             ## 计算当天的登录用户数、活跃用户数（=当天有打开APP的登录用户数-新增用户数）
             $login_re = $this->login_user($str_tmp, $endstamp);
             if($login_re === false)
-                return false;
+                return array('code'=>-5, 'message'=>'查询错误：' . 'login_user');
             if(count($login_re) == 0)
             {
                 $insert_data[$i]['login_user'] = 0;
@@ -117,9 +117,9 @@ EOF;
             $insert_data = $data[$i];
             $re = insertByNoModel('t_user_summary', '', $this->stat_config, $insert_data); 
             if($re === false)
-                return false;
+                return array('code'=>-6, 'message'=>"插入数据表错误：" . 't_user_summary');
         }
-        return true;
+        return array('code'=>1, 'message'=>'执行成功');
     }
 
     public function calRetain()
@@ -131,16 +131,16 @@ EOF;
 EOF;
         $re = queryByNoModel('t_user_retain', '', $this->stat_config, $sql);
         if($re === false)
-            return false;
+            return array('code'=>-7, 'message'=>"查询错误：". $sql);
         ## update表中的记录
         // if(count($re) > 0)
         if(!is_null($re[0]['date']))
         {
-            var_dump("into not null");
+            // var_dump("into not null");
             $sql = "SELECT * FROM t_user_retain WHERE register_date >= '" . $re[0]['date'] . "'";
             $date_info = queryByNoModel('t_user_retain', '', $this->stat_config, $sql);
             if($date_info === false)
-                return false;
+                return array('code'=>-8, 'message'=>"查询错误：". $sql);
             for($i = 0; $i < count($date_info); $i++)
             {
                 $reg_date = $date_info[$i]['register_date'];
@@ -159,7 +159,7 @@ EOF;
                 {
                     $re = $this->calRetainNum($reg_date, 2);
                     if($re === false)
-                        return false;
+                        return array('code'=>-9, 'message'=>"执行错误");
                     $update_date['retain_2'] = $re[0]['total_retain'];
                     $update_date['update_2'] = 1;
                 }
@@ -167,7 +167,7 @@ EOF;
                 {
                     $this->calRetainNum($reg_date, 3);
                     if($re === false)
-                        return false;
+                        return array('code'=>-10, 'message'=>"执行错误");
                     $update_date['retain_3'] = $re[0]['total_retain'];
                     $update_date['update_3'] = 1;
                 }
@@ -175,7 +175,7 @@ EOF;
                 {
                     $this->calRetainNum($reg_date, 7);
                     if($re === false)
-                        return false;
+                        return array('code'=>-11, 'message'=>"执行错误");
                     $update_date['retain_7'] = $re[0]['total_retain'];
                     $update_date['update_7'] = 1;
                 }
@@ -183,7 +183,7 @@ EOF;
                 {
                     $this->calRetainNum($reg_date, 30);
                     if($re === false)
-                        return false;
+                        return array('code'=>-12, 'message'=>"执行错误");
                     $update_date['retain_30'] = $re[0]['total_retain'];
                     $update_date['update_30'] = 1;
                 }
@@ -197,19 +197,19 @@ EOF;
                 if($update_date['update_30'] == 1)
                     $data['retain_30'] = $update_date['retain_30'];
 
-                $data['modify_time'] = now();
+                $data['modify_time'] = date('Y-m-d H:i:s', time());
                 $condition['register_date'] = $reg_date;
                 $table = 't_user_retain';
                 $update_re = $this->updateTable($table, $condition, $data);
                 if($update_re === false)
-                    return false;
+                    return array('code'=>-13, 'message'=>"更新表数据错误：" . 't_user_retain');;
             }
         }
         ## insert表中的记录
         $sql = "SELECT MAX(register_date) `date` FROM t_user_retain";
         $re = queryByNoModel('t_user_retain', '', $this->stat_config, $sql);
         if($re === false)
-            return false;
+            return array('code'=>-14, 'message'=>'查询错误：' . $sql);
         // if(count($re) > 0)
         if(!is_null($re[0]['date']))
         {
@@ -220,14 +220,14 @@ EOF;
             $sql = "SELECT MIN(SUBSTRING(CAST(create_time AS CHAR(20)), 1, 10)) `date` FROM `t_user_info`";
             $min_date = $this->query($sql);
             if($min_date === false)
-                return false;
+                return array('code'=>-15, 'message'=>'查询错误：' . $sql);
             if(count($min_date) > 0)
             {
                 $min_date = $min_date[0]['date'];
                 $max_date = $min_date;
             }
             else
-                return;
+                return array('code'=>0, 'message'=>'无更新数据');
         }
         // var_dump($max_date); exit;
 
@@ -239,11 +239,11 @@ EOF;
             // var_dump($day_interval); exit;
             $data = $this->getInsertData($max_date, $day_interval);
             // var_dump($data); exit;
-            if($data === false)
-                return false;
-            $re = insertByNoModel('t_user_retain', '', $this->stat_config, $data); 
+            if($data['code'] < 0)
+                return array('code'=>-16, 'message'=>'获取数据错误');
+            $re = insertByNoModel('t_user_retain', '', $this->stat_config, $data['data']); 
             if($re === false)
-                return false;
+                return array('code'=>-17, 'message'=>'插入数据表错误');
 
 
             $max_date = date('Y-m-d', strtotime($max_date) + 86400);
@@ -262,61 +262,61 @@ EOF;
         {
             $retain_30 = $this->calRetainNum($date, 30);
             if($retain_30 === false)
-                return false;
+                return array('code'=>-18, 'message'=>"执行错误");
             $insert_data['retain_30'] = $retain_30[0]['total_retain'];
 
             $retain_7 = $this->calRetainNum($date, 7);
             if($retain_7 === false)
-                return false;
+                return array('code'=>-19, 'message'=>"执行错误");
             $insert_data['retain_7'] = $retain_7[0]['total_retain'];
 
             $retain_3 = $this->calRetainNum($date, 3);
             if($retain_3 === false)
-                return false;
+                return array('code'=>-20, 'message'=>"执行错误");
             $insert_data['retain_3'] = $retain_3[0]['total_retain'];
 
             $retain_2 = $this->calRetainNum($date, 2);
             if($retain_2 === false)
-                return false;
+                return array('code'=>-21, 'message'=>"执行错误");
             $insert_data['retain_2'] = $retain_2[0]['total_retain'];
         }
         elseif($day_interval >= 7)
         {
             $retain_7 = $this->calRetainNum($date, 7);
             if($retain_7 === false)
-                return false;
+                return array('code'=>-22, 'message'=>"执行错误");
             $insert_data['retain_7'] = $retain_7[0]['total_retain'];
 
             $retain_3 = $this->calRetainNum($date, 3);
             if($retain_3 === false)
-                return false;
+                return array('code'=>-23, 'message'=>"执行错误");
             $insert_data['retain_3'] = $retain_3[0]['total_retain'];
 
             $retain_2 = $this->calRetainNum($date, 2);
             if($retain_2 === false)
-                return false;
+                return array('code'=>-24, 'message'=>"执行错误");
             $insert_data['retain_2'] = $retain_2[0]['total_retain'];
         }
         elseif($day_interval >= 3)
         {
             $retain_3 = $this->calRetainNum($date, 3);
             if($retain_3 === false)
-                return false;
+                return array('code'=>-25, 'message'=>"执行错误");
             $insert_data['retain_3'] = $retain_3[0]['total_retain'];
 
             $retain_2 = $this->calRetainNum($date, 2);
             if($retain_2 === false)
-                return false;
+                return array('code'=>-26, 'message'=>"执行错误");
             $insert_data['retain_2'] = $retain_2[0]['total_retain'];      
         }
         elseif($day_interval >= 2)
         {
             $retain_2 = $this->calRetainNum($date, 2);
             if($retain_2 === false)
-                return false;
+                return array('code'=>-27, 'message'=>"执行错误");
             $insert_data['retain_2'] = $retain_2[0]['total_retain'];
         }
-        return $insert_data;
+        return array('code'=>1, 'message'=>'', 'data'=>$insert_data);
     }
 
     private function calRetainNum($reg_date, $day_interval)
@@ -362,7 +362,7 @@ EOF;
         $sql = "SELECT MAX(datestamp) `date` FROM t_user_time";
         $date_re = queryByNoModel('t_user_time', '', $this->stat_config, $sql);
         if($date_re === false)
-            return false;
+            return array('code'=>-28, 'message'=>"查询错误：" . $sql);
         $max_date = '';
         if(!is_null($date_re[0]['date']))
         {
@@ -374,11 +374,11 @@ EOF;
             $sql = "SELECT MIN(SUBSTRING(CAST(create_time AS CHAR(20)), 1, 10)) `date` FROM t_login_flow";
             $re = $this->query($sql);
             if($re === false)
-                return false;
+                return array('code'=>-29, 'message'=>"查询错误：" . $sql);
             if(!is_null($re[0]['date']))
                 $max_date = $re[0]['date'];
             else
-                return;
+                return array('code'=>0, 'message'=>"无更新数据" . $sql);
         }
 
         $hour_ary = $this->getHourTag();
@@ -399,19 +399,19 @@ EOF;
 EOF;
                 $re = $this->query($sql);
                 if($re === false)
-                    return false;
+                    return array('code'=>-30, 'message'=>"查询错误：" . $sql);
                 $insert_data = array();
                 $insert_data['datestamp'] = $max_date;
                 $insert_data['hour_tag'] = $i;
                 $insert_data['freq_num'] = $re[0]['freq_num'];
                 $re = insertByNoModel('t_user_time', '', $this->stat_config, $insert_data);
                 if($re === false)
-                    return false;
+                    return array('code'=>-31, 'message'=>"插入数据表错误：" . 't_user_time');
             }
 
             $max_date = date('Y-m-d', strtotime($max_date) + 86400);
         }
-        return true;
+        return array('code'=>1, 'message'=>"执行成功");
     }
 
 }

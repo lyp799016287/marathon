@@ -14,28 +14,28 @@ class UserController extends Controller {
 	public function userSummary()
 	{
 		$re = $this->user->calSummary();
-		$this->writeLog($re, 'Stat\User\userSummary');
+		$this->writeLog($re, 'Stat/User/userSummary');
 	}
 
 	## 计算用户留存率
 	public function userRetain()
 	{
 		$re = $this->user->calRetain();
-		$this->writeLog($re, 'Stat\User\userRetain');
+		$this->writeLog($re, 'Stat/User/userRetain');
 	}
 
 	## 用户使用（打开）APP的频率
 	public function userFreq()
 	{
 		$re = $this->user->calFreq();
-		$this->writeLog($re, 'Stat\User\userFreq');
+		$this->writeLog($re, 'Stat/User/userFreq');
 	}
 
 	private function writeLog($result, $tag)
 	{
 		$log_str = "";
 		$time = date('Y-m-d H:i:s', time());
-		$log_str .= $time . ' ' . $tag . ': ' . $result;
+		$log_str .= $time . ' ' . $tag . ': ' . $result['code'] . '  ' . $result['message'];
 		$log_str .= "\n";
 		$dir_name = dirname(dirname(dirname(__FILE__)));
 		$dir_name = $dir_name . "/Runtime/ScriptLogs/";

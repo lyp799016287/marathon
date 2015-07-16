@@ -18,7 +18,7 @@ class ShareModel extends Model {
         $sql = "SELECT MAX(datestamp) `date` FROM t_share_daily";
         $re = queryByNoModel('t_share_daily', '', $this->stat_config, $sql);
         if($re === false)
-            return false;
+            return array('code'=>-1, 'message'=>'查询错误：' . $sql);
         $max_date = '';
         if(!is_null($re[0]['date']))
         {
@@ -30,11 +30,11 @@ class ShareModel extends Model {
             $sql = "SELECT MIN(SUBSTRING(CAST(create_time AS CHAR(20)), 1, 10)) `date` FROM t_share";
             $re = $this->query($sql);
             if($re === false)
-                return false;
+                return array('code'=>-2, 'message'=>'查询错误：' . $sql);
             if(!is_null($re[0]['date']))
                 $max_date = $re[0]['date'];
             else
-                return;
+                return array('code'=>0, 'message'=>'无更新数据');
         }
         // var_dump($max_date); exit;
         ## 计算每天的数据 插入表stat.t_share_daily
@@ -49,7 +49,7 @@ class ShareModel extends Model {
             $channel_result = $this->query($channel_sql);
             // var_dump($type_sql);
             if($type_result === false || $channel_result === false)
-                return false;
+                return array('code'=>-3, 'message'=>'查询错误：' . $type_sql . "||" . $channel_sql);
             // var_dump($type_result); 
             for($i = 0; $i < count($type_result); $i++)
                 for($j = 0; $j < count($channel_result); $j++)
@@ -62,7 +62,7 @@ class ShareModel extends Model {
 EOF;
                     $tmp_re = $this->query($sql);
                     if($tmp_re === false)
-                        return false;
+                        return array('code'=>-4, 'message'=>'查询错误：' . $sql);
                     $insert_data = array();
                     $insert_data['datestamp'] = $bgn_date;
                     $insert_data['type'] = $type;
@@ -71,12 +71,12 @@ EOF;
                     $insert_data['uv'] = $tmp_re[0]['uv'];
                     $insert_re = insertByNoModel('t_share_daily', '', $this->stat_config, $insert_data); 
                     if($insert_re === false)
-                        return false;
+                        return array('code'=>-5, 'message'=>'插入数据表错误：' . 't_share_daily');
                 }
 
             $max_date = date('Y-m-d', strtotime($max_date) + 86400);
         }
-        return true;
+        return array('code'=>1, 'message'=>'执行成功');
     }
 
 

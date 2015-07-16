@@ -14,7 +14,7 @@ class UserDescController extends Controller {
 	public function deviceSummary()
 	{
 		$re = $this->desc->calDevice();
-		$this->writeLog($re, 'Stat\UserDesc\deviceSummary');
+		$this->writeLog($re, 'Stat/UserDesc/deviceSummary');
 	}
 
 	
@@ -22,7 +22,7 @@ class UserDescController extends Controller {
 	{
 		$log_str = "";
 		$time = date('Y-m-d H:i:s', time());
-		$log_str .= $time . ' ' . $tag . ': ' . $result;
+		$log_str .= $time . ' ' . $tag . ': ' . $result['code'] . '   ' . $result['message'];
 		$log_str .= "\n";
 		$dir_name = dirname(dirname(dirname(__FILE__)));
 		$dir_name = $dir_name . "/Runtime/ScriptLogs/";

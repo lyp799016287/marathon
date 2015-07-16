@@ -13,14 +13,14 @@ class ShareController extends Controller {
 	public function calShareDaily()
 	{
 		$re = $this->share->shareDaily();
-		$this->writeLog($re, "Stat\Share\calShareDaily");
+		$this->writeLog($re, "Stat/Share/calShareDaily");
 	}
 
 	private function writeLog($result, $tag)
 	{
 		$log_str = "";
 		$time = date('Y-m-d H:i:s', time());
-		$log_str .= $time . ' ' . $tag . ': ' . $result;
+		$log_str .= $time . ' ' . $tag . ': ' . $result['code'] . '  ' . $result['message'];
 		$log_str .= "\n";
 		$dir_name = dirname(dirname(dirname(__FILE__)));
 		$dir_name = $dir_name . "/Runtime/ScriptLogs/";
