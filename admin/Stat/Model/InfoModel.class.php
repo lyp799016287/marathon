@@ -277,9 +277,9 @@ EOF;
             $in_str = "(";
             for($i = 0; $i < count($id_list); $i++)
                 if($i != count($id_list) - 1)
-                    $in_str .= $id_list . ", ";
+                    $in_str .= $id_list[$i] . ", ";
                 else
-                    $in_str .= $id_list . ")";
+                    $in_str .= $id_list[$i] . ")";
             $sql = "SELECT info_id, create_time FROM t_info_summary WHERE info_id IN" . $in_str;
             $list_result = $this->query($sql);
             if($list_result === false)
