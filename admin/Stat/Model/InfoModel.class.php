@@ -293,7 +293,6 @@ EOF;
                 if($result === false)
                     return array('code'=>-19, 'message'=>"更新表数据错误：" . 't_info_daily');
             }
-            var_dump("step 5");
         }
         return array('code'=>1, 'message'=>"执行成功");
     }
