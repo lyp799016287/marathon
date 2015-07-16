@@ -280,7 +280,9 @@ EOF;
                     $in_str .= $id_list[$i] . ", ";
                 else
                     $in_str .= $id_list[$i] . ")";
+            var_dump($in_str);
             $sql = "SELECT info_id, create_time FROM t_info_summary WHERE info_id IN" . $in_str;
+            var_dump($sql);
             $list_result = $this->query($sql);
             if($list_result === false)
                 return array('code'=>-18, 'message'=>"查询错误：" . $sql);
