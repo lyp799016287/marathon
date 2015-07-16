@@ -29,6 +29,7 @@ class SecretModel extends Model {
             if($update_re['code'] < 0)
                 return $update_re;
             $update_data = $update_re['data'];
+            $update_data['modify_time'] = time();
             $condition['datestamp'] = $max_date;
             $update_re = $this->updateTable('t_secret_daily', $update_data, $condition);
             if($update_re === false)
