@@ -244,6 +244,7 @@ EOF;
         LEFT JOIN t_info_comment_daily b ON a.`info_id` = b.`info_id` AND a.`scan_date` = b.`comment_date`
         LEFT JOIN t_share_info_daily c ON a.`scan_date` = c.`share_date` AND a.`info_id` = c.`info_id` {$time_str};
 EOF;
+        var_dump($sql);
         $info_daily = queryByNoModel('t_scan_flow_daily', '', $this->stat_config, $sql);
         if($info_daily === false)
             return array('code'=>-15, 'message'=>"查询错误：" . $sql);
