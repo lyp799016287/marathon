@@ -39,7 +39,7 @@ class SecretModel extends Model {
         {
             if(is_null($max_date))
             {
-                var_dump($max_date); exit;
+                // var_dump($max_date); exit;
                 $sql = "SELECT MIN(SUBSTRING(CAST(create_time AS CHAR(20)), 1, 10)) `date` FROM t_secret";
                 $date = $this->query($sql);
                 if($date === false)
@@ -55,7 +55,7 @@ class SecretModel extends Model {
                     return $insert_re;
                 $insert_data = $insert_re['data'];
                 $insert_data['datestamp'] = $max_date;
-
+                var_dump($insert_data); exit;
                 $insert_re = insertByNoModel('t_secret_daily', '', $this->stat_config, $insert_data);
                 if($insert_re === false)
                     return array('code'=>-3, 'message'=>"执行insert操作失败，datestamp为：" . $max_date);
