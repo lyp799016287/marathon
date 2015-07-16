@@ -55,7 +55,7 @@ class SecretModel extends Model {
                     return $insert_re;
                 $insert_data = $insert_re['data'];
                 $insert_data['datestamp'] = $max_date;
-                var_dump($insert_data); exit;
+                // var_dump($insert_data); exit;
                 $insert_re = insertByNoModel('t_secret_daily', '', $this->stat_config, $insert_data);
                 if($insert_re === false)
                     return array('code'=>-3, 'message'=>"执行insert操作失败，datestamp为：" . $max_date);
