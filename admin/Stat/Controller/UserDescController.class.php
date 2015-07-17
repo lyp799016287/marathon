@@ -26,9 +26,11 @@ class UserDescController extends Controller {
 		$log_str .= "\n";
 		$dir_name = dirname(dirname(dirname(__FILE__)));
 		$dir_name = $dir_name . "/Runtime/ScriptLogs/";
-		var_dump($dir_name);
+		// var_dump($dir_name);
 		$date = date('Y-m-d', time());
 		$file_name = $dir_name . $date . ".txt";
+		var_dump($file_name);
+		var_dump($log_str);
 		try
 		{
 			$f_obj = fopen($file_name, 'a');
