@@ -36,6 +36,7 @@ class UserDescController extends Controller {
 		}
 		catch(Exception $e)
 		{
+			var_dump("write log error");
 			print $e->getMessage();
 			exit();
 		}
