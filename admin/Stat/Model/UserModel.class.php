@@ -205,6 +205,7 @@ EOF;
                 var_dump($condition);
                 $update_re = $this->updateTable($table, $condition, $data);
                 var_dump($update_re);
+                exit;
                 if($update_re === false)
                     return array('code'=>-13, 'message'=>"更新表数据错误：" . 't_user_retain');
             }
