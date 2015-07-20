@@ -346,7 +346,7 @@ EOF;
         var_dump($obj_mod);
         var_dump($condition);
         var_dump($data);
-        $result = $obj_mod->where($condition)->save($data);
+        $result = $obj_mod->where($condition)->setField($data);
         var_dump($result);
         return $result;
     }
