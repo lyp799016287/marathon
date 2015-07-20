@@ -202,7 +202,7 @@ EOF;
                 $condition = "register_date = '" . $reg_date . "'";
                 $table = 't_user_retain';
                 $update_re = $this->updateTable($table, $condition, $data);
-                exit;
+                // exit;
                 if($update_re === false)
                     return array('code'=>-13, 'message'=>"更新表数据错误：" . 't_user_retain');
             }
@@ -341,7 +341,6 @@ EOF;
     {
         $obj_mod = M($table, '', $this->stat_config);
         $result = $obj_mod->where($condition)->setField($data);
-        var_dump($result);
         return $result;
     }
 
