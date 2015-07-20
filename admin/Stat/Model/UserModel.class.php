@@ -201,10 +201,10 @@ EOF;
                 // $condition['register_date'] = $reg_date;
                 $condition = "register_date = '" . $reg_date . "'";
                 $table = 't_user_retain';
-                var_dump($data);
-                var_dump($condition);
+                // var_dump($data);
+                // var_dump($condition);
                 $update_re = $this->updateTable($table, $condition, $data);
-                var_dump($update_re);
+                // var_dump($update_re);
                 exit;
                 if($update_re === false)
                     return array('code'=>-13, 'message'=>"更新表数据错误：" . 't_user_retain');
@@ -343,7 +343,11 @@ EOF;
     private function updateTable($table, $condition, $data)
     {
         $obj_mod = M($table, '', $this->stat_config);
+        var_dump($obj_mod);
+        var_dump($condition);
+        var_dump($data);
         $result = $obj_mod->where($condition)->save($data);
+        var_dump($result);
         return $result;
     }
 
