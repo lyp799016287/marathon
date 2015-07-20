@@ -200,9 +200,11 @@ EOF;
                 $data['modify_time'] = date('Y-m-d H:i:s', time());
                 $condition['register_date'] = $reg_date;
                 $table = 't_user_retain';
+                var_dump($data);
+                var_dump($condition);
                 $update_re = $this->updateTable($table, $condition, $data);
                 if($update_re === false)
-                    return array('code'=>-13, 'message'=>"更新表数据错误：" . 't_user_retain');;
+                    return array('code'=>-13, 'message'=>"更新表数据错误：" . 't_user_retain');
             }
         }
         ## insert表中的记录
