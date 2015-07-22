@@ -28,7 +28,7 @@ class UserModel extends Model {
             $date_end = $re[0]['datestamp']; ## 最大的日期
             $date_bgn = $re[count($re) - 1]['datestamp']; ## 最小的日期
 
-            $return_ary = array(););
+            $return_ary = array();
             while($date_bgn < $date_end)
             {
                 $idx = $this->getIdx($re, $date_bgn);
