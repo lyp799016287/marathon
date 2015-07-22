@@ -20,13 +20,13 @@ class UserController extends Controller {
 		$result = $this->user->getLatestCumu($type); 
 		if(!empty($result))
 		{
-			header("Content-Type: text/html;charset=utf-8");
-			exit("信息获取失败");
+			$this->assign("data", $result);
+			$this->display("cumulateUser");
 		}
 		else
 		{
-			$this->assign("data", $result);
-			$this->display("cumulateUser");
+			header("Content-Type: text/html;charset=utf-8");
+			exit("信息获取失败");
 		}
 	}
 
