@@ -19,6 +19,7 @@ class UserModel extends Model {
             return false;
         // var_dump($date_bgn);
         $sql = "SELECT datestamp, cumulation_user FROM t_user_summary WHERE datestamp >= '" . $date_bgn . "' ORDER BY datestamp DESC ";
+        var_dump($sql);
         $re = $this->query($sql);
         return $re;
     }
