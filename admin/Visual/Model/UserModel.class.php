@@ -17,7 +17,7 @@ class UserModel extends Model {
             $date_bgn = date('Y-m-d', strtotime("-7 months"));
         else
             return false;
-        $sql = "SELECT datestamp, cumulation_user FROM t_user_summary WHERE datestamp >= '" . $date_bgn . "' ORDER BY datestamp DESC ";
+        $sql = "SELECT datestamp, cumulation_user FROM t_user_summary WHERE datestamp >= '" . $date_bgn . "' ORDER BY datestamp";
         $re = $this->query($sql);
         if(empty($re))
             return $re;
@@ -25,20 +25,20 @@ class UserModel extends Model {
         {
             if($type == 1)
                 return $re;
-            $date_end = $re[0]['datestamp']; ## 最大的日期
-            $date_bgn = $re[count($re) - 1]['datestamp']; ## 最小的日期
+            $date_end = $re[0]['datestamp']; ## 最小的日期
+            $date_bgn = $re[count($re) - 1]['datestamp']; ## 最大的日期
 
             $return_ary = array();
-            while($date_bgn < $date_end)
+            while($date_bgn > $date_end)
             {
                 $idx = $this->getIdx($re, $date_end);
                 if($idx != -1)
                 {
                     $return_ary[] = $re[$idx];
                     if($type == 2)
-                        $date_end = date('Y-m-d', strtotime("-1 week", strtotime($date_end)));
+                        $date_end = date('Y-m-d', strtotime("+1 week", strtotime($date_end)));
                     elseif($type == 3)
-                        $date_end = date('Y-m-d', strtotime("-1 month", strtotime($date_end)));
+                        $date_end = date('Y-m-d', strtotime("+1 month", strtotime($date_end)));
                 }
                 else
                     return false;
