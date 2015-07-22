@@ -34,6 +34,7 @@ class UserModel extends Model {
             while($date_bgn < $date_end)
             {
                 $idx = $this->getIdx($re, $date_bgn);
+                var_dump($idx);
                 if($idx != -1)
                 {
                     $return_ary[$j] = $re[$idx];
