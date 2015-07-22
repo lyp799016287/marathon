@@ -26,9 +26,13 @@ class SecretModel extends Model {
             $sqlpara=$sqlpara ." and a.status = ".$data['status']."";
         }
 
-		$sql = "SELECT a.id,a.user_id,a.uptimes,a.type,a.status,a.content,a.create_time,b.user_uid as mobile,c.user_name as name
+		/*$sql = "SELECT a.id,a.user_id,a.uptimes,a.type,a.status,a.content,a.create_time,b.user_uid as mobile,c.user_name as name
 				FROM t_secret a LEFT JOIN t_user_info  b ON a.user_id=b.id  LEFT JOIN t_personal_info c ON a.user_id=c.user_id
-				WHERE 1=1" . $sqlpara;	
+				WHERE 1=1" . $sqlpara;
+		*/
+		$sql = "SELECT a.id,a.user_id,a.uptimes,a.type,a.status,a.content,a.create_time,b.user_uid AS mobile,c.user_name AS NAME,IFNULL(d.`secret_id`, 0) AS sid
+				FROM t_secret a LEFT JOIN t_secret_report d ON a.id = d.`secret_id` LEFT JOIN t_user_info  b ON a.user_id=b.id LEFT JOIN t_personal_info c ON a.user_id=c.user_id
+				WHERE 1=1" . $sqlpara;
         $sql = $sql . " ORDER BY create_time DESC";
 		$rs = $this->getRows($sql);
 		return $rs;

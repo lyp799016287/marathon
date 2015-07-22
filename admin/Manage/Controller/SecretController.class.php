@@ -15,7 +15,7 @@ class SecretController extends Controller {
     public function SecretList(){
         $querypara='';
 		$curr_page = I('page', 1, 'intval');
-		$page_size = 10;
+		$page_size = 20;
         
 		$datapara = array(
 			'keyword'		=> I('keyword'),
