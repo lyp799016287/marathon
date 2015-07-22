@@ -31,14 +31,14 @@ class UserModel extends Model {
             $return_ary = array();
             while($date_bgn < $date_end)
             {
-                $idx = $this->getIdx($re, $date_bgn);
+                $idx = $this->getIdx($re, $date_end);
                 if($idx != -1)
                 {
                     $return_ary[] = $re[$idx];
                     if($type == 2)
-                        $date_bgn = date('Y-m-d', strtotime("+1 week", strtotime($date_bgn)));
-                    else
-                        $date_bgn = date('Y-m-d', strtotime("+1 month", strtotime($date_bgn)));
+                        $date_end = date('Y-m-d', strtotime("-1 week", strtotime($date_end)));
+                    elseif($type == 3)
+                        $date_end = date('Y-m-d', strtotime("-1 month", strtotime($date_end)));
                 }
                 else
                     return false;
