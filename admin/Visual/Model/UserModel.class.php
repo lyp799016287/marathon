@@ -29,20 +29,19 @@ class UserModel extends Model {
             $date_bgn = $re[count($re) - 1]['datestamp']; ## 最小的日期
 
             $return_ary = array();
-            $j = 0;
-            
+            var_dump($date_bgn);
+            var_dump($date_end);
             while($date_bgn < $date_end)
             {
                 $idx = $this->getIdx($re, $date_bgn);
                 var_dump($idx);
                 if($idx != -1)
                 {
-                    $return_ary[$j] = $re[$idx];
+                    $return_ary[] = $re[$idx];
                     if($type == 2)
-                        $date_bgn = date('Y-m-d', strtotime("+1 week", strtotime($re[$i]['datestamp'])));
+                        $date_bgn = date('Y-m-d', strtotime("+1 week", strtotime($date_bgn)));
                     else
-                        $date_bgn = date('Y-m-d', strtotime("+1 month", strtotime($re[$i]['datestamp'])));
-                    $j++;
+                        $date_bgn = date('Y-m-d', strtotime("+1 month", strtotime($date_bgn)));
                 }
                 else
                     return false;
