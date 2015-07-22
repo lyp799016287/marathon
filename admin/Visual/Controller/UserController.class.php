@@ -18,9 +18,11 @@ class UserController extends Controller {
 		## 3： 月
 		$type = I('type', 1, 'intval');
 		$result = $this->user->getLatestCumu($type); 
+		var_dump($result); exit;
 		if(!empty($result))
 		{
 			$this->assign("data", $result);
+			# Visual/View/User/cumulateUser.htm
 			$this->display("cumulateUser");
 		}
 		else
