@@ -5,6 +5,10 @@ use Visual\Model\UserModel as UserModel;
 
 class UserController extends Controller {
 
+	public function _initialize(){
+		$this->user = D('User');
+	}
+
 	## 累计用户数展示
 	public function cumulationData()
 	{
