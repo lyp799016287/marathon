@@ -15,7 +15,7 @@ class UserController extends Controller {
 		## 展示的时间类型
 		## 1： 天
 		## 2： 周
-		## 3： 月
+		## 3： 月r
 		$type = I('type', 1, 'intval');
 		$result = $this->user->getLatestCumu($type); 
 		var_dump($result); exit;
