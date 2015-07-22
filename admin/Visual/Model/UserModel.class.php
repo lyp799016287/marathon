@@ -25,8 +25,8 @@ class UserModel extends Model {
         {
             if($type == 1)
                 return $re;
-            $date_bgn = $re[0]['datestamp'];
-            $date_end = $re[count($re) - 1]['datestamp'];
+            $date_end = $re[0]['datestamp']; ## 最大的日期
+            $date_bgn = $re[count($re) - 1]['datestamp']; ## 最小的日期
 
             $return_ary = array();
             $j = 0;
