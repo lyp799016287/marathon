@@ -6,16 +6,18 @@ use Visual\Model\InfoModel as InfoModel;
 class InfoController extends Controller {
 
 	public function _initialize(){
+		var_dump("init model");
 		$this->info = D('Info');
 	}
 
 	## 资讯的相关信息
 	public function infoSummary()
 	{
+		var_dump("into controller function");
 		$topInfo = $this->info->topSummary();
 		$detailInfo = $this->info->detailSummary();
 		var_dump($topInfo); var_dump($detailInfo); exit;
-		
+
 		if(!empty($topInfo) && !empty($detailInfo))
 		{
 			$this->assign("data", array('top'=>$topInfo, 'detail'=>$detailInfo));
