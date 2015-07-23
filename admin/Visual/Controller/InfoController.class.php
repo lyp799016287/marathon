@@ -9,10 +9,24 @@ class InfoController extends Controller {
 		$this->info = D('Info');
 	}
 
-	## 
+	## 资讯的相关信息
 	public function infoSummary()
 	{
-		$this->info->getSummary();
+		$topInfo = $this->info->topSummary();
+		$detailInfo = $this->info->detailSummary();
+		var_dump($topInfo); var_dump($detailInfo); exit;
+		
+		if(!empty($topInfo) && !empty($detailInfo))
+		{
+			$this->assign("data", array('top'=>$topInfo, 'detail'=>$detailInfo));
+			# Visual/View/Info/infoTop.htm
+			$this->display("infoTop");
+		}
+		else
+		{
+			header("Content-Type: text/html;charset=utf-8");
+			exit("信息获取失败");
+		}
 	}
 
 	
