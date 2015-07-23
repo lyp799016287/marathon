@@ -18,7 +18,8 @@ class InfoController extends Controller {
 
 		if(!empty($topInfo) && !empty($detailInfo))
 		{
-			$this->assign("data", array('top'=>$topInfo, 'detail'=>$detailInfo));
+			$this->assign("top", $topInfo);
+			$this->assign("detail", $detailInfo);
 			# Visual/View/Info/infoTop.htm
 			$this->display("infoTop");
 		}
