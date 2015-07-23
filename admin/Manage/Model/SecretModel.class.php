@@ -4,7 +4,7 @@ use Think\Model;
 
 class SecretModel extends Model {
 	protected $connection = 'DB_IMED';
-	protected $trueTableName = 't_slider_panel_image';
+	protected $trueTableName = 't_secret';
 
 	/**
 	*获取秘密列表
@@ -25,6 +25,9 @@ class SecretModel extends Model {
         if($data['status']!=''){
             $sqlpara=$sqlpara ." and a.status = ".$data['status']."";
         }
+		if(isset($data['filter']) && !empty($data['filter'])){
+			$sqlpara .= " AND a.id IN (".$data['filter'].")"; 
+		}
 
 		$sql = "SELECT a.id,a.user_id,a.uptimes,a.type,a.status,a.content,a.create_time,b.user_uid as mobile,c.user_name as name
 				FROM t_secret a LEFT JOIN t_user_info  b ON a.user_id=b.id  LEFT JOIN t_personal_info c ON a.user_id=c.user_id
@@ -43,6 +46,19 @@ class SecretModel extends Model {
 	public function getSecretReport(){
 		
 		$sql = "SELECT DISTINCT(secret_id) FROM t_secret_report";
+
+		$rs = $this->getRows($sql);
+		return $rs;
+	}
+
+	/**
+	*获取举报人的信息
+	*@author mandyzhou
+	*@return  false/array()
+	*/
+	public function getReportSecretUserInfo($sid){
+		
+		$sql = "SELECT DISTINCT(user_id) FROM t_secret_report WHERE secret_id = ".$sid;
 
 		$rs = $this->getRows($sql);
 		return $rs;
