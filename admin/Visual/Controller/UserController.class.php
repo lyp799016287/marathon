@@ -9,7 +9,7 @@ class UserController extends Controller {
 		$this->user = D('User');
 	}
 
-	## 累计用户数展示
+	## 累计用户 新增用户 登录用户 活跃用户展示
 	public function cumulationData()
 	{
 		## 展示的时间类型
@@ -18,7 +18,7 @@ class UserController extends Controller {
 		## 3： 月r
 		$type = I('type', 1, 'intval');
 		$result = $this->user->getLatestCumu($type); 
-		var_dump($result); exit;
+		// var_dump($result); exit;
 		if(!empty($result))
 		{
 			$this->assign("data", $result);
@@ -32,15 +32,5 @@ class UserController extends Controller {
 		}
 	}
 
-	## 登录用户 活跃用户展示
-	public function activeData()
-	{
-
-	}
-
-	## 留存率展示
-	public function retainData()
-	{
-		
-	}
+	
 }

@@ -71,10 +71,8 @@ class UserModel extends Model {
             {
                 $insert_data[$i]['login_user'] = $login_re[0]['login_user'];
                 $insert_data[$i]['active_user'] = $login_re[0]['login_user'] - $insert_data[$i]['new_user'];
-                var_dump($insert_data[$i]['active_user']);
                 ## 活跃用户为负数时  显示0
                 $insert_data[$i]['active_user'] = ($insert_data[$i]['active_user'] > 0) ? $insert_data[$i]['active_user'] : 0; 
-                var_dump($insert_data[$i]['active_user']);
             }
                 
 
