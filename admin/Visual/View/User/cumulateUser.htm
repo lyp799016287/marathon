@@ -15,17 +15,17 @@
             margin: 75,
             options3d: {
                 enabled: true,
-                alpha: 15,
-                beta: 15,
+                alpha: 15, //柱形图倾斜角度
+                beta: 15, 
                 depth: 50,
                 viewDistance: 25
             }
         },
         title: {
-            text: 'Chart rotation demo'
+            text: '累计用户量'
         },
         subtitle: {
-            text: 'Test options by dragging the sliders below'
+            text: ''
         },
         plotOptions: {
             column: {
@@ -55,6 +55,7 @@
         $('#R1-value').html(chart.options.chart.options3d.beta);
     }
     showValues();
+    console.log(data);
 });       
   </script>
 </head>
