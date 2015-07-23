@@ -19,9 +19,9 @@ class SecretController extends Controller {
         
 		$datapara = array(
 			'keyword'		=> I('keyword'),
-			'bgn_date'		=> I('bgn_date','','string'),
-			'end_date'		=> I('end_date','','string'),
-			'status'    	=> I('status','','string'),
+			'bgn_date'		=> I('bgn_date', date("Y-m-d")),
+			'end_date'		=> I('end_date', date("Y-m-d")),
+			'status'    	=> I('status',1,'intval'),
 
 		);
         foreach($datapara as $key => $val){
@@ -51,6 +51,20 @@ class SecretController extends Controller {
 		$this->display("secretlist");
 	}
 
+	/**举报的秘贴**/
+	public function ReportSecretList(){
+
+		$params = array('status' => 1);
+
+		$rrs = $this->secret->getSecretReport();
+		var_dump($rrs);
+
+		
+		$rs = $this->secret->getSecretList($params);
+		var_dump($rs);
+
+		
+	}
 	
 
 	/**删除秘密**/

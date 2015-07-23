@@ -42,7 +42,7 @@ class SecretModel extends Model {
 	*/
 	public function getSecretReport(){
 		
-		$sql = "SELECT user_id, secret_id FROM t_secret_report";
+		$sql = "SELECT DISTINCT(secret_id) FROM t_secret_report";
 
 		$rs = $this->getRows($sql);
 		return $rs;
