@@ -10,7 +10,6 @@ class InfoModel extends Model {
     public function topSummary()
     {
         $yesterday = date('Y-m-d', strtotime("-1 day"));
-        var_dump($yesterday);
         $sql = <<<EOF
         SELECT a.info_id, b.title, a.score
         FROM (SELECT * FROM t_info_daily WHERE datestamp = '{$yesterday}') a LEFT JOIN imed.`t_info_summary` b ON a.info_id = b.info_id
@@ -24,9 +23,10 @@ EOF;
 
     public function detailSummary()
     {
+        $yesterday = date('Y-m-d', strtotime("-1 day"));
         $sql = <<<EOF
         SELECT a.info_id, b.title, a.pub_time, a.scan_pv, a.scan_uv, a.scan_no_login_pv, a.comment_pv, a.comment_uv, a.share_pv, a.share_uv, a.score
-        FROM t_info_daily a LEFT JOIN imed.`t_info_summary` b ON a.info_id = b.info_id
+        FROM (SELECT * FROM t_info_daily WHERE datestamp = '{$yesterday}') a LEFT JOIN imed.`t_info_summary` b ON a.info_id = b.info_id
         ORDER BY a.scan_pv DESC
 EOF;
         $re = $this->query($sql);
