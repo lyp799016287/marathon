@@ -25,7 +25,7 @@ class SecretController extends Controller {
 
 		);
         foreach($datapara as $key => $val){
-            $querypara=$querypara.'&'.$key.'='.$val;
+            $querypara =$querypara.'&'.$key.'='.$val;
         }        
 		//echo var_dump($data);        
         
