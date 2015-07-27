@@ -173,8 +173,8 @@ EOF;
             for($k = 0; $k < count($comment); $k++)
                 if($comment[$k]['info_id'] == $info_id)
                 {
-                    $info[$i]['comment_pv'] = $share[$j]['comment_pv'];
-                    $info[$i]['comment_uv'] = $share[$j]['comment_uv'];
+                    $info[$i]['comment_pv'] = $comment[$j]['comment_pv'];
+                    $info[$i]['comment_uv'] = $comment[$j]['comment_uv'];
                     break;
                 } 
         }
