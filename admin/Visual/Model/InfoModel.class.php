@@ -132,6 +132,7 @@ EOF;
             
         }
         $id_clause .= ")";
+        var_dump($info);
 
         ## 获取文章的标题和发布时间
         $titleSql = "SELECT info_id, title, create_time pub_time FROM t_info_summary WHERE info_id IN " . $id_clause;
@@ -164,6 +165,11 @@ EOF;
                     $info[$i]['share_uv'] = $share[$j]['share_uv'];
                     break;
                 }
+        }
+
+        for($i = 0; $i < count($info); $i++)
+        {
+            $info_id = $info[$i]['info_id'];
             for($k = 0; $k < count($comment); $k++)
                 if($comment[$k]['info_id'] == $info_id)
                 {
@@ -172,7 +178,7 @@ EOF;
                     break;
                 } 
         }
-
+        var_dump($info);
         return array('code'=>1, 'message'=>'', 'data'=>$info);
 
     }
