@@ -57,7 +57,7 @@ EOF;
             return array('code'=>-1, 'message'=>'查询错误');
         $time_clause = " 1";
         # $max_time 表t_info_accumulate中需要更新的时间戳
-        if(count($re_time) > 0)
+        if(!empty($re_time[0]['max_time']))
         {
             $max_time = $re_time[0]['max_time'];
             $time_clause = " create_time > '" . $re_time[0]['max_time'] . "'";
@@ -85,7 +85,7 @@ EOF;
         $share = queryByNoModel('t_share', '', $this->imed_config, $shareInfo);
         ## 资讯评论
         $time_clause = " 1";
-        if(count($re_time) > 0)
+        if(!empty($re_time[0]['max_time']))
             $time_clause = " `time` > '" . $re_time[0]['max_time'] . "'";
 
         $commentInfo = <<<EOF
