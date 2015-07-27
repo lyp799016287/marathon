@@ -75,6 +75,5 @@ class InfoController extends Controller {
 		
 	}
 
-
 	
 }

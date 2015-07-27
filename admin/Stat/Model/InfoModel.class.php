@@ -264,7 +264,7 @@ EOF;
             if($insert_re === false)
                 return array('code'=>-16, 'message'=>"插入表数据错误：" . 't_info_daily');
         }
-        ## 获取文章的发布时间
+        ## 获取文章的发布时间和标题
         $sql = "SELECT DISTINCT info_id FROM t_info_daily WHERE pub_time IS NULL";
         $id_list = queryByNoModel('t_info_daily', '', $this->stat_config, $sql); 
         if($id_list === false)
@@ -277,7 +277,7 @@ EOF;
                     $in_str .= $id_list[$i]['info_id'] . ", ";
                 else
                     $in_str .= $id_list[$i]['info_id'] . ")";
-            $sql = "SELECT info_id, create_time FROM t_info_summary WHERE info_id IN" . $in_str;
+            $sql = "SELECT info_id, title, create_time FROM t_info_summary WHERE info_id IN" . $in_str;
             $list_result = $this->query($sql);
             if($list_result === false)
                 return array('code'=>-18, 'message'=>"查询错误：" . $sql);
@@ -289,12 +289,12 @@ EOF;
                 // $update_sql = "UPDATE t_info_daily SET pub_time = '" . $list_result[$i]['create_time'] . "' WHERE info_id = " . $list_result[$i]['info_id'];
                 $condition['info_id'] = $list_result[$i]['info_id'];
                 $data['pub_time'] = $list_result[$i]['create_time'];
-                $result = $obj_mod->where($condition)->save($data);
+                $data['title'] = $list_result[$i]['title'];
+                $result = $obj_mod->where($condition)->setField($data);
                 if($result === false)
                     return array('code'=>-19, 'message'=>"更新表数据错误：" . 't_info_daily');
             }
         }
         return array('code'=>1, 'message'=>"执行成功");
     }
-
 }
