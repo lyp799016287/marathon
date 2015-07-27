@@ -234,7 +234,7 @@ EOF;
         $sql = <<<EOF
         SELECT info_id, title, scan_pv, scan_uv, scan_no_login_pv, comment_pv, comment_uv, share_pv, share_uv, score, pub_time
         FROM t_info_accumulate
-        OEDER BY scan_pv DESC
+        ORDER BY scan_pv DESC
 EOF;
         $detail = $this->query($sql);
 
