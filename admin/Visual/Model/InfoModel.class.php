@@ -74,14 +74,14 @@ EOF;
         (SELECT info_id, COUNT(id) scan_no_login_pv FROM t_scan_flow WHERE uid = 0 AND {$time_clause} GROUP BY info_id) b 
         ON a.info_id = b.info_id 
 EOF;
-        var_dump($scanInfo);
+        // var_dump($scanInfo);
         $scan = $this->query($scanInfo);
         ## 资讯分享
         $shareInfo = <<<EOF
         SELECT target_id info_id, COUNT(id) share_pv, COUNT(DISTINCT user_id) share_uv FROM t_share 
         WHERE `type` = 2 AND {$time_clause} GROUP BY target_id
 EOF;
-        var_dump($shareInfo);
+        // var_dump($shareInfo);
         $share = queryByNoModel('t_share', '', $this->imed_config, $shareInfo);
         ## 资讯评论
         $time_clause = " 1";
@@ -92,7 +92,7 @@ EOF;
         SELECT info_id, COUNT(DISTINCT user_id) comment_uv, COUNT(comment_id) comment_pv 
         FROM imed.t_info_comment WHERE `status` = 1 AND {$time_clause} GROUP BY info_id
 EOF;
-        var_dump($commentInfo);
+        // var_dump($commentInfo);
         $comment = queryByNoModel('t_info_comment', '', $this->imed_config, $commentInfo);
 
         if($scan === false || $comment === false || $share === false)
@@ -102,7 +102,7 @@ EOF;
         if($info['code'] < 0)
             return $info;
         ## 将数据更新到表t_info_accumulate
-        $re = $this->insertOrUpdate($info, $max_time);
+        $re = $this->insertOrUpdate($info['data'], $max_time);
         return $re;
     }
 
@@ -135,7 +135,7 @@ EOF;
 
         ## 获取文章的标题和发布时间
         $titleSql = "SELECT info_id, title, create_time pub_time FROM t_info_summary WHERE info_id IN " . $id_clause;
-        var_dump($titleSql);
+        // var_dump($titleSql);
         $extraInfo = queryByNoModel('t_info_summary', '', $this->imed_config, $titleSql);
         if($extraInfo === false)
             return array('code'=>-3, 'message'=>'查询错误');
