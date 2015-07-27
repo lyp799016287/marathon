@@ -30,5 +30,58 @@ class InfoController extends Controller {
 		}
 	}
 
+	## 获取每篇文章最新的累计统计指标值
+	## 定时跑脚本的接口
+	public function infoAccumulate()
+	{
+		$info = $this->info->accumulateInfo();
+		$this->writeLog($info, 'infoAccumulate');
+	}
+
+
+	## 跑脚本的内容  写log
+	private function writeLog($result, $tag)
+	{
+		$log_str = "";
+		$time = date('Y-m-d H:i:s', time());
+		$log_str .= $time . ' ' . $tag . ': ' . $result['code'] . "   " . $result['message'];
+		$log_str .= "\n";
+		$dir_name = dirname(dirname(dirname(__FILE__)));
+		$dir_name = $dir_name . "/Runtime/ScriptLogs/";
+		$date = date('Y-m-d', time());
+		$file_name = $dir_name . $date . ".txt";
+		try
+		{
+			$f_obj = fopen($file_name, 'a');
+			$f_result = fwrite($f_obj, $log_str);
+			fclose($f_obj);
+		}
+		catch(Exception $e)
+		{
+			print $e->getMessage();
+			exit();
+		}
+	}
+
+	## 累计的资讯统计信息展示
+	public function showAccumulate()
+	{
+		$re = $this->info->accumulateResult();
+		var_dump($re); exit;
+
+		if(!empty($re))
+		{
+			$this->assign("top", $re['top']);
+			$this->assign("detail", $re['detail']);
+			# Visual/View/Info/infoTop.htm
+			$this->display("infoTop");
+		}
+		else
+		{
+			header("Content-Type: text/html;charset=utf-8");
+			exit("信息获取失败");
+		}
+	}
+
 	
 }
