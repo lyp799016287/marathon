@@ -22,12 +22,24 @@ class SecretController extends Controller {
 			'bgn_date'		=> I('bgn_date', ''),
 			'end_date'		=> I('end_date', ''),
 			'status'    	=> I('status',1,'intval'),
-
+			
 		);
         foreach($datapara as $key => $val){
             $querypara =$querypara.'&'.$key.'='.$val;
         }        
-		//echo var_dump($data);        
+		//echo var_dump($data);
+		
+		/************排除被举报的秘贴*********/
+		$rrs = $this->secret->getSecretReport();
+
+		$except = array();
+
+		if(!empty($rrs)){
+			foreach($rrs as $val){
+				array_push($except, $val['secret_id']);	
+			}
+		}
+		$datapara['except'] = $except;
         
 		$rs = $this->secret->getSecretList($datapara);
 
@@ -66,8 +78,6 @@ class SecretController extends Controller {
 			foreach($rrs as $val){
 				array_push($filter, $val['secret_id']);	
 			}
-		}else{
-		
 		}
 		
 		$params = array(

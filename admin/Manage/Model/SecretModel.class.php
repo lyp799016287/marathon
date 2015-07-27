@@ -25,8 +25,14 @@ class SecretModel extends Model {
         if($data['status']!=''){
             $sqlpara=$sqlpara ." and a.status = ".$data['status']."";
         }
+
+		/*****modify by mandy****/
 		if(isset($data['filter']) && !empty($data['filter'])){
 			$sqlpara .= " AND a.id IN (".$data['filter'].")"; 
+		}
+
+		if(isset($data['except']) && !empty($data['except'])){
+			$sqlpara .= " AND a.id NOT IN (".$data['except'].")";
 		}
 
 		$sql = "SELECT a.id,a.user_id,a.uptimes,a.type,a.status,a.content,a.create_time,b.user_uid as mobile,c.user_name as name
