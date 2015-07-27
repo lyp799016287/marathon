@@ -39,7 +39,7 @@ class SecretController extends Controller {
 				array_push($except, $val['secret_id']);	
 			}
 		}
-		$datapara['except'] = $except;
+		$datapara['except'] = implode(",", $except);
         
 		$rs = $this->secret->getSecretList($datapara);
 
