@@ -132,7 +132,7 @@ EOF;
             
         }
         $id_clause .= ")";
-        var_dump($info);
+        // var_dump($info);
 
         ## 获取文章的标题和发布时间
         $titleSql = "SELECT info_id, title, create_time pub_time FROM t_info_summary WHERE info_id IN " . $id_clause;
@@ -178,7 +178,7 @@ EOF;
                     break;
                 } 
         }
-        var_dump($info);
+        // var_dump($info);
         return array('code'=>1, 'message'=>'', 'data'=>$info);
 
     }
@@ -211,7 +211,7 @@ EOF;
                 VALUES($info_id, '{$title}', {$scan_pv}, {$share_uv}, {$scan_no_login_pv}, {$comment_pv}, 
                     {$comment_uv}, {$share_uv}, {$share_pv}, '{$pub_time}', '{$max_time}')
 EOF;
-                var_dump($sql);
+                // var_dump($sql);
                 $re = $this->execute($sql);
                 if($re === false)
                     $error_clause .= $info_id . ", ";
@@ -230,7 +230,7 @@ EOF;
                     modify_time = '{$max_time}'
                 WHERE info_id = {$info_id}
 EOF;
-                var_dump($sql);
+                // var_dump($sql);
                 $re = $this->execute($sql);
                 if($re === false)
                     $error_clause .= $info_id . ", ";
