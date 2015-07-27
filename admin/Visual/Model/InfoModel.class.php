@@ -64,7 +64,7 @@ EOF;
         }
         else
         {
-            $max_time = date("Y-m-d H:i:s", now());
+            $max_time = date("Y-m-d H:i:s", time());
         }
             
         ## 资讯浏览
