@@ -6,6 +6,11 @@ class DescModel extends Model {
     protected $connection = 'DB_STAT';
     protected $trueTableName = 't_user_device_flow';
 
+    public function _initialize()
+    {
+        $this->imed_config = C('DB_IMED');
+    }
+
     public function sdkData($type)
     {
         $field = "";
@@ -35,7 +40,7 @@ EOF;
     ## 手机型号分布
     public function modelData()
     {
-        
+
     }
 
     public function retainData()
@@ -56,6 +61,13 @@ EOF;
     {
         $sql = "SELECT hour_tag, SUM(freq_num) freq_num FROM t_user_time GROUP BY hour_tag";
         $re = $this->query($sql);
+        return $re;
+    }
+
+    public function shareData()
+    {
+        $sql = "SELECT `type`, `channel`, COUNT(DISTINCT user_id) uv, COUNT(id) pv FROM t_share GROUP BY `type`, `channel`";
+        $re = queryByNoModel('t_share', '', $this->imed_config, $sql);
         return $re;
     }
 }

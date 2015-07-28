@@ -75,4 +75,14 @@ class UserDescController extends Controller {
 			$this->ajaxReturn(array('code'=>-1));
 	}
 
+	## 用户做分享的分布情况
+	public function userShare()
+	{
+		$result = $this->desc->shareData();
+		if(!empty($result))
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+		else
+			$this->ajaxReturn(array('code'=>-1));
+	}
+
 }
