@@ -37,22 +37,25 @@ class UserController extends Controller {
 		## 展示的时间类型
 		## 1： 天
 		## 2： 周
-		## 3： 月r
+		## 3： 月
 		$type = I('type', 1, 'intval');
 		$idx = 2;
 		$result = $this->user->getLatestCumu($idx, $type); 
-		// var_dump($result); exit;
 		if(!empty($result))
-		{
-			$this->assign("data", $result);
-			# Visual/View/User/cumulateUser.htm
-			$this->display("cumulateUser");
-		}
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
 		else
-		{
-			header("Content-Type: text/html;charset=utf-8");
-			exit("信息获取失败");
-		}
+			$this->ajaxReturn(array('code'=>-1));
+		// if(!empty($result))
+		// {
+		// 	$this->assign("data", $result);
+		// 	# Visual/View/User/cumulateUser.htm
+		// 	$this->display("cumulateUser");
+		// }
+		// else
+		// {
+		// 	header("Content-Type: text/html;charset=utf-8");
+		// 	exit("信息获取失败");
+		// }
 	}
 
 	
