@@ -15,7 +15,7 @@ class UserModel extends Model {
     }
 
 
-    public function getLatestCumu($type)
+    public function getLatestCumu($idx, $type)
     {
         if($type == 1)
             $date_bgn = date('Y-m-d', strtotime("-7 days"));
@@ -25,8 +25,11 @@ class UserModel extends Model {
             $date_bgn = date('Y-m-d', strtotime("-7 months"));
         else
             return false;
-        $sql = "SELECT datestamp, cumulation_user, new_user, login_user, active_user FROM t_user_summary WHERE datestamp >= '" . $date_bgn . "' ORDER BY datestamp";
-        var_dump($sql);
+        if($idx == 2)
+            $sql = "SELECT datestamp, cumulation_user, new_user, login_user, active_user FROM t_user_summary WHERE datestamp >= '" . $date_bgn . "' ORDER BY datestamp";
+        elseif($idx == 1)
+            $sql = "SELECT datestamp, cumulation_user FROM t_user_summary WHERE datestamp >= '" . $date_bgn . "' ORDER BY datestamp";
+        // var_dump($sql);
         $re = $this->query($sql);
         if(empty($re))
             return $re;

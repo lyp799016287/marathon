@@ -16,7 +16,19 @@ class UserController extends Controller {
 		if(!empty($result))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
 		else
-			$this->ajaxReturn(array('code'=>-1, 'data'=>array()));
+			$this->ajaxReturn(array('code'=>-1));
+	}
+
+	## 累计用户展示
+	public function totalDetail()
+	{
+		$type = I('type', 1, 'intval');
+		$idx = 1;
+		$result = $this->user->getLatestCumu($idx, $type); 
+		if(!empty($result))
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+		else
+			$this->ajaxReturn(array('code'=>-1));
 	}
 
 	## 累计用户 新增用户 登录用户 活跃用户展示
@@ -27,8 +39,9 @@ class UserController extends Controller {
 		## 2： 周
 		## 3： 月r
 		$type = I('type', 1, 'intval');
-		$result = $this->user->getLatestCumu($type); 
-		var_dump($result); exit;
+		$idx = 2;
+		$result = $this->user->getLatestCumu($idx, $type); 
+		// var_dump($result); exit;
 		if(!empty($result))
 		{
 			$this->assign("data", $result);
