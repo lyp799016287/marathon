@@ -7,6 +7,14 @@ class UserModel extends Model {
     protected $trueTableName = 't_user_summary';
 
 
+    public function getLatest()
+    {
+        $sql = "SELECT datestamp, cumulation_user, new_user, login_user, active_user FROM t_user_summary ORDER BY datestamp DESC LIMIT 1";
+        $re = $this->query($sql);
+        return $re;
+    }
+
+
     public function getLatestCumu($type)
     {
         if($type == 1)
@@ -18,6 +26,7 @@ class UserModel extends Model {
         else
             return false;
         $sql = "SELECT datestamp, cumulation_user, new_user, login_user, active_user FROM t_user_summary WHERE datestamp >= '" . $date_bgn . "' ORDER BY datestamp";
+        var_dump($sql);
         $re = $this->query($sql);
         if(empty($re))
             return $re;

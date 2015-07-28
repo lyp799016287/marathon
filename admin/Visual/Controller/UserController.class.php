@@ -9,6 +9,16 @@ class UserController extends Controller {
 		$this->user = D('User');
 	}
 
+	## 获取最新的用户总览信息
+	public function totalSummary()
+	{
+		$result = $this->user->getLatest();
+		if(!empty($result))
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+		else
+			$this->ajaxReturn(array('code'=>-1, 'data'=>array()));
+	}
+
 	## 累计用户 新增用户 登录用户 活跃用户展示
 	public function cumulationData()
 	{
