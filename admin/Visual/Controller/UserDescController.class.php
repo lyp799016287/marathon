@@ -55,10 +55,24 @@ class UserDescController extends Controller {
 			$this->ajaxReturn(array('code'=>-1));
 	}
 
-	## 用户留存率
+	## 用户留存数（最近7天内）
 	public function userRetain()
 	{
-		$this->desc->retainData();
+		$result = $this->desc->retainData();
+		if(!empty($result))
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+		else
+			$this->ajaxReturn(array('code'=>-1));
+	}
+
+	## 用户使用APP的时间分布
+	public function userTime()
+	{
+		$result = $this->desc->timeData();
+		if(!empty($result))
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+		else
+			$this->ajaxReturn(array('code'=>-1));
 	}
 
 }
