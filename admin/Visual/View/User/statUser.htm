@@ -1,25 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<meta http-equiv="Content-Type" content="text/html; charset=utf8">
 <meta content="IE=EmulateIE8" http-equiv="X-UA-Compatible">
-<title>²ÉÏú¹¤×÷Ì¨-È±»õ¹ÜÀí</title>
+<title>ç”¨æˆ·åˆ†æ</title>
 <link href="/res/websrc/UIlib/ligerUI-1.1.9/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
 <link href="/res/websrc/css/index.css" rel="stylesheet" type="text/css" />
-<!--<script src="/res/UIlib/jquery/jquery-1.5.2.min.js" type="text/javascript"></script>
-<script src="/res/js/jquery.blockUI.js" type="text/javascript" charset="utf-8"></script>
-<script src="/res/UIlib/ligerUI-1.1.9/js/core/base.js" type="text/javascript"></script>
-<script src="/res/UIlib/ligerUI-1.1.9/js/plugins/ligerGrid.js" type="text/javascript" charset="utf-8"></script>
-<script src="/res/UIlib/ligerUI-1.1.9/js/plugins/ligerResizable.js" type="text/javascript"></script>
-<script src="/res/UIlib/tablerender.js" type="text/javascript" charset="utf-8"></script>
-<script src="/res/UIlib/ligerUI-1.1.9/js/plugins/ligerDateEditor.js" type="text/javascript" charset="utf-8"></script>
-<script src="/res/js/util.js" type="text/javascript" charset="utf-8"></script>
-<script src="/res/js/DateEditor.js" type="text/javascript"></script>
-<script src="/res/js/amcharts.js" type="text/javascript"></script>
-<script src="/res/js/raphael.js" type="text/javascript"></script>
-<script src="/res/js/common.js?d=20130108" type="text/javascript"></script>
-<script src="/res/js/purchase.js?d=20130108" type="text/javascript"></script>
-<script src="/res/js/autocomplete.js" type="text/javascript" charset="utf-8"></script>-->
+<script src="/res/websrc/UIlib/jquery/jquery-1.5.2.min.js" type="text/javascript"></script>
+<script src="/res/websrc/UIlib/highcharts/highcharts-4.0.3.js" type="text/javascript"></script>
+<!--<script src="/res/websrc/UIlib/highcharts/highcharts-3d.js" type="text/javascript"></script>-->
+<script src="/res/websrc/UIlib/jquery/common.js" type="text/javascript"></script>
 <style type="text/css">
 #table_show_options_sum span { width:150px;display: inline-block;}
 #table_show_options_details span { /*width:150px;*/display: inline-block;} 
@@ -31,152 +21,83 @@
 	<div class="main clearfix">
 		<div class="content">
 			<div class="inner">
-			<div class="cont_hd"><span>²ÉÏúÊı¾İÌ¨</span><span class="split">/</span><span>ÄÚ²¿¹ÜÀí</span><span class="split">/</span><strong class="current">È±»õ¹ÜÀí</strong></div>
+			<!--<div class="cont_hd"><span>é‡‡é”€æ•°æ®å°</span><span class="split">/</span><span>å†…éƒ¨ç®¡ç†</span><span class="split">/</span><strong class="current">ç¼ºè´§ç®¡ç†</strong></div>-->
 			<div class="cont_bd">		
 			<!-- start highline -->
 			<div class="hightline" id="highlight">
-				<div class="hd"><h3 id="filter_desc_keydata">¹Ø¼üÊı¾İ</h3><span id="date_desc_keydata" class="sub_tit"></span></div>
+				<div class="hd"><h2 id="filter_desc_keydata">æˆªæ­¢<span id="date_show">æ˜¨æ—¥</span> 24:00çš„ç»Ÿè®¡æ•°æ®</h2></div>
 				<div class="bd clearfix">
 	            <ul class="hight_list" id="highlight_list">
 					<li>
-						<p class='tit'>È±»õskuÊı</p>
-						<p class='nu'>1,000,000</p>
-						<p name='ratio' class=''>ÄÚ²¿Êı¾İ
-						<span class='up_green'><i></i>23%<span class='num' name='in_num'>(+2%)</span></span>
-						</p>
+						<p class='tit'>ç´¯è®¡ç”¨æˆ·</p>
+						<p class='nu' id="total_user">0</p>
 					</li>
 					<li>
-						<p class='tit'>È±»õÂÊ</p>
-						<p class='nu'>1,000,000</p>
-						<p name='ratio' class=''>ÄÚ²¿Êı¾İ
-						<span class='up_green'><i></i>23%<span class='num' name='in_num'>(+2%)</span></span>
-						</p>
+						<p class='tit'>æ–°å¢ç”¨æˆ·</p>
+						<p class='nu' id="new_user">0</p>
+					</li>
+					<li>
+						<p class='tit'>ç™»å½•ç”¨æˆ·</p>
+						<p class='nu' id="login_user">0</p>
+					</li>
+					<li>
+						<p class='tit'>æ´»è·ƒç”¨æˆ·</p>
+						<p class='nu' id="active_user">0</p>
 					</li>
 				</ul>
 	        	</div>
 			</div>
 			<!-- end highline -->
 			
-			<!-- Start Ç÷ÊÆÍ¼-->
+			<!-- Start è¶‹åŠ¿å›¾-->
 			<div class="mod_list mod_border" id="trend_graph">
 				<div class="mod_list_hd org_l">
 				<div class="hd">
-					<h3 id="filter_desc_graph">Ç÷ÊÆÍ¼</h3><span id="date_desc_graph" class="sub_tit"></span>
+					<h3 id="filter_desc_graph">ç´¯è®¡ç”¨æˆ·è¶‹åŠ¿å›¾</h3><span id="date_desc_graph" class="sub_tit"></span>
 				</div>
 				</div>
 				<div class="filter filter3" id="graph_detail">
 					<div class="filter_inner">
 					<div class="filter">
 					<div class="sel_item" id="show_item_div">
-                        <span><input type="checkbox" id="item1_trend" name="item1_trend" class="cbox" value="product_sku||ÉÌÆ·skuÊı£¨È«²¿£©"><label for="item1_trend">ÉÌÆ·skuÊı£¨È«²¿£©</label></span>
-                        <span><input type="checkbox" id="item7_trend" name="item7_trend" class="cbox" value="product_sku_stock||ÉÌÆ·skuÊı£¨±¾²ÖÏúÊÛ£©"><label for="item7_trend">ÉÌÆ·skuÊı£¨±¾²ÖÏúÊÛ£©</label></span>
-                        <span><input type="checkbox" id="item2_trend" name="item2_trend" class="cbox" checked="checked" value="is_lacking_sku||È±»õskuÊı"><label for="item2_trend">È±»õskuÊı</label></span>
-                        <span><input type="checkbox" id="item3_trend" name="item3_trend" class="cbox" checked="checked" value="is_lacking_per||È±»õÂÊ"><label for="item3_trend">È±»õÂÊ</label></span>
-                        <span><input type="checkbox" id="item5_trend" name="item5_trend" class="cbox" value="is_lacking_without_purchase_sku||È±»õÎ´²É¹ºskuÊı"><label for="item5_trend">È±»õÎ´²É¹ºskuÊı</label></span>
-                        <span><input type="checkbox" id="item4_trend" name="item4_trend" class="cbox" checked="checked" value="is_hot_sku||ÈÈÏúskuÊı"><label for="item4_trend">ÈÈÏúskuÊı</label></span>
-                        <span><input type="checkbox" id="item10_trend" name="item10_trend" class="cbox" checked="checked" value="is_hot_lacking_sku||ÈÈÏúÈ±»õskuÊı"><label for="item10_trend">ÈÈÏúÈ±»õskuÊı</label></span>
-                        <span><input type="checkbox" id="item9_trend" name="item9_trend" class="cbox" checked="checked" value="is_hot_lacking_per||ÈÈÏúÈ±»õÂÊ"><label for="item9_trend">ÈÈÏúÈ±»õÂÊ</label></span>
-                        <span><input type="checkbox" id="item6_trend" name="item6_trend" class="cbox" value="is_hot_without_purchase_sku||ÈÈÏúÈ±»õÎ´²É¹ºskuÊı"><label for="item6_trend">ÈÈÏúÈ±»õÎ´²É¹ºskuÊı</label></span>
-                        <span><input type="checkbox" id="item8_trend" name="item8_trend" class="cbox" value="available_sku||Êµ¿âskuÊı"><label for="item8_trend">Êµ¿âskuÊı</label></span>
-                        <span><input type="checkbox" name="item11_trend" class="cbox" id="item11_trend" value="lacking_in_1day_sku||1ÌìºóÈ±»õskuÊı" /><label for="item11_trend">1ÌìºóÈ±»õskuÊı</label></span>
-                        <span><input type="checkbox" name="item12_trend" class="cbox" id="item12_trend" value="lacking_in_3days_sku||3ÌìºóÈ±»õskuÊı" /><label for="item12_trend">3ÌìºóÈ±»õskuÊı</label></span>
-                        <span><input type="checkbox" name="item13_trend" class="cbox" id="item13_trend" value="lacking_in_5days_sku||5ÌìºóÈ±»õskuÊı" /><label for="item13_trend">5ÌìºóÈ±»õskuÊı</label></span>
-                        <span><input type="checkbox" name="item14_trend" class="cbox" id="item14_trend" value="lacking_in_7days_sku||7ÌìºóÈ±»õskuÊı" /><label for="item14_trend">7ÌìºóÈ±»õskuÊı</label></span>
+                        <span style="width:640px;">æ—¶é—´å•ä½:
+							<select name="time_selector" id="total_user_time" style="width:120px;margin-left:10px;">
+								<option value="1">å¤©</option>
+								<option value="2">å‘¨</option>
+								<option value="3">æœˆ</option>
+							</select>
+						</span>
 					</div>
 					</div>
 				</div>
 				</div>
 				<div class="mod_list_bd l-panel-bwarp">
-					<div id="stat_content_chart" class="block_content center" style="width: 1000px;height: 450px;margin-left: 50px"></div>
+					<div id="stat_content_chart" class="block_content center" style="width:1200px;height:450px;margin-left:50px;background-color:#000;"></div>
 				</div>
 			</div>
-			<!-- end Ç÷ÊÆÍ¼-->
+			<!-- end è¶‹åŠ¿å›¾-->
 			
 			
-			<!-- Start ÏêÏ¸±¨±í -->
+			<!-- Start è¯¦ç»†æŠ¥è¡¨ -->
 			<div class="mod_list" id="page_sum_table">
 				<div class="mod_list_hd org_l">
-		        <div class="hd"><h3 id="filter_desc_table">ÏêÏ¸±¨±í</h3><span id="date_desc_table" class="sub_tit"></span></div>
-				<div class="mod_tab_list">
-					<ul id="table_tab">
-						<li class="status_on"><a href="javascript:;" value="table_tab_all" id="c_1">È«²¿</a></li>
-						<li><a href="javascript:;" value="table_tab_lack" id="c_2">È±»õ</a></li>
-						<li><a href="javascript:;" value="table_tab_warning" id="c_3">È±»õÔ¤¾¯</a></li>
-						<li><a href="javascript:;" value="table_tab_hotsales" id="c_4">ÈÈÏúÈ±»õÔ¤¾¯</a></li>
-					</ul>
-				</div>
+		        <div class="hd"><h3 id="filter_desc_table">è¶‹åŠ¿å›¾</h3><span id="date_desc_table" class="sub_tit"></span></div>
 				<div id="block_title"></div>
-				<div class="layout_popup  id_download_pop" id="download_tip" style="display: none">
-	            <div class="layout_inner">
-	                <div class="layout_bd">
-	                    <p id="tip_notice"></p>
-	                    <p class="open"><span href="" class="wrap_icon"><i class="icon_cloud"></i>ÎÄ¼şÖĞ×ªÕ¾</span></p>
-	                    <div class="wrap_btn"><a href="javascript:;" class="btn_normal" id="btn_confirm">È·¶¨</a></div>
-	                </div>
-	            </div>
-	            <div class="layout_arrow_top"> <span class="">¡ô</span><i>¡ô</i> </div>
-	        	</div>
 		    	</div>
 				<div class="filter filter3" id="table_detail">
 					<div class="filter_inner">
-						<ul class="filter_list">
-                            <li id="goods_filter_div">
-								<div id="table_tab_all" class="sel_item">
-                                    <span><input type="radio" name="goods" class="cbox" id="goods_0" value="-999999" checked="checked" /><label for="goods_0">È«²¿</label></span>
-									<span><input type="radio" name="goods" class="cbox" id="goods_5" value="5" /><label for="goods_5">ÈÈÏúÉÌÆ·</label></span>
-									<span><input type="radio" name="goods" class="cbox" id="goods_4" value="4" /><label for="goods_4">½¨Òé²É¹ºÉÌÆ·</label></span>
-									<span><input type="radio" name="goods" class="cbox" id="goods_11" value="11" /><label for="goods_11">Áã¿â´æÉÌÆ·</label></span>
-                                </div>
-								<div id="table_tab_lack" class="sel_item" style="display:none">
-                                    <span><input type="radio" name="goods" class="cbox" id="goods_1" value="1" /><label for="goods_1">È±»õÉÌÆ·</label></span>
-									<span><input type="radio" name="goods" class="cbox" id="goods_12" value="12" /><label for="goods_12">ÈÈÏúÈ±»õÉÌÆ·</label></span>
-									<span><input type="radio" name="goods" class="cbox" id="goods_2" value="2" /><label for="goods_2">È±»õÎ´²É¹ºÉÌÆ·</label></span>
-									<span><input type="radio" name="goods" class="cbox" id="goods_3" value="3" /><label for="goods_3">ÈÈÏúÎ´²É¹º</label></span>
-									<span><input type="radio" name="goods" class="cbox" id="goods_6" value="6" /><label for="goods_6">Á¬ĞøÈ±»õÌìÊı´óÓÚ14Ìì</label></span>
-                                </div>
-								<div id="table_tab_warning" class="sel_item" style="display:none">
-                                    <span><input type="radio" name="goods" class="cbox" id="goods_7" value="7" /><label for="goods_7">1ÌìºóÈ±»õ</label></span>
-									<span><input type="radio" name="goods" class="cbox" id="goods_8" value="8" /><label for="goods_8">3ÌìºóÈ±»õ</label></span>
-									<span><input type="radio" name="goods" class="cbox" id="goods_9" value="9" /><label for="goods_9">5ÌìºóÈ±»õ</label></span>
-									<span><input type="radio" name="goods" class="cbox" id="goods_10" value="10" /><label for="goods_10">7ÌìºóÈ±»õ</label></span>
-									<span><input type="radio" name="goods" class="cbox" id="goods_13" value="13" /><label for="goods_13">1ÌìºóÈ±»õÎ´²É¹º</label></span>
-									<span><input type="radio" name="goods" class="cbox" id="goods_14" value="14" /><label for="goods_14">3ÌìºóÈ±»õÎ´²É¹º</label></span>
-									<span><input type="radio" name="goods" class="cbox" id="goods_15" value="15" /><label for="goods_15">5ÌìºóÈ±»õÎ´²É¹º</label></span>
-									<span><input type="radio" name="goods" class="cbox" id="goods_16" value="16" /><label for="goods_16">7ÌìºóÈ±»õÎ´²É¹º</label></span>
-                                </div>
-								<div id="table_tab_hotsales" class="sel_item" style="display:none">
-                                    <span><input type="radio" name="goods" class="cbox" id="goods_17" value="17" /><label for="goods_17">1ÌìºóÈ±»õ</label></span>
-									<span><input type="radio" name="goods" class="cbox" id="goods_18" value="18" /><label for="goods_18">3ÌìºóÈ±»õ</label></span>
-									<span><input type="radio" name="goods" class="cbox" id="goods_19" value="19" /><label for="goods_19">5ÌìºóÈ±»õ</label></span>
-									<span><input type="radio" name="goods" class="cbox" id="goods_20" value="20" /><label for="goods_20">7ÌìºóÈ±»õ</label></span>
-									<span><input type="radio" name="goods" class="cbox" id="goods_21" value="23" /><label for="goods_21">1ÌìºóÈ±»õÎ´²É¹º</label></span>
-									<span><input type="radio" name="goods" class="cbox" id="goods_22" value="22" /><label for="goods_22">3ÌìºóÈ±»õÎ´²É¹º</label></span>
-									<span><input type="radio" name="goods" class="cbox" id="goods_23" value="23" /><label for="goods_23">5ÌìºóÈ±»õÎ´²É¹º</label></span>
-									<span><input type="radio" name="goods" class="cbox" id="goods_24" value="24" /><label for="goods_24">7ÌìºóÈ±»õÎ´²É¹º</label></span>
-                                </div>
-                            </li>
-                        </ul>
-						
 						<div id="table_show_options">
-							<div id="table_show_options_div" >
-								<div id="table_show_options_details">
+							<div id="table_show_options_div" class="filter_inner">
+								<div id="table_show_options_details" class="filter">
 									<div id="table_tab_dimension" class="sel_item">
-										Î¬¶È²ÎÊı:<span class="depart_pm" style="margin-left:10px;"><input type="checkbox" id="item15" name="item15" class="cbox" value="department_name"><label for="item15">²¿ÃÅ</label></span>
-										<span class="depart_pm"><input type="checkbox" id="item16" name="item16" class="cbox" value="pm_name"><label for="item16">²ÉÏú</label></span>
-										<span class="depart_pm"><input type="checkbox" id="item17" name="item17" class="cbox" value="ppm_name"><label for="item17">¹©¹Ü</label></span>
-									</div>
-									<div id="table_tab_base" class="sel_item">
-										»ù±¾²ÎÊı:<span style="margin-left:10px;"><input type="checkbox" id="itemall" name="itemall" class="cbox" value=""><label for="itemall">È«Ñ¡</label></span>
-										<span><input type="checkbox" id="item1" name="item1" class="cbox" checked="checked" value="is_stock_purchase"><label for="item1">±¾²ÖÊÇ·ñ²É¹º</label></span>
-										<span><input type="checkbox" id="item9" name="item9" class="cbox" checked="checked" value="rest_days"><label for="item9">Ô¤¼ÆÏúÊÛÌìÊı</label></span>
-										<span><input type="checkbox" id="item4" name="item4" class="cbox" checked="checked" value="daily_sale_qty"><label for="item4">Æ½¾ùÈÕÏúÁ¿</label></span>
-										<span><input type="checkbox" id="item5" name="item5" class="cbox" value="sale_trend"><label for="item5">ÏúÊÛÇ÷ÊÆ</label></span>
-										<span><input type="checkbox" id="item2" name="item2" class="cbox" value="daily_pv"><label for="item2">ÈÕÆ½¾ùPV</label></span>
-                                        <span><input type="checkbox" id="item3" name="item3" class="cbox" checked="checked" value="daily_uv"><label for="item3">ÈÕÆ½¾ùUV</label></span>
-									</div>        
+										<span style="width:640px;">æ—¶é—´å•ä½:<select name="zhibiao" id="mix_user_time" style="width:120px;margin-left:10px;">
+											<option value="1">å¤©</option>
+											<option value="2">å‘¨</option>
+											<option value="3">æœˆ</option>
+										</select></span>
+									</div>    
 								</div>
 							</div>
-							<div id ="v_togglebar_2_div" class="filter_close" ><a class="v_togglebar" id="togglebar_2" href="javascript:;"></a></div>
 						</div>
 					</div>
 					
@@ -186,109 +107,338 @@
 			        <div id="stats_content_detail" class="block_content center" ></div>
 			    </div>
 			</div>
-			<!-- End ÏêÏ¸±¨±í -->
+			<!-- End è¯¦ç»†æŠ¥è¡¨ -->
 			
-			<!-- Start Ç÷ÊÆÏêÏ¸±¨±í -->
-			<div class="mod_list" style="display:none" id="page_trend_table">
-			    <div class="mod_list_hd org_l">
-			        <div class="hd"><h3 id="filter_desc_table_trend">ÏêÏ¸±¨±í</h3><span id="date_desc_table_trend" class="sub_tit"></span></div>
-					<div id="block_title_trend" style="float:right"></div>
-					<!-- <div class="layout_popup  id_download_pop" id="download_tip" style="display: none">
-		            <div class="layout_inner">
-		                <div class="layout_bd">
-		                    <p>ÌáÊ¾£ºÓÉÓÚ¸Ã±í¸ñÊı¾İÁ¿¹ı´ó£¬ĞèÖĞ×ª
-		                       	 ÏÂÔØ£¬ÇëÉÔºóµ½Ò³Ãæ×óÉÏ½ÇµÄÎÄ¼şÖĞ×ªÕ¾ÖĞÌáÈ¡¡£</p>
-		                    <p class="open"><span href="" class="wrap_icon"><i class="icon_cloud"></i>ÎÄ¼şÖĞ×ªÕ¾</span></p>
-		                    <div class="wrap_btn"><a href="#" class="btn_normal" id="btn_confirm">È·¶¨</a></div>
-		                </div>
-		            </div>
-		            <div class="layout_arrow_top"> <span class="">¡ô</span><i>¡ô</i> </div>
-	        	</div> -->
-			    </div>
-				<div class="filter filter3" id="table_detail">
-					<div class="filter_inner">
-					<div class="filter">
-					<div id="option_item">
-						<div class="sel_item" id="table_filter_div">
-                            <!--span><input type="checkbox" name="goods_all_trend" class="cbox" id="goods_all_trend" value=""  /><label for="goods_all_trend">È«Ñ¡</label></span-->
-                            <span><input type="checkbox" name="goods_6_trend" class="cbox" id="goods_6_trend" value="product_sku||ÉÌÆ·skuÊı£¨È«²¿£©||int||140" checked="checked" /><label for="goods_6_trend">ÉÌÆ·skuÊı£¨È«²¿£©</label></span>
-                            <span><input type="checkbox" name="goods_1_trend" class="cbox" id="goods_1_trend" value="product_sku_stock||ÉÌÆ·skuÊı£¨±¾²ÖÏúÊÛ£©||int||160"/><label for="goods_1_trend">ÉÌÆ·skuÊı£¨±¾²ÖÏúÊÛ£©</label></span>
-                            <span><input type="checkbox" name="goods_9_trend" class="cbox" id="goods_9_trend" value="is_lacking_sku||È±»õskuÊı||int||100" checked="checked" /><label for="goods_9_trend">È±»õskuÊı</label></span>
-                            <span><input type="checkbox" name="goods_0_trend" class="cbox" id="goods_0_trend" value="is_lacking_per||È±»õÂÊ||rate||90" checked="checked" /><label for="goods_0_trend">È±»õÂÊ</label></span>
-                            <span><input type="checkbox" name="goods_4_trend" class="cbox" id="goods_4_trend" value="is_lacking_without_purchase_sku||È±»õÎ´²É¹ºskuÊı||int||140" /><label for="goods_4_trend">È±»õÎ´²É¹ºskuÊı</label></span>
-                            <span><input type="checkbox" name="goods_8_trend" class="cbox" id="goods_8_trend" value="is_hot_sku||ÈÈÏúskuÊı||int||100" /><label for="goods_8_trend">ÈÈÏúskuÊı</label></span>
-                            <span><input type="checkbox" name="goods_2_trend" class="cbox" id="goods_2_trend" value="is_hot_lacking_sku||ÈÈÏúÈ±»õskuÊı||int||140" /><label for="goods_2_trend">ÈÈÏúÈ±»õskuÊı</label></span>
-                            <span><input type="checkbox" name="goods_3_trend" class="cbox" id="goods_3_trend" value="is_hot_lacking_per||ÈÈÏúÈ±»õÂÊ||rate||100" /><label for="goods_3_trend">ÈÈÏúÈ±»õÂÊ</label></span>
-                            <span><input type="checkbox" name="goods_5_trend" class="cbox" id="goods_5_trend" value="is_hot_without_purchase_sku||ÈÈÏúÈ±»õÎ´²É¹ºskuÊı||int||160" /><label for="goods_5_trend">ÈÈÏúÈ±»õÎ´²É¹ºskuÊı</label></span>
-                            <span><input type="checkbox" name="goods_7_trend" class="cbox" id="goods_7_trend" value="available_sku||Êµ¿âskuÊı||int||100" /><label for="goods_7_trend">Êµ¿âskuÊı</label></span>
-                            <span><input type="checkbox" name="goods_10_trend" class="cbox" id="goods_10_trend" value="lacking_in_1day_sku||1ÌìºóÈ±»õskuÊı||int||120" /><label for="goods_10_trend">1ÌìºóÈ±»õskuÊı</label></span>
-                            <span><input type="checkbox" name="goods_11_trend" class="cbox" id="goods_11_trend" value="lacking_in_3days_sku||3ÌìºóÈ±»õskuÊı||int||120" /><label for="goods_11_trend">3ÌìºóÈ±»õskuÊı</label></span>
-                            <span><input type="checkbox" name="goods_12_trend" class="cbox" id="goods_12_trend" value="lacking_in_5days_sku||5ÌìºóÈ±»õskuÊı||int||120" /><label for="goods_12_trend">5ÌìºóÈ±»õskuÊı</label></span>
-                            <span><input type="checkbox" name="goods_13_trend" class="cbox" id="goods_13_trend" value="lacking_in_7days_sku||7ÌìºóÈ±»õskuÊı||int||120" /><label for="goods_13_trend">7ÌìºóÈ±»õskuÊı</label></span>
-						</div>				
-					</div>
-					</div>
-					</div>
-				</div>
-				<div class="mod_list_bd" style="margin-top:5px;">
-				
-			        <div id="stats_content_detail_trend" class="block_content center"></div>
-			    </div>
-			    </div>
-			    <!-- End Ç÷ÊÆÏêÏ¸±¨±í -->
-
-			<!--Ö¸±ê½âÊÍ S-->
+			<!--æŒ‡æ ‡è§£é‡Š S-->
 			<div id="terms_definition_div" class="mod_list id_intr">
 			    <div class="mod_list_hd">
-			        <h3>Ö¸±ê½âÊÍ</h3>
+			        <h3>æŒ‡æ ‡è§£é‡Š</h3>
 			    </div>
 			    <div class="mod_list_bd" id="term_definition_list">
-					<p><strong>ÈÕÆ½¾ùPV: </strong>ËùÑ¡ÈÕÆÚÇ°14ÌìÉÌÆ·µÄPVÖ®ºÍ/14¡£</p>
-					<p><strong>ÈÕÆ½¾ùUV: </strong>ËùÑ¡ÈÕÆÚÇ°14ÌìÉÌÆ·µÄUVÖ®ºÍ/14¡£</p>
-					<p><strong>Æ½¾ùÈÕÏúÁ¿: </strong>ËùÑ¡ÈÕÆÚÇ°14ÌìÉÌÆ·µÄÏúÊÛÊıÁ¿Ö®ºÍ/14¡£</p>
-					<p><strong>¿â´æÊıÁ¿£º</strong>ËùÑ¡Ê±¼äÊ±µÄ²ÆÎñÊıÁ¿¡£</p>
-					<p><strong>Ğé¿âÊıÁ¿£º</strong>ËùÑ¡Ê±¼äÊ±µÄĞéÄâ¿â´æÊıÁ¿¡£</p>
-					<p><strong>¿ÉÓÃÊıÁ¿£º</strong>ËùÑ¡Ê±¼äÊ±µÄ¿ÉÓÃÊıÁ¿¡£</p>
-					<p><strong>Ô¤¼ÆÏúÊÛÌìÊı£º</strong>ËùÑ¡Ê±¼äÊ±µÄ¿ÉÓÃÊıÁ¿/Æ½¾ùÈÕÏúÁ¿¡£</p>
-					<p><strong>²É¹ºÔÚÍ¾ÊıÁ¿£º</strong>ÉÌÆ·±»Éú³ÉÁË²É¹ºµ¥ÇÒ²É¹ºµ¥ÎªÒÑÉóºË×´Ì¬¡£</p>
-					<p><strong>ÀÛ¼ÆÈ±»õÌìÊı£º</strong>ÉÌÆ·µ±ÔÂÀÛ¼ÆÈ±»õÌìÊı¡£</p>
-					<p><strong>µ±Ç°È±»õÌìÊı£º</strong>Ä¿Ç°µ½Ö®Ç°Ã»ÓĞÈ±»õµÄÌìÊı¡£</p>
-					<p><strong>ÏúÊÛÇ÷ÊÆ£º</strong>d1d2d3w1w2w3m1m2m3£¬ËùÑ¡Ê±¼äµÄÇ°Ò»ÌìÏúÊÛÊıÁ¿/Ç°µÚ¶şÌì/Ç°µÚÈıÌì/Ç°Ò»ÖÜ/Ç°µÚ¶şÖÜ/Ç°µÚÈıÖÜ/Ç°Ò»ÔÂ/Ç°µÚ¶şÔÂ/Ç°µÚÈıÔÂ¡£</p>
-					<p><strong>È±»õÉÌÆ·£º</strong>1 ÉÌÆ·ÊôĞÔÖĞÓ¦Îª'±¾²Ö²É¹º'µÄÉÌÆ·£»2 Èô¸ÃÉÌÆ·ÔÚÆäËü²ÖÖĞÖ§³Ö'±¾²ÖÏúÊÛ',ÔÚÆäËü²ÖÖĞÒ²Ó¦ÎŞ»õ£»3 ÒÑÉÏ¼Ü×´Ì¬ÇÒ¿ÉÓÃ¿â´æ+ĞéÄâ¿â´æĞ¡ÓÚ»òµÈÓÚ0¡£Âú×ãÒÔÉÏÌõ¼şµÄÉÌÆ·ÖÖÀàÊı»ã×Ü¡£</p>
-					<p><strong>ÈÈÏúÈ±»õÉÌÆ·£º</strong>È±»õÉÌÆ·ÖĞÊÇÈÈÏúÉÌÆ·¡£ÈÈÏú¶¨Òå£º½üÁ½ÖÜ¡¢µ¥²ÖÏúÊÛÊıÁ¿ÅÅÃûÕ¼±¾²ÖÇ°20%ÇÒÂú×ãDMSÔÚ0.05ÒÔÉÏµÄÉÌÆ·andĞ¡Àà×î½üÁ½ÖÜÏúÊÛÊıÁ¿ÔÚ¸ÃĞ¡ÀàTOP10%µÄÉÌÆ·¡£</p>
-					<p><strong>È±»õÎ´²É¹ºÉÌÆ·£º</strong>È±»õÉÌÆ·ÖĞ²É¹ºÔÚÍ¾ÊıÁ¿Îª0µÄÉÌÆ·¡£</p>
-					<p><strong>ÈÈÏúÎ´²É¹ºÉÌÆ·£º</strong>ÈÈÏúÉÌÆ·ÖĞ£¬ÈÕ¾ùÔÚ0.5ÒÔÉÏ£¬²É¹ºÔÚÍ¾Îª0ÇÒ¿â´æÊıÁ¿¼õÈ¥Æ½¾ùÈÕÏúÁ¿*2µÄÊıÖµĞ¡ÓÚµÈÓÚÁãµÄÉÌÆ·¡£</p>
-					<p><strong>½¨Òé²É¹ºÉÌÆ·£º</strong>Ô¤¼ÆÏúÊÛÌìÊıĞ¡ÓÚµÈÓÚ7µÄÉÌÆ·¡£</p>
-					<p><strong>ÈÈÏú¶¨Òå£º</strong>½üÁ½ÖÜ¡¢µ¥²ÖÏúÊÛÊıÁ¿ÅÅÃûÕ¼±¾²ÖÇ°20%ÇÒÂú×ãDMSÔÚ0.05ÒÔÉÏµÄÉÌÆ·andĞ¡Àà×î½üÁ½ÖÜÏúÊÛÊıÁ¿ÔÚ¸ÃĞ¡ÀàTOP10%µÄÉÌÆ·¡£</p>
+					<p><strong>æ´»è·ƒç”¨æˆ·: </strong>ç™»å½•ç”¨æˆ·-æ–°å¢ç”¨æˆ·ã€‚</p>
 			     </div>
 			</div>
-			<!--Ö¸±ê½âÊÍ E-->
-			
-			<!--Ç÷ÊÆÖ¸±ê½âÊÍ S-->
-			<div id="terms_definition_div_trend" class="mod_list id_intr" style="display:none">
-			    <div class="mod_list_hd">
-			        <h3>Ö¸±ê½âÊÍ</h3>
-			    </div>
-			    <div class="mod_list_bd" id="term_definition_list">
-					<p><strong>ÉÌÆ·skuÊı£¨È«²¿£©£º</strong>ÉÌÆ·×´Ì¬ÎªÕı³£¡¢show×´Ì¬ÏÂµÄÉÌÆ·ÖÖÀàÊı¡£</p>
-                    <p><strong>ÉÌÆ·skuÊı£¨±¾²ÖÏúÊÛ£©£º</strong>1 ÉÌÆ·×´Ì¬ÎªÕı³£¡¢show×´Ì¬ÏÂµÄÉÌÆ·ÖÖÀàÊı£»2 ±¾²ÖÊÇ·ñ²É¹ºÎªÊÇ¡£</p>
-                    <p><strong>È±»õskuÊı£º</strong>Õı³£ÇÒshow×´Ì¬ÉÌÆ·ÖĞÈ±»õÉÌÆ·µÄÉÌÆ·ÖÖÀàÊı¡£</p>
-                    <p><strong>È±»õÂÊ£º</strong>È±»õskuÊı/ÉÌÆ·skuÊı£¨È«²¿£©¡£</p>
-                    <p><strong>È±»õÎ´²É¹ºskuÊı£º</strong>Õı³£ÇÒshow×´Ì¬ÉÌÆ·ÖĞÈ±»õÉÌÆ·ÇÒ²É¹ºÔÚÍ¾ÊıÁ¿Îª0¡£</p>
-                    <p><strong>ÈÈÏúskuÊı£º</strong>Õı³£ÇÒshow×´Ì¬ÉÌÆ·ÖĞÈÈÏúÉÌÆ·µÄÉÌÆ·ÖÖÀàÊı¡£</p>
-                    <p><strong>ÈÈÏúÈ±»õskuÊı£º</strong>ÈÈÏúÉÌÆ·ÖĞÈ±»õµÄÉÌÆ·ÖÖÀàÊı¡£</p>
-                    <p><strong>ÈÈÏúÈ±»õÂÊ£º</strong>ÈÈÏúÈ±»õskuÊı/ÈÈÏúskuÊı¡£</p>
-                    <p><strong>ÈÈÏúÈ±»õÎ´²É¹ºskuÊı£º</strong>Õı³£ÇÒshow×´Ì¬ÉÌÆ·ÖĞÈÈÏúÈ±»õÉÌÆ·ÇÒ²É¹ºÔÚÍ¾ÊıÁ¿Îª0¡£</p>
-					<p><strong>Êµ¿âskuÊı£º</strong>Õı³£ÇÒshow×´Ì¬ÉÌÆ·ÖĞ£¬¿ÉÓÃÊıÁ¿>=1µÄÉÌÆ·ÖÖÀàÊı¡£</p>
-			     </div>
-			</div>
-			<!--Ç÷ÊÆÖ¸±ê½âÊÍ E-->
-			
+			<!--æŒ‡æ ‡è§£é‡Š E-->
 			</div>
 			</div>
 		</div>
 	</div>
-<script></script>
+<script>
+$(document).ready(function(){
+	
+var statUser = {};
+
+//è°ƒç”¨æ¥å£
+statUser.cgi = {
+	"highlight" : "/Visual/User/totalSummary",
+	"totalData" : "/Visual/User/totalDetail",
+	"mixData" : "/Visual/User/cumulationData"
+};
+
+statUser.actionHtml = function (){
+	$("#total_user_time").change(statUser.getTotalUser);
+	$("#mix_user_time").change(statUser.getMixUser);
+}
+
+statUser.init = function (){
+	
+	statUser.actionHtml();
+	statUser.getHighLight();
+	statUser.getTotalUser();
+	statUser.getMixUser();
+}
+
+//è·å–hightlineæ•°æ®
+statUser.getHighLight = function(){
+	$.ajax({
+		type : 'POST',
+		url : statUser.cgi.highlight,
+		dataType : 'json',
+		success: function(rdata) {
+			if(rdata.code == 1){
+				var data = rdata.data;
+
+				$("#total_user").html(window.G.common.formatInt(1,1,data[0].cumulation_user));
+				$("#new_user").html(window.G.common.formatInt(1,1,data[0].new_user));
+				$("#login_user").html(window.G.common.formatInt(1,1,data[0].login_user));
+				$("#active_user").html(window.G.common.formatInt(1,1,data[0].active_user));
+				$("#date_show").text(data[0].datestamp);
+			}
+		}
+	});
+};
+
+//è·å–ç´¯è®¡ç”¨æˆ·æ•°
+statUser.getTotalUser = function(){
+	
+	var params = {};
+	params['type'] = $("#total_user_time").val();
+	console.log(params);
+
+	$.ajax({
+		type : 'POST',
+		url : statUser.cgi.totalData,
+		dataType : 'json',
+		data: '&' + window.G.common.jsonToUrl(params),
+		success: function(rdata) {
+			if(rdata.code == 1){
+				var graph_data = rdata.data;
+				showModColumns(graph_data, 'stat_content_chart');
+			}
+		}
+	});
+}
+
+//è·å–æ–°å¢ã€æ´»è·ƒç”¨æˆ·æ•°
+statUser.getMixUser = function(){
+	
+	var params = {};
+	params['type'] = $("#mix_user_time").val();
+	console.log(params);
+
+	$.ajax({
+		type : 'POST',
+		url : statUser.cgi.mixData,
+		dataType : 'json',
+		data: '&' + window.G.common.jsonToUrl(params),
+		success: function(rdata) {
+			if(rdata.code == 1){
+				var data = rdata.data;
+				showTimeLines(data, 'stats_content_detail');
+			}
+		}
+	});
+}
+
+function showModColumns(data, oDiv){
+	
+	var d1=[], s_date=[];
+
+	var style_type = 'column';
+	
+	var series = [];
+
+	for(var i in data){
+		s_date.push(data[i].datestamp);
+		d1.push(parseInt(data[i].cumulation_user) || null);
+	}
+
+
+	var start_item = {
+			name: 'ç´¯è®¡ç”¨æˆ·é‡',
+			data: d1
+		};
+
+	series.push(start_item);
+
+	var chart = new Highcharts.Chart({
+        chart: {
+            renderTo: oDiv,
+            type: style_type,
+            margin: 75,
+            options3d: {
+                enabled: true,
+                alpha: 15, //æŸ±å½¢å›¾å€¾æ–œè§’åº¦
+                beta: 15, 
+                depth: 50,
+                viewDistance: 25
+            }
+        },
+        title: {
+            text: 'ç´¯è®¡ç”¨æˆ·é‡'
+        },
+        subtitle: {
+            text: ''
+        },
+		credits:{
+			enabled:false
+		},
+        plotOptions: {
+            column: {
+                depth: 25
+            }
+        },
+		xAxis:{
+			categories: s_date,
+            lineColor:'#e5e5e5',
+            tickColor:'#e5e5e5',
+            labels:{
+            	style:{
+            		color:'#7a7a7a',
+            	},
+            },
+            tickPosition:'inside',
+            tickLength:4,
+            tickmarkPlacement:'on',
+			tickInterval: 1
+		},
+		yAxis:[{
+			labels:{
+				format:{literal}'{value}'{/literal},
+				formatter: function(){
+					return window.G.common.formatInt(0,0,this.value);
+				},
+				style:{
+					color:'#f6505c'
+				}
+			},
+			title:{
+				enabled:false
+			},
+			min: 0
+		}],
+        series: series,
+		legend:{
+			align:'center',
+			verticalAlign:'top',
+			borderWidth:0,
+			x:380,
+			title:{
+                style: {
+                    fontStyle: 'italic'
+                }
+            }
+		},
+		exporting:{
+			enabled:false
+		}
+    });
+}
+
+function showTimeLines(data, oDiv){
+	if(!data){
+		return;
+	}
+
+	var d1=[], d2=[], d3=[], s_date=[];
+
+	var style_type = 'line';
+	
+	var series = [];
+
+	for(var i in data){
+		s_date.push(data[i].datestamp);
+		d1.push(parseInt(data[i].login_user));
+		d2.push(parseInt(data[i].active_user));
+		d3.push(parseInt(data[i].new_user));
+	}
+
+	/*console.log(d1);
+	console.log(d2);
+	console.log(d3);*/
+
+	var start_item = {
+			name: 'ç™»å½•ç”¨æˆ·',
+			type:style_type,
+			data: d1
+		};
+	
+	series.push(start_item);
+
+	var second_item = {
+		name: 'æ´»è·ƒç”¨æˆ·',
+		type:style_type,
+		data: d2
+	}
+	series.push(second_item);
+
+	var third_item = {
+		name: 'æ–°å¢ç”¨æˆ·',
+		type:style_type,
+		data: d3
+	}
+	series.push(third_item);
+
+
+	var chart1 = new Highcharts.Chart({
+		title:{
+			text:"",
+			align:"center",
+			style:{
+				color: '#b5b5b9',
+				fontSize:'14px'
+			}
+		},
+		credits:{
+			enabled:false
+		},
+		chart:{
+			renderTo: oDiv,
+			style: {
+				fontFamily: '"Lucida Grande", "Lucida Sans Unicode","microsoft yahei",Verdana, Arial, Helvetica, sans-serif', 
+				fontSize: '12px'
+			},
+			marginRight:100,
+			marginTop:60,
+			marginLeft:150
+		},
+		xAxis:{
+			categories: s_date,
+            lineColor:'#e5e5e5',
+            tickColor:'#e5e5e5',
+            labels:{
+            	style:{
+            		color:'#7a7a7a',
+            	},
+            },
+            tickPosition:'inside',
+            tickLength:4,
+            tickmarkPlacement:'on',
+			tickInterval: 1
+		},
+		yAxis:[{
+			labels:{
+				format:{literal}'{value}'{/literal},
+				formatter: function(){
+					return window.G.common.formatInt(0,0,this.value);
+				},
+				style:{
+					color:'#f6505c'
+				}
+			},
+			title:{
+				enabled:false
+			},
+			min: 0
+		}],
+		legend:{
+			align:'center',
+			verticalAlign:'top',
+			borderWidth:0,
+			x:380,
+			itemStyle:{
+				fontWeight:'normal',
+				color:'#a1a8b4'
+			},
+			itemHoverStyle: {
+				color: '#c9c9c9'
+			}
+		},
+		tooltip:{
+			shared:false
+		},
+		series: series,
+		plotOptions:{
+			line:{
+				marker:{
+					fillColor: '#FFFFFF',
+                    lineWidth: 2,
+                    lineColor: null,
+                    symbol: 'circle'
+				}
+			}
+		},
+		exporting:{
+			enabled:false
+		}
+	})
+}
+
+
+statUser.init();
+
+});	
+</script>
 </body>
 </html>
 			
