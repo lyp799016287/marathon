@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<meta content="IE=EmulateIE8" http-equiv="X-UA-Compatible">
+<title>采销工作台-缺货管理</title>
+<link href="/res/websrc/UIlib/ligerUI-1.1.9/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
+<link href="/res/websrc/css/index.css" rel="stylesheet" type="text/css" />
+<!--<script src="/res/UIlib/jquery/jquery-1.5.2.min.js" type="text/javascript"></script>
+<script src="/res/js/jquery.blockUI.js" type="text/javascript" charset="utf-8"></script>
+<script src="/res/UIlib/ligerUI-1.1.9/js/core/base.js" type="text/javascript"></script>
+<script src="/res/UIlib/ligerUI-1.1.9/js/plugins/ligerGrid.js" type="text/javascript" charset="utf-8"></script>
+<script src="/res/UIlib/ligerUI-1.1.9/js/plugins/ligerResizable.js" type="text/javascript"></script>
+<script src="/res/UIlib/tablerender.js" type="text/javascript" charset="utf-8"></script>
+<script src="/res/UIlib/ligerUI-1.1.9/js/plugins/ligerDateEditor.js" type="text/javascript" charset="utf-8"></script>
+<script src="/res/js/util.js" type="text/javascript" charset="utf-8"></script>
+<script src="/res/js/DateEditor.js" type="text/javascript"></script>
+<script src="/res/js/amcharts.js" type="text/javascript"></script>
+<script src="/res/js/raphael.js" type="text/javascript"></script>
+<script src="/res/js/common.js?d=20130108" type="text/javascript"></script>
+<script src="/res/js/purchase.js?d=20130108" type="text/javascript"></script>
+<script src="/res/js/autocomplete.js" type="text/javascript" charset="utf-8"></script>-->
+<style type="text/css">
+#table_show_options_sum span { width:150px;display: inline-block;}
+#table_show_options_details span { /*width:150px;*/display: inline-block;} 
+#table_filter_div span { width:190px;display: inline-block;} 
+#show_item_div span { width:190px;display: inline-block;} 
+</style>
+</head>
+<body>
+	<div class="main clearfix">
+		<div class="content">
+			<div class="inner">
+			<div class="cont_hd"><span>采销数据台</span><span class="split">/</span><span>内部管理</span><span class="split">/</span><strong class="current">缺货管理</strong></div>
+			<div class="cont_bd">		
+			<!-- start highline -->
+			<div class="hightline" id="highlight">
+				<div class="hd"><h3 id="filter_desc_keydata">关键数据</h3><span id="date_desc_keydata" class="sub_tit"></span></div>
+				<div class="bd clearfix">
+	            <ul class="hight_list" id="highlight_list">
+					<li>
+						<p class='tit'>缺货sku数</p>
+						<p class='nu'>1,000,000</p>
+						<p name='ratio' class=''>内部数据
+						<span class='up_green'><i></i>23%<span class='num' name='in_num'>(+2%)</span></span>
+						</p>
+					</li>
+					<li>
+						<p class='tit'>缺货率</p>
+						<p class='nu'>1,000,000</p>
+						<p name='ratio' class=''>内部数据
+						<span class='up_green'><i></i>23%<span class='num' name='in_num'>(+2%)</span></span>
+						</p>
+					</li>
+				</ul>
+	        	</div>
+			</div>
+			<!-- end highline -->
+			
+			<!-- Start 趋势图-->
+			<div class="mod_list mod_border" id="trend_graph">
+				<div class="mod_list_hd org_l">
+				<div class="hd">
+					<h3 id="filter_desc_graph">趋势图</h3><span id="date_desc_graph" class="sub_tit"></span>
+				</div>
+				</div>
+				<div class="filter filter3" id="graph_detail">
+					<div class="filter_inner">
+					<div class="filter">
+					<div class="sel_item" id="show_item_div">
+                        <span><input type="checkbox" id="item1_trend" name="item1_trend" class="cbox" value="product_sku||商品sku数（全部）"><label for="item1_trend">商品sku数（全部）</label></span>
+                        <span><input type="checkbox" id="item7_trend" name="item7_trend" class="cbox" value="product_sku_stock||商品sku数（本仓销售）"><label for="item7_trend">商品sku数（本仓销售）</label></span>
+                        <span><input type="checkbox" id="item2_trend" name="item2_trend" class="cbox" checked="checked" value="is_lacking_sku||缺货sku数"><label for="item2_trend">缺货sku数</label></span>
+                        <span><input type="checkbox" id="item3_trend" name="item3_trend" class="cbox" checked="checked" value="is_lacking_per||缺货率"><label for="item3_trend">缺货率</label></span>
+                        <span><input type="checkbox" id="item5_trend" name="item5_trend" class="cbox" value="is_lacking_without_purchase_sku||缺货未采购sku数"><label for="item5_trend">缺货未采购sku数</label></span>
+                        <span><input type="checkbox" id="item4_trend" name="item4_trend" class="cbox" checked="checked" value="is_hot_sku||热销sku数"><label for="item4_trend">热销sku数</label></span>
+                        <span><input type="checkbox" id="item10_trend" name="item10_trend" class="cbox" checked="checked" value="is_hot_lacking_sku||热销缺货sku数"><label for="item10_trend">热销缺货sku数</label></span>
+                        <span><input type="checkbox" id="item9_trend" name="item9_trend" class="cbox" checked="checked" value="is_hot_lacking_per||热销缺货率"><label for="item9_trend">热销缺货率</label></span>
+                        <span><input type="checkbox" id="item6_trend" name="item6_trend" class="cbox" value="is_hot_without_purchase_sku||热销缺货未采购sku数"><label for="item6_trend">热销缺货未采购sku数</label></span>
+                        <span><input type="checkbox" id="item8_trend" name="item8_trend" class="cbox" value="available_sku||实库sku数"><label for="item8_trend">实库sku数</label></span>
+                        <span><input type="checkbox" name="item11_trend" class="cbox" id="item11_trend" value="lacking_in_1day_sku||1天后缺货sku数" /><label for="item11_trend">1天后缺货sku数</label></span>
+                        <span><input type="checkbox" name="item12_trend" class="cbox" id="item12_trend" value="lacking_in_3days_sku||3天后缺货sku数" /><label for="item12_trend">3天后缺货sku数</label></span>
+                        <span><input type="checkbox" name="item13_trend" class="cbox" id="item13_trend" value="lacking_in_5days_sku||5天后缺货sku数" /><label for="item13_trend">5天后缺货sku数</label></span>
+                        <span><input type="checkbox" name="item14_trend" class="cbox" id="item14_trend" value="lacking_in_7days_sku||7天后缺货sku数" /><label for="item14_trend">7天后缺货sku数</label></span>
+					</div>
+					</div>
+				</div>
+				</div>
+				<div class="mod_list_bd l-panel-bwarp">
+					<div id="stat_content_chart" class="block_content center" style="width: 1000px;height: 450px;margin-left: 50px"></div>
+				</div>
+			</div>
+			<!-- end 趋势图-->
+			
+			
+			<!-- Start 详细报表 -->
+			<div class="mod_list" id="page_sum_table">
+				<div class="mod_list_hd org_l">
+		        <div class="hd"><h3 id="filter_desc_table">详细报表</h3><span id="date_desc_table" class="sub_tit"></span></div>
+				<div class="mod_tab_list">
+					<ul id="table_tab">
+						<li class="status_on"><a href="javascript:;" value="table_tab_all" id="c_1">全部</a></li>
+						<li><a href="javascript:;" value="table_tab_lack" id="c_2">缺货</a></li>
+						<li><a href="javascript:;" value="table_tab_warning" id="c_3">缺货预警</a></li>
+						<li><a href="javascript:;" value="table_tab_hotsales" id="c_4">热销缺货预警</a></li>
+					</ul>
+				</div>
+				<div id="block_title"></div>
+				<div class="layout_popup  id_download_pop" id="download_tip" style="display: none">
+	            <div class="layout_inner">
+	                <div class="layout_bd">
+	                    <p id="tip_notice"></p>
+	                    <p class="open"><span href="" class="wrap_icon"><i class="icon_cloud"></i>文件中转站</span></p>
+	                    <div class="wrap_btn"><a href="javascript:;" class="btn_normal" id="btn_confirm">确定</a></div>
+	                </div>
+	            </div>
+	            <div class="layout_arrow_top"> <span class="">◆</span><i>◆</i> </div>
+	        	</div>
+		    	</div>
+				<div class="filter filter3" id="table_detail">
+					<div class="filter_inner">
+						<ul class="filter_list">
+                            <li id="goods_filter_div">
+								<div id="table_tab_all" class="sel_item">
+                                    <span><input type="radio" name="goods" class="cbox" id="goods_0" value="-999999" checked="checked" /><label for="goods_0">全部</label></span>
+									<span><input type="radio" name="goods" class="cbox" id="goods_5" value="5" /><label for="goods_5">热销商品</label></span>
+									<span><input type="radio" name="goods" class="cbox" id="goods_4" value="4" /><label for="goods_4">建议采购商品</label></span>
+									<span><input type="radio" name="goods" class="cbox" id="goods_11" value="11" /><label for="goods_11">零库存商品</label></span>
+                                </div>
+								<div id="table_tab_lack" class="sel_item" style="display:none">
+                                    <span><input type="radio" name="goods" class="cbox" id="goods_1" value="1" /><label for="goods_1">缺货商品</label></span>
+									<span><input type="radio" name="goods" class="cbox" id="goods_12" value="12" /><label for="goods_12">热销缺货商品</label></span>
+									<span><input type="radio" name="goods" class="cbox" id="goods_2" value="2" /><label for="goods_2">缺货未采购商品</label></span>
+									<span><input type="radio" name="goods" class="cbox" id="goods_3" value="3" /><label for="goods_3">热销未采购</label></span>
+									<span><input type="radio" name="goods" class="cbox" id="goods_6" value="6" /><label for="goods_6">连续缺货天数大于14天</label></span>
+                                </div>
+								<div id="table_tab_warning" class="sel_item" style="display:none">
+                                    <span><input type="radio" name="goods" class="cbox" id="goods_7" value="7" /><label for="goods_7">1天后缺货</label></span>
+									<span><input type="radio" name="goods" class="cbox" id="goods_8" value="8" /><label for="goods_8">3天后缺货</label></span>
+									<span><input type="radio" name="goods" class="cbox" id="goods_9" value="9" /><label for="goods_9">5天后缺货</label></span>
+									<span><input type="radio" name="goods" class="cbox" id="goods_10" value="10" /><label for="goods_10">7天后缺货</label></span>
+									<span><input type="radio" name="goods" class="cbox" id="goods_13" value="13" /><label for="goods_13">1天后缺货未采购</label></span>
+									<span><input type="radio" name="goods" class="cbox" id="goods_14" value="14" /><label for="goods_14">3天后缺货未采购</label></span>
+									<span><input type="radio" name="goods" class="cbox" id="goods_15" value="15" /><label for="goods_15">5天后缺货未采购</label></span>
+									<span><input type="radio" name="goods" class="cbox" id="goods_16" value="16" /><label for="goods_16">7天后缺货未采购</label></span>
+                                </div>
+								<div id="table_tab_hotsales" class="sel_item" style="display:none">
+                                    <span><input type="radio" name="goods" class="cbox" id="goods_17" value="17" /><label for="goods_17">1天后缺货</label></span>
+									<span><input type="radio" name="goods" class="cbox" id="goods_18" value="18" /><label for="goods_18">3天后缺货</label></span>
+									<span><input type="radio" name="goods" class="cbox" id="goods_19" value="19" /><label for="goods_19">5天后缺货</label></span>
+									<span><input type="radio" name="goods" class="cbox" id="goods_20" value="20" /><label for="goods_20">7天后缺货</label></span>
+									<span><input type="radio" name="goods" class="cbox" id="goods_21" value="23" /><label for="goods_21">1天后缺货未采购</label></span>
+									<span><input type="radio" name="goods" class="cbox" id="goods_22" value="22" /><label for="goods_22">3天后缺货未采购</label></span>
+									<span><input type="radio" name="goods" class="cbox" id="goods_23" value="23" /><label for="goods_23">5天后缺货未采购</label></span>
+									<span><input type="radio" name="goods" class="cbox" id="goods_24" value="24" /><label for="goods_24">7天后缺货未采购</label></span>
+                                </div>
+                            </li>
+                        </ul>
+						
+						<div id="table_show_options">
+							<div id="table_show_options_div" >
+								<div id="table_show_options_details">
+									<div id="table_tab_dimension" class="sel_item">
+										维度参数:<span class="depart_pm" style="margin-left:10px;"><input type="checkbox" id="item15" name="item15" class="cbox" value="department_name"><label for="item15">部门</label></span>
+										<span class="depart_pm"><input type="checkbox" id="item16" name="item16" class="cbox" value="pm_name"><label for="item16">采销</label></span>
+										<span class="depart_pm"><input type="checkbox" id="item17" name="item17" class="cbox" value="ppm_name"><label for="item17">供管</label></span>
+									</div>
+									<div id="table_tab_base" class="sel_item">
+										基本参数:<span style="margin-left:10px;"><input type="checkbox" id="itemall" name="itemall" class="cbox" value=""><label for="itemall">全选</label></span>
+										<span><input type="checkbox" id="item1" name="item1" class="cbox" checked="checked" value="is_stock_purchase"><label for="item1">本仓是否采购</label></span>
+										<span><input type="checkbox" id="item9" name="item9" class="cbox" checked="checked" value="rest_days"><label for="item9">预计销售天数</label></span>
+										<span><input type="checkbox" id="item4" name="item4" class="cbox" checked="checked" value="daily_sale_qty"><label for="item4">平均日销量</label></span>
+										<span><input type="checkbox" id="item5" name="item5" class="cbox" value="sale_trend"><label for="item5">销售趋势</label></span>
+										<span><input type="checkbox" id="item2" name="item2" class="cbox" value="daily_pv"><label for="item2">日平均PV</label></span>
+                                        <span><input type="checkbox" id="item3" name="item3" class="cbox" checked="checked" value="daily_uv"><label for="item3">日平均UV</label></span>
+									</div>        
+								</div>
+							</div>
+							<div id ="v_togglebar_2_div" class="filter_close" ><a class="v_togglebar" id="togglebar_2" href="javascript:;"></a></div>
+						</div>
+					</div>
+					
+				</div>
+			    <div class="mod_list_bd" style="margin-top:5px;">
+			    	
+			        <div id="stats_content_detail" class="block_content center" ></div>
+			    </div>
+			</div>
+			<!-- End 详细报表 -->
+			
+			<!-- Start 趋势详细报表 -->
+			<div class="mod_list" style="display:none" id="page_trend_table">
+			    <div class="mod_list_hd org_l">
+			        <div class="hd"><h3 id="filter_desc_table_trend">详细报表</h3><span id="date_desc_table_trend" class="sub_tit"></span></div>
+					<div id="block_title_trend" style="float:right"></div>
+					<!-- <div class="layout_popup  id_download_pop" id="download_tip" style="display: none">
+		            <div class="layout_inner">
+		                <div class="layout_bd">
+		                    <p>提示：由于该表格数据量过大，需中转
+		                       	 下载，请稍后到页面左上角的文件中转站中提取。</p>
+		                    <p class="open"><span href="" class="wrap_icon"><i class="icon_cloud"></i>文件中转站</span></p>
+		                    <div class="wrap_btn"><a href="#" class="btn_normal" id="btn_confirm">确定</a></div>
+		                </div>
+		            </div>
+		            <div class="layout_arrow_top"> <span class="">◆</span><i>◆</i> </div>
+	        	</div> -->
+			    </div>
+				<div class="filter filter3" id="table_detail">
+					<div class="filter_inner">
+					<div class="filter">
+					<div id="option_item">
+						<div class="sel_item" id="table_filter_div">
+                            <!--span><input type="checkbox" name="goods_all_trend" class="cbox" id="goods_all_trend" value=""  /><label for="goods_all_trend">全选</label></span-->
+                            <span><input type="checkbox" name="goods_6_trend" class="cbox" id="goods_6_trend" value="product_sku||商品sku数（全部）||int||140" checked="checked" /><label for="goods_6_trend">商品sku数（全部）</label></span>
+                            <span><input type="checkbox" name="goods_1_trend" class="cbox" id="goods_1_trend" value="product_sku_stock||商品sku数（本仓销售）||int||160"/><label for="goods_1_trend">商品sku数（本仓销售）</label></span>
+                            <span><input type="checkbox" name="goods_9_trend" class="cbox" id="goods_9_trend" value="is_lacking_sku||缺货sku数||int||100" checked="checked" /><label for="goods_9_trend">缺货sku数</label></span>
+                            <span><input type="checkbox" name="goods_0_trend" class="cbox" id="goods_0_trend" value="is_lacking_per||缺货率||rate||90" checked="checked" /><label for="goods_0_trend">缺货率</label></span>
+                            <span><input type="checkbox" name="goods_4_trend" class="cbox" id="goods_4_trend" value="is_lacking_without_purchase_sku||缺货未采购sku数||int||140" /><label for="goods_4_trend">缺货未采购sku数</label></span>
+                            <span><input type="checkbox" name="goods_8_trend" class="cbox" id="goods_8_trend" value="is_hot_sku||热销sku数||int||100" /><label for="goods_8_trend">热销sku数</label></span>
+                            <span><input type="checkbox" name="goods_2_trend" class="cbox" id="goods_2_trend" value="is_hot_lacking_sku||热销缺货sku数||int||140" /><label for="goods_2_trend">热销缺货sku数</label></span>
+                            <span><input type="checkbox" name="goods_3_trend" class="cbox" id="goods_3_trend" value="is_hot_lacking_per||热销缺货率||rate||100" /><label for="goods_3_trend">热销缺货率</label></span>
+                            <span><input type="checkbox" name="goods_5_trend" class="cbox" id="goods_5_trend" value="is_hot_without_purchase_sku||热销缺货未采购sku数||int||160" /><label for="goods_5_trend">热销缺货未采购sku数</label></span>
+                            <span><input type="checkbox" name="goods_7_trend" class="cbox" id="goods_7_trend" value="available_sku||实库sku数||int||100" /><label for="goods_7_trend">实库sku数</label></span>
+                            <span><input type="checkbox" name="goods_10_trend" class="cbox" id="goods_10_trend" value="lacking_in_1day_sku||1天后缺货sku数||int||120" /><label for="goods_10_trend">1天后缺货sku数</label></span>
+                            <span><input type="checkbox" name="goods_11_trend" class="cbox" id="goods_11_trend" value="lacking_in_3days_sku||3天后缺货sku数||int||120" /><label for="goods_11_trend">3天后缺货sku数</label></span>
+                            <span><input type="checkbox" name="goods_12_trend" class="cbox" id="goods_12_trend" value="lacking_in_5days_sku||5天后缺货sku数||int||120" /><label for="goods_12_trend">5天后缺货sku数</label></span>
+                            <span><input type="checkbox" name="goods_13_trend" class="cbox" id="goods_13_trend" value="lacking_in_7days_sku||7天后缺货sku数||int||120" /><label for="goods_13_trend">7天后缺货sku数</label></span>
+						</div>				
+					</div>
+					</div>
+					</div>
+				</div>
+				<div class="mod_list_bd" style="margin-top:5px;">
+				
+			        <div id="stats_content_detail_trend" class="block_content center"></div>
+			    </div>
+			    </div>
+			    <!-- End 趋势详细报表 -->
+
+			<!--指标解释 S-->
+			<div id="terms_definition_div" class="mod_list id_intr">
+			    <div class="mod_list_hd">
+			        <h3>指标解释</h3>
+			    </div>
+			    <div class="mod_list_bd" id="term_definition_list">
+					<p><strong>日平均PV: </strong>所选日期前14天商品的PV之和/14。</p>
+					<p><strong>日平均UV: </strong>所选日期前14天商品的UV之和/14。</p>
+					<p><strong>平均日销量: </strong>所选日期前14天商品的销售数量之和/14。</p>
+					<p><strong>库存数量：</strong>所选时间时的财务数量。</p>
+					<p><strong>虚库数量：</strong>所选时间时的虚拟库存数量。</p>
+					<p><strong>可用数量：</strong>所选时间时的可用数量。</p>
+					<p><strong>预计销售天数：</strong>所选时间时的可用数量/平均日销量。</p>
+					<p><strong>采购在途数量：</strong>商品被生成了采购单且采购单为已审核状态。</p>
+					<p><strong>累计缺货天数：</strong>商品当月累计缺货天数。</p>
+					<p><strong>当前缺货天数：</strong>目前到之前没有缺货的天数。</p>
+					<p><strong>销售趋势：</strong>d1d2d3w1w2w3m1m2m3，所选时间的前一天销售数量/前第二天/前第三天/前一周/前第二周/前第三周/前一月/前第二月/前第三月。</p>
+					<p><strong>缺货商品：</strong>1 商品属性中应为'本仓采购'的商品；2 若该商品在其它仓中支持'本仓销售',在其它仓中也应无货；3 已上架状态且可用库存+虚拟库存小于或等于0。满足以上条件的商品种类数汇总。</p>
+					<p><strong>热销缺货商品：</strong>缺货商品中是热销商品。热销定义：近两周、单仓销售数量排名占本仓前20%且满足DMS在0.05以上的商品and小类最近两周销售数量在该小类TOP10%的商品。</p>
+					<p><strong>缺货未采购商品：</strong>缺货商品中采购在途数量为0的商品。</p>
+					<p><strong>热销未采购商品：</strong>热销商品中，日均在0.5以上，采购在途为0且库存数量减去平均日销量*2的数值小于等于零的商品。</p>
+					<p><strong>建议采购商品：</strong>预计销售天数小于等于7的商品。</p>
+					<p><strong>热销定义：</strong>近两周、单仓销售数量排名占本仓前20%且满足DMS在0.05以上的商品and小类最近两周销售数量在该小类TOP10%的商品。</p>
+			     </div>
+			</div>
+			<!--指标解释 E-->
+			
+			<!--趋势指标解释 S-->
+			<div id="terms_definition_div_trend" class="mod_list id_intr" style="display:none">
+			    <div class="mod_list_hd">
+			        <h3>指标解释</h3>
+			    </div>
+			    <div class="mod_list_bd" id="term_definition_list">
+					<p><strong>商品sku数（全部）：</strong>商品状态为正常、show状态下的商品种类数。</p>
+                    <p><strong>商品sku数（本仓销售）：</strong>1 商品状态为正常、show状态下的商品种类数；2 本仓是否采购为是。</p>
+                    <p><strong>缺货sku数：</strong>正常且show状态商品中缺货商品的商品种类数。</p>
+                    <p><strong>缺货率：</strong>缺货sku数/商品sku数（全部）。</p>
+                    <p><strong>缺货未采购sku数：</strong>正常且show状态商品中缺货商品且采购在途数量为0。</p>
+                    <p><strong>热销sku数：</strong>正常且show状态商品中热销商品的商品种类数。</p>
+                    <p><strong>热销缺货sku数：</strong>热销商品中缺货的商品种类数。</p>
+                    <p><strong>热销缺货率：</strong>热销缺货sku数/热销sku数。</p>
+                    <p><strong>热销缺货未采购sku数：</strong>正常且show状态商品中热销缺货商品且采购在途数量为0。</p>
+					<p><strong>实库sku数：</strong>正常且show状态商品中，可用数量>=1的商品种类数。</p>
+			     </div>
+			</div>
+			<!--趋势指标解释 E-->
+			
+			</div>
+			</div>
+		</div>
+	</div>
+<script></script>
+</body>
+</html>
+			
+			
+					
