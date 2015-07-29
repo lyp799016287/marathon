@@ -206,6 +206,8 @@ EOF;
             ## insert 
             if(count($re_exist) == 0)
             {
+                $tmp_sql = "SET NAMES utf8";
+                $this->execute($tmp_sql);
                 $sql = <<<EOF
                 INSERT INTO t_info_accumulate(info_id, title, scan_pv, scan_uv, scan_no_login_pv, comment_pv, comment_uv, 
                     share_uv, share_pv, pub_time, modify_time)
