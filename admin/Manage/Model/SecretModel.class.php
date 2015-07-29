@@ -51,7 +51,8 @@ class SecretModel extends Model {
 	*/
 	public function getSecretReport(){
 		
-		$sql = "SELECT DISTINCT(secret_id) FROM t_secret_report";
+		//$sql = "SELECT DISTINCT(secret_id) FROM t_secret_report";
+		$sql = "SELECT secret_id, create_time FROM t_secret_report GROUP BY secret_id";	//获取被举报的秘贴ID及最开始的举报时间
 
 		$rs = $this->getRows($sql);
 		return $rs;

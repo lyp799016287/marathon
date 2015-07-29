@@ -125,6 +125,7 @@
 		</div>
 	</div>
 <script>
+{literal}
 $(document).ready(function(){
 	
 var statUser = {};
@@ -275,7 +276,7 @@ function showModColumns(data, oDiv){
 		},
 		yAxis:[{
 			labels:{
-				format:{literal}'{value}'{/literal},
+				format:'{value}',
 				formatter: function(){
 					return window.G.common.formatInt(0,0,this.value);
 				},
@@ -389,7 +390,7 @@ function showTimeLines(data, oDiv){
 		},
 		yAxis:[{
 			labels:{
-				format:{literal}'{value}'{/literal},
+				format:'{value}',
 				formatter: function(){
 					return window.G.common.formatInt(0,0,this.value);
 				},
@@ -438,7 +439,8 @@ function showTimeLines(data, oDiv){
 
 statUser.init();
 
-});	
+});
+{/literal}
 </script>
 </body>
 </html>

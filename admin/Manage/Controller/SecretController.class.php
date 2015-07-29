@@ -73,15 +73,16 @@ class SecretController extends Controller {
 		$rrs = $this->secret->getSecretReport();
 
 		$filter = array();
+		$cmp_arr = array();
 
 		if(!empty($rrs)){
 			foreach($rrs as $val){
 				array_push($filter, $val['secret_id']);	
 			}
+			$cmp_arr[$val['secret_id']] = $val['create_time'];
 		}
 		
 		$params = array(
-			'status' => 1,
 			'filter' => implode(",", $filter)
 		);
 
@@ -92,6 +93,12 @@ class SecretController extends Controller {
 			$limit = ($curr_page - 1)*$page_size;
 			$data = array_slice($rs, $limit, $page_size);
 		}
+
+		if(!empty($data)){
+			foreach($data as &$item){
+				$item['create_time'] = $cmp_arr[$item['id']]? $cmp_arr[$item['id']] : $item['create_time'];
+			}
+		}
 		
 		$total = count($rs);
 		$total_num = ceil($total/$page_size);
@@ -99,9 +106,8 @@ class SecretController extends Controller {
 		$this->assign("total", $total);
 		$this->assign("current", $curr_page);
 		$this->assign("total_num", $total_num);
-		$this->assign("header_flag", 0);
 		$this->assign("index", 5);
-		$this->display("secretlist");
+		$this->display("secretreportlist");
 	}
 	
 	/**举报秘贴作废**/
