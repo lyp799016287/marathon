@@ -39,7 +39,11 @@ class SecretModel extends Model {
 				FROM t_secret a LEFT JOIN t_user_info  b ON a.user_id=b.id  LEFT JOIN t_personal_info c ON a.user_id=c.user_id
 				WHERE 1=1" . $sqlpara;
 		
-        $sql = $sql . " ORDER BY create_time DESC";
+		if(isset($data['orderby']) && !empty($data['orderby'])){
+			$sql .= $data['orderby'];
+		}else{
+			$sql = $sql . " ORDER BY create_time DESC";s
+		}
 		$rs = $this->getRows($sql);
 		return $rs;
 	}

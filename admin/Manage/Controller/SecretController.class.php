@@ -83,7 +83,8 @@ class SecretController extends Controller {
 		}
 		
 		$params = array(
-			'filter' => implode(",", $filter)
+			'filter' => implode(",", $filter),
+			'orderby' => ' ORDER BY status'	
 		);
 
 		$rs = $this->secret->getSecretList($params);
