@@ -208,12 +208,18 @@ statUser.getMixUser = function(){
 }
 
 function showModColumns(data, oDiv){
+
+	if(!data){
+		return;
+	}
 	
 	var d1=[], s_date=[];
 
 	var style_type = 'column';
 	
 	var series = [];
+	
+	var data = window.G.common.listSortBy(data, 'datestamp', 'asc');
 
 	for(var i in data){
 		s_date.push(data[i].datestamp);
@@ -233,7 +239,7 @@ function showModColumns(data, oDiv){
             renderTo: oDiv,
             type: style_type,
             margin: 75,
-			backgroundColor: '#e7e7e7',
+			backgroundColor: '#ddd',
             options3d: {
                 enabled: true,
                 alpha: 15, //柱形图倾斜角度
@@ -314,6 +320,8 @@ function showTimeLines(data, oDiv){
 	
 	var series = [];
 
+	var data = window.G.common.listSortBy(data, 'datestamp', 'asc');
+
 	for(var i in data){
 		s_date.push(data[i].datestamp);
 		d1.push(parseInt(data[i].login_user));
@@ -369,7 +377,7 @@ function showTimeLines(data, oDiv){
 			marginRight:100,
 			marginTop:60,
 			marginLeft:150,
-			backgroundColor: '#e7e7e7'
+			backgroundColor: '#ddd'
 		},
 		xAxis:{
 			categories: s_date,

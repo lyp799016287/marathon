@@ -332,6 +332,22 @@
 		}
 		return parseInt((eTime.getTime() - sTime.getTime()) / parseInt(divNum));
 	};
+	
+	//排序
+	common.listSortBy = function (arr, field, order){ 
+		var refer = [], result=[], order = (order? order : 'asc'), index; 
+		
+		for(var i in arr){
+			refer[i] = arr[i][field]+':'+i;
+		}
+		refer.sort(); 
+		if(order=='desc') refer.reverse(); 
+		for(i=0;i<refer.length;i++){ 
+			index = refer[i].split(':')[1]; 
+			result[i] = arr[index]; 
+		} 
+		return result; 
+	}
 })(window, jQuery);
 
 //设置基本选项被选中时的样式，默认选择第一个
