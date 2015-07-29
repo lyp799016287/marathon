@@ -42,7 +42,7 @@ class SecretModel extends Model {
 		if(isset($data['orderby']) && !empty($data['orderby'])){
 			$sql .= $data['orderby'];
 		}else{
-			$sql = $sql . " ORDER BY create_time DESC";s
+			$sql = $sql . " ORDER BY create_time DESC";
 		}
 		$rs = $this->getRows($sql);
 		return $rs;
