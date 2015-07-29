@@ -13,7 +13,7 @@ class InfoController extends Controller {
 	public function infoSummaryTop()
 	{
 		$topInfo = $this->info->topSummary();
-		var_dump($topInfo); exit;
+		// var_dump($topInfo); exit;
 		if(!empty($topInfo))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$topInfo));
 		else
@@ -24,7 +24,7 @@ class InfoController extends Controller {
 	public function infoSummaryDetail()
 	{
 		$detailInfo = $this->info->detailSummary();
-		var_dump($detailInfo); exit;
+		// var_dump($detailInfo); exit;
 		if(!empty($detailInfo))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$detailInfo));
 		else
@@ -35,7 +35,7 @@ class InfoController extends Controller {
 	public function infoAccumulateTop()
 	{
 		$re = $this->info->accumulateResultTop();
-		var_dump($re); exit;
+		// var_dump($re); exit;
 		if(!empty($re))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$re));
 		else
@@ -57,7 +57,7 @@ class InfoController extends Controller {
 	public function infoAccumulateDetail()
 	{
 		$result = $this->info->accumulateResultDetail();
-		var_dump($result); exit;
+		// var_dump($result); exit;
 		if(!empty($result))
 			return $this->ajaxReturn(array('code'=>1, 'data'=>$result));
 		else

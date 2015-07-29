@@ -101,6 +101,7 @@ EOF;
         $info = $this->mergeInfo($scan, $share, $comment);
         if($info['code'] < 0)
             return $info;
+        var_dump($info['data']);
         ## 将数据更新到表t_info_accumulate
         $re = $this->insertOrUpdate($info['data'], $max_time);
         return $re;
