@@ -25,7 +25,7 @@ class InfoModel extends Model {
         SELECT info_id, title, score
         FROM t_info_daily
         WHERE datestamp = '{$yesterday}'
-        ORDER BY a.score DESC LIMIT 5
+        ORDER BY score DESC LIMIT 5
 EOF;
         $re = $this->query($sql);
         return $re;
