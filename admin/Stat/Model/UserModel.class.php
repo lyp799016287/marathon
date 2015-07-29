@@ -36,13 +36,13 @@ class UserModel extends Model {
                 return array('code'=>-2, 'message'=>'查询错误：' . $sql);
             $str_tmp = $re[0]['stamp'];
         }
-        var_dump($str_tmp);
+        // var_dump($str_tmp);
 
         $insert_data = array();
         $i = 0;
         while($str_tmp < $now_date)
         {
-            var_dump($str_tmp);
+            // var_dump($str_tmp);
             $endstamp = date("Y-m-d", strtotime($str_tmp) + 86400);
             $endstamp = $endstamp . " 00:00:00";
             ## 计算当天的累计用户数
@@ -89,7 +89,7 @@ class UserModel extends Model {
     private function cumulative_user($endstamp)
     {
         $sql = "SELECT COUNT(*) cumulation_user FROM t_user_info WHERE `status` = 1 AND create_time < '" . $endstamp . "'";
-        var_dump($sql);
+        // var_dump($sql);
         $cumul_re = $this->query($sql);
         return $cumul_re;
     }
