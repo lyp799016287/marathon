@@ -101,7 +101,7 @@ class SecretController extends Controller {
 			}
 		}
 		
-		$total = count($rs);
+		$total = count($rrs);
 		$total_num = ceil($total/$page_size);
 		$this->assign("list", $data);
 		$this->assign("total", $total);
