@@ -40,7 +40,7 @@ EOF;
     ## 手机型号分布
     public function modelData()
     {
-
+        
     }
 
     public function retainData()
