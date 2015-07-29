@@ -31,7 +31,7 @@ class InfoController extends Controller {
 		$this->writeLog($result, 'Stat/Info/shareDaily');
 	}
 
-	## 将每天的资讯浏览量 评论量 分享量集合
+	## 将每天的资讯浏览量 评论量 分享量集合 同时计算文章得分
 	public function mergeInfoDaily()
 	{
 		$result = $this->info->mergeInfo();
@@ -67,12 +67,6 @@ class InfoController extends Controller {
 			print $e->getMessage();
 			exit();
 		}
-	}
-
-	## 计算文章的综合评分
-	public function calGeneralScore()
-	{
-		
 	}
 
 	

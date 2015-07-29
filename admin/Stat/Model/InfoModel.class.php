@@ -260,6 +260,7 @@ EOF;
             $insert_data['comment_uv'] = $info_daily[$i]['comment_uv'];
             $insert_data['share_pv'] = $info_daily[$i]['share_pv'];
             $insert_data['share_uv'] = $info_daily[$i]['share_uv'];
+            $insert_data = $this->calScore($insert_data);
             $insert_re = insertByNoModel('t_info_daily', '', $this->stat_config, $insert_data); 
             if($insert_re === false)
                 return array('code'=>-16, 'message'=>"插入表数据错误：" . 't_info_daily');
@@ -297,4 +298,19 @@ EOF;
         }
         return array('code'=>1, 'message'=>"执行成功");
     }
+
+
+    private function calScore($insert_data)
+    {
+        $scan_pv = $insert_data['scan_pv'];
+        $scan_uv = $insert_data['scan_uv'];
+        $comment_pv = $insert_data['comment_pv'];
+        $comment_uv = $insert_data['comment_uv'];
+        $share_pv = $insert_data['share_pv'];
+        $share_uv = $insert_data['share_uv'];
+        $score = ($scan_pv + $scan_uv) * 0.25 + ($comment_pv + $comment_uv) * 0.35 + ($share_pv + $share_uv) * 0.4;
+        $insert_data['score'] = $score;
+        return $insert_data;
+    }
+
 }
