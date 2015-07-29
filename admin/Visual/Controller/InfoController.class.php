@@ -9,25 +9,24 @@ class InfoController extends Controller {
 		$this->info = D('Info');
 	}
 
-	## 资讯的相关信息
-	public function infoSummary()
+	## 前一天（最新）资讯top相关信息
+	public function infoSummaryTop()
 	{
 		$topInfo = $this->info->topSummary();
-		$detailInfo = $this->info->detailSummary();
-		var_dump($topInfo); var_dump($detailInfo); exit;
-
-		if(!empty($topInfo) && !empty($detailInfo))
-		{
-			$this->assign("top", $topInfo);
-			$this->assign("detail", $detailInfo);
-			# Visual/View/Info/infoTop.htm
-			$this->display("infoTop");
-		}
+		if(!empty($topInfo))
+			$this->ajaxReturn(array('code'=>1, 'data'=>$topInfo));
 		else
-		{
-			header("Content-Type: text/html;charset=utf-8");
-			exit("信息获取失败");
-		}
+			$this->ajaxReturn(array('code'=>-1));
+	}
+
+	## 前一天（最新）资讯detail相关信息
+	public function infoSummaryDetail()
+	{
+		$detailInfo = $this->info->detailSummary();
+		if(!empty($detailInfo))
+			$this->ajaxReturn(array('code'=>1, 'data'=>$detailInfo));
+		else
+			$this->ajaxReturn(array('code'=>-1));
 	}
 
 	## 获取每篇文章最新的累计统计指标值
@@ -63,8 +62,8 @@ class InfoController extends Controller {
 		}
 	}
 
-	## 累计的资讯统计信息展示
-	public function showAccumulate()
+	## 累计的资讯统计top信息展示
+	public function infoAccumulateTop()
 	{
 		$re = $this->info->accumulateResult();
 		var_dump($re); exit;
@@ -81,6 +80,11 @@ class InfoController extends Controller {
 			header("Content-Type: text/html;charset=utf-8");
 			exit("信息获取失败");
 		}
+	}
+
+	public function infoAccumulateDetail()
+	{
+		
 	}
 
 	
