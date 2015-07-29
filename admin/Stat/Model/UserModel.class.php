@@ -89,7 +89,7 @@ class UserModel extends Model {
     private function cumulative_user($endstamp)
     {
         $sql = "SELECT COUNT(*) cumulation_user FROM t_user_info WHERE `status` = 1 AND create_time < '" . $endstamp . "'";
-        var_dmp($sql);
+        var_dump($sql);
         $cumul_re = $this->query($sql);
         return $cumul_re;
     }
