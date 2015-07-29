@@ -54,7 +54,9 @@ class UserModel extends Model {
                 else
                     return false;
             }
-            $return_ary = array_reverse($return_ary);
+            var_dump($return_ary);
+            $return_ary = array_reverse($return_ary, true);
+            var_dump($return_ary);
             return $return_ary;
         }
         
