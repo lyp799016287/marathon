@@ -243,22 +243,24 @@ EOF;
             return array('code'=>-5, 'message'=>$error_clause);
     }
 
-    public function accumulateResult()
+    ## 资讯的累计信息top
+    public function accumulateResultTop()
     {
         $sql = "SELECT info_id, title, score FROM t_info_accumulate ORDER BY score DESC LIMIT 5";
         $top = $this->query($sql);
+        return $top;
+    }
 
+    ## 资讯的累计信息detail
+    public function accumulateResultDetail()
+    {
         $sql = <<<EOF
         SELECT info_id, title, scan_pv, scan_uv, scan_no_login_pv, comment_pv, comment_uv, share_pv, share_uv, score, pub_time
         FROM t_info_accumulate
         ORDER BY scan_pv DESC
 EOF;
         $detail = $this->query($sql);
-
-        if($top === false || $detail === false)
-            return false;
-        else
-            return array('top'=>$top, 'detail'=>$detail);
+        return $detail;
     }
 
 }

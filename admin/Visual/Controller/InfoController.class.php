@@ -13,6 +13,7 @@ class InfoController extends Controller {
 	public function infoSummaryTop()
 	{
 		$topInfo = $this->info->topSummary();
+		var_dump($topInfo); exit;
 		if(!empty($topInfo))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$topInfo));
 		else
@@ -23,10 +24,44 @@ class InfoController extends Controller {
 	public function infoSummaryDetail()
 	{
 		$detailInfo = $this->info->detailSummary();
+		var_dump($detailInfo); exit;
 		if(!empty($detailInfo))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$detailInfo));
 		else
 			$this->ajaxReturn(array('code'=>-1));
+	}
+
+	## 累计的资讯统计top信息展示
+	public function infoAccumulateTop()
+	{
+		$re = $this->info->accumulateResultTop();
+		var_dump($re); exit;
+		if(!empty($re))
+			$this->ajaxReturn(array('code'=>1, 'data'=>$re));
+		else
+			return $this->ajaxReturn(array('code'=>-1));
+		// if(!empty($re))
+		// {
+		// 	$this->assign("top", $re['top']);
+		// 	$this->assign("detail", $re['detail']);
+		// 	# Visual/View/Info/infoTop.htm
+		// 	$this->display("infoTop");
+		// }
+		// else
+		// {
+		// 	header("Content-Type: text/html;charset=utf-8");
+		// 	exit("信息获取失败");
+		// }
+	}
+
+	public function infoAccumulateDetail()
+	{
+		$result = $this->info->accumulateResultDetail();
+		var_dump($result); exit;
+		if(!empty($result))
+			return $this->ajaxReturn(array('code'=>1, 'data'=>$result));
+		else
+			return $this->ajaxReturn(array('code'=>-1));
 	}
 
 	## 获取每篇文章最新的累计统计指标值
@@ -61,31 +96,5 @@ class InfoController extends Controller {
 			exit();
 		}
 	}
-
-	## 累计的资讯统计top信息展示
-	public function infoAccumulateTop()
-	{
-		$re = $this->info->accumulateResult();
-		var_dump($re); exit;
-
-		if(!empty($re))
-		{
-			$this->assign("top", $re['top']);
-			$this->assign("detail", $re['detail']);
-			# Visual/View/Info/infoTop.htm
-			$this->display("infoTop");
-		}
-		else
-		{
-			header("Content-Type: text/html;charset=utf-8");
-			exit("信息获取失败");
-		}
-	}
-
-	public function infoAccumulateDetail()
-	{
-		
-	}
-
 	
 }
