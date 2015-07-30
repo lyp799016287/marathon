@@ -14,7 +14,7 @@ class FeedbackController extends Controller {
 	{
 		$param = I('result');
 		var_dump($param);
-		$param = '{"user_id": "1561895685", "survey_id":1, "feedback":[{"question_id":1, "result":"2","addition":""},{"question_id":6,"result":"26,28","addition":""}]}';
+		// $param = '{"user_id": "1561895685", "survey_id":1, "feedback":[{"question_id":1, "result":"2","addition":""},{"question_id":6,"result":"26,28","addition":""}]}';
 
 		$result = json_decode($param, true);
 		// var_dump($result); exit;
@@ -32,7 +32,6 @@ class FeedbackController extends Controller {
 			if(empty($q_type))
 				$this->ajaxReturn(array('code'=>-2, 'message'=>'查询失败'));
 			$type = $q_type[0]['answer_type']; ## 题目的类型
-			var_dump($type);
 			$result = array();
 			if($type == 1)
 			{
@@ -41,10 +40,7 @@ class FeedbackController extends Controller {
 			}
 			elseif($type == 2)
 			{
-				var_dump("into 2");
-				var_dump($optionList);
 				$option_ary = $this->split_option($optionList);
-				var_dump($option_ary);
 				for($i = 0; $i < count($option_ary); $i++)
 				{
 					$option = $option_ary[$i];
@@ -68,11 +64,11 @@ class FeedbackController extends Controller {
 
 	private function singleClosed($user_id, $survey_id, $question_id, $option, $addition)
 	{
-		var_dump($user_id);
-		var_dump($survey_id);
-		var_dump($question_id);
-		var_dump($option);
-		var_dump($addition);
+		// var_dump($user_id);
+		// var_dump($survey_id);
+		// var_dump($question_id);
+		// var_dump($option);
+		// var_dump($addition);
 		$closed = M('t_survey_closed_result', '', 'DB_IMED');
 		$result = $closed->add(array('user_id'=>$user_id, 'survey_id'=>$survey_id, 'survey_question_id'=>$question_id, 'survey_question_option_id'=>$option, 'addition'=>$addition));
 		return $result;
@@ -80,7 +76,7 @@ class FeedbackController extends Controller {
 
 	private function split_option($optionList)
 	{
-		$option_ary = split(",", $optionList);
+		$option_ary = explode(",", $optionList);
 		$return_ary = array();
 		for($i = 0; $i < count($option_ary); $i++)
 			$return_ary[] = intval(trim($option_ary[$i]));
