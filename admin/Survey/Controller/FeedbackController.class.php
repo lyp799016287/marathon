@@ -13,7 +13,7 @@ class FeedbackController extends Controller {
 	public function departResult()
 	{
 		$param = I('result');
-		var_dump($param);
+		// var_dump($param);
 		// $param = '{"user_id": "1561895685", "survey_id":1, "feedback":[{"question_id":1, "result":"2","addition":""},{"question_id":6,"result":"26,28","addition":""}]}';
 
 		$result = json_decode($param, true);
@@ -89,22 +89,5 @@ class FeedbackController extends Controller {
 		$result = $open->add(array('user_id'=>$user_id, 'survey_id'=>$survey_id, 'survey_question_id'=>$question_id, 'answer'=>$answer));
 		return $result;
 	}
-
-	// ## 提交封闭问题答案
-	// public function submitClosed()
-	// {
-	// 	$survey_id = I('survey_id', 0, 'intval');
-	// 	$question_id = I('question_id', 0, 'intval');
-	// 	$option_id = I('option_id', 0, 'intval');
-	// 	$user_id = I('user_id'); ## string类型
-	// 	$addition = I('addition', '');
-	// 	if($user_id == '')
-	// 		$this->ajaxReturn(array('code'=>-99, 'message'=>'输入参数错误'));
-	// 	$result = $this->survey->closeSubmit($survey_id, $question_id, $option_id, $user_id, $addition);
-	// 	if($result === false)
-	// 		$this->ajaxReturn(array('code'=>-1, 'message'=>'提交封闭问题答案失败'));
-	// 	else
-	// 		$this->ajaxReturn(array('code'=>1, 'message'=>'提交成功'));
-	// }
 	
 }
