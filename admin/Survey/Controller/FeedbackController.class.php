@@ -80,7 +80,7 @@ class FeedbackController extends Controller {
 
 	private function split_option($optionList)
 	{
-		$option_ary = split($optionList, ",");
+		$option_ary = split(",", $optionList);
 		$return_ary = array();
 		for($i = 0; $i < count($option_ary); $i++)
 			$return_ary[] = intval(trim($option_ary[$i]));
