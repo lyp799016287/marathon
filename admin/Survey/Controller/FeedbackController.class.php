@@ -14,7 +14,7 @@ class FeedbackController extends Controller {
 	{
 		$param = I('result');
 		var_dump($param);
-		$param = '{"user_id": "1561895685", "survey":1, "feedback":[{"question_id":1, "result":"2","addition":""},{"question_id":6,"result":"26,28","addition":""}]}';
+		$param = '{"user_id": "1561895685", "survey_id":1, "feedback":[{"question_id":1, "result":"2","addition":""},{"question_id":6,"result":"26,28","addition":""}]}';
 
 		$result = json_decode($param, true);
 		// var_dump($result); exit;
@@ -54,11 +54,11 @@ class FeedbackController extends Controller {
 				$result = $this->openTask($user_id, $survey_id, $question_id, $optionList);
 			}
 			
-			if(!empty($result))
-				$this->ajaxReturn(array('code'=>1, 'message'=>'提交成功'));
-			else
+			if(empty($result))
 				$this->ajaxReturn(array('code'=>-1, 'message'=>'提交失败'));
 		}
+		
+		$this->ajaxReturn(array('code'=>1, 'message'=>'提交成功'));
 
 	}
 
