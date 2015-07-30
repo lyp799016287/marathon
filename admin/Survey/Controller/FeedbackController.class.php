@@ -12,12 +12,8 @@ class FeedbackController extends Controller {
 	## 传过来的结果进行拆分
 	public function departResult()
 	{
-		$str = '{"a":{"a1":23, "a2":56},"b":2,"c":3,"d":4,"e":5}';
-		$re = json_decode($str, true);
-		var_dump($re);
 		$param = I('result');
-		var_dump($param);
-		$result = json_decode($param);
+		$result = json_decode($param, true);
 		var_dump($result); exit;
 		$user_id = $result['user_id']; ## 字符串
 		$survey_id = intval($result['survey_id']);
