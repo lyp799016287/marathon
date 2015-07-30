@@ -13,6 +13,7 @@ class FeedbackController extends Controller {
 	public function departResult()
 	{
 		$param = I('result');
+		var_dump($param);
 		$result = json_decode($param, true);
 		var_dump($result); exit;
 		$user_id = $result['user_id']; ## 字符串
