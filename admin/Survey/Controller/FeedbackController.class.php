@@ -12,8 +12,8 @@ class FeedbackController extends Controller {
 	## 传过来的结果进行拆分
 	public function departResult()
 	{
-		$str = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
-		$re = json_decode($str);
+		$str = '{"a":{"a1":23, "a2":56},"b":2,"c":3,"d":4,"e":5}';
+		$re = json_decode($str, true);
 		var_dump($re);
 		$param = I('result');
 		var_dump($param);
