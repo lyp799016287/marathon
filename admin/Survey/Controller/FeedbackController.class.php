@@ -14,10 +14,10 @@ class FeedbackController extends Controller {
 	{
 		$param = I('result');
 		var_dump($param);
-		$param = '{"user_id": "1561895685", "survey":1, "feedback":[{"question_id":1, "result":2,"addition":""},{"question_id":32,"result":4,"addition":""}]}';
-		
+		$param = '{"user_id": "1561895685", "survey":1, "feedback":[{"question_id":1, "result":"2","addition":""},{"question_id":6,"result":"26,28","addition":""}]}';
+
 		$result = json_decode($param, true);
-		var_dump($result); exit;
+		// var_dump($result); exit;
 		$user_id = $result['user_id']; ## 字符串
 		$survey_id = intval($result['survey_id']);
 		$feedback = $result['feedback'];
@@ -64,6 +64,11 @@ class FeedbackController extends Controller {
 
 	private function singleClosed($user_id, $survey_id, $question_id, $option, $addition)
 	{
+		var_dump($user_id);
+		var_dump($survey_id);
+		var_dump($question_id);
+		var_dump($option);
+		var_dump($addition);
 		$closed = M('t_survey_closed_result', '', 'DB_IMED');
 		$result = $closed->add(array('user_id'=>$user_id, 'survey_id'=>$survey_id, 'survey_question_id'=>$question_id, 'survey_question_option_id'=>$option, 'addition'=>$addition));
 		return $result;
