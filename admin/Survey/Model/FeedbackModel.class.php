@@ -3,7 +3,7 @@ namespace Survey\Model;
 use Think\Model;
 
 class FeedbackModel extends Model {
-    protected $connection = 'DB_STAT';
+    protected $connection = 'DB_IMED';
     protected $trueTableName = 't_survey';
 
     // public function _initialize()
