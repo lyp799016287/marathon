@@ -16,7 +16,7 @@ class FeedbackModel extends Model {
     {
         $sql = "SELECT `answer_type` FROM t_survey_question WHERE id = " . $id;
         $result = $this->query($sql);
-        reutrn $result;
+        return $result;
     }
 
 }
