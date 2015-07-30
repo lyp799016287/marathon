@@ -32,6 +32,7 @@ class FeedbackController extends Controller {
 			if(empty($q_type))
 				$this->ajaxReturn(array('code'=>-2, 'message'=>'查询失败'));
 			$type = $q_type[0]['answer_type']; ## 题目的类型
+			var_dump($type);
 			$result = array();
 			if($type == 1)
 			{
@@ -40,11 +41,14 @@ class FeedbackController extends Controller {
 			}
 			elseif($type == 2)
 			{
+				var_dump("into 2");
+				var_dump($optionList);
 				$option_ary = $this->split_option($optionList);
+				var_dump($option_ary);
 				for($i = 0; $i < count($option_ary); $i++)
 				{
 					$option = $option_ary[$i];
-					$result = $this->singleClosed($user_id, $survey_id, $question_id, $optionList, $addition);
+					$result = $this->singleClosed($user_id, $survey_id, $question_id, $option, $addition);
 					if(empty($result))
 						$this->ajaxReturn(array('code'=>-1, 'message'=>'提交失败'));
 				}
@@ -57,7 +61,7 @@ class FeedbackController extends Controller {
 			if(empty($result))
 				$this->ajaxReturn(array('code'=>-1, 'message'=>'提交失败'));
 		}
-		
+
 		$this->ajaxReturn(array('code'=>1, 'message'=>'提交成功'));
 
 	}
