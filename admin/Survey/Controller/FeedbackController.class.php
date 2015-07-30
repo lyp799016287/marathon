@@ -14,7 +14,7 @@ class FeedbackController extends Controller {
 	{
 		$param = I('result');
 		var_dump($param);
-		$result = json_decode($param, true);
+		$result = json_decode($param);
 		var_dump($result); exit;
 		$user_id = $result['user_id']; ## 字符串
 		$survey_id = intval($result['survey_id']);
