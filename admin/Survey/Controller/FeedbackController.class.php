@@ -13,6 +13,9 @@ class FeedbackController extends Controller {
 	public function departResult()
 	{
 		$param = I('result');
+		var_dump($param);
+		$param = '{"user_id": "1561895685", "survey":1, "feedback":[{"question_id":1, "result":2,"addition":""},{"question_id":32,"result":4,"addition":""}]}';
+		
 		$result = json_decode($param, true);
 		var_dump($result); exit;
 		$user_id = $result['user_id']; ## 字符串
@@ -30,26 +33,27 @@ class FeedbackController extends Controller {
 				$this->ajaxReturn(array('code'=>-2, 'message'=>'查询失败'));
 			$type = $q_type[0]['answer_type']; ## 题目的类型
 			$result = array();
-			switch($type)
+			if($type == 1)
 			{
-				case 1:
-					$option = intval($optionList);
-					$result = $this->singleClosed($user_id, $survey_id, $question_id, $option, $addition);
-					break;
-				case 2:
-					$option_ary = $this->split_option($optionList);
-					for($i = 0; $i < count($option_ary); $i++)
-					{
-						$option = $option_ary[$i];
-						$result = $this->singleClosed($user_id, $survey_id, $question_id, $optionList, $addition);
-					}
-					break;
-				case 3:
-					$result = $this->openTask($user_id, $survey_id, $question_id, $optionList);
-					break;
-				default:
-					break;
+				$option = intval($optionList);
+				$result = $this->singleClosed($user_id, $survey_id, $question_id, $option, $addition);
 			}
+			elseif($type == 2)
+			{
+				$option_ary = $this->split_option($optionList);
+				for($i = 0; $i < count($option_ary); $i++)
+				{
+					$option = $option_ary[$i];
+					$result = $this->singleClosed($user_id, $survey_id, $question_id, $optionList, $addition);
+					if(empty($result))
+						$this->ajaxReturn(array('code'=>-1, 'message'=>'提交失败'));
+				}
+			}
+			elseif($type == 3)
+			{
+				$result = $this->openTask($user_id, $survey_id, $question_id, $optionList);
+			}
+			
 			if(!empty($result))
 				$this->ajaxReturn(array('code'=>1, 'message'=>'提交成功'));
 			else
