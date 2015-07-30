@@ -256,7 +256,8 @@ EOF;
             $next_date = date('Y-m-d', strtotime($next_date) + 86400);
         }
         
-        return true;
+        // return true;
+        return array('code'=>1, 'message'=>'执行成功');
     }
 
 

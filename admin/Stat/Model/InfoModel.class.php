@@ -238,8 +238,14 @@ EOF;
             $time_str = " WHERE a.scan_date > '" . $date_info[0]['datestamp'] . "'";
 
         $sql = <<<EOF
-        SELECT a.info_id, a.`scan_date` `datestamp`, a.pv scan_pv, a.uv scan_uv, a.`no_login_pv` scan_no_login_pv, 
-        b.`pv` comment_pv, b.`uv` comment_uv, c.`pv` share_pv, c.uv share_uv 
+        SELECT a.info_id, a.`scan_date` `datestamp`, 
+        (CASE WHEN a.pv IS NULL THEN 0 ELSE a.pv END) scan_pv, 
+        (CASE WHEN a.uv IS NULL THEN 0 ELSE a.uv END) scan_uv, 
+        (CASE WHEN a.`no_login_pv` IS NULL THEN 0 ELSE a.`no_login_pv` END) scan_no_login_pv, 
+        (CASE WHEN b.`pv` IS NULL THEN 0 ELSE b.`pv` END) comment_pv, 
+        (CASE WHEN b.`uv` IS NULL THEN 0 ELSE b.`uv` END)comment_uv, 
+        (CASE WHEN c.`pv` IS NULL THEN 0 ELSE c.`pv` END) share_pv, 
+        (CASE WHEN c.uv IS NULL THEN 0 ELSE c.uv END) share_uv 
         FROM t_scan_flow_daily a 
         LEFT JOIN t_info_comment_daily b ON a.`info_id` = b.`info_id` AND a.`scan_date` = b.`comment_date`
         LEFT JOIN t_share_info_daily c ON a.`scan_date` = c.`share_date` AND a.`info_id` = c.`info_id` {$time_str};
