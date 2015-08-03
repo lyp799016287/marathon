@@ -9,8 +9,17 @@ class InfoController extends Controller {
 		$this->info = D('Info');
 	}
 
+	public function infoTop()
+	{
+		$type = I('type', 1, 'intval');
+		if($type == 1)
+			$this->infoSummaryTop();
+		elseif($type == 2)
+			$this->infoAccumulateTop();
+	}
+
 	## 前一天（最新）资讯top相关信息
-	public function infoSummaryTop()
+	private function infoSummaryTop()
 	{
 		$topInfo = $this->info->topSummary();
 		// var_dump($topInfo); exit;
@@ -20,19 +29,8 @@ class InfoController extends Controller {
 			$this->ajaxReturn(array('code'=>-1));
 	}
 
-	## 前一天（最新）资讯detail相关信息
-	public function infoSummaryDetail()
-	{
-		$detailInfo = $this->info->detailSummary();
-		// var_dump($detailInfo); exit;
-		if(!empty($detailInfo))
-			$this->ajaxReturn(array('code'=>1, 'data'=>$detailInfo));
-		else
-			$this->ajaxReturn(array('code'=>-1));
-	}
-
 	## 累计的资讯统计top信息展示
-	public function infoAccumulateTop()
+	private function infoAccumulateTop()
 	{
 		$re = $this->info->accumulateResultTop();
 		// var_dump($re); exit;
@@ -54,6 +52,18 @@ class InfoController extends Controller {
 		// }
 	}
 
+	## 前一天（最新）资讯detail相关信息
+	public function infoSummaryDetail()
+	{
+		$detailInfo = $this->info->detailSummary();
+		// var_dump($detailInfo); exit;
+		if(!empty($detailInfo))
+			$this->ajaxReturn(array('code'=>1, 'data'=>$detailInfo));
+		else
+			$this->ajaxReturn(array('code'=>-1));
+	}
+
+	## 累计 资讯detail相关信息
 	public function infoAccumulateDetail()
 	{
 		$result = $this->info->accumulateResultDetail();
@@ -71,7 +81,6 @@ class InfoController extends Controller {
 		$info = $this->info->accumulateInfo();
 		$this->writeLog($info, 'infoAccumulate');
 	}
-
 
 	## 跑脚本的内容  写log
 	private function writeLog($result, $tag)
