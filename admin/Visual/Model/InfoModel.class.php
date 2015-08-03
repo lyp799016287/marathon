@@ -21,12 +21,15 @@ class InfoModel extends Model {
 //         ORDER BY a.score DESC 
 //         LIMIT 5
 // EOF;
+        $tmp_sql = "SET NAMES utf8";
+        $this->execute($tmp_sql);
         $sql = <<<EOF
         SELECT info_id, title, score
         FROM t_info_daily
         WHERE datestamp = '{$yesterday}'
         ORDER BY score DESC LIMIT 5
 EOF;
+        // var_dump($sql);
         $re = $this->query($sql);
         return $re;
     }
