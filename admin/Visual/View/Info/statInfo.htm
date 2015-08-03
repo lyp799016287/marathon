@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf8">
+<meta content="IE=EmulateIE8" http-equiv="X-UA-Compatible">
+<title>用户分析</title>
+<link href="/res/websrc/UIlib/ligerUI-1.1.9/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
+<link href="/res/websrc/css/index.css" rel="stylesheet" type="text/css" />
+<script src="/res/websrc/UIlib/jquery/jquery-1.5.2.min.js" type="text/javascript"></script>
+<script src="/res/websrc/UIlib/highcharts/highcharts-4.0.3.js" type="text/javascript"></script>
+<!--<script src="/res/websrc/UIlib/highcharts/highcharts-3d.js" type="text/javascript"></script>-->
+<script src="/res/websrc/UIlib/jquery/common.js" type="text/javascript"></script>
+<style type="text/css">
+#table_show_options_sum span { width:150px;display: inline-block;}
+#table_show_options_details span { /*width:150px;*/display: inline-block;} 
+#table_filter_div span { width:190px;display: inline-block;} 
+#show_item_div span { width:190px;display: inline-block;} 
+</style>
+</head>
+<body>
+	<div class="main clearfix">
+		<div class="content">
+			<div class="inner">
+			<!--<div class="cont_hd"><span>采销数据台</span><span class="split">/</span><span>内部管理</span><span class="split">/</span><strong class="current">缺货管理</strong></div>-->
+			<div class="cont_bd">
+			<!-- Start 趋势图-->
+			<div class="mod_list" id="trend_graph">
+				<div class="mod_list_hd org_l">
+				<div class="hd">
+					<h3 id="filter_desc_graph">资讯TOP</h3><span id="date_desc_graph" class="sub_tit"></span>
+				</div>
+				</div>
+				<div class="filter filter3" id="graph_detail">
+					<div class="filter_inner">
+					<div>
+					<div class="sel_item" id="show_item_div">
+                        <span style="width:640px;">统计维度:
+							<select name="time_selector" id="total_user_time" style="width:120px;margin-left:10px;">
+								<option value="1">昨日TOP</option>
+								<option value="2">累计TOP</option>
+							</select>
+						</span>
+					</div>
+					</div>
+				</div>
+				</div>
+				<div class="mod_list_bd l-panel-bwarp">
+					<div id="stat_content_chart" class="block_content center" style="width:1200px;height:450px;margin-left:50px;"></div>
+				</div>
+			</div>
+			<!-- end 趋势图-->
+			
+			<!--指标解释 S-->
+			<div id="terms_definition_div" class="mod_list id_intr">
+			    <div class="mod_list_hd">
+			        <h3>指标解释</h3>
+			    </div>
+			    <div class="mod_list_bd" id="term_definition_list">
+					<p><strong>活跃用户: </strong>登录用户-新增用户。</p>
+			     </div>
+			</div>
+			<!--指标解释 E-->
+			</div>
+			</div>
+		</div>
+	</div>
+<script>
+{literal}
+$(document).ready(function(){
+	
+var statUser = {};
+
+//调用接口
+statUser.cgi = {
+	"highlight" : "/Visual/User/totalSummary",
+	"totalData" : "/Visual/User/totalDetail",
+	"mixData" : "/Visual/User/cumulationData"
+};
+
+statUser.actionHtml = function (){
+	$("#total_user_time").change(statUser.getTotalUser);
+	$("#mix_user_time").change(statUser.getMixUser);
+}
+
+statUser.init = function (){
+	
+	statUser.actionHtml();
+	statUser.getHighLight();
+	statUser.getTotalUser();
+	statUser.getMixUser();
+}
+
+//获取hightline数据
+statUser.getHighLight = function(){
+	$.ajax({
+		type : 'POST',
+		url : statUser.cgi.highlight,
+		dataType : 'json',
+		success: function(rdata) {
+			if(rdata.code == 1){
+				var data = rdata.data;
+
+				$("#total_user").html(window.G.common.formatInt(1,1,data[0].cumulation_user));
+				$("#new_user").html(window.G.common.formatInt(1,1,data[0].new_user));
+				$("#login_user").html(window.G.common.formatInt(1,1,data[0].login_user));
+				$("#active_user").html(window.G.common.formatInt(1,1,data[0].active_user));
+				$("#date_show").text(data[0].datestamp);
+			}
+		}
+	});
+};
+
+//获取累计用户数
+statUser.getTotalUser = function(){
+	
+	var params = {};
+	params['type'] = $("#total_user_time").val();
+	console.log(params);
+
+	$.ajax({
+		type : 'POST',
+		url : statUser.cgi.totalData,
+		dataType : 'json',
+		data: '&' + window.G.common.jsonToUrl(params),
+		success: function(rdata) {
+			if(rdata.code == 1){
+				var graph_data = rdata.data;
+				showModColumns(graph_data, 'stat_content_chart');
+			}
+		}
+	});
+}
+
+//获取新增、活跃用户数
+statUser.getMixUser = function(){
+	
+	var params = {};
+	params['type'] = $("#mix_user_time").val();
+	console.log(params);
+
+	$.ajax({
+		type : 'POST',
+		url : statUser.cgi.mixData,
+		dataType : 'json',
+		data: '&' + window.G.common.jsonToUrl(params),
+		success: function(rdata) {
+			if(rdata.code == 1){
+				var data = rdata.data;
+				showTimeLines(data, 'stats_content_detail');
+			}
+		}
+	});
+}
+
+function showModColumns(data, oDiv){
+
+	if(!data){
+		return;
+	}
+	
+	var d1=[], s_date=[];
+
+	var style_type = 'column';
+	
+	var series = [];
+	
+	var data = window.G.common.listSortBy(data, 'datestamp', 'asc');
+
+	for(var i in data){
+		s_date.push(data[i].datestamp);
+		d1.push(parseInt(data[i].cumulation_user) || null);
+	}
+
+
+	var start_item = {
+			name: '累计用户量',
+			data: d1
+		};
+
+	series.push(start_item);
+
+	var chart = new Highcharts.Chart({
+        chart: {
+            renderTo: oDiv,
+            type: style_type,
+            margin: 75,
+            options3d: {
+                enabled: true,
+                alpha: 15, //柱形图倾斜角度
+                beta: 15, 
+                depth: 50,
+                viewDistance: 25
+            }
+        },
+        title: {
+            text: '累计用户量'
+        },
+        subtitle: {
+            text: ''
+        },
+		credits:{
+			enabled:false
+		},
+        plotOptions: {
+            column: {
+                depth: 25
+            }
+        },
+		xAxis:{
+			categories: s_date,
+            lineColor:'#e5e5e5',
+            tickColor:'#e5e5e5',
+            labels:{
+            	style:{
+            		color:'#7a7a7a',
+            	},
+            },
+            tickPosition:'inside',
+            tickLength:4,
+            tickmarkPlacement:'on',
+			tickInterval: 1
+		},
+		yAxis:[{
+			labels:{
+				format:'{value}',
+				formatter: function(){
+					return window.G.common.formatInt(0,0,this.value);
+				},
+				style:{
+					color:'#f6505c'
+				}
+			},
+			title:{
+				enabled:false
+			},
+			min: 0
+		}],
+        series: series,
+		legend:{
+			align:'center',
+			verticalAlign:'top',
+			borderWidth:0,
+			x:380,
+			title:{
+                style: {
+                    fontStyle: 'italic'
+                }
+            }
+		},
+		exporting:{
+			enabled:false
+		}
+    });
+}
+
+function showTimeLines(data, oDiv){
+	if(!data){
+		return;
+	}
+
+	var d1=[], d2=[], d3=[], s_date=[];
+
+	var style_type = 'line';
+	
+	var series = [];
+
+	var data = window.G.common.listSortBy(data, 'datestamp', 'asc');
+
+	for(var i in data){
+		s_date.push(data[i].datestamp);
+		d1.push(parseInt(data[i].login_user));
+		d2.push(parseInt(data[i].active_user));
+		d3.push(parseInt(data[i].new_user));
+	}
+
+	/*console.log(d1);
+	console.log(d2);
+	console.log(d3);*/
+
+	var start_item = {
+			name: '登录用户',
+			type:style_type,
+			data: d1
+		};
+	
+	series.push(start_item);
+
+	var second_item = {
+		name: '活跃用户',
+		type:style_type,
+		data: d2
+	}
+	series.push(second_item);
+
+	var third_item = {
+		name: '新增用户',
+		type:style_type,
+		data: d3
+	}
+	series.push(third_item);
+
+
+	var chart1 = new Highcharts.Chart({
+		title:{
+			text:"",
+			align:"center",
+			style:{
+				color: '#b5b5b9',
+				fontSize:'14px'
+			}
+		},
+		credits:{
+			enabled:false
+		},
+		chart:{
+			renderTo: oDiv,
+			style: {
+				fontFamily: '"Lucida Grande", "Lucida Sans Unicode","microsoft yahei",Verdana, Arial, Helvetica, sans-serif', 
+				fontSize: '12px'
+			},
+			marginRight:100,
+			marginTop:60,
+			marginLeft:150
+		},
+		xAxis:{
+			categories: s_date,
+            lineColor:'#e5e5e5',
+            tickColor:'#e5e5e5',
+            labels:{
+            	style:{
+            		color:'#7a7a7a',
+            	},
+            },
+            tickPosition:'inside',
+            tickLength:4,
+            tickmarkPlacement:'on',
+			tickInterval: 1
+		},
+		yAxis:[{
+			labels:{
+				format:'{value}',
+				formatter: function(){
+					return window.G.common.formatInt(0,0,this.value);
+				},
+				style:{
+					color:'#f6505c'
+				}
+			},
+			title:{
+				enabled:false
+			},
+			min: 0
+		}],
+		legend:{
+			align:'center',
+			verticalAlign:'top',
+			borderWidth:0,
+			x:380,
+			itemStyle:{
+				fontWeight:'normal',
+				color:'#a1a8b4'
+			},
+			itemHoverStyle: {
+				color: '#c9c9c9'
+			}
+		},
+		tooltip:{
+			shared:false
+		},
+		series: series,
+		plotOptions:{
+			line:{
+				marker:{
+					fillColor: '#FFFFFF',
+                    lineWidth: 2,
+                    lineColor: null,
+                    symbol: 'circle'
+				}
+			}
+		},
+		exporting:{
+			enabled:false
+		}
+	})
+}
+
+
+statUser.init();
+
+});
+{/literal}
+</script>
+</body>
+</html>
+			
+			
+					
