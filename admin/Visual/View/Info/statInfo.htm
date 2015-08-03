@@ -251,6 +251,10 @@ function showModColumns(data, oDiv){
             	style:{
             		color:'#7a7a7a',
             	},
+            	align: 'left',
+	            formatter: function () {
+	                return this.value.substring(0, 4);
+	            }
             },
             tickPosition:'inside',
             tickLength:4,
@@ -286,13 +290,7 @@ function showModColumns(data, oDiv){
 		},
 		exporting:{
 			enabled:false
-		},
-		labels: {
-            align: 'left',
-            formatter: function () {
-                return this.value.substring(0, 4);
-            }
-        }
+		}
     });
 }
 
