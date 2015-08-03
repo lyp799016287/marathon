@@ -129,7 +129,7 @@ statInfo.getTopInfo = function(){
 				showModColumns(graph_data, 'stat_content_chart');
 			}
 			else{
-				
+
 			}
 		}
 	});
@@ -172,7 +172,7 @@ function showModColumns(data, oDiv){
 
 	for(var i in data){
 		s_date.push(data[i].title);
-		d1.push(parseInt(data[i].score) || null);
+		d1.push(parseFloat(data[i].score) || null);
 	}
 
 
