@@ -12,6 +12,13 @@ class InfoModel extends Model {
         $this->topNum = 10; ## top显示的条数
     }
 
+    private function queryFunction($sql)
+    {
+        $tmp_sql = "SET NAMES utf8";
+        $this->execute($tmp_sql);
+        return $this->query($sql);
+    }
+
 
     public function topSummary()
     {
@@ -22,8 +29,7 @@ class InfoModel extends Model {
 //         ORDER BY a.score DESC 
 //         LIMIT 5
 // EOF;
-        $tmp_sql = "SET NAMES utf8";
-        $this->execute($tmp_sql);
+        
         $sql = <<<EOF
         SELECT info_id, title, score
         FROM t_info_daily
@@ -31,7 +37,7 @@ class InfoModel extends Model {
         ORDER BY score DESC LIMIT {$this->topNum}
 EOF;
         // var_dump($sql);
-        $re = $this->query($sql);
+        $re = $this->queryFunction($sql);
         return $re;
     }
 
@@ -49,14 +55,14 @@ EOF;
         FROM t_info_daily WHERE datestamp = '{$yesterday}'
         ORDER BY scan_pv DESC
 EOF;
-        $re = $this->query($sql);
+        $re = $this->queryFunction($sql);
         return $re;
     }
 
     public function accumulateInfo()
     {
         $maxTime = "SELECT MAX(modify_time) max_time FROM t_info_accumulate";
-        $re_time = $this->query($maxTime);
+        $re_time = $this->queryFunction($maxTime);
         if($re_time === false)
             return array('code'=>-1, 'message'=>'查询错误');
         $time_clause = " 1";
@@ -79,7 +85,7 @@ EOF;
         ON a.info_id = b.info_id 
 EOF;
         // var_dump($scanInfo);
-        $scan = $this->query($scanInfo);
+        $scan = $this->queryFunction($scanInfo);
         ## 资讯分享
         $shareInfo = <<<EOF
         SELECT target_id info_id, COUNT(id) share_pv, COUNT(DISTINCT user_id) share_uv FROM t_share 
@@ -195,7 +201,7 @@ EOF;
         {
             $info_id = $info[$i]['info_id'];
             $sql = "SELECT * FROM t_info_accumulate WHERE info_id = " . $info_id;
-            $re_exist = $this->query($sql);
+            $re_exist = $this->queryFunction($sql);
             if($re_exist === false)
                 return array('code'=>-4, 'message'=>'查询错误');
             $title = $info[$i]['title'];
@@ -254,7 +260,7 @@ EOF;
     public function accumulateResultTop()
     {
         $sql = "SELECT info_id, title, score FROM t_info_accumulate ORDER BY score DESC LIMIT " . $this->topNum;
-        $top = $this->query($sql);
+        $top = $this->queryFunction($sql);
         return $top;
     }
 
@@ -266,7 +272,7 @@ EOF;
         FROM t_info_accumulate
         ORDER BY scan_pv DESC
 EOF;
-        $detail = $this->query($sql);
+        $detail = $this->queryFunction($sql);
         return $detail;
     }
 
