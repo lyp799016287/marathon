@@ -12,7 +12,7 @@
 <script src="/res/websrc/UIlib/jquery/common.js" type="text/javascript"></script>
 <style type="text/css">
 #table_show_options_sum span { width:150px;display: inline-block;}
-#table_show_options_details span { /*width:150px;*/display: inline-block;} 
+#table_show_options_details span { /*width:150px;*/display: inline-block;}
 #table_filter_div span { width:190px;display: inline-block;} 
 #show_item_div span { width:190px;display: inline-block;} 
 </style>
@@ -171,7 +171,9 @@ function showModColumns(data, oDiv){
 	// var data = window.G.common.listSortBy(data, 'datestamp', 'asc');
 
 	for(var i in data){
-		s_date.push(data[i].title);
+		// s_date.push(data[i].title);
+		var tmp_str = data[i].title;
+		s_date.push(tmp_str.substring(0, 10) + (tmp_str.length > 10) ? '...':'');
 		d1.push(parseFloat(data[i].score) || null);
 	}
 
