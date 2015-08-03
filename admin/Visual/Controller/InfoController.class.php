@@ -13,9 +13,9 @@ class InfoController extends Controller {
 	{
 		$type = I('type', 1, 'intval');
 		if($type == 1)
-			$this->infoSummaryTop();
+			return $this->infoSummaryTop();
 		elseif($type == 2)
-			$this->infoAccumulateTop();
+			return $this->infoAccumulateTop();
 	}
 
 	## 前一天（最新）资讯top相关信息

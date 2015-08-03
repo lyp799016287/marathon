@@ -123,6 +123,7 @@ statInfo.getTopInfo = function(){
 		dataType : 'json',
 		data: '&' + window.G.common.jsonToUrl(params),
 		success: function(rdata) {
+			console.log(rdata);
 			if(rdata.code == 1){
 				var graph_data = rdata.data;
 				showModColumns(graph_data, 'stat_content_chart');
@@ -193,7 +194,7 @@ function showModColumns(data, oDiv){
             }
         },
         title: {
-            text: '累计用户量'
+            text: '资讯综合得分TOP'
         },
         subtitle: {
             text: ''
