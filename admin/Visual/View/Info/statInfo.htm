@@ -178,14 +178,17 @@ function showModColumns(data, oDiv){
 		d1.push(parseFloat(data[i].score) || null);
 	}
 	// console.log(s_date);
+	for(var i in data){
+		show_data.push(data[i].title);
+	}
 
 	var start_item = {
-			name: '资讯TOP',
+			name: '综合得分',
 			data: d1
 		};
 
 	series.push(start_item);
-	console.log(series);
+	// console.log(series);
 	var chart = new Highcharts.Chart({
         chart: {
             renderTo: oDiv,
@@ -214,7 +217,8 @@ function showModColumns(data, oDiv){
             }
         },
 		xAxis:{
-			categories: s_date,
+			// categories: s_date,
+			categories: show_data,
             lineColor:'#e5e5e5',
             tickColor:'#e5e5e5',
             labels:{
