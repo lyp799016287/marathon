@@ -6,10 +6,14 @@
 <title>资讯分析</title>
 <link href="/res/websrc/UIlib/ligerUI-1.1.9/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
 <link href="/res/websrc/css/index.css" rel="stylesheet" type="text/css" />
+<link href= "/res/websrc/UIlib/ligerUI-1.1.9/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
+<link href= "/res/websrc/UIlib/ligerUI-1.1.9/skins/ligerui-icons.css" rel="stylesheet" type="text/css" />
+<link href= "/res/websrc/UIlib/ligerUI-1.1.9/skins/Gray/css/all.css" rel="stylesheet" type="text/css" />
 <script src="/res/websrc/UIlib/jquery/jquery-1.5.2.min.js" type="text/javascript"></script>
 <script src="/res/websrc/UIlib/highcharts/highcharts-4.0.3.js" type="text/javascript"></script>
 <script src="/res/websrc/UIlib/highcharts/highcharts-3d.js" type="text/javascript"></script>
 <script src="/res/websrc/UIlib/jquery/common.js" type="text/javascript"></script>
+<script src="/res/websrc/UIlib/ligerUI-1.1.9/js/ligerui.all.js" type="text/javascript"></script>
 <style type="text/css">
 #table_show_options_sum span { width:150px;display: inline-block;}
 #table_show_options_details span { /*width:150px;*/display: inline-block;}
@@ -30,7 +34,7 @@
 					<h3 id="filter_desc_graph">资讯TOP</h3><span id="date_desc_graph" class="sub_tit"></span>
 				</div>
 				</div>
-				<div class="filter filter3" id="graph_detail">
+				<div class="filter filter3" id="graph_top">
 					<div class="filter_inner">
 					<div>
 					<div class="sel_item" id="show_item_div">
@@ -49,7 +53,27 @@
 				</div>
 			</div>
 			<!-- end 趋势图-->
-			
+
+			<!-- begin 表格 -->
+			<div class="filter filter3" id="graph_detail">
+			<div class="filter_inner">
+				<div>
+				<div class="sel_item" id="show_item_div">
+                    <span style="width:640px;">显示维度:
+						<select name="time_selector" id="stat_dimension" style="width:120px;margin-left:10px;">
+							<option value="1">昨日资讯</option>
+							<option value="2">累计资讯</option>
+						</select>
+					</span>
+				</div>
+				</div>
+			</div>
+		</div>
+			<div id="maingrid">
+
+			</div>
+			<!-- end 表格 -->
+
 			<!--指标解释 S-->
 			<div id="terms_definition_div" class="mod_list id_intr">
 			    <div class="mod_list_hd">
@@ -88,6 +112,7 @@ statInfo.init = function (){
 	// statInfo.getHighLight();
 	statInfo.getTopInfo();
 	// statInfo.getMixUser();
+	statInfo.getDetailInfo();
 }
 
 // //获取hightline数据
@@ -135,6 +160,11 @@ statInfo.getTopInfo = function(){
 	});
 }
 
+statInfo.getDetailInfo = function(){
+	var params = {};
+	params['type'] = $("#stat_dimension").val();
+}
+
 // //获取新增、活跃用户数
 // statInfo.getMixUser = function(){
 	
@@ -171,10 +201,10 @@ function showModColumns(data, oDiv){
 	// var data = window.G.common.listSortBy(data, 'datestamp', 'asc');
 
 	for(var i in data){
-		// s_date.push(data[i].title);
-		var tmp_str = data[i].title;
-		var str = tmp_str.substring(0, 4) + (tmp_str.length > 4 ? '...':'');
-		s_date.push(str);
+		s_date.push(data[i].title);
+		// var tmp_str = data[i].title;
+		// var str = tmp_str.substring(0, 4) + (tmp_str.length > 4 ? '...':'');
+		// s_date.push(str);
 		d1.push(parseFloat(data[i].score) || null);
 	}
 	// console.log(s_date);
@@ -256,7 +286,13 @@ function showModColumns(data, oDiv){
 		},
 		exporting:{
 			enabled:false
-		}
+		},
+		labels: {
+            align: 'left',
+            formatter: function () {
+                return this.value.substring(0, 4);
+            }
+        }
     });
 }
 
