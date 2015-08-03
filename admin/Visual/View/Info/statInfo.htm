@@ -173,8 +173,6 @@ function showModColumns(data, oDiv){
 	for(var i in data){
 		// s_date.push(data[i].title);
 		var tmp_str = data[i].title;
-		// console.log(tmp_str);
-		// console.log(tmp_str.substring(0, 10));
 		var str = tmp_str.substring(0, 4) + (tmp_str.length > 4 ? '...':'');
 		s_date.push(str);
 		d1.push(parseFloat(data[i].score) || null);
@@ -187,7 +185,7 @@ function showModColumns(data, oDiv){
 		};
 
 	series.push(start_item);
-
+	console.log(series);
 	var chart = new Highcharts.Chart({
         chart: {
             renderTo: oDiv,
