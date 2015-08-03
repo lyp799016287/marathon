@@ -9,6 +9,7 @@ class InfoModel extends Model {
     public function _initialize()
     {
         $this->imed_config = C('DB_IMED');
+        $this->topNum = 10; ## top显示的条数
     }
 
 
@@ -27,7 +28,7 @@ class InfoModel extends Model {
         SELECT info_id, title, score
         FROM t_info_daily
         WHERE datestamp = '{$yesterday}'
-        ORDER BY score DESC LIMIT 5
+        ORDER BY score DESC LIMIT {$this->topNum}
 EOF;
         // var_dump($sql);
         $re = $this->query($sql);
@@ -252,7 +253,7 @@ EOF;
     ## 资讯的累计信息top
     public function accumulateResultTop()
     {
-        $sql = "SELECT info_id, title, score FROM t_info_accumulate ORDER BY score DESC LIMIT 5";
+        $sql = "SELECT info_id, title, score FROM t_info_accumulate ORDER BY score DESC LIMIT " . $this->topNum;
         $top = $this->query($sql);
         return $top;
     }

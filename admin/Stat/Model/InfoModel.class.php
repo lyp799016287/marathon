@@ -305,7 +305,6 @@ EOF;
         return array('code'=>1, 'message'=>"执行成功");
     }
 
-
     private function calScore($insert_data)
     {
         $scan_pv = $insert_data['scan_pv'];
