@@ -3,7 +3,7 @@ namespace Manage\Controller;
 use Think\Controller;
 class ServiceController extends Controller {
 
-	protected $secret =  null;
+	
 
 	public function _initialize(){
 		$this->service = D('Service');
