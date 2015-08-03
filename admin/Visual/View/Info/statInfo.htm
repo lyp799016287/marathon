@@ -173,10 +173,12 @@ function showModColumns(data, oDiv){
 	for(var i in data){
 		// s_date.push(data[i].title);
 		var tmp_str = data[i].title;
+		console.log(tmp_str);
+		console.log(tmp_str.substring(0, 10));
 		s_date.push(tmp_str.substring(0, 10) + (tmp_str.length > 10) ? '...':'');
 		d1.push(parseFloat(data[i].score) || null);
 	}
-	console.log(s_date);
+	// console.log(s_date);
 
 	var start_item = {
 			name: '资讯TOP',
