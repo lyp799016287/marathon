@@ -52,8 +52,17 @@ class InfoController extends Controller {
 		// }
 	}
 
+	public function infoDetail()
+	{
+		$type = I('type', 1, 'intval');
+		if($type == 1)
+			return $this->infoSummaryDetail();
+		elseif($type == 2)
+			return $this->infoAccumulateDetail();
+	}
+
 	## 前一天（最新）资讯detail相关信息
-	public function infoSummaryDetail()
+	private function infoSummaryDetail()
 	{
 		$detailInfo = $this->info->detailSummary();
 		// var_dump($detailInfo); exit;
@@ -64,7 +73,7 @@ class InfoController extends Controller {
 	}
 
 	## 累计 资讯detail相关信息
-	public function infoAccumulateDetail()
+	private function infoAccumulateDetail()
 	{
 		$result = $this->info->accumulateResultDetail();
 		// var_dump($result); exit;
