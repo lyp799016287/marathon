@@ -128,11 +128,11 @@ statInfo.cgi = {
 };
 
 //表头设置
-statInfo.header = {
+statInfo.header = [
 	{
 		display: '标题',
 		name: 'title',
-		width: '20%',
+		width: '25%',
 		isSort: true,
 		align: 'center',
 		issortshow: false
@@ -140,7 +140,7 @@ statInfo.header = {
 	{
 		display: '发布时间',
 		name: 'pub_time',
-		width: '16%',
+		width: '10%',
 		isSort: true,
 		align: 'center',
 		issortshow: true
@@ -148,78 +148,78 @@ statInfo.header = {
 	{
 		display: '综合得分',
 		name: 'score',
-		width: '16%',
+		width: '8%',
 		type: 'float',
 		isSort: true,
 		align: 'right',
-		render:  window.G.util.formatDecimal,
+		render:  window.G.common.formatDecimal,
 		issortshow: true
 	},
 	{
 		display: '浏览PV(游客PV)',
 		name: 'scan_pv',
-		width: '16%',
+		width: '10%',
 		type: 'int',
 		isSort: true,
 		align: 'right',
-		render:  window.G.util.formatInt,
+		render:  window.G.common.formatInt,
 		issortshow: true
 	},
 	{
 		display: '浏览UV',
 		name: 'scan_uv',
-		width: '16%',
+		width: '8%',
 		type: 'int',
 		isSort: true,
-		render:  window.G.util.formatInt,
+		render:  window.G.common.formatInt,
 		align: 'right',
 		issortshow: true
 	},
 	{
 		display: '评论PV',
 		name: 'comment_pv',
-		width: '16%',
+		width: '10%',
 		type: 'int',
 		isSort: false,
-		render:  window.G.util.formatInt,
+		render:  window.G.common.formatInt,
 		align: 'right',
 		issortshow: false
 	},
 	{
 		display: '评论UV',
 		name: 'comment_uv',
-		width: '16%',
+		width: '8%',
 		type: 'int',
 		isSort: false,
-		render:  window.G.util.formatInt,
+		render:  window.G.common.formatInt,
 		align: 'right',
 		issortshow: false
 	},
 	{
 		display: '分享PV',
 		name: 'share_pv',
-		width: '16%',
+		width: '10%',
 		type: 'int',
 		isSort: false,
-		render:  window.G.util.formatInt,
+		render:  window.G.common.formatInt,
 		align: 'right',
 		issortshow: false
 	},
 	{
 		display: '分享UV',
 		name: 'share_uv',
-		width: '16%',
+		width: '8%',
 		type: 'int',
 		isSort: false,
-		render:  window.G.util.formatInt,
+		render:  window.G.common.formatInt,
 		align: 'right',
 		issortshow: false
 	}
-};
+];
 
 statInfo.actionHtml = function (){
 	$("#stat_dimension").change(statInfo.getTopInfo); 
-	// $("#mix_user_time").change(statInfo.getMixUser);
+	$("#detail_dimension").change(statInfo.getDetailInfo);
 }
 
 statInfo.init = function (){
@@ -263,6 +263,8 @@ var gridManager = $("#stats_content_detail").ligerGrid({
 	sortorderParmName: 'sort_order',
 	dataAction: 'server',
 	dataType: 'json',
+	root: 'data',
+	record: 'code',
 	method: 'post',
 	pageSize: 20,
 	pageSizeOptions: [20, 50, 100, 150, 200],
@@ -284,27 +286,6 @@ statInfo.getDetailInfo = function(){
 	gridManager.setOptions({parms: params});
 	gridManager.loadData();
 }
-
-// //获取新增、活跃用户数
-// statInfo.getMixUser = function(){
-	
-// 	var params = {};
-// 	params['type'] = $("#mix_user_time").val();
-// 	console.log(params);
-
-// 	$.ajax({
-// 		type : 'POST',
-// 		url : statInfo.cgi.mixData,
-// 		dataType : 'json',
-// 		data: '&' + window.G.common.jsonToUrl(params),
-// 		success: function(rdata) {
-// 			if(rdata.code == 1){
-// 				var data = rdata.data;
-// 				showTimeLines(data, 'stats_content_detail');
-// 			}
-// 		}
-// 	});
-// }
 
 function showModColumns(data, oDiv){
 

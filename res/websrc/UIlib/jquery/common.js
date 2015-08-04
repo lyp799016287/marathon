@@ -126,12 +126,21 @@
 
 	//格式化数据格式
 	common.formatRate = function(row, index, value) {
+		if(value == undefined){
+			return '--';
+		}
         return common.formatNumber(value, 2) + '%';
     };
     common.formatDecimal = function(row, index, value) {
+		if(value == undefined){
+			return '--';
+		}
         return common.formatNumber(value, 2);
     };
     common.formatInt = function(row, index, value) {
+		if(value == undefined){
+			return '--';
+		}
         var data = common.formatNumber(value, 0);
         return data ? data.replace(/\.\d\d/, '') : "";
     };
