@@ -55,16 +55,25 @@ class InfoController extends Controller {
 	public function infoDetail()
 	{
 		$type = I('type', 1, 'intval');
+
+		/************分页及排序信息***********/
+		$data = array();
+		$data['current_page'] = I('current_page', 1, 'intval');
+		$data['page_size'] = I('page_size', 20, 'intval');
+		$data['sort_name'] = I('sort_name');
+		$data['sort_order'] = I('sort_order');
+
+
 		if($type == 1)
-			return $this->infoSummaryDetail();
+			return $this->infoSummaryDetail($data);
 		elseif($type == 2)
-			return $this->infoAccumulateDetail();
+			return $this->infoAccumulateDetail($data);
 	}
 
 	## 前一天（最新）资讯detail相关信息
-	private function infoSummaryDetail()
+	private function infoSummaryDetail($data)
 	{
-		$detailInfo = $this->info->detailSummary();
+		$detailInfo = $this->info->detailSummary($data);
 		// var_dump($detailInfo); exit;
 		if(!empty($detailInfo))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$detailInfo));
@@ -73,9 +82,9 @@ class InfoController extends Controller {
 	}
 
 	## 累计 资讯detail相关信息
-	private function infoAccumulateDetail()
+	private function infoAccumulateDetail($data)
 	{
-		$result = $this->info->accumulateResultDetail();
+		$result = $this->info->accumulateResultDetail($data);
 		// var_dump($result); exit;
 		if(!empty($result))
 			return $this->ajaxReturn(array('code'=>1, 'data'=>$result));
