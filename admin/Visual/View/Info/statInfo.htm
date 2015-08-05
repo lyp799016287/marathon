@@ -261,7 +261,6 @@ statInfo.getDetailInfo = function(){
 	var params = {};
 	params['type'] = $("#detail_dimension").val();
 	
-	console.log(statInfo.header);
 	gridManager.setOptions({columns: statInfo.header});
 	gridManager.setOptions({parms: params});
 	gridManager.loadData();
