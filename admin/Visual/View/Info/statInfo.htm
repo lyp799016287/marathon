@@ -163,7 +163,7 @@ statInfo.header = [
 		isSort: false,
 		render:  window.G.common.formatInt,
 		align: 'right',
-		issortshow: false
+		issortshow: true
 	},
 	{
 		display: '评论UV',
@@ -173,7 +173,7 @@ statInfo.header = [
 		isSort: false,
 		render:  window.G.common.formatInt,
 		align: 'right',
-		issortshow: false
+		issortshow: true
 	},
 	{
 		display: '分享PV',
@@ -183,7 +183,7 @@ statInfo.header = [
 		isSort: false,
 		render:  window.G.common.formatInt,
 		align: 'right',
-		issortshow: false
+		issortshow: true
 	},
 	{
 		display: '分享UV',
@@ -193,7 +193,7 @@ statInfo.header = [
 		isSort: false,
 		render:  window.G.common.formatInt,
 		align: 'right',
-		issortshow: false
+		issortshow: true
 	}
 ];
 
@@ -246,7 +246,7 @@ var gridManager = $("#stats_content_detail").ligerGrid({
 	root: 'data',
 	record: 'Total',
 	method: 'post',
-	pageSize: 2,
+	pageSize: 20,
 	pageSizeOptions: [10, 20, 50, 100, 150],
 	delayLoad: true,
 	onLoading: function() {
