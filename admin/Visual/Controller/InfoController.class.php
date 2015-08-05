@@ -73,23 +73,34 @@ class InfoController extends Controller {
 	## 前一天（最新）资讯detail相关信息
 	private function infoSummaryDetail($data)
 	{
+		$rs = $this->info->detailSummaryTotal();
+		if(!$rs){
+			$this->ajaxReturn(array('code'=>-1, 'data'=>array(), 'Total'=>0));
+		}
+
 		$detailInfo = $this->info->detailSummary($data);
 		// var_dump($detailInfo); exit;
 		if(!empty($detailInfo))
-			$this->ajaxReturn(array('code'=>1, 'data'=>$detailInfo));
+			$this->ajaxReturn(array('code'=>1, 'data'=>$detailInfo, 'Total'=>$rs['total']));
 		else
-			$this->ajaxReturn(array('code'=>-1));
+			$this->ajaxReturn(array('code'=>-1, 'data'=>array(), 'Total'=>0));
 	}
 
 	## 累计 资讯detail相关信息
 	private function infoAccumulateDetail($data)
 	{
+		$rs = $this->info->accumulateRsDetailTotal();
+		
+		if(!$rs){
+			$this->ajaxReturn(array('code'=>-1, 'data'=>array(), 'Total'=>0));
+		}
+			
 		$result = $this->info->accumulateResultDetail($data);
 		// var_dump($result); exit;
 		if(!empty($result))
-			return $this->ajaxReturn(array('code'=>1, 'data'=>$result));
+			return $this->ajaxReturn(array('code'=>1, 'data'=>$result, 'Total'=>$rs['total']));
 		else
-			return $this->ajaxReturn(array('code'=>-1));
+			return $this->ajaxReturn(array('code'=>-1, 'data'=>array(), 'Total'=>0));
 	}
 
 	## 获取每篇文章最新的累计统计指标值

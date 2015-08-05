@@ -41,6 +41,23 @@ EOF;
         return $re;
     }
 
+	// 昨日资讯累计信息total，用于分页
+	public function detailSummaryTotal(){
+		
+		$yesterday = date('Y-m-d', strtotime("-1 day"));
+		
+		$sql = <<<EOF
+        SELECT COUNT(*) AS total FROM t_info_daily WHERE datestamp = '{$yesterday}'
+EOF;
+
+		$rs = $this->queryFunction($sql);
+        
+		if(!$rs){
+			return false;
+		}else{
+			return $rs[0];
+		}
+	} 
 
     public function detailSummary($data)
     {
@@ -64,7 +81,7 @@ EOF;
 			$order .= ' DESC';
 		}
 
-		$sql = "SELECT info_id, title, pub_time, scan_pv, scan_uv, scan_no_login_pv, comment_pv, comment_uv, share_pv, share_uv, score FROM t_info_daily WHERE datestamp = '{$yesterday}' ".$order.$limit;echo $sql;
+		$sql = "SELECT info_id, title, pub_time, scan_pv, scan_uv, scan_no_login_pv, comment_pv, comment_uv, share_pv, share_uv, score FROM t_info_daily WHERE datestamp = '{$yesterday}' ".$order.$limit;
 		
 //         $sql = <<<EOF
 //         SELECT a.info_id, b.title, a.pub_time, a.scan_pv, a.scan_uv, a.scan_no_login_pv, a.comment_pv, a.comment_uv, a.share_pv, a.share_uv, a.score
@@ -285,14 +302,48 @@ EOF;
         return $top;
     }
 
+	// 资讯累计信息total，用于分页
+	public function accumulateRsDetailTotal(){
+		$sql = <<<EOF
+        SELECT COUNT(*) AS total FROM t_info_accumulate
+EOF;
+		$rs = $this->queryFunction($sql);
+		
+		if(!$rs){
+			return false;
+		}else{
+			return $rs[0];
+		}
+	}
+
     ## 资讯的累计信息detail
     public function accumulateResultDetail($data)
     {
-        $sql = <<<EOF
+		$start = ($data['current_page'] - 1) * $data['page_size'];
+
+		$limit = ' LIMIT '.$start.', '.$data['page_size'];
+		
+		$order = '';
+
+		if(isset($data['sort_name']) && !empty($data['sort_name'])){
+			$order .= ' ORDER BY '.$data['sort_name'];
+		}else{
+			$order .= ' ORDER BY scan_pv';
+		}
+
+		if(isset($data['sort_order']) && !empty($data['sort_order'])){
+			$order .= ' '.$data['sort_order'];
+		}else{
+			$order .= ' DESC';
+		}
+
+		$sql = "SELECT info_id, title, scan_pv, scan_uv, scan_no_login_pv, comment_pv, comment_uv, share_pv, share_uv, score, pub_time FROM t_info_accumulate ".$order.$limit;
+
+        /*$sql = <<<EOF
         SELECT info_id, title, scan_pv, scan_uv, scan_no_login_pv, comment_pv, comment_uv, share_pv, share_uv, score, pub_time
         FROM t_info_accumulate
         ORDER BY scan_pv DESC
-EOF;
+EOF;*/
         $detail = $this->queryFunction($sql);
         return $detail;
     }
