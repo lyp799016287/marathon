@@ -56,7 +56,7 @@ a:hover .icon_close {background-position:-52px -182px;}
 .boldarrow_u {background-position:0 -91px;}
 .wrap_icon:hover .boldarrow_u,
 .boldarrow_u:hover {background-position:-19px -91px;} 
-body {background:url(../images/bg_gaosi_01.jpg) no-repeat -240px top fixed;}
+/*body {background:url(../images/bg_gaosi_01.jpg) no-repeat -240px top fixed;}*/
 .content .inner {padding:9px 10px 10px 10px;background:url(../images/bg_main.png) repeat 0 0;}
 .content .inner .cont_hd {padding-bottom:5px;font-size:12px;color:#fff;}
 .content .inner .cont_hd .split {padding:0 10px;}
