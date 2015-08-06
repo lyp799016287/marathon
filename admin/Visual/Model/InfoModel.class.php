@@ -38,6 +38,7 @@ class InfoModel extends Model {
 EOF;
         var_dump($sql);
         $re = $this->queryFunction($sql);
+        var_dump($re);
         return $re;
     }
 
