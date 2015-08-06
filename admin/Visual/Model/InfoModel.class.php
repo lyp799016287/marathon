@@ -36,10 +36,8 @@ class InfoModel extends Model {
         WHERE datestamp = '{$yesterday}'
         ORDER BY score DESC LIMIT {$this->topNum}
 EOF;
-        var_dump($sql);
-        // $re = $this->queryFunction($sql);
-        // var_dump($re);
-        var_dump($this->query($sql));
+        // var_dump($sql);
+        $re = $this->queryFunction($sql);
         return $re;
     }
 
