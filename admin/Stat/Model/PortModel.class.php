@@ -2,7 +2,7 @@
 namespace Stat\Model;
 use Think\Model;
 
-class InfoModel extends Model {
+class PortModel extends Model {
     protected $connection = 'DB_STAT';
     protected $trueTableName = 't_ajaxreturn_error';
 
