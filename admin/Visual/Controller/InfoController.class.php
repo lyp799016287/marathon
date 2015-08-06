@@ -7,6 +7,12 @@ class InfoController extends Controller {
 
 	public function _initialize(){
 		$this->info = D('Info');
+		$this->assign("menu_path", ROOT_PATH.'/admin_imed_me/');
+		$this->assign("index", 7);
+	}
+	
+	public function show(){
+		$this->display("statInfo");
 	}
 
 	public function infoTop()
