@@ -114,7 +114,7 @@ class InfoController extends Controller {
 	public function infoAccumulate()
 	{
 		$info = $this->info->accumulateInfo();
-		$this->writeLog($info, 'infoAccumulate');
+		$this->writeLog($info, '\Visual\Info\infoAccumulate');
 	}
 
 	## 跑脚本的内容  写log
