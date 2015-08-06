@@ -37,8 +37,9 @@ class InfoModel extends Model {
         ORDER BY score DESC LIMIT {$this->topNum}
 EOF;
         var_dump($sql);
-        $re = $this->queryFunction($sql);
-        var_dump($re);
+        // $re = $this->queryFunction($sql);
+        // var_dump($re);
+        var_dump($this->query($sql));
         return $re;
     }
 
