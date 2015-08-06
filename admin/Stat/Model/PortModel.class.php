@@ -20,6 +20,8 @@ class PortModel extends Model {
         {
             $max_date = $re_date[0]['datestamp'];
             $min_time = date("Y-m-d H:i:s", strtotime($max_date) + 86400);
+            var_dump($max_date);
+            var_dump($min_time);
             $sql = <<<EOF
             SELECT DISTINCT SUBSTRING(CAST(log_time AS CHAR(20)), 1, 10) AS error_date 
             FROM t_ajaxreturn_error
