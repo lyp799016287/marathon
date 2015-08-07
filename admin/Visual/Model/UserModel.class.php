@@ -29,7 +29,7 @@ class UserModel extends Model {
             $sql = "SELECT datestamp, cumulation_user, new_user, login_user, active_user FROM t_user_summary WHERE datestamp >= '" . $date_bgn . "' ORDER BY datestamp";
         elseif($idx == 1)
             $sql = "SELECT datestamp, cumulation_user FROM t_user_summary WHERE datestamp >= '" . $date_bgn . "' ORDER BY datestamp";
-        // var_dump($sql);
+        var_dump($sql);
         $re = $this->query($sql);
         if(empty($re))
             return $re;
