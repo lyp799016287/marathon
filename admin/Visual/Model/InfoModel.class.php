@@ -9,6 +9,14 @@ class InfoModel extends Model {
     public function _initialize()
     {
         $this->imed_config = C('DB_IMED');
+        $this->topNum = 10; ## top显示的条数
+    }
+
+    private function queryFunction($sql)
+    {
+        $tmp_sql = "SET NAMES utf8";
+        $this->execute($tmp_sql);
+        return $this->query($sql);
     }
 
 
@@ -21,38 +29,78 @@ class InfoModel extends Model {
 //         ORDER BY a.score DESC 
 //         LIMIT 5
 // EOF;
+        
         $sql = <<<EOF
         SELECT info_id, title, score
         FROM t_info_daily
         WHERE datestamp = '{$yesterday}'
-        ORDER BY score DESC LIMIT 5
+        ORDER BY score DESC LIMIT {$this->topNum}
 EOF;
-        $re = $this->query($sql);
+        // var_dump($sql);
+        $re = $this->queryFunction($sql);
         return $re;
     }
 
+	// 昨日资讯累计信息total，用于分页
+	public function detailSummaryTotal(){
+		
+		$yesterday = date('Y-m-d', strtotime("-1 day"));
+		
+		$sql = <<<EOF
+        SELECT COUNT(*) AS total FROM t_info_daily WHERE datestamp = '{$yesterday}'
+EOF;
 
-    public function detailSummary()
+		$rs = $this->queryFunction($sql);
+        
+		if(!$rs){
+			return false;
+		}else{
+			return $rs[0];
+		}
+	} 
+
+    public function detailSummary($data)
     {
         $yesterday = date('Y-m-d', strtotime("-1 day"));
+		
+		$start = ($data['current_page'] - 1) * $data['page_size'];
+
+		$limit = ' LIMIT '.$start.', '.$data['page_size'];
+		
+		$order = '';
+
+		if(isset($data['sort_name']) && !empty($data['sort_name'])){
+			$order .= ' ORDER BY '.$data['sort_name'];
+		}else{
+			$order .= ' ORDER BY scan_pv';
+		}
+
+		if(isset($data['sort_order']) && !empty($data['sort_order'])){
+			$order .= ' '.$data['sort_order'];
+		}else{
+			$order .= ' DESC';
+		}
+
+		$sql = "SELECT info_id, title, pub_time, scan_pv, scan_uv, scan_no_login_pv, comment_pv, comment_uv, share_pv, share_uv, score FROM t_info_daily WHERE datestamp = '{$yesterday}' ".$order.$limit;
+		
 //         $sql = <<<EOF
 //         SELECT a.info_id, b.title, a.pub_time, a.scan_pv, a.scan_uv, a.scan_no_login_pv, a.comment_pv, a.comment_uv, a.share_pv, a.share_uv, a.score
 //         FROM (SELECT * FROM t_info_daily WHERE datestamp = '{$yesterday}') a LEFT JOIN imed.`t_info_summary` b ON a.info_id = b.info_id
 //         ORDER BY a.scan_pv DESC
 // EOF;
-        $sql = <<<EOF
+        /*$sql = <<<EOF
         SELECT info_id, title, pub_time, scan_pv, scan_uv, scan_no_login_pv, comment_pv, comment_uv, share_pv, share_uv, score
         FROM t_info_daily WHERE datestamp = '{$yesterday}'
         ORDER BY scan_pv DESC
-EOF;
-        $re = $this->query($sql);
+EOF;*/
+        $re = $this->queryFunction($sql);
         return $re;
     }
 
     public function accumulateInfo()
     {
         $maxTime = "SELECT MAX(modify_time) max_time FROM t_info_accumulate";
-        $re_time = $this->query($maxTime);
+        $re_time = $this->queryFunction($maxTime);
         if($re_time === false)
             return array('code'=>-1, 'message'=>'查询错误');
         $time_clause = " 1";
@@ -75,7 +123,7 @@ EOF;
         ON a.info_id = b.info_id 
 EOF;
         // var_dump($scanInfo);
-        $scan = $this->query($scanInfo);
+        $scan = $this->queryFunction($scanInfo);
         ## 资讯分享
         $shareInfo = <<<EOF
         SELECT target_id info_id, COUNT(id) share_pv, COUNT(DISTINCT user_id) share_uv FROM t_share 
@@ -191,7 +239,7 @@ EOF;
         {
             $info_id = $info[$i]['info_id'];
             $sql = "SELECT * FROM t_info_accumulate WHERE info_id = " . $info_id;
-            $re_exist = $this->query($sql);
+            $re_exist = $this->queryFunction($sql);
             if($re_exist === false)
                 return array('code'=>-4, 'message'=>'查询错误');
             $title = $info[$i]['title'];
@@ -249,20 +297,54 @@ EOF;
     ## 资讯的累计信息top
     public function accumulateResultTop()
     {
-        $sql = "SELECT info_id, title, score FROM t_info_accumulate ORDER BY score DESC LIMIT 5";
-        $top = $this->query($sql);
+        $sql = "SELECT info_id, title, score FROM t_info_accumulate ORDER BY score DESC LIMIT " . $this->topNum;
+        $top = $this->queryFunction($sql);
         return $top;
     }
 
+	// 资讯累计信息total，用于分页
+	public function accumulateRsDetailTotal(){
+		$sql = <<<EOF
+        SELECT COUNT(*) AS total FROM t_info_accumulate
+EOF;
+		$rs = $this->queryFunction($sql);
+		
+		if(!$rs){
+			return false;
+		}else{
+			return $rs[0];
+		}
+	}
+
     ## 资讯的累计信息detail
-    public function accumulateResultDetail()
+    public function accumulateResultDetail($data)
     {
-        $sql = <<<EOF
+		$start = ($data['current_page'] - 1) * $data['page_size'];
+
+		$limit = ' LIMIT '.$start.', '.$data['page_size'];
+		
+		$order = '';
+
+		if(isset($data['sort_name']) && !empty($data['sort_name'])){
+			$order .= ' ORDER BY '.$data['sort_name'];
+		}else{
+			$order .= ' ORDER BY scan_pv';
+		}
+
+		if(isset($data['sort_order']) && !empty($data['sort_order'])){
+			$order .= ' '.$data['sort_order'];
+		}else{
+			$order .= ' DESC';
+		}
+
+		$sql = "SELECT info_id, title, scan_pv, scan_uv, scan_no_login_pv, comment_pv, comment_uv, share_pv, share_uv, score, pub_time FROM t_info_accumulate ".$order.$limit;
+
+        /*$sql = <<<EOF
         SELECT info_id, title, scan_pv, scan_uv, scan_no_login_pv, comment_pv, comment_uv, share_pv, share_uv, score, pub_time
         FROM t_info_accumulate
         ORDER BY scan_pv DESC
-EOF;
-        $detail = $this->query($sql);
+EOF;*/
+        $detail = $this->queryFunction($sql);
         return $detail;
     }
 

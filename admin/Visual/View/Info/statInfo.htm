@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf8">
+<meta content="IE=EmulateIE8" http-equiv="X-UA-Compatible">
+<title>资讯分析</title>
+<link rel="stylesheet" type="text/css" media="all" href="/admin.css" />
+<link href="/res/websrc/UIlib/ligerUI-1.1.9/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
+<link href="/res/websrc/css/index.css" rel="stylesheet" type="text/css" />
+<link href= "/res/websrc/UIlib/ligerUI-1.1.9/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
+<link href= "/res/websrc/UIlib/ligerUI-1.1.9/skins/ligerui-icons.css" rel="stylesheet" type="text/css" />
+<link href= "/res/websrc/UIlib/ligerUI-1.1.9/skins/Gray/css/all.css" rel="stylesheet" type="text/css" />
+<script src="/res/websrc/UIlib/jquery/jquery-1.5.2.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/res/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="/res/js/loginstatus.js"></script>
+<script src="/res/websrc/UIlib/highcharts/highcharts-4.0.3.js" type="text/javascript"></script>
+<script src="/res/websrc/UIlib/highcharts/highcharts-3d.js" type="text/javascript"></script>
+<script src="/res/websrc/UIlib/jquery/common.js" type="text/javascript"></script>
+<script src="/res/websrc/UIlib/ligerUI-1.1.9/js/core/base.js" type="text/javascript"></script>
+<script src="/res/websrc/UIlib/ligerUI-1.1.9/js/plugins/ligerGrid.js" type="text/javascript" charset="utf-8"></script>
+<script src="/res/websrc/UIlib/ligerUI-1.1.9/js/plugins/ligerDialog.js" type="text/javascript" charset="utf-8"></script>
+<style type="text/css">
+#table_show_options_sum span { width:150px;display: inline-block;}
+#table_show_options_details span { /*width:150px;*/display: inline-block;}
+#table_filter_div span { width:190px;display: inline-block;} 
+#show_item_div span { width:190px;display: inline-block;} 
+</style>
+</head>
+<body>
+<div id="left">
+	<div id="userinfo">
+		<span id='userName'></span>
+	</div>
+	<nav>
+		{include file="$menu_path/menu.htm"}
+	</nav>
+</div>
+	<div class="main" id="main_body">
+		<div class="content">
+			<div class="inner">
+			<!--<div class="cont_hd"><span>采销数据台</span><span class="split">/</span><span>内部管理</span><span class="split">/</span><strong class="current">缺货管理</strong></div>-->
+			<div class="cont_bd">
+			<!-- Start 趋势图-->
+			<div class="mod_list" id="trend_graph">
+				<div class="mod_list_hd org_l">
+				<div class="hd">
+					<h3 id="filter_desc_graph">资讯TOP</h3><span id="date_desc_graph" class="sub_tit"></span>
+				</div>
+				</div>
+				<div class="filter filter3" id="graph_top">
+					<div class="filter_inner">
+					<!--<div>-->
+						<div class="sel_item" id="show_item_div">
+							<span style="width:640px;">统计维度:
+								<select name="time_selector" id="stat_dimension" style="width:120px;margin-left:10px;">
+									<option value="1">昨日TOP</option>
+									<option value="2">累计TOP</option>
+								</select>
+							</span>
+						</div>
+					<!--</div>-->
+				</div>
+				</div>
+				<div class="mod_list_bd l-panel-bwarp">
+					<div id="stat_content_chart" class="block_content center" style="width:1200px;height:450px;margin-left:50px;"></div>
+				</div>
+			</div>
+			<!-- end 趋势图-->
+
+			<!-- Start 详细报表 -->
+			<div class="mod_list" id="page_sum_table">
+				<div class="mod_list_hd org_l">
+					<div class="hd"><h3 id="filter_desc_table">详细报表</h3><span id="date_desc_table" class="sub_tit"></span></div>
+		    	</div>
+				
+				<div class="filter filter3" id="graph_top">
+					<div class="filter_inner">
+						<div class="sel_item" id="show_item_div">
+							<span style="width:640px;">显示维度:
+								<select name="time_selector" id="detail_dimension" style="width:120px;margin-left:10px;">
+									<option value="1">昨日资讯</option>
+									<option value="2">累计资讯</option>
+								</select>
+							</span>
+						</div>
+					</div>
+				</div>
+			    <div class="mod_list_bd" style="margin-top:5px;">
+			        <div id="stats_content_detail" class="block_content center" ></div>
+			    </div>
+			</div>
+			<!-- End 详细报表 -->
+
+			<!--指标解释 S-->
+			<div id="terms_definition_div" class="mod_list id_intr">
+			    <div class="mod_list_hd">
+			        <h3>指标解释</h3>
+			    </div>
+			    <div class="mod_list_bd" id="term_definition_list">
+					<p><strong>资讯综合得分: </strong>（浏览PV + 浏览UV） * 0.25 + （评论PV + 评论UV） * 0.35 + （转发PV + 转发UV） * 0.4</p>
+			     </div>
+			</div>
+			<!--指标解释 E-->
+			</div>
+			</div>
+		</div>
+	</div>
+<script>
+{literal}
+$(document).ready(function(){
+	
+var statInfo = {};
+
+//调用接口
+statInfo.cgi = {
+	// "highlight" : "/Visual/User/totalSummary",
+	"topData" : "/Visual/Info/infoTop",
+	"detailData" : "/Visual/info/infoDetail"
+};
+
+//表头设置
+statInfo.header = [
+	{
+		display: '标题',
+		name: 'title',
+		width: '25%',
+		isSort: true,
+		align: 'center',
+		issortshow: false
+	},
+	{
+		display: '发布时间',
+		name: 'pub_time',
+		width: '10%',
+		isSort: true,
+		align: 'center',
+		issortshow: true
+	},
+	{
+		display: '综合得分',
+		name: 'score',
+		width: '8%',
+		type: 'float',
+		isSort: true,
+		align: 'right',
+		render:  window.G.common.formatDecimal,
+		issortshow: true
+	},
+	{
+		display: '浏览PV(游客PV)',
+		name: 'scan_pv',
+		width: '10%',
+		type: 'int',
+		isSort: true,
+		align: 'right',
+		render:  window.G.common.formatInt,
+		issortshow: true
+	},
+	{
+		display: '浏览UV',
+		name: 'scan_uv',
+		width: '8%',
+		type: 'int',
+		isSort: true,
+		render:  window.G.common.formatInt,
+		align: 'right',
+		issortshow: true
+	},
+	{
+		display: '评论PV',
+		name: 'comment_pv',
+		width: '10%',
+		type: 'int',
+		isSort: false,
+		render:  window.G.common.formatInt,
+		align: 'right',
+		issortshow: true
+	},
+	{
+		display: '评论UV',
+		name: 'comment_uv',
+		width: '8%',
+		type: 'int',
+		isSort: false,
+		render:  window.G.common.formatInt,
+		align: 'right',
+		issortshow: true
+	},
+	{
+		display: '分享PV',
+		name: 'share_pv',
+		width: '10%',
+		type: 'int',
+		isSort: false,
+		render:  window.G.common.formatInt,
+		align: 'right',
+		issortshow: true
+	},
+	{
+		display: '分享UV',
+		name: 'share_uv',
+		width: '8%',
+		type: 'int',
+		isSort: false,
+		render:  window.G.common.formatInt,
+		align: 'right',
+		issortshow: true
+	}
+];
+
+statInfo.actionHtml = function (){
+	$("#stat_dimension").change(statInfo.getTopInfo); 
+	$("#detail_dimension").change(statInfo.getDetailInfo);
+}
+
+statInfo.init = function (){
+	
+	statInfo.actionHtml();
+	statInfo.getTopInfo();
+	statInfo.getDetailInfo();
+}
+
+//获取资讯的TOP信息
+statInfo.getTopInfo = function(){
+	
+	var params = {};
+	params['type'] = $("#stat_dimension").val();
+	// console.log(params);
+
+	$.ajax({
+		type : 'POST',
+		url : statInfo.cgi.topData,
+		dataType : 'json',
+		data: '&' + window.G.common.jsonToUrl(params),
+		success: function(rdata) {
+			// console.log(rdata);
+			if(rdata.code == 1){
+				var graph_data = rdata.data;
+				showModColumns(graph_data, 'stat_content_chart');
+			}
+			else{
+
+			}
+		}
+	});
+}
+
+
+var gridManager = $("#stats_content_detail").ligerGrid({
+	url: statInfo.cgi.detailData,
+	pageParmName: 'current_page',
+	pagesizeParmName: 'page_size',
+	sortnameParmName: 'sort_name',
+	sortorderParmName: 'sort_order',
+	dataAction: 'server',
+	dataType: 'json',
+	root: 'data',
+	record: 'Total',
+	method: 'post',
+	pageSize: 20,
+	pageSizeOptions: [10, 20, 50, 100, 150],
+	delayLoad: true,
+	onLoading: function() {
+		//$.ligerDialog.waitting('根据数据量情况,加载时间不定,请稍等...');
+	},
+	onAfterShowData: function() {
+		//$.ligerDialog.closeWaitting();
+	},
+});
+
+statInfo.getDetailInfo = function(){
+	var params = {};
+	params['type'] = $("#detail_dimension").val();
+	
+	gridManager.setOptions({columns: statInfo.header});
+	gridManager.setOptions({parms: params});
+	gridManager.loadData();
+}
+
+function showModColumns(data, oDiv){
+
+	if(!data){
+		return;
+	}
+	
+	var d1=[], s_date=[];
+
+	var style_type = 'column';
+	
+	var series = [];
+	
+	// var data = window.G.common.listSortBy(data, 'datestamp', 'asc');
+
+	for(var i in data){
+		s_date.push(data[i].title);
+		// var tmp_str = data[i].title;
+		// var str = tmp_str.substring(0, 4) + (tmp_str.length > 4 ? '...':'');
+		// s_date.push(str);
+		d1.push(parseFloat(data[i].score) || null);
+	}
+	// console.log(s_date);
+
+	var start_item = {
+			name: '综合得分',
+			data: d1
+		};
+
+	series.push(start_item);
+	// console.log(series);
+	var chart = new Highcharts.Chart({
+        chart: {
+            renderTo: oDiv,
+            type: style_type,
+            margin: 75,
+            options3d: {
+                enabled: true,
+                alpha: 15, //柱形图倾斜角度
+                beta: 15, 
+                depth: 50,
+                viewDistance: 25
+            }
+        },
+        title: {
+            text: '资讯综合得分TOP'
+        },
+        subtitle: {
+            text: ''
+        },
+		credits:{
+			enabled:false
+		},
+        plotOptions: {
+            column: {
+                depth: 25
+            }
+        },
+		xAxis:{
+			categories: s_date,
+            lineColor:'#e5e5e5',
+            tickColor:'#e5e5e5',
+            labels:{
+            	style:{
+            		color:'#7a7a7a',
+            	},
+            	align: 'left',
+	            formatter: function () {
+	                return this.value.substring(0, 4);
+	            }
+            },
+            tickPosition:'inside',
+            tickLength:4,
+            tickmarkPlacement:'on',
+			tickInterval: 1
+		},
+		yAxis:[{
+			labels:{
+				format:'{value}',
+				formatter: function(){
+					return window.G.common.formatInt(0,0,this.value);
+				},
+				style:{
+					color:'#f6505c'
+				}
+			},
+			title:{
+				enabled:false
+			},
+			min: 0
+		}],
+        series: series,
+		legend:{
+			align:'center',
+			verticalAlign:'top',
+			borderWidth:0,
+			x:380,
+			title:{
+                style: {
+                    fontStyle: 'italic'
+                }
+            }
+		},
+		exporting:{
+			enabled:false
+		}
+    });
+}
+
+statInfo.init();
+
+});
+{/literal}
+</script>
+</body>
+</html>
+			
+			
+					

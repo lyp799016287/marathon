@@ -7,6 +7,12 @@ class UserController extends Controller {
 
 	public function _initialize(){
 		$this->user = D('User');
+		$this->assign("menu_path", ROOT_PATH.'/admin_imed_me/');
+		$this->assign("index", 8);
+	}
+
+	public function show(){
+		$this->display("statUser");
 	}
 
 	## 获取最新的用户总览信息
