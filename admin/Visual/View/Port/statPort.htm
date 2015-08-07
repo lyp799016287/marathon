@@ -137,13 +137,14 @@ statPort.getMixPort = function(){
 	
 	var params = {};
 	params['type'] = $("#mix_port_time").val();
-
+	console.log(params['type']);
 	$.ajax({
 		type : 'POST',
 		url : statPort.cgi.mixData,
 		dataType : 'json',
 		data: '&' + window.G.common.jsonToUrl(params),
 		success: function(rdata) {
+			console.log(rdata);
 			if(rdata.code == 1){
 				var data = rdata.data;
 				showTimeLines(data, 'stats_content_trend');
