@@ -146,7 +146,7 @@ statPort.header = [
 	{
 		display: '接口名称',
 		name: 'req_url',
-		width: '20%',
+		width: '18%',
 		isSort: true,
 		align: 'center',
 		issortshow: true
@@ -154,7 +154,7 @@ statPort.header = [
 	{
 		display: '请求时间',
 		name: 'log_time',
-		width: '10%',
+		width: '8%',
 		isSort: true,
 		align: 'center',
 		issortshow: true
@@ -163,10 +163,8 @@ statPort.header = [
 		display: '参数列表',
 		name: 'req_param',
 		width: '15%',
-		// type: 'float',
 		isSort: false,
 		align: 'right',
-		//haver效果 
 		render:  function (item)
                  {
 					return '<a title="'+ item.req_param +'">'+item.req_param+'</a>';
@@ -187,9 +185,7 @@ statPort.header = [
 		display: '接口返回值',
 		name: 'resp_str',
 		width: '15%',
-		// type: 'int',
 		isSort: false,
-		// render:  window.G.common.formatInt,
 		align: 'right',
 		issortshow: false
 	},
@@ -207,9 +203,7 @@ statPort.header = [
 		display: '用户session name',
 		name: 'resp_sessionName',
 		width: '10%',
-		// type: 'int',
 		isSort: false,
-		// render:  window.G.common.formatInt,
 		align: 'right',
 		issortshow: false
 	},
@@ -217,9 +211,7 @@ statPort.header = [
 		display: '手机型号',
 		name: 'mobile_type',
 		width: '8%',
-		// type: 'int',
 		isSort: false,
-		// render:  window.G.common.formatInt,
 		align: 'right',
 		issortshow: false
 	},
@@ -227,9 +219,7 @@ statPort.header = [
 		display: '手机系统版本',
 		name: 'sys_version',
 		width: '8%',
-		// type: 'int',
 		isSort: true,
-		// render:  window.G.common.formatInt,
 		align: 'right',
 		issortshow: true
 	},
@@ -237,9 +227,7 @@ statPort.header = [
 		display: 'SDK版本',
 		name: 'sys_version',
 		width: '8%',
-		// type: 'int',
 		isSort: true,
-		// render:  window.G.common.formatInt,
 		align: 'right',
 		issortshow: true
 	},
@@ -247,9 +235,7 @@ statPort.header = [
 		display: 'APP版本',
 		name: 'app_version',
 		width: '8%',
-		// type: 'int',
 		isSort: true,
-		// render:  window.G.common.formatInt,
 		align: 'right',
 		issortshow: true
 	}
