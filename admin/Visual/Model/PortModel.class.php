@@ -2,9 +2,9 @@
 namespace Visual\Model;
 use Think\Model;
 
-class InfoModel extends Model {
+class PortModel extends Model {
     protected $connection = 'DB_STAT';
-    protected $trueTableName = 't_info_daily';
+    protected $trueTableName = 't_ajaxreturn_error';
 
     // public function _initialize()
     // {
@@ -30,7 +30,7 @@ class InfoModel extends Model {
             $bgn_date = date('Y-m-d', strtotime("-7 months"));
         else
             return false;
-        
+
         $sql = "SELECT datestamp, error_num, port_num FROM t_ajaxreturn_error_daily WHERE log_time >= '" . $bgn_date . "'";
         $result = $this->queryFunction($sql);
         return $result;
