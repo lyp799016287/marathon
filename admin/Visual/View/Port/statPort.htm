@@ -166,7 +166,11 @@ statPort.header = [
 		// type: 'float',
 		isSort: false,
 		align: 'right',
-		render:  window.G.common.formatDecimal,
+		//haver效果 
+		render:  function (item)
+                 {
+					return '<a title="'+ item.req_param +'">'+item.req_param+'</a>';
+                 },
 		issortshow: false
 	},
 	{
@@ -185,7 +189,7 @@ statPort.header = [
 		width: '15%',
 		// type: 'int',
 		isSort: false,
-		render:  window.G.common.formatInt,
+		// render:  window.G.common.formatInt,
 		align: 'right',
 		issortshow: false
 	},
@@ -215,7 +219,7 @@ statPort.header = [
 		width: '8%',
 		// type: 'int',
 		isSort: false,
-		render:  window.G.common.formatInt,
+		// render:  window.G.common.formatInt,
 		align: 'right',
 		issortshow: false
 	},
@@ -225,7 +229,7 @@ statPort.header = [
 		width: '8%',
 		// type: 'int',
 		isSort: true,
-		render:  window.G.common.formatInt,
+		// render:  window.G.common.formatInt,
 		align: 'right',
 		issortshow: true
 	},
@@ -235,7 +239,7 @@ statPort.header = [
 		width: '8%',
 		// type: 'int',
 		isSort: true,
-		render:  window.G.common.formatInt,
+		// render:  window.G.common.formatInt,
 		align: 'right',
 		issortshow: true
 	},
@@ -245,7 +249,7 @@ statPort.header = [
 		width: '8%',
 		// type: 'int',
 		isSort: true,
-		render:  window.G.common.formatInt,
+		// render:  window.G.common.formatInt,
 		align: 'right',
 		issortshow: true
 	}
