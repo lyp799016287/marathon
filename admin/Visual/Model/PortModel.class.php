@@ -19,7 +19,7 @@ class PortModel extends Model {
         return $this->query($sql);
     }
 
-    public function calPeriod($idx, $type)
+    public function calPeriod($type)
     {
         // $before_date = date("Y-m-d", strtotime("-1 day")); ## 前一天对应的日期
         if($type == 1)
