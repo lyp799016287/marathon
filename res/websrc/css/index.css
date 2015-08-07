@@ -9,7 +9,9 @@ input,textarea,select,button{/* border:none; */font-family:inherit;font-size:inh
 legend{color:#000}
 input[type=search]{-webkit-appearance:none}
 a img, a span, a strong, a s{#cursor:pointer;}
-body,button,select,textarea,input,label, option, fieldset, legend{font-family:\5FAE\8F6F\96C5\9ED1,Tahoma,Verdana;font-size:12px;line-height:18px;color:#333;}
+body,button,select,textarea,input,label, option, fieldset, legend{font-family: 'lucida grande', 'lucida sans unicode', 'lucida',
+		'helvetica', 'Hiragino Sans GB', 'Microsoft YaHei',
+		'WenQuanYi Micro Hei', sans-serif;}
 button{white-space:nowrap;overflow:visible}
 a, a:link {color:#333;text-decoration:none;}
 a:visited {color:#333;}
