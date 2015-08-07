@@ -14,7 +14,7 @@ class PortController extends Controller {
 	public function errorDaily()
 	{
 		$result = $this->port->calDaily();
-		$this->writeLog($result, "Stat\Port\errorDaily");
+		$this->writeLog($result, "Stat/Port/errorDaily");
 	}
 
 
