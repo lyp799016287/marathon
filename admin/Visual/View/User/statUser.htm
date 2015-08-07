@@ -2,7 +2,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf8">
-<meta content="IE=EmulateIE8" http-equiv="X-UA-Compatible">
 <title>用户分析</title>
 <link rel="stylesheet" type="text/css" media="all" href="/admin.css" />
 <link href="/res/websrc/UIlib/ligerUI-1.1.9/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
@@ -29,107 +28,94 @@
 		{include file="$menu_path/menu.htm"}
 	</nav>
 </div>
-	<div class="main" id="main_body">
-		<div class="content">
-			<div class="inner">
-			<!--<div class="cont_hd"><span>采销数据台</span><span class="split">/</span><span>内部管理</span><span class="split">/</span><strong class="current">缺货管理</strong></div>-->
-			<div class="cont_bd">		
-			<!-- start highline -->
-			<div class="hightline" id="highlight">
-				<div class="hd"><h2 id="filter_desc_keydata">截止<span id="date_show">昨日</span> 24:00的统计数据</h2></div>
-				<div class="bd clearfix">
-	            <ul class="hight_list" id="highlight_list">
-					<li>
-						<p class='tit'>累计用户</p>
-						<p class='nu' id="total_user">0</p>
-					</li>
-					<li>
-						<p class='tit'>新增用户</p>
-						<p class='nu' id="new_user">0</p>
-					</li>
-					<li>
-						<p class='tit'>登录用户</p>
-						<p class='nu' id="login_user">0</p>
-					</li>
-					<li>
-						<p class='tit'>活跃用户</p>
-						<p class='nu' id="active_user">0</p>
-					</li>
-				</ul>
-
-	        	</div>
-			</div>
-			<!-- end highline -->
+<div class="main" id="main_body">
+	<div class="content">
 			
-			<!-- Start 趋势图-->
-			<div class="mod_list" id="trend_graph">
-				<div class="mod_list_hd org_l">
-				<div class="hd">
-					<h3 id="filter_desc_graph">累计用户趋势图</h3><span id="date_desc_graph" class="sub_tit"></span>
+		<!-- start highline -->
+		<div class="hightline" id="highlight">
+			<h3 class="title" id="filter_desc_keydata">截止<span id="date_show">昨日</span> 24:00的统计数据</h3>
+			
+            <ul class="hight_list" id="highlight_list">
+				<li>
+					<p class='tit'>累计用户</p>
+					<p class='nu' id="total_user">0</p>
+				</li>
+				<li>
+					<p class='tit'>新增用户</p>
+					<p class='nu' id="new_user">0</p>
+				</li>
+				<li>
+					<p class='tit'>登录用户</p>
+					<p class='nu' id="login_user">0</p>
+				</li>
+				<li>
+					<p class='tit'>活跃用户</p>
+					<p class='nu' id="active_user">0</p>
+				</li>
+			</ul>
+		</div>
+		<!-- end highline -->
+		
+		<!-- Start 趋势图-->
+		<div class="mod_list" id="trend_graph">
+
+			<h3 class="title" id="filter_desc_graph">累计用户趋势图<span id="date_desc_graph" class="sub_tit"></span></h3>
+			
+			<div class="filter filter3" id="graph_detail">
+				<div class="filter_inner">
+				<div>
+				<div class="sel_item" id="show_item_div">
+                    <span style="width:640px;">时间单位:
+						<select name="time_selector" id="total_user_time" style="width:120px;margin-left:10px;">
+							<option value="1">天</option>
+							<option value="2">周</option>
+							<option value="3">月</option>
+						</select>
+					</span>
 				</div>
 				</div>
-				<div class="filter filter3" id="graph_detail">
-					<div class="filter_inner">
+			</div>
+			</div>
+			<div class="l-panel-bwarp">
+				<div id="stat_content_chart" class="block_content center" style="width:1200px;height:450px;margin-left:50px;"></div>
+			</div>
+		</div>
+		<!-- end 趋势图-->
+		
+		
+		<!-- Start 详细报表 -->
+		<div class="mod_list" id="page_sum_table">
+	        <h3 class="title" id="filter_desc_table">趋势图<span id="date_desc_table" class="sub_tit"></span></h3>
+			<div id="block_title"></div>
+	    	
+			<div class="filter filter3" id="table_detail">
+				<div class="filter_inner">
 					<div>
-					<div class="sel_item" id="show_item_div">
-                        <span style="width:640px;">时间单位:
-							<select name="time_selector" id="total_user_time" style="width:120px;margin-left:10px;">
+						<div id="table_show_options_div" class="sel_item">
+							<span style="width:640px;">时间单位:<select name="zhibiao" id="mix_user_time" style="width:120px;margin-left:10px;">
 								<option value="1">天</option>
 								<option value="2">周</option>
 								<option value="3">月</option>
-							</select>
-						</span>
-					</div>
-					</div>
-				</div>
-				</div>
-				<div class="mod_list_bd l-panel-bwarp">
-					<div id="stat_content_chart" class="block_content center" style="width:1200px;height:450px;margin-left:50px;"></div>
-				</div>
-			</div>
-			<!-- end 趋势图-->
-			
-			
-			<!-- Start 详细报表 -->
-			<div class="mod_list" id="page_sum_table">
-				<div class="mod_list_hd org_l">
-		        <div class="hd"><h3 id="filter_desc_table">趋势图</h3><span id="date_desc_table" class="sub_tit"></span></div>
-				<div id="block_title"></div>
-		    	</div>
-				<div class="filter filter3" id="table_detail">
-					<div class="filter_inner">
-						<div>
-							<div id="table_show_options_div" class="sel_item">
-								<span style="width:640px;">时间单位:<select name="zhibiao" id="mix_user_time" style="width:120px;margin-left:10px;">
-									<option value="1">天</option>
-									<option value="2">周</option>
-									<option value="3">月</option>
-								</select></span>
-							</div>
+							</select></span>
 						</div>
 					</div>
-					
 				</div>
-			    <div class="mod_list_bd" style="margin-top:5px;">
-			        <div id="stats_content_detail" class="block_content center" style="width:1200px;height:450px;margin-left:50px;"></div>
-			    </div>
+				
 			</div>
-			<!-- End 详细报表 -->
-			
-			<!--指标解释 S-->
-			<div id="terms_definition_div" class="mod_list id_intr">
-			    <div class="mod_list_hd">
-			        <h3>指标解释</h3>
-			    </div>
-			    <div class="mod_list_bd" id="term_definition_list">
-					<p><strong>活跃用户: </strong>登录用户-新增用户。</p>
-			     </div>
-			</div>
-			<!--指标解释 E-->
-			</div>
-			</div>
+		    <div class="mod_list_bd" style="margin-top:5px;">
+		        <div id="stats_content_detail" class="block_content center" style="width:1200px;height:450px;margin-left:50px;"></div>
+		    </div>
 		</div>
+		<!-- End 详细报表 -->
+		
+		<!--指标解释 S-->
+		<div id="terms_definition_div" class="mod_list id_intr">
+		    <h3 class="title">指标解释</h3>
+			<p><strong>活跃用户: </strong>登录用户-新增用户。</p>
+		</div>
+		<!--指标解释 E-->
 	</div>
+</div>
 <script>
 {literal}
 $(document).ready(function(){
