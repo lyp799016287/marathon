@@ -7,9 +7,12 @@ class ServiceController extends Controller {
 
 	public function _initialize(){
 		$this->service = D('Service');
-		$this->pagesize = 20;
+		$this->pagesize = 15;
 		$this->assign("menu_path", ROOT_PATH.'/admin_imed_me/');
 		$this->assign("index", 6);
+		$this->assign('env','dev.');
+		$token = $this->getChatToken();
+		$this->assign('token',$token);
 	}
 
 	/**秘密列表**/
@@ -30,8 +33,7 @@ class ServiceController extends Controller {
             $querypara =$querypara.'&'.$key.'='.$val;
         }   
 
-		$token = $this->getChatToken();
-		$this->assign('token',$token);
+		
 		$this->display("chatlist");
 	}
 
@@ -51,6 +53,17 @@ class ServiceController extends Controller {
 	}
 
 
+	/**秘密列表**/
+    public function ChatDetail(){
+
+        $querypara='';
+		$uid = I('uid', 0, 'intval');
+		
+       	
+		$this->assign('token',$token);
+		$this->display("chatdetail");
+	}
+
 	/**客服自动登录,返回token**/
     private function getChatToken(){
     	//$mobile, $password, $timestamp, $device_token
@@ -68,6 +81,10 @@ class ServiceController extends Controller {
     		$token = $tokenjson->data->token;
     	}
     	return $token;
+	}
+
+	public function mergeInfo(){
+		$this->ajaxReturn($this->service->mergeInfo());
 	}
 
 
@@ -158,30 +175,6 @@ class ServiceController extends Controller {
 		}
 	}
 
-	public function secretAdd(){
-		$sec_theme = C('SECRET_THEME');
 	
-		$this->assign("sec_theme", $sec_theme);
-		$this->display("secretadd");
-	}
-
-	public function secretPost(){
-		//var_dump($_POST);exit;
-		$data = array(
-			'theme'			=> I('theme', 0, 'intval'),
-			'type'			=> I('type', 0, 'intval'),
-			'content'		=> I('content')
-		);
-
-		$data['user_id'] = C('SECRET_USR_ID');
-
-		$rs = $this->secret->addSecret($data);
-
-		if($rs === false){
-			$this->ajaxReturn(array('code'=>-1, 'message'=>'添加失败'), 'JSON');
-		}else{
-			$this->ajaxReturn(array('code'=>1, 'message'=>'添加成功'), 'JSON');
-		}
-	}
 	
 }

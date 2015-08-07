@@ -13,6 +13,11 @@
 <script type="text/javascript" src="/res/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="/res/js/jquery.md5.js"></script>
 <script type="text/javascript" src="/res/js/loginstatus.js"></script>
+<style type="text/css">
+	{literal}
+	#tips{width: 100%;line-height: 2rem;color: #ff0000; text-align: center;font-size: 1.2rem;display: block;}
+	{/literal}
+</style>
 </head>
 <body>
 <div id="left">
@@ -68,7 +73,7 @@
 			</tr>
 		</table>
 		<div id="pager">
-			<span class="total">共100条记录/10页</span>
+			<span class="total"></span>
 			<!--
 			<a href="#" >首页</a>
 			<a href="#" >1</a>
@@ -79,6 +84,7 @@
 			-->
 		</div>
 	</div>
+	<label id='tips' ></label>
 </div>
 	
 
@@ -110,8 +116,8 @@
 			for(var i=0;i<dataList.length;i++){
 				var op = '';
 				datainfo+='<tr class="data">';
-				datainfo+='<td class="check"><input name="info_id" type="checkbox" value="'+dataList[i].tid+'" /></td>';
-				datainfo+='<td class="user">'+dataList[i].user_name+'</td>';
+				datainfo+='<td class="check"><input name="info_id" type="checkbox" value="'+dataList[i].uid+'" /></td>';
+				datainfo+='<td class="user">'+dataList[i].uid+'</td>';
 				datainfo+='<td class="title">'+dataList[i].content+'</td>';
 				
 
@@ -122,7 +128,7 @@
 				datainfo+='<td class="op">';
 				if(dataList[i].status==0||dataList[i].status==1){
 					//op+='<a href="/chat.htm?id='+dataList[i].tid+'">回复</a>';
-					op+='<a target="_blank" href="/chatdetail.htm?id='+dataList[i].tid+'">回复</a>';
+					op+='<a target="_blank" href="/manage/service/chatdetail?tid='+dataList[i].uid+'&uid=1111">回复</a>';
 				}
 				
 				datainfo+=op;
@@ -273,6 +279,12 @@
 			page=1;
 		}
 		*/
+		$.get('/manage/service/mergeinfo',function(data){
+			if(data.code==1){
+				$('#tips').text(data.message).fadeIn(2000).fadeOut(2000);
+			}
+			newsList.list(0);
+		});
 		
 		if(param['type']){
 			$('nav li a').each(function(){
@@ -302,7 +314,7 @@
 
 
 
-		newsList.list(0);
+		
 		//newsList.getsource();
 		$('#btn_search').click(function(){
 			btn_flag=1;
