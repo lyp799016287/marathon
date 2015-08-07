@@ -32,7 +32,7 @@ class PortModel extends Model {
             return false;
 
         $sql = "SELECT datestamp, error_num, port_num FROM t_ajaxreturn_error_daily WHERE datestamp >= '" . $bgn_date . "'";
-        var_dump($sql);
+        // var_dump($sql);
         $result = $this->queryFunction($sql);
         return $result;
     }
@@ -56,9 +56,9 @@ class PortModel extends Model {
             SELECT req_url, log_time, req_param, req_uid, resp_str, resp_sessionId, resp_sessionName, 
             mobile_type, sys_version, sdk_version, app_version 
             FROM t_ajaxreturn_error 
-            WHERE log_time >= '{$bgn_date}'
             {$order}{$limit}
 EOF;
+        var_dump($sql);
         $re = $this->queryFunction($sql);
         return $re;
     }
