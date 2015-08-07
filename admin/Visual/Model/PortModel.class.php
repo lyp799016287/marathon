@@ -37,7 +37,7 @@ class PortModel extends Model {
         return $result;
     }
 
-    public function calDetail()
+    public function calDetail($data)
     {
         $start = ($data['current_page'] - 1) * $data['page_size'];
         $limit = ' LIMIT '.$start.', '.$data['page_size'];
