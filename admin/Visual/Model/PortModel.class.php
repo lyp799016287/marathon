@@ -58,7 +58,7 @@ class PortModel extends Model {
             FROM t_ajaxreturn_error 
             {$order}{$limit}
 EOF;
-        var_dump($sql);
+        // var_dump($sql);
         $re = $this->queryFunction($sql);
         return $re;
     }
