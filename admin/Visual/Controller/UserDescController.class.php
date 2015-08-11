@@ -17,6 +17,7 @@ class UserDescController extends Controller {
 	{
 		$type = 1;
 		$result = $this->desc->deviceData($type);
+		var_dump($result);
 		if(!empty($result))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
 		else
@@ -28,6 +29,7 @@ class UserDescController extends Controller {
 	{
 		$type = 2;
 		$result = $this->desc->deviceData($type);
+		var_dump($result);
 		if(!empty($result))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
 		else
@@ -39,6 +41,7 @@ class UserDescController extends Controller {
 	{
 		$type = 3;
 		$result = $this->desc->deviceData($type);
+		var_dump($result);
 		if(!empty($result))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
 		else
@@ -49,6 +52,7 @@ class UserDescController extends Controller {
 	public function userDevice()
 	{
 		$result = $this->desc->modelData();
+		var_dump($result);
 		if(!empty($result))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
 		else
@@ -59,6 +63,7 @@ class UserDescController extends Controller {
 	public function userRetain()
 	{
 		$result = $this->desc->retainData();
+		var_dump($result);
 		if(!empty($result))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
 		else
@@ -69,6 +74,7 @@ class UserDescController extends Controller {
 	public function userTime()
 	{
 		$result = $this->desc->timeData();
+		var_dump($result);
 		if(!empty($result))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
 		else
