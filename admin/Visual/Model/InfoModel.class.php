@@ -259,7 +259,7 @@ EOF;
                 $sql = <<<EOF
                 INSERT INTO t_info_accumulate(info_id, title, scan_pv, scan_uv, scan_no_login_pv, comment_pv, comment_uv, 
                     share_uv, share_pv, pub_time, modify_time)
-                VALUES($info_id, '{$title}', {$scan_pv}, {$share_uv}, {$scan_no_login_pv}, {$comment_pv}, 
+                VALUES($info_id, "{$title}", {$scan_pv}, {$share_uv}, {$scan_no_login_pv}, {$comment_pv}, 
                     {$comment_uv}, {$share_uv}, {$share_pv}, '{$pub_time}', '{$max_time}')
 EOF;
                 // var_dump($sql);
