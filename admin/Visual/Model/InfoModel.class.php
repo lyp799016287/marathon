@@ -152,6 +152,24 @@ EOF;
         // var_dump($info['data']);
         ## 将数据更新到表t_info_accumulate
         $re = $this->insertOrUpdate($info['data'], $max_time);
+        if($re['code'] < 0)
+            return $re;
+        $re = $this->calScore();
+        if($re === false)
+            return array('code'=>-6, 'message'=>'更新分数失败');
+        else
+            return array('code'=>1, 'message'=>'执行成功');
+    }
+
+    ## 计算资讯的分数
+    private function calScore()
+    {
+        $updateSql = <<<EOF
+        UPDATE t_info_accumulate
+        SET score = (scan_pv + scan_uv) * 0.25 + (comment_pv + comment_uv) * 0.35 + (share_pv + share_uv) * 0.4
+        WHERE id > 0
+EOF;
+        $re = $this->execute($updateSql);
         return $re;
     }
 
