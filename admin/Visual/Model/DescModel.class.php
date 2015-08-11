@@ -11,7 +11,7 @@ class DescModel extends Model {
         $this->imed_config = C('DB_IMED');
     }
 
-    public function sdkData($type)
+    public function deviceData($type)
     {
         $field = "";
         switch($type)
