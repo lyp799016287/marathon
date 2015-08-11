@@ -52,7 +52,7 @@ class InfopatchModel extends Model {
         $info_id = $info['info_id'];
         $updateSql = <<<EOF
         UPDATE t_info_daily
-        SET title = '{$title}',
+        SET title = "{$title}",
             pub_time = '{$pub_time}'
         WHERE info_id = {$info_id}
 EOF;
