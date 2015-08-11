@@ -79,7 +79,7 @@ class UserDescController extends Controller {
 	public function userTime()
 	{
 		$result = $this->desc->timeData();
-		var_dump($result);
+		// var_dump($result);
 		if(!empty($result))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
 		else
