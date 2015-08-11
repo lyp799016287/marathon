@@ -25,7 +25,7 @@
 		<span id='userName'></span>
 	</div>
 
-	
+
 </div>
 <div class="main" id="main_body">
 	<div class="content">
@@ -127,6 +127,7 @@ statUserDesc.getUserTime = function(){
 		dataType : 'json',
 		// data: '&' + window.G.common.jsonToUrl(params),
 		success: function(rdata) {
+			console.log(rdata);
 			if(rdata.code == 1){
 				var data = rdata.data;
 				showTimeLines(data, 'stats_content_detail');
