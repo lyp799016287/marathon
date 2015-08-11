@@ -16,7 +16,6 @@ class UserDescController extends Controller {
 		$re = $this->desc->calDevice();
 		$this->writeLog($re, 'Stat/UserDesc/deviceSummary');
 	}
-
 	
 	private function writeLog($result, $tag)
 	{
@@ -45,7 +44,4 @@ class UserDescController extends Controller {
 		}
 	}
 
-	
-
-	
 }
