@@ -42,7 +42,7 @@ class InfopatchModel extends Model {
         if($error_str != '')
             return array('code'=>-3, 'message'=>'更新错误：' . $error_str);
         else
-            return array('code'=>1, 'message'=>'执行成功')；
+            return array('code'=>1, 'message'=>'执行成功');
     }
 
     private function updateInfo($info)
