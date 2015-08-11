@@ -24,9 +24,9 @@ class InfopatchModel extends Model {
         $in_str = "(";
         for($i = 0; $i < count($result); $i++)
             if($i != count($result) - 1)
-                $in_str .= $result[$i] . ", ";
+                $in_str .= $result[$i]['info_id'] . ", ";
             else
-                $in_str .= $result[$i] . ") ";
+                $in_str .= $result[$i]['info_id'] . ") ";
         var_dump($in_str);
         $selectSql = "SELECT info_id, title, create_time FROM t_info_summary WHERE info_id IN " . $in_str;
         $re = queryByNoModel($selectSql, '', $this->imed_config, $selectSql);
