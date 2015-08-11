@@ -15,7 +15,7 @@ class InfopatchModel extends Model {
     ## 补充t_info_daily表中的title  pub_time
     public function infoPatch()
     {
-        $selectSql = "SELECT DISTINCT info_id FROM t_info_daily WHERE pub_time IS NULL OR pub_time = ''";
+        $selectSql = "SELECT DISTINCT info_id FROM t_info_daily WHERE pub_time IS NULL OR pub_time = '' OR pub_time = '0000-00-00 00:00:00'";
         $result = $this->query($selectSql);
         if($result === false)
             return array('code'=>-1, 'message'=>"查询错误");
@@ -27,7 +27,7 @@ class InfopatchModel extends Model {
                 $in_str .= $result[$i]['info_id'] . ", ";
             else
                 $in_str .= $result[$i]['info_id'] . ") ";
-        var_dump($in_str);
+        // var_dump($in_str);
         $selectSql = "SELECT info_id, title, create_time FROM t_info_summary WHERE info_id IN " . $in_str;
         $re = queryByNoModel('t_info_summary', '', $this->imed_config, $selectSql);
         if($re === false)
