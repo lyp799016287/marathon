@@ -37,7 +37,7 @@ class InfopatchModel extends Model {
         {
             $update = $this->updateInfo($re[$j]);
             if($update === false)
-                $error_str . = $re[$j]['info_id'] . ', ';
+                $error_str .= $re[$j]['info_id'] . ', ';
         }
         if($error_str != '')
             return array('code'=>-3, 'message'=>'更新错误：' . $error_str);
