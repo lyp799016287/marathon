@@ -127,7 +127,7 @@ statUserDesc.getUserTime = function(){
 		dataType : 'json',
 		// data: '&' + window.G.common.jsonToUrl(params),
 		success: function(rdata) {
-			console.log(rdata);
+			// console.log(rdata);
 			if(rdata.code == 1){
 				var data = rdata.data;
 				showTimeLines(data, 'stats_content_detail');
@@ -155,11 +155,6 @@ function showTimeLines(data, oDiv){
 		// d2.push(parseInt(data[i].active_user));
 		// d3.push(parseInt(data[i].new_user));
 	}
-
-	/*console.log(d1);
-	console.log(d2);
-	console.log(d3);*/
-	console.log(s_date);
 
 	var start_item = {
 			name: '登录用户数*',
