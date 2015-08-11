@@ -9,6 +9,11 @@ class UserDescController extends Controller {
 		$this->desc = D('Desc');
 	}
 
+	public function show()
+	{
+		$this->display('statUserDesc');
+	}
+
 	## 用户设备信息相关统计量
 	## 获取的数据 截止昨天24:00
 
