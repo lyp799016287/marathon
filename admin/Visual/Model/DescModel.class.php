@@ -59,7 +59,7 @@ EOF;
 
     public function timeData()
     {
-        $sql = "SELECT hour_tag, SUM(freq_num) freq_num FROM t_user_time GROUP BY hour_tag";
+        $sql = "SELECT hour_tag, SUM(freq_num) freq_num FROM t_user_time GROUP BY hour_tag ORDER BY hour_tag";
         $re = $this->query($sql);
         return $re;
     }

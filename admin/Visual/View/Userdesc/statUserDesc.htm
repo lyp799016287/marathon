@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf8">
-<title>平台分析</title>
+<title>用户分析</title>
 <link rel="stylesheet" type="text/css" media="all" href="/admin.css" />
 <link href="/res/websrc/UIlib/ligerUI-1.1.9/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
 <link href="/res/websrc/css/index.css" rel="stylesheet" type="text/css" />
@@ -30,31 +30,6 @@
 </div>
 <div class="main" id="main_body">
 	<div class="content">
-			
-		<!-- start highline -->
-		<div class="hightline" id="highlight">
-			<h3 class="title" id="filter_desc_keydata">截止<span id="date_show">昨日</span> 24:00的统计数据</h3>
-			
-            <ul class="hight_list" id="highlight_list">
-				<li>
-					<p class='tit'>累计用户</p>
-					<p class='nu' id="total_user">0</p>
-				</li>
-				<li>
-					<p class='tit'>新增用户</p>
-					<p class='nu' id="new_user">0</p>
-				</li>
-				<li>
-					<p class='tit'>登录用户</p>
-					<p class='nu' id="login_user">0</p>
-				</li>
-				<li>
-					<p class='tit'>活跃用户</p>
-					<p class='nu' id="active_user">0</p>
-				</li>
-			</ul>
-		</div>
-		<!-- end highline -->
 		
 		<!-- Start 趋势图-->
 		<div class="mod_list" id="trend_graph">
@@ -85,10 +60,12 @@
 		
 		<!-- Start 详细报表 -->
 		<div class="mod_list" id="page_sum_table">
-	        <h3 class="title" id="filter_desc_table">趋势图<span id="date_desc_table" class="sub_tit"></span></h3>
+	        <h3 class="title" id="filter_desc_table">24小时内用户登录APP走势图
+	        	<span id="date_desc_table" class="sub_tit"></span>
+	        </h3>
 			<div id="block_title"></div>
 	    	
-			<div class="filter filter3" id="table_detail">
+			<!-- <div class="filter filter3" id="table_detail">
 				<div class="filter_inner">
 					<div>
 						<div id="table_show_options_div" class="sel_item">
@@ -101,7 +78,7 @@
 					</div>
 				</div>
 				
-			</div>
+			</div> -->
 		    <div class="mod_list_bd" style="margin-top:5px;">
 		        <div id="stats_content_detail" class="block_content center" style="width:1200px;height:450px;margin-left:50px;"></div>
 		    </div>
@@ -120,79 +97,36 @@
 {literal}
 $(document).ready(function(){
 	
-var statUser = {};
+var statUserDesc = {};
 
 //调用接口
-statUser.cgi = {
-	"highlight" : "/Visual/User/totalSummary",
-	"totalData" : "/Visual/User/totalDetail",
-	"mixData" : "/Visual/User/cumulationData"
+statUserDesc.cgi = {
+
+	"usertimeData" : "/visual/userDesc/userTime"
 };
 
-statUser.actionHtml = function (){
-	$("#total_user_time").change(statUser.getTotalUser);
-	$("#mix_user_time").change(statUser.getMixUser);
+statUserDesc.actionHtml = function (){
+	// $("#total_user_time").change(statUser.getTotalUser);
+	// $("#mix_user_time").change(statUser.getMixUser);
 }
 
-statUser.init = function (){
+statUserDesc.init = function (){
 	
-	statUser.actionHtml();
-	statUser.getHighLight();
-	statUser.getTotalUser();
-	statUser.getMixUser();
+	// statUser.actionHtml();
+	statUserDesc.getUserTime();
 }
 
-//获取hightline数据
-statUser.getHighLight = function(){
-	$.ajax({
-		type : 'POST',
-		url : statUser.cgi.highlight,
-		dataType : 'json',
-		success: function(rdata) {
-			if(rdata.code == 1){
-				var data = rdata.data;
 
-				$("#total_user").html(window.G.common.formatInt(1,1,data[0].cumulation_user));
-				$("#new_user").html(window.G.common.formatInt(1,1,data[0].new_user));
-				$("#login_user").html(window.G.common.formatInt(1,1,data[0].login_user));
-				$("#active_user").html(window.G.common.formatInt(1,1,data[0].active_user));
-				$("#date_show").text(data[0].datestamp);
-			}
-		}
-	});
-};
-
-//获取累计用户数
-statUser.getTotalUser = function(){
-	
-	var params = {};
-	params['type'] = $("#total_user_time").val();
+//获取用户24小时的活跃人数
+statUserDesc.getUserTime = function(){
+	// var params = {};
+	// params['type'] = $("#mix_user_time").val();
 
 	$.ajax({
 		type : 'POST',
-		url : statUser.cgi.totalData,
+		url : statUserDesc.cgi.usertimeData,
 		dataType : 'json',
-		data: '&' + window.G.common.jsonToUrl(params),
-		success: function(rdata) {
-			if(rdata.code == 1){
-				var graph_data = rdata.data;
-				showModColumns(graph_data, 'stat_content_chart');
-			}
-		}
-	});
-}
-
-//获取新增、活跃用户数
-statUser.getMixUser = function(){
-	
-	var params = {};
-	params['type'] = $("#mix_user_time").val();
-
-	$.ajax({
-		type : 'POST',
-		url : statUser.cgi.mixData,
-		dataType : 'json',
-		data: '&' + window.G.common.jsonToUrl(params),
+		// data: '&' + window.G.common.jsonToUrl(params),
 		success: function(rdata) {
 			if(rdata.code == 1){
 				var data = rdata.data;
@@ -202,113 +136,12 @@ statUser.getMixUser = function(){
 	});
 }
 
-function showModColumns(data, oDiv){
-
-	if(!data){
-		return;
-	}
-	
-	var d1=[], s_date=[];
-
-	var style_type = 'column';
-	
-	var series = [];
-	
-	var data = window.G.common.listSortBy(data, 'datestamp', 'asc');
-
-	for(var i in data){
-		s_date.push(data[i].datestamp);
-		d1.push(parseInt(data[i].cumulation_user) || null);
-	}
-
-
-	var start_item = {
-			name: '累计用户量',
-			data: d1
-		};
-
-	series.push(start_item);
-
-	var chart = new Highcharts.Chart({
-        chart: {
-            renderTo: oDiv,
-            type: style_type,
-            margin: 75,
-            options3d: {
-                enabled: true,
-                alpha: 15, //柱形图倾斜角度
-                beta: 15, 
-                depth: 50,
-                viewDistance: 25
-            }
-        },
-        title: {
-            text: '累计用户量'
-        },
-        subtitle: {
-            text: ''
-        },
-		credits:{
-			enabled:false
-		},
-        plotOptions: {
-            column: {
-                depth: 25
-            }
-        },
-		xAxis:{
-			categories: s_date,
-            lineColor:'#e5e5e5',
-            tickColor:'#e5e5e5',
-            labels:{
-            	style:{
-            		color:'#7a7a7a',
-            	},
-            },
-            tickPosition:'inside',
-            tickLength:4,
-            tickmarkPlacement:'on',
-			tickInterval: 1
-		},
-		yAxis:[{
-			labels:{
-				format:'{value}',
-				formatter: function(){
-					return window.G.common.formatInt(0,0,this.value);
-				},
-				style:{
-					color:'#f6505c'
-				}
-			},
-			title:{
-				enabled:false
-			},
-			min: 0
-		}],
-        series: series,
-		legend:{
-			align:'center',
-			verticalAlign:'top',
-			borderWidth:0,
-			x:380,
-			title:{
-                style: {
-                    fontStyle: 'italic'
-                }
-            }
-		},
-		exporting:{
-			enabled:false
-		}
-    });
-}
-
 function showTimeLines(data, oDiv){
 	if(!data){
 		return;
 	}
 
-	var d1=[], d2=[], d3=[], s_date=[];
+	var d1=[], s_date=[];
 
 	var style_type = 'line';
 	
@@ -317,10 +150,10 @@ function showTimeLines(data, oDiv){
 	var data = window.G.common.listSortBy(data, 'datestamp', 'asc');
 
 	for(var i in data){
-		s_date.push(data[i].datestamp);
-		d1.push(parseInt(data[i].login_user));
-		d2.push(parseInt(data[i].active_user));
-		d3.push(parseInt(data[i].new_user));
+		s_date.push(data[i].hour_tag);
+		d1.push(parseInt(data[i].freq_num));
+		// d2.push(parseInt(data[i].active_user));
+		// d3.push(parseInt(data[i].new_user));
 	}
 
 	/*console.log(d1);
@@ -328,26 +161,26 @@ function showTimeLines(data, oDiv){
 	console.log(d3);*/
 
 	var start_item = {
-			name: '登录用户',
-			type:style_type,
+			name: '登录用户数',
+			type: style_type,
 			data: d1
 		};
 	
 	series.push(start_item);
 
-	var second_item = {
-		name: '活跃用户',
-		type:style_type,
-		data: d2
-	}
-	series.push(second_item);
+	// var second_item = {
+	// 	name: '活跃用户',
+	// 	type:style_type,
+	// 	data: d2
+	// }
+	// series.push(second_item);
 
-	var third_item = {
-		name: '新增用户',
-		type:style_type,
-		data: d3
-	}
-	series.push(third_item);
+	// var third_item = {
+	// 	name: '新增用户',
+	// 	type:style_type,
+	// 	data: d3
+	// }
+	// series.push(third_item);
 
 
 	var chart1 = new Highcharts.Chart({
@@ -435,7 +268,7 @@ function showTimeLines(data, oDiv){
 }
 
 
-statUser.init();
+statUserDesc.init();
 
 });
 {/literal}
