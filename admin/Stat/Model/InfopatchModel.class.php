@@ -12,7 +12,7 @@ class InfopatchModel extends Model {
         // var_dump($stat_config);
     }
 
-    ## 补充t_info_daily表中的title  pub_time
+    ## 补充t_info_daily表中的title  pub_time  keys
     public function infoPatch()
     {
         $selectSql = "SELECT DISTINCT info_id FROM t_info_daily WHERE pub_time IS NULL OR pub_time = '' OR pub_time = '0000-00-00 00:00:00'";
@@ -28,7 +28,7 @@ class InfopatchModel extends Model {
             else
                 $in_str .= $result[$i]['info_id'] . ") ";
         // var_dump($in_str);
-        $selectSql = "SELECT info_id, title, create_time FROM t_info_summary WHERE info_id IN " . $in_str;
+        $selectSql = "SELECT info_id, title, create_time, keys FROM t_info_summary WHERE info_id IN " . $in_str;
         $re = queryByNoModel('t_info_summary', '', $this->imed_config, $selectSql);
         if($re === false)
             return array('code'=>-2, 'message'=>'查询错误');
@@ -50,10 +50,12 @@ class InfopatchModel extends Model {
         $title = $info['title'];
         $pub_time = $info['create_time'];
         $info_id = $info['info_id'];
+        $keys = $info['keys'];
         $updateSql = <<<EOF
         UPDATE t_info_daily
         SET title = "{$title}",
-            pub_time = '{$pub_time}'
+            pub_time = '{$pub_time}', 
+            keys = "{$keys}"
         WHERE info_id = {$info_id}
 EOF;
         $tmp_sql = "SET NAMES utf8";

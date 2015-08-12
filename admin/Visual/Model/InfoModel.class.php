@@ -202,12 +202,12 @@ EOF;
         // var_dump($info);
 
         ## 获取文章的标题和发布时间
-        $titleSql = "SELECT info_id, title, create_time pub_time FROM t_info_summary WHERE info_id IN " . $id_clause;
+        $titleSql = "SELECT info_id, title, create_time pub_time, keys FROM t_info_summary WHERE info_id IN " . $id_clause;
         // var_dump($titleSql);
         $extraInfo = queryByNoModel('t_info_summary', '', $this->imed_config, $titleSql);
         if($extraInfo === false)
             return array('code'=>-3, 'message'=>'查询错误');
-        ## 填充title pub_time字段
+        ## 填充title pub_time keys字段
         for($i = 0; $i < count($info); $i++)
         {
             for($j = 0; $j < count($extraInfo); $j++)
@@ -216,6 +216,7 @@ EOF;
                 {
                     $info[$i]['title'] = $extraInfo[$j]['title'];
                     $info[$i]['pub_time'] = $extraInfo[$j]['pub_time'];
+                    $info[$i]['keys'] = $extraInfo[$j]['keys'];
                     break;
                 }
             }

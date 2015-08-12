@@ -15,10 +15,13 @@
 <script src="/res/websrc/UIlib/highcharts/modules/exporting.js"></script>
 
 <style type="text/css">
+{literal}
 #table_show_options_sum span { width:150px;display: inline-block;}
 #table_show_options_details span { /*width:150px;*/display: inline-block;} 
 #table_filter_div span { width:190px;display: inline-block;} 
 #show_item_div span { width:190px;display: inline-block;} 
+hr.clear{clear:both;}
+{/literal}
 </style>
 </head>
 <body>
@@ -31,18 +34,22 @@
 </div>
 <div class="main" id="main_body">
 	<div class="content">
-		
-		<div style="width:1500px;">
-			<div style="width:400px;float:left;margin-left:20px;">
-				<div id="appContainer" style="width:350px;height:400px"></div>
-			</div>
-			<div style="width:400px;float:left;margin-left:20px;">
-				<div id="sysContainer" style="width:350px;height:400px"></div>
-			</div>
-			<div style="width:400px;">
-				<div id="sdkContainer" style="width:350px;height:400px"></div>
+		<!-- Begin 饼图 -->
+		<div class="mod_list">
+			<div style="width:1500px;height:400px">
+				<div style="width:400px;float:left;margin-left:20px;">
+					<div id="appContainer" style="width:350px;height:400px"></div>
+				</div>
+				<div style="width:400px;float:left;margin-left:20px;">
+					<div id="sysContainer" style="width:350px;height:400px"></div>
+				</div>
+				<div style="width:400px;float:left;">
+					<div id="sdkContainer" style="width:350px;height:400px"></div>
+				</div>
 			</div>
 		</div>
+		<!-- <hr class="clear" style="width:1500px;height:1px"/> -->
+		<!-- End 饼图 -->
 
 		<!-- Start 详细报表 -->
 		<div class="mod_list" id="page_sum_table">
