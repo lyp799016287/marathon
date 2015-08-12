@@ -55,7 +55,7 @@ class InfopatchModel extends Model {
         UPDATE t_info_daily
         SET title = "{$title}",
             pub_time = '{$pub_time}', 
-            keys = "{$keys}"
+            `keys` = "{$keys}"
         WHERE info_id = {$info_id}
 EOF;
         $tmp_sql = "SET NAMES utf8";
