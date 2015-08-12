@@ -2,12 +2,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf8">
-<meta content="IE=EmulateIE8" http-equiv="X-UA-Compatible">
+<!-- <meta content="IE=EmulateIE8" http-equiv="X-UA-Compatible"> -->
 <title>资讯分析</title>
-<link rel="stylesheet" type="text/css" media="all" href="/admin.css" />
-<link href="/res/websrc/UIlib/ligerUI-1.1.9/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
-<link href="/res/websrc/css/index.css" rel="stylesheet" type="text/css" />
+<link rel= "stylesheet" type="text/css" media="all" href="/admin.css" />
+<link href= "/res/websrc/css/index.css" rel="stylesheet" type="text/css" />
 <link href= "/res/websrc/UIlib/ligerUI-1.1.9/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
+<!-- <link href= "/res/websrc/UIlib/ligerUI-1.1.9/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" /> -->
 <link href= "/res/websrc/UIlib/ligerUI-1.1.9/skins/ligerui-icons.css" rel="stylesheet" type="text/css" />
 <link href= "/res/websrc/UIlib/ligerUI-1.1.9/skins/Gray/css/all.css" rel="stylesheet" type="text/css" />
 <script src="/res/websrc/UIlib/jquery/jquery-1.5.2.min.js" type="text/javascript"></script>
@@ -24,6 +24,7 @@
 #table_show_options_details span { /*width:150px;*/display: inline-block;}
 #table_filter_div span { width:190px;display: inline-block;} 
 #show_item_div span { width:190px;display: inline-block;} 
+.l-clear{ clear:none;width:1px; height:1px; overflow:hidden;} 
 </style>
 </head>
 <body>
@@ -37,12 +38,10 @@
 </div>
 	<div class="main" id="main_body">
 		<div class="content">
-			<div class="inner">
-			<!--<div class="cont_hd"><span>采销数据台</span><span class="split">/</span><span>内部管理</span><span class="split">/</span><strong class="current">缺货管理</strong></div>-->
-			<div class="cont_bd">
 			<!-- Start 趋势图-->
 			<div class="mod_list" id="trend_graph">
-				<div class="mod_list_hd org_l">
+				<!-- <div class="mod_list_hd org_l"> -->
+				<div class="org_l">
 				<div class="hd">
 					<h3 id="filter_desc_graph">资讯TOP</h3><span id="date_desc_graph" class="sub_tit"></span>
 				</div>
@@ -61,7 +60,8 @@
 					<!--</div>-->
 				</div>
 				</div>
-				<div class="mod_list_bd l-panel-bwarp">
+				<!-- <div class="mod_list_bd l-panel-bwarp"> -->
+				<div class="l-panel-bwarp">
 					<div id="stat_content_chart" class="block_content center" style="width:1200px;height:450px;margin-left:50px;"></div>
 				</div>
 			</div>
@@ -69,7 +69,8 @@
 
 			<!-- Start 详细报表 -->
 			<div class="mod_list" id="page_sum_table">
-				<div class="mod_list_hd org_l">
+				<!-- <div class="mod_list_hd org_l"> -->
+				<div class="org_l">
 					<div class="hd"><h3 id="filter_desc_table">详细报表</h3><span id="date_desc_table" class="sub_tit"></span></div>
 		    	</div>
 				
@@ -85,7 +86,8 @@
 						</div>
 					</div>
 				</div>
-			    <div class="mod_list_bd" style="margin-top:5px;">
+			    <!-- <div class="mod_list_bd" style="margin-top:5px;"> -->
+			    <div>
 			        <div id="stats_content_detail" class="block_content center" ></div>
 			    </div>
 			</div>
@@ -93,16 +95,17 @@
 
 			<!--指标解释 S-->
 			<div id="terms_definition_div" class="mod_list id_intr">
-			    <div class="mod_list_hd">
+			    <!-- <div class="mod_list_hd"> -->
+			    <div>
 			        <h3>指标解释</h3>
 			    </div>
-			    <div class="mod_list_bd" id="term_definition_list">
+			    <!-- <div class="mod_list_bd" id="term_definition_list"> -->
+			    <div>
 					<p><strong>资讯综合得分: </strong>（浏览PV + 浏览UV） * 0.25 + （评论PV + 评论UV） * 0.35 + （转发PV + 转发UV） * 0.4</p>
 			     </div>
 			</div>
 			<!--指标解释 E-->
-			</div>
-			</div>
+
 		</div>
 	</div>
 <script>

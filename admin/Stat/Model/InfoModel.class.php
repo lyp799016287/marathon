@@ -254,6 +254,7 @@ EOF;
         $info_daily = queryByNoModel('t_scan_flow_daily', '', $this->stat_config, $sql);
         if($info_daily === false)
             return array('code'=>-15, 'message'=>"查询错误：" . $sql);
+        $error_str = '';
         for($i = 0; $i < count($info_daily); $i++)
         {
             $insert_data = array();
@@ -269,40 +270,43 @@ EOF;
             $insert_data = $this->calScore($insert_data);
             $insert_re = insertByNoModel('t_info_daily', '', $this->stat_config, $insert_data); 
             if($insert_re === false)
-                return array('code'=>-16, 'message'=>"插入表数据错误：" . 't_info_daily');
+                $error_str .= $insert_data['info_id'] . ", ";
         }
+        if($error_str != '')
+            return array('code'=>-16, 'message'=>"插入表数据错误：" . 't_info_daily ' . $error_str);
         ## 获取文章的发布时间和标题
-        $sql = "SELECT DISTINCT info_id FROM t_info_daily WHERE pub_time IS NULL";
-        $id_list = queryByNoModel('t_info_daily', '', $this->stat_config, $sql); 
-        if($id_list === false)
-            return array('code'=>-17, 'message'=>"查询错误：" . $sql);
-        if(count($id_list) > 0)
-        {
-            $in_str = "(";
-            for($i = 0; $i < count($id_list); $i++)
-                if($i != count($id_list) - 1)
-                    $in_str .= $id_list[$i]['info_id'] . ", ";
-                else
-                    $in_str .= $id_list[$i]['info_id'] . ")";
-            $sql = "SELECT info_id, title, create_time FROM t_info_summary WHERE info_id IN" . $in_str;
-            $list_result = $this->query($sql);
-            if($list_result === false)
-                return array('code'=>-18, 'message'=>"查询错误：" . $sql);
-            ## 更新t_info_daily表中文章的发布时间
-            $obj_mod = M('t_info_daily', '', $this->stat_config);
-            // $obj_mod->execute("SET NAMES utf8");
-            for($i = 0; $i < count($list_result); $i++)
-            {
-                // $update_sql = "UPDATE t_info_daily SET pub_time = '" . $list_result[$i]['create_time'] . "' WHERE info_id = " . $list_result[$i]['info_id'];
-                $condition['info_id'] = $list_result[$i]['info_id'];
-                $data['pub_time'] = $list_result[$i]['create_time'];
-                $data['title'] = $list_result[$i]['title'];
-                $obj_mod->execute("SET NAMES utf8");
-                $result = $obj_mod->where($condition)->setField($data);
-                if($result === false)
-                    return array('code'=>-19, 'message'=>"更新表数据错误：" . 't_info_daily');
-            }
-        }
+        /*更新的部分直接通过另外的model*/
+        // $sql = "SELECT DISTINCT info_id FROM t_info_daily WHERE pub_time IS NULL";
+        // $id_list = queryByNoModel('t_info_daily', '', $this->stat_config, $sql); 
+        // if($id_list === false)
+        //     return array('code'=>-17, 'message'=>"查询错误：" . $sql);
+        // if(count($id_list) > 0)
+        // {
+        //     $in_str = "(";
+        //     for($i = 0; $i < count($id_list); $i++)
+        //         if($i != count($id_list) - 1)
+        //             $in_str .= $id_list[$i]['info_id'] . ", ";
+        //         else
+        //             $in_str .= $id_list[$i]['info_id'] . ")";
+        //     $sql = "SELECT info_id, title, create_time FROM t_info_summary WHERE info_id IN" . $in_str;
+        //     $list_result = $this->query($sql);
+        //     if($list_result === false)
+        //         return array('code'=>-18, 'message'=>"查询错误：" . $sql);
+        //     ## 更新t_info_daily表中文章的发布时间
+        //     $obj_mod = M('t_info_daily', '', $this->stat_config);
+        //     // $obj_mod->execute("SET NAMES utf8");
+        //     for($i = 0; $i < count($list_result); $i++)
+        //     {
+        //         // $update_sql = "UPDATE t_info_daily SET pub_time = '" . $list_result[$i]['create_time'] . "' WHERE info_id = " . $list_result[$i]['info_id'];
+        //         $condition['info_id'] = $list_result[$i]['info_id'];
+        //         $data['pub_time'] = $list_result[$i]['create_time'];
+        //         $data['title'] = $list_result[$i]['title'];
+        //         $obj_mod->execute("SET NAMES utf8");
+        //         $result = $obj_mod->where($condition)->setField($data);
+        //         if($result === false)
+        //             return array('code'=>-19, 'message'=>"更新表数据错误：" . 't_info_daily');
+        //     }
+        // }
         return array('code'=>1, 'message'=>"执行成功");
     }
 

@@ -152,6 +152,24 @@ EOF;
         // var_dump($info['data']);
         ## 将数据更新到表t_info_accumulate
         $re = $this->insertOrUpdate($info['data'], $max_time);
+        if($re['code'] < 0)
+            return $re;
+        $re = $this->calScore();
+        if($re === false)
+            return array('code'=>-6, 'message'=>'更新分数失败');
+        else
+            return array('code'=>1, 'message'=>'执行成功');
+    }
+
+    ## 计算资讯的分数
+    private function calScore()
+    {
+        $updateSql = <<<EOF
+        UPDATE t_info_accumulate
+        SET score = (scan_pv + scan_uv) * 0.25 + (comment_pv + comment_uv) * 0.35 + (share_pv + share_uv) * 0.4
+        WHERE id > 0
+EOF;
+        $re = $this->execute($updateSql);
         return $re;
     }
 
@@ -184,12 +202,12 @@ EOF;
         // var_dump($info);
 
         ## 获取文章的标题和发布时间
-        $titleSql = "SELECT info_id, title, create_time pub_time FROM t_info_summary WHERE info_id IN " . $id_clause;
+        $titleSql = "SELECT info_id, title, create_time pub_time, `keys` FROM t_info_summary WHERE info_id IN " . $id_clause;
         // var_dump($titleSql);
         $extraInfo = queryByNoModel('t_info_summary', '', $this->imed_config, $titleSql);
         if($extraInfo === false)
             return array('code'=>-3, 'message'=>'查询错误');
-        ## 填充title pub_time字段
+        ## 填充title pub_time keys字段
         for($i = 0; $i < count($info); $i++)
         {
             for($j = 0; $j < count($extraInfo); $j++)
@@ -198,6 +216,7 @@ EOF;
                 {
                     $info[$i]['title'] = $extraInfo[$j]['title'];
                     $info[$i]['pub_time'] = $extraInfo[$j]['pub_time'];
+                    $info[$i]['keys'] = $extraInfo[$j]['keys'];
                     break;
                 }
             }
@@ -259,7 +278,7 @@ EOF;
                 $sql = <<<EOF
                 INSERT INTO t_info_accumulate(info_id, title, scan_pv, scan_uv, scan_no_login_pv, comment_pv, comment_uv, 
                     share_uv, share_pv, pub_time, modify_time)
-                VALUES($info_id, '{$title}', {$scan_pv}, {$share_uv}, {$scan_no_login_pv}, {$comment_pv}, 
+                VALUES($info_id, "{$title}", {$scan_pv}, {$share_uv}, {$scan_no_login_pv}, {$comment_pv}, 
                     {$comment_uv}, {$share_uv}, {$share_pv}, '{$pub_time}', '{$max_time}')
 EOF;
                 // var_dump($sql);

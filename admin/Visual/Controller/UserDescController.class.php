@@ -9,6 +9,11 @@ class UserDescController extends Controller {
 		$this->desc = D('Desc');
 	}
 
+	public function show()
+	{
+		$this->display('statUserDesc');
+	}
+
 	## 用户设备信息相关统计量
 	## 获取的数据 截止昨天24:00
 
@@ -17,6 +22,9 @@ class UserDescController extends Controller {
 	{
 		$type = 1;
 		$result = $this->desc->deviceData($type);
+		$result = $this->calPercentage($result);
+		$result = $this->addV($result);
+		// var_dump($result);
 		if(!empty($result))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
 		else
@@ -28,6 +36,9 @@ class UserDescController extends Controller {
 	{
 		$type = 2;
 		$result = $this->desc->deviceData($type);
+		$result = $this->calPercentage($result);
+		$result = $this->addV($result);
+		// var_dump($result);
 		if(!empty($result))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
 		else
@@ -39,6 +50,9 @@ class UserDescController extends Controller {
 	{
 		$type = 3;
 		$result = $this->desc->deviceData($type);
+		$result = $this->calPercentage($result);
+		$result = $this->addV($result);
+		// var_dump($result);
 		if(!empty($result))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
 		else
@@ -49,6 +63,7 @@ class UserDescController extends Controller {
 	public function userDevice()
 	{
 		$result = $this->desc->modelData();
+		// var_dump($result);
 		if(!empty($result))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
 		else
@@ -59,6 +74,7 @@ class UserDescController extends Controller {
 	public function userRetain()
 	{
 		$result = $this->desc->retainData();
+		// var_dump($result);
 		if(!empty($result))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
 		else
@@ -69,6 +85,7 @@ class UserDescController extends Controller {
 	public function userTime()
 	{
 		$result = $this->desc->timeData();
+		// var_dump($result);
 		if(!empty($result))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
 		else
@@ -83,6 +100,31 @@ class UserDescController extends Controller {
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
 		else
 			$this->ajaxReturn(array('code'=>-1));
+	}
+
+	## 计算各个部分对应的百分比
+	private function calPercentage($ary)
+	{
+		$total_num = 0;
+		for($i = 0; $i < count($ary); $i++)
+			$total_num += intval($ary[$i]['part_num']);
+		if($total_num == 0)
+			return false;
+
+		for($i = 0; $i < count($ary); $i++)
+		{
+			## 获得百分数, 保留小数点后一位
+			$ary[$i]['part_num'] = round(floatval($ary[$i]['part_num']) / $total_num * 100, 1); 
+		}
+
+		return $ary;
+	}
+
+	private function addV($ary)
+	{
+		for($i = 0; $i < count($ary); $i++)
+			$ary[$i]['field_name'] = 'V ' . $ary[$i]['field_name'];
+		return $ary;
 	}
 
 }
