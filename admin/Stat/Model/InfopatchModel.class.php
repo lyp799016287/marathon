@@ -28,7 +28,7 @@ class InfopatchModel extends Model {
             else
                 $in_str .= $result[$i]['info_id'] . ") ";
         // var_dump($in_str);
-        $selectSql = "SELECT info_id, title, create_time, keys FROM t_info_summary WHERE info_id IN " . $in_str;
+        $selectSql = "SELECT info_id, title, create_time, `keys` FROM t_info_summary WHERE info_id IN " . $in_str;
         $re = queryByNoModel('t_info_summary', '', $this->imed_config, $selectSql);
         if($re === false)
             return array('code'=>-2, 'message'=>'查询错误');

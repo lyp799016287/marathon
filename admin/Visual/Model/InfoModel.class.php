@@ -202,7 +202,7 @@ EOF;
         // var_dump($info);
 
         ## 获取文章的标题和发布时间
-        $titleSql = "SELECT info_id, title, create_time pub_time, keys FROM t_info_summary WHERE info_id IN " . $id_clause;
+        $titleSql = "SELECT info_id, title, create_time pub_time, `keys` FROM t_info_summary WHERE info_id IN " . $id_clause;
         // var_dump($titleSql);
         $extraInfo = queryByNoModel('t_info_summary', '', $this->imed_config, $titleSql);
         if($extraInfo === false)
