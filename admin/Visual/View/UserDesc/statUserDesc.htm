@@ -130,27 +130,27 @@ function showAppPie(rdata, oDiv){
 	}
 
 	//拼装数据
-	var point = [], r_series = [];
+	var point = [], series = [];
 	var tmp_item = [];
 	for(var i in rdata){
-		tmp_item = {
-			name : rdata[i].app_version,
-			y : rdata[i].part_num
-		};
-		// tmp_item = [];
-		// tmp_item.push(rdata[i].app_version);
-		// tmp_item.push(rdata[i].part_num);
+		// tmp_item = {
+		// 	name : rdata[i].app_version,
+		// 	y : rdata[i].part_num
+		// };
+		tmp_item = [];
+		tmp_item.push(rdata[i].app_version);
+		tmp_item.push(rdata[i].part_num);
 		point.push(tmp_item);
 
 	}
 
-	r_series = {
+	var r_series = {
 		type : 'pie',
 		name : '占比:',
 		data : point
 	};
-
-	console.log(r_series);
+	series.push(r_series);
+	console.log(series);
 	//画图
 	var chart = new Highcharts.Chart({
 		chart: {
@@ -203,7 +203,7 @@ function showAppPie(rdata, oDiv){
         //         ['Others',   0.7]
         //     ]
         // }]
-        series : r_series
+        series : series
 	});
 }
 
