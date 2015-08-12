@@ -32,11 +32,17 @@
 <div class="main" id="main_body">
 	<div class="content">
 		
-		<!-- B APP版本分布 -->
+
 		<div>
 			<div id="appContainer" style="min-width:700px;height:400px"></div>
 		</div>
-		<!-- E APP版本分布 -->
+		<div>
+			<div id="sysContainer" style="min-width:700px;height:400px"></div>
+		</div>
+		<div>
+			<div id="sdkContainer" style="min-width:700px;height:400px"></div>
+		</div>
+
 
 		<!-- Start 详细报表 -->
 		<div class="mod_list" id="page_sum_table">
@@ -85,6 +91,8 @@ statUserDesc.init = function (){
 	// statUser.actionHtml();
 	statUserDesc.getUserTime();
 	statUserDesc.getAppVersion();
+	statUserDesc.getSysVersion();
+	statUserDesc.getSdkVersion();
 }
 
 
@@ -116,15 +124,47 @@ statUserDesc.getAppVersion = function(){
 		dataType : 'json',
 		success : function(data){
 			if(data.code == 1){
-				console.log(data.data);
+				// console.log(data.data);
 				var data = data.data;
-				showAppPie(data, 'appContainer');
+				showPie(data, 'appContainer');
 			}
 		}
 	});
 }
 
-function showAppPie(rdata, oDiv){
+// 用户手机系统版本分布情况
+statUserDesc.getSysVersion = function(){
+	$.ajax({
+		type: 'POST',
+		url : statUserDesc.cgi.sysVersionData,
+		dataType : 'json',
+		success : function(data){
+			if(data.code == 1){
+				// console.log(data.data);
+				var data = data.data;
+				showPie(data, 'sysContainer');
+			}
+		}
+	});
+}
+
+// 用户的SDK分布情况
+statUserDesc.getSdkVersion = function(){
+	$.ajax({
+		type: 'POST',
+		url : statUserDesc.cgi.sdkData,
+		dataType : 'json',
+		success : function(data){
+			if(data.code == 1){
+				// console.log(data.data);
+				var data = data.data;
+				showPie(data, 'sdkContainer');
+			}
+		}
+	});
+}
+
+function showPie(rdata, oDiv){
 	if(!rdata){
 		return;
 	}
