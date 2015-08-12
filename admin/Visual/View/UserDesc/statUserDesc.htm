@@ -133,10 +133,6 @@ function showAppPie(rdata, oDiv){
 	var point = [], series = [];
 	var tmp_item = [];
 	for(var i in rdata){
-		// tmp_item = {
-		// 	name : rdata[i].app_version,
-		// 	y : rdata[i].part_num
-		// };
 		tmp_item = [];
 		tmp_item.push(rdata[i].app_version);
 		tmp_item.push(rdata[i].part_num);
@@ -172,9 +168,9 @@ function showAppPie(rdata, oDiv){
         title: {
             text: '用户使用APP的版本分布'
         },
-        // tooltip: {
-        //     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        // },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
         plotOptions: {
             pie: {
                 allowPointSelect: true,
