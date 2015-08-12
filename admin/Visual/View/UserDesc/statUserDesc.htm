@@ -131,19 +131,11 @@ function showAppPie(rdata, oDiv){
 
 	//拼装数据
 	var point = [], series = [];
-	// var tmp_item = [];
-	// for(var i in rdata){
-	// 	tmp_item = [];
-	// 	tmp_item.push(rdata[i].app_version);
-	// 	tmp_item.push(rdata[i].part_num);
-	// 	point.push(tmp_item);
-	// }
-
+	var tmp_item = [];
 	for(var i in rdata){
-		var tmp_item = {
-			name : rdata[i].app_version,
-			percentage : rdata[i].part_num
-		}
+		tmp_item = [];
+		tmp_item.push(rdata[i].app_version);
+		tmp_item.push(rdata[i].part_num);
 		point.push(tmp_item);
 	}
 
