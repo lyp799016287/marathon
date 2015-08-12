@@ -33,6 +33,24 @@ class ServiceModel extends Model {
 		return $rs;
 	}
 
+	/**
+	*获取用户姓名信息
+	*@author steptian
+	*@return  false/array()
+	*/
+	public function getUserInfo($uid){
+		
+		//var_dump($limits);exit();
+		$sql = "SELECT * FROM t_personal_info where user_id={$uid}";
+		//var_dump($sql);exit();
+		$rs = queryByNoModel('t_personal_info', '', $this->web_config,$sql);
+
+		$rt = false;
+		if($rs!==false){
+			$rt = $rs[0];
+		}
+		return $rt;
+	}
 
 	/**
 	*获取客服聊天列表总数
@@ -76,6 +94,21 @@ class ServiceModel extends Model {
 		return $rs;
 	}
 
+
+	/**
+	*	客服问题归类	type 类型,1、其他 2、资讯 3、同道 4、成长 5、科研 6、个人资料
+	*/
+	public function setQuestionClass($ids,$type){
+		
+		$sql = "update t_service_chat set type={$type} where chat_id in({$ids})";
+
+		$rs = $this->exeSql($sql);
+		if($rs!==false){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	/**
 	*	合并线上用户咨询信息
 	*/

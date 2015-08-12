@@ -13,6 +13,7 @@
       *{ margin: 0; padding: 0; box-sizing: border-box; }
       body{font-family: 'lucida grande', 'lucida sans unicode', 'lucida', 'helvetica', 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;text-align:justify;font-weight:lighter;letter-spacing:0;}
       form { background: #333333; padding:0.2rem; position: fixed; bottom: 0; height: 3em; width: 100%; }
+      #classify{position: fixed; bottom: 3rem; height: 3em; width: 100%;}
       form input { height: 2.6rem;line-height: 2rem;margin:0 5rem 0 0;padding: 0 5rem 0 0.5rem;display: block; border: 1px solid #e5e5e5;font-size: 1rem;width: 100%;
     -moz-border-radius: 0.5rem;      /* Gecko browsers */
     -webkit-border-radius: 0.5rem;   /* Webkit browsers */
@@ -33,7 +34,24 @@
     <![endif]--> 
   </head>
   <body>
+
     <ul id="messages"></ul>
+    <div id="classify">
+    <!--
+    1、其他 2、资讯 3、同道 4、成长 5、科研 6、个人资料
+    -->
+    请选择问题归类：
+    <select id="selection">
+      <option value="">--请选择归类--</option>
+      <option value="1">其他</option>
+      <option value="2">资讯</option>
+      <option value="3">同道</option>
+      <option value="4">成长</option>
+      <option value="5">科研</option>
+      <option value="6">个人资料</option>
+    </select>
+    <input type="button" id="btn_classify" value="确定分类" />
+    </div>
     <form action="">
       <input id="m" autocomplete="off" /><button>发送</button>
     </form>
@@ -43,6 +61,27 @@
     <script src="http://{$env}c.imed.me/socket.io/socket.io.js"></script>
     <script type="text/javascript">
     {literal}
+      $().ready(function(){
+        $('#btn_classify').click(function(){
+          if($('#selection').val()==''){
+            alert('请选择问题归类');
+            return false;
+          }
+          if($('input[type=checkbox]:checked').length==0){
+            alert('请选择需要归类的话题');
+            return false;
+          }
+          var checked_box = $('input[type=checkbox]:checked');
+          var checked_array = new Array();
+          for (var i = checked_box.length - 1; i >= 0; i--) {
+            checked_array.push($(checked_box[i]).val());
+          };
+          var checked_val = checked_array.join(',');
+          $.post('/manage/service/classify',{ids:checked_val,type:$('#selection').val()},function(d){
+              alert(d.message);
+          });
+        });
+      });
       $.extend({  
         getUrlVars: function(){  
           var vars = [], hash;  
@@ -63,40 +102,31 @@
       {/literal}
 
       var socket = io.connect('http://{$env}c.imed.me/');
+      var sid="{$token}";
+      var uid={$uid};
+      var user_name ="{$user_name}";
       {literal}
       var param = $.getUrlVars();
-      var userid = param['userid'];
-      if(!userid){
-        userid = param['uid'];
-      }
-      var targetid = param['targetid'];
-      if(!targetid){
-        targetid = param['tid'];
-      }
+      var tid = param['tid'];
       var type = param['type'];
       if(!type){
         type = 0;
       }
-
-      var sid=param['sid'];
       if(!sid){
         sid = 0;
       }
-      socket.emit('login',{ "uid":userid,"tid": targetid,"type":type,"token":sid });
-      socket.emit('ping',{uid:''});
+      //console.log('---------------');
+      socket.emit('login',{ "uid":uid,"tid": tid,"type":type,"token":sid });
+      socket.emit('getmsg',{uid:uid,tid:tid});
       socket.on('pong',function(data){
         console.dir(data);
       });
-      //socket.emit('addrelation',"uid:58,tid:83,token:'abec3b899dce12f8033292659601ad72'");
-      /*
-      socket.on('tip_addrelation',function(data){
-        console.dir(data);
-      });
-      */
+      
       socket.on('login_return',function(data){
         console.log(data);
+        
         if(data.code==1){
-          $.cookie('c_uid',userid,{path:'/',domain:'imed.me'});
+          $.cookie('c_uid',uid,{path:'/',domain:'imed.me'});
         }else{
           $.cookie('c_uid','', { path:'/',domain:'imed.me',expires: -1 });
         }
@@ -108,6 +138,21 @@
           Android.showChatMsg(JSON.stringify(data));
         }catch(e){
           //console.dir(e);
+        }
+       
+        if(data&&data.length>1){
+          for (var i = 0; i <data.length; i++) {
+            var sender = data[i].tid;
+            var _class='';
+            if(data[i].direction==1){
+              sender = '';
+              _class='me';
+            }else{
+              sender =  user_name+':';
+            }
+            $('<li class="'+_class+'"></li>').appendTo('#messages').html("<label for='"+data[i].id+"'><input type='checkbox' id='"+data[i].id+"' value='"+data[i].id+"' />" +sender+data[i].msg+'<span>'+data[i].time+'</span></label>');
+            $('html, body,#messages').animate({scrollTop: $(document).height()}, 10); 
+          };
         }
         
       }
@@ -148,35 +193,25 @@
       }
 
       $('form').submit(function(){
-        socket.emit('chat', {uid:userid,tid:targetid,msg:$('#m').val()});
+        socket.emit('chat', {uid:uid,tid:tid,msg:$('#m').val()});
         
         var today = new Date();
-        $('<li class="me"></li>').appendTo('#messages').html(userid +':'+$('#m').val()+'<span>'+ today.toLocaleTimeString()+'</span>');
+        $('<li class="me"></li>').appendTo('#messages').html($('#m').val()+'<span>'+ today.toLocaleTimeString()+'</span>');
         $('#m').val('');
 
-        socket.emit('acceptrelation',{uid:userid,tid:targetid});
+      
         return false;
       });
       socket.on('feeds',function(data){
         console.log('feeds');
-        //console.dir(data);
+        
         if(data.code==1){
-          data = data.data.body[0];
+          data = data.data.body;
         }else{
           console.dir(data);
           console.log('data error');
         }
-        //console.dir(data);
-        var sender = data.tid;
-        var _class='';
-        if(data.msgtype==1){
-          sender = '';
-          _class='me';
-        }else{
-          sender = sender +':';
-        }
-        $('<li class="'+_class+'"></li>').appendTo('#messages').html(sender+data.msg+'<span>'+data.time.substr(11,5)+'</span>');
-        $('html, body,#messages').animate({scrollTop: $(document).height()}, 10); 
+
         showChatMsg(data);
       });
 
