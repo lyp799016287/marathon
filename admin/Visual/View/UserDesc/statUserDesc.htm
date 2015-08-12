@@ -133,15 +133,15 @@ function showAppPie(rdata, oDiv){
 	var point = [], r_series = [];
 	var tmp_item = [];
 	for(var i in rdata){
-		// tmp_item = {
-		// 	name : rdata[i].app_version,
-		// 	percentage : rdata[i].part_num
-		// };
-		tmp_item = [];
-		tmp_item.push(rdata[i].app_version);
-		tmp_item.push(rdata[i].part_num);
+		tmp_item = {
+			name : rdata[i].app_version,
+			y : rdata[i].part_num
+		};
+		// tmp_item = [];
+		// tmp_item.push(rdata[i].app_version);
+		// tmp_item.push(rdata[i].part_num);
 		point.push(tmp_item);
-		
+
 	}
 
 	r_series = {
