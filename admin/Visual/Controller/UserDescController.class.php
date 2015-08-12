@@ -47,7 +47,7 @@ class UserDescController extends Controller {
 		$type = 3;
 		$result = $this->desc->deviceData($type);
 		$result = $this->calPercentage($result);
-		var_dump($result);
+		// var_dump($result);
 		if(!empty($result))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
 		else
