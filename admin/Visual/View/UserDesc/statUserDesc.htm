@@ -34,7 +34,7 @@
 		
 
 		<div>
-			<div id="appContainer" style="min-width:300px;height:400px"></div>
+			<div id="appContainer" style="width:300px;height:400px"></div>
 		</div>
 		<div>
 			<div id="sysContainer" style="min-width:300px;height:400px"></div>
@@ -198,6 +198,7 @@ function showPie(rdata, oDiv, title){
 				fontFamily: '"Lucida Grande", "Lucida Sans Unicode","microsoft yahei",Verdana, Arial, Helvetica, sans-serif', 
 				fontSize: '12px'
 			},
+			width : 300,
 			// marginRight:100,
 			// marginTop:60,
 			// marginLeft:150,
@@ -224,24 +225,14 @@ function showPie(rdata, oDiv, title){
                 }
             }
         },
-        // series: [{
-        //     type: 'pie',
-        //     name: 'Browser Share',
-        //     data: [
-        //         ['Firefox',   45.0],
-        //         ['IE',       26.8],
-        //         {
-        //             name: 'Chrome',
-        //             y: 12.8,
-        //             sliced: true,
-        //             selected: true
-        //         },
-        //         ['Safari',    8.5],
-        //         ['Opera',     6.2],
-        //         ['Others',   0.7]
-        //     ]
-        // }]
-        series : series
+        series : series,
+        credits:{
+			enabled:false
+		},
+		exporting:{
+			enabled:false
+		}
+
 	});
 }
 
