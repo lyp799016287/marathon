@@ -126,7 +126,8 @@ statUserDesc.getAppVersion = function(){
 			if(data.code == 1){
 				// console.log(data.data);
 				var data = data.data;
-				showPie(data, 'appContainer');
+				var title = '用户使用医道APP的版本分布';
+				showPie(data, 'appContainer', title);
 			}
 		}
 	});
@@ -142,7 +143,8 @@ statUserDesc.getSysVersion = function(){
 			if(data.code == 1){
 				// console.log(data.data);
 				var data = data.data;
-				showPie(data, 'sysContainer');
+				var title = '用户手机系统的版本分布';
+				showPie(data, 'sysContainer', title);
 			}
 		}
 	});
@@ -158,13 +160,14 @@ statUserDesc.getSdkVersion = function(){
 			if(data.code == 1){
 				// console.log(data.data);
 				var data = data.data;
-				showPie(data, 'sdkContainer');
+				var title = '用户SDK的版本分布';
+				showPie(data, 'sdkContainer', title);
 			}
 		}
 	});
 }
 
-function showPie(rdata, oDiv){
+function showPie(rdata, oDiv, title){
 	if(!rdata){
 		return;
 	}
@@ -174,7 +177,7 @@ function showPie(rdata, oDiv){
 	var tmp_item = [];
 	for(var i in rdata){
 		tmp_item = [];
-		tmp_item.push(rdata[i].app_version);
+		tmp_item.push(rdata[i].field_name);
 		tmp_item.push(rdata[i].part_num);
 		point.push(tmp_item);
 	}
@@ -205,7 +208,7 @@ function showPie(rdata, oDiv){
             }
         },
         title: {
-            text: '用户使用APP的版本分布'
+            text: title
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'

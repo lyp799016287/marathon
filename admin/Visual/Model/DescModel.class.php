@@ -29,7 +29,7 @@ class DescModel extends Model {
                 break;
         }
         $sql = <<<EOF
-        SELECT a.{$field}, count(a.user_uid) part_num FROM 
+        SELECT a.{$field} field_name, count(a.user_uid) part_num FROM 
         (SELECT DISTINCT user_uid, user_mobile, sdk, sys_version, app_version FROM t_user_device_flow) a 
         GROUP BY a.{$field}
         ORDER BY count(a.user_uid) DESC
