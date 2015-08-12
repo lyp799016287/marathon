@@ -168,9 +168,9 @@ function showAppPie(rdata, oDiv){
         title: {
             text: '用户使用APP的版本分布'
         },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
+        // tooltip: {
+        //     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        // },
         plotOptions: {
             pie: {
                 allowPointSelect: true,
@@ -182,23 +182,24 @@ function showAppPie(rdata, oDiv){
                 }
             }
         },
-        series: [{
-            type: 'pie',
-            name: 'Browser Share',
-            data: [
-                ['Firefox',   45.0],
-                ['IE',       26.8],
-                {
-                    name: 'Chrome',
-                    y: 12.8,
-                    sliced: true,
-                    selected: true
-                },
-                ['Safari',    8.5],
-                ['Opera',     6.2],
-                ['Others',   0.7]
-            ]
-        }]
+        // series: [{
+        //     type: 'pie',
+        //     name: 'Browser Share',
+        //     data: [
+        //         ['Firefox',   45.0],
+        //         ['IE',       26.8],
+        //         {
+        //             name: 'Chrome',
+        //             y: 12.8,
+        //             sliced: true,
+        //             selected: true
+        //         },
+        //         ['Safari',    8.5],
+        //         ['Opera',     6.2],
+        //         ['Others',   0.7]
+        //     ]
+        // }]
+        series : r_series
 	});
 }
 
