@@ -34,6 +34,33 @@ hr.clear{clear:both;}
 </div>
 <div class="main" id="main_body">
 	<div class="content">
+		<!-- Begin 区域图 -->
+		<div class="mod_list" id="retain_graph">
+			<!-- <div class="mod_list_hd org_l"> -->
+			<div class="org_l">
+			<div class="hd">
+				<h3 id="retain_title">用户留存率</h3><span id="date_desc_graph" class="sub_tit"></span>
+			</div>
+			</div>
+			<div class="filter filter3" id="graph_top">
+				<div class="filter_inner">
+					<div class="sel_item" id="show_item_div">
+						<span style="width:640px;">展示区间:
+							<select name="time_selector" id="time_dimension" style="width:120px;margin-left:10px;">
+								<option value="1">最近7天</option>
+								<option value="2">最近30天</option>
+							</select>
+						</span>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="mod_list_bd l-panel-bwarp"> -->
+			<div class="l-panel-bwarp">
+				<div id="retainContainer" style="min-width:700px;height:400px"></div>
+			</div>
+		</div>
+		<!-- End 区域图 -->
+
 		<!-- Begin 饼图 -->
 		<div class="mod_list">
 			<div style="width:1500px;height:400px">
@@ -89,22 +116,39 @@ statUserDesc.cgi = {
 	"sdkData": "/visual/userDesc/userSdk",
 	"sysVersionData" : "/visual/userDesc/userSysVersion",
 	"appVerisonData" : "/visual/userDesc/userAppVersion",
+	"userRetainData" : "/visual/userDesc/userRetain",
 };
 
 statUserDesc.actionHtml = function (){
-	// $("#total_user_time").change(statUser.getTotalUser);
+	$("#time_dimension").change(statUserDesc.getUserRetain);
 	// $("#mix_user_time").change(statUser.getMixUser);
 }
 
 statUserDesc.init = function (){
-	
-	// statUser.actionHtml();
+
+	statUserDesc.actionHtml();
+
 	statUserDesc.getUserTime();
 	statUserDesc.getAppVersion();
 	statUserDesc.getSysVersion();
 	statUserDesc.getSdkVersion();
+	statUserDesc.getUserRetain();
 }
 
+//获取用户留存率
+statUserDesc.getUserRetain = function(){
+	$.ajax({
+		type : 'POST',
+		url : statUserDesc.cgi.userRetainData,
+		dataType : 'json',
+		success: function(rdata){
+			if(rdata.code == 1){
+				var data = rdata.data;
+				showArea(data, 'retainContainer');
+			}
+		}
+	});
+}
 
 //获取用户24小时的活跃人数
 statUserDesc.getUserTime = function(){
@@ -134,7 +178,7 @@ statUserDesc.getAppVersion = function(){
 		dataType : 'json',
 		success : function(data){
 			if(data.code == 1){
-				console.log(data.data);
+				// console.log(data.data);
 				var data = data.data;
 				var title = '用户使用医道APP的版本分布';
 				showPie(data, 'appContainer', title);
@@ -151,7 +195,7 @@ statUserDesc.getSysVersion = function(){
 		dataType : 'json',
 		success : function(data){
 			if(data.code == 1){
-				console.log(data.data);
+				// console.log(data.data);
 				var data = data.data;
 				var title = '用户手机系统的版本分布';
 				showPie(data, 'sysContainer', title);
@@ -168,7 +212,7 @@ statUserDesc.getSdkVersion = function(){
 		dataType : 'json',
 		success : function(data){
 			if(data.code == 1){
-				console.log(data.data);
+				// console.log(data.data);
 				var data = data.data;
 				var title = '用户SDK的版本分布';
 				showPie(data, 'sdkContainer', title);
@@ -355,14 +399,45 @@ function showTimeLines(data, oDiv){
 }
 
 // 用户留存率的区域图
-function showArea(){
-
+function showArea(data, oDiv){
+	console.log(data);
 	// 拼数据
+	var s_date = [], series = [];
+	var series_3 = [], series_7 = [], series_30 = [];
+	for(var i in data){
+		s_date.push(data[i].date);
+		series_3.push(data[i].retain_3);
+		series_7.push(data[i].retain_7);
+		series_30.push(data[i].retain_30);
+	}
+
+	var item_3 = {
+		name : '3天留存',
+		data : series_3
+	};
+
+	var item_7 = {
+		name : '7天留存',
+		data : series_7
+	};
+
+	var item_30 = {
+		name : '30天留存',
+		data : series_30
+	};
+
+	series.push(item_3);
+	series.push(item_7);
+	series.push(item_30);
+
+	console.log(s_date);
+	console.log(series);
 
 	// 画图
     var chart = new Highcharts.Chart({
         chart: {
-            type: 'area'
+            type: 'area',
+            renderTo: oDiv,
         },
         title: {
             text: '用户留存率'
@@ -373,7 +448,8 @@ function showArea(){
         xAxis: {
             labels: {
                 formatter: function() {
-                    return this.value; // clean, unformatted number for year
+                    // return this.value; 
+                    return s_date;
                 }
             }
         },
@@ -388,11 +464,11 @@ function showArea(){
             // }
         },
         tooltip: {
-            pointFormat: '{series.name} produced <b>{point.y:,.0f}</b><br/>warheads in {point.x}'
+            pointFormat: '{series.name} produced <b>{point.y:,.1f}%</b><br/>warheads in {point.x}'
         },
         plotOptions: {
             area: {
-                pointStart: 1940,
+                // pointStart: 1940,
                 marker: {
                     enabled: false,
                     symbol: 'circle',
@@ -405,25 +481,26 @@ function showArea(){
                 }
             }
         },
-        series: [{
-            name: '7天留存',
-            data: [null, null, null, null, null, 6 , 11, 32, 110, 235, 369, 640,1005, 1436,
-            		2063, 3057, 4618, 6444, 9822, 15468, 20434, 24126,27387, 29459, 31056, 31982,
-            		32040, 31233, 29224, 27342, 26662,26956, 27912, 28999, 28965, 27826, 0,
-            		25722, 24826, 24605,24304, 23464, 23708, 24099, 24357, 24237, 24401, 24344,
-            		23586,22380, 21004, 17287, 14747, 13076, 12555, 12144, 11009, 10950,
-                10871, 10824, 10577, 10527, 10475, 10421, 10358, 10295, 10104 
-            ]
-        }, {
-            name: '30天留存',
-            data: [null, null, null, null, null, null, null , null , null ,null,5, 25, 50,
-            	120, 150, 200, 426, 660, 869, 1060, 1605, 2471, 3322,4238, 5221, 6129,
-            	7089, 8339, 9399, 10538, 11643, 13092, 14478,15915, 17385, 19055, 21205,
-            	23044, 25393, 27935, 30062, 32049,33952, 35804, 37431, 39197, 45000, 43000,
-            	41000, 39000, 37000,35000, 33000, 31000, 29000, 27000, 25000, 24000, 23000,
-            	22000,21000, 20000, 19000, 18000, 18000, 17000, 16000
-            ]
-        }]
+        // series: [{
+        //     name: '7天留存',
+        //     data: [null, null, null, null, null, 6 , 11, 32, 110, 235, 369, 640,1005, 1436,
+        //     		2063, 3057, 4618, 6444, 9822, 15468, 20434, 24126,27387, 29459, 31056, 31982,
+        //     		32040, 31233, 29224, 27342, 26662,26956, 27912, 28999, 28965, 27826, 0,
+        //     		25722, 24826, 24605,24304, 23464, 23708, 24099, 24357, 24237, 24401, 24344,
+        //     		23586,22380, 21004, 17287, 14747, 13076, 12555, 12144, 11009, 10950,
+        //         10871, 10824, 10577, 10527, 10475, 10421, 10358, 10295, 10104 
+        //     ]
+        // }, {
+        //     name: '30天留存',
+        //     data: [null, null, null, null, null, null, null , null , null ,null,5, 25, 50,
+        //     	120, 150, 200, 426, 660, 869, 1060, 1605, 2471, 3322,4238, 5221, 6129,
+        //     	7089, 8339, 9399, 10538, 11643, 13092, 14478,15915, 17385, 19055, 21205,
+        //     	23044, 25393, 27935, 30062, 32049,33952, 35804, 37431, 39197, 45000, 43000,
+        //     	41000, 39000, 37000,35000, 33000, 31000, 29000, 27000, 25000, 24000, 23000,
+        //     	22000,21000, 20000, 19000, 18000, 18000, 17000, 16000
+        //     ]
+        // }]
+        series: series
     });
 
 }
