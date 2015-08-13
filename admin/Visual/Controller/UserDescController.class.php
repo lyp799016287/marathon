@@ -76,8 +76,11 @@ class UserDescController extends Controller {
 	{
 		$type = I('type', 1, 'intval'); ## 默认查看最近7天
 		$result = $this->desc->retainData($type);
+		// var_dump($result);
+		if(empty($result))
+			$this->ajaxReturn(array('code'=>-1));
 		$result = $this->calRetain($result);
-		var_dump($result);
+		// var_dump($result);
 
 		if(!empty($result))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
@@ -131,14 +134,17 @@ class UserDescController extends Controller {
 	}
 
 	## 计算用户的留存率
+	## 返回值 array(array('data'=>, 'retain_3'=>, 'retain_7'=>, 'retain_30'=>))
 	private function calRetain($result)
 	{
+		$result = array_slice($result, 1);
+		// var_dump($result);
 		$return_ary = array();
 		for($i = 0; $i < count($result); $i++)
 		{
 			$return_ary[$i]['date'] = $result[$i]['register_date'];
-			$return_ary[$i]['new_user'] = $result[$i]['new_user'];
-			if($return_ary[$i]['new_user'] == 0)
+			// $return_ary[$i]['new_user'] = $result[$i]['new_user'];
+			if(empty($return_ary[$i]['new_user']))
 			{
 				// $return_ary[$i]['retain_2'] = 0;
 				$return_ary[$i]['retain_3'] = 0;

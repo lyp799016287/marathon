@@ -44,12 +44,13 @@ EOF;
         
     }
 
+
     public function retainData($type)
     {
         if($type == 1)
-            $limit = 7;
+            $limit = 8; ## 需要多查一天 第一条数据需要去掉
         elseif($type == 2)
-            $limit = 30;
+            $limit = 31;
         else
             return false;
         $sql = <<<EOF
@@ -60,6 +61,7 @@ EOF;
         LEFT JOIN (SELECT datestamp, new_user FROM t_user_summary) b 
         ON a.register_date = b.datestamp 
 EOF;
+        // var_dump($sql);
         $re = $this->query($sql);
         return $re;
     }
