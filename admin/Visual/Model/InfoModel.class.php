@@ -33,7 +33,7 @@ class InfoModel extends Model {
         $sql = <<<EOF
         SELECT info_id, title, score
         FROM t_info_daily
-        WHERE datestamp = '{$yesterday}'
+        WHERE datestamp = '{$yesterday}' AND title IS NOT NULL 
         ORDER BY score DESC LIMIT {$this->topNum}
 EOF;
         // var_dump($sql);
@@ -81,7 +81,7 @@ EOF;
 			$order .= ' DESC';
 		}
 
-		$sql = "SELECT info_id, title, pub_time, scan_pv, scan_uv, scan_no_login_pv, comment_pv, comment_uv, share_pv, share_uv, score FROM t_info_daily WHERE datestamp = '{$yesterday}' ".$order.$limit;
+		$sql = "SELECT info_id, title, pub_time, scan_pv, scan_uv, scan_no_login_pv, comment_pv, comment_uv, share_pv, share_uv, score FROM t_info_daily WHERE title IS NOT NULL AND datestamp = '{$yesterday}' ".$order.$limit;
 		
 //         $sql = <<<EOF
 //         SELECT a.info_id, b.title, a.pub_time, a.scan_pv, a.scan_uv, a.scan_no_login_pv, a.comment_pv, a.comment_uv, a.share_pv, a.share_uv, a.score
