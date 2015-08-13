@@ -7,6 +7,8 @@ class UserDescController extends Controller {
 
 	public function _initialize(){
 		$this->desc = D('Desc');
+		$this->assign("menu_path", ROOT_PATH.'/admin_imed_me/');
+		$this->assign("index", 10);
 	}
 
 	public function show()
