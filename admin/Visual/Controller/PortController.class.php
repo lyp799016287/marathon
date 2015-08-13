@@ -9,7 +9,7 @@ class PortController extends Controller {
 	{
 		$this->port = D('Port');
 		$this->assign("menu_path", ROOT_PATH.'/admin_imed_me/');
-		// $this->assign("index", 7);
+		$this->assign("index", 9);
 	}
 	
 	public function show()
