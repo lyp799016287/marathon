@@ -44,13 +44,19 @@ EOF;
         
     }
 
-    public function retainData()
+    public function retainData($type)
     {
+        if($type == 1)
+            $limit = 7;
+        elseif($type == 2)
+            $limit = 30;
+        else
+            return false;
         $sql = <<<EOF
         SELECT a.register_date, b.new_user, a.retain_2, a.retain_3, a.retain_7, a.retain_30 
         FROM (SELECT register_date, CASE WHEN retain_2 IS NULL THEN 0 ELSE retain_2 END retain_2, CASE WHEN retain_3 IS NULL THEN 0 ELSE retain_3 END retain_3, 
         CASE WHEN retain_7 IS NULL THEN 0 ELSE retain_7 END retain_7, CASE WHEN retain_30 IS NULL THEN 0 ELSE retain_30 END retain_30
-        FROM t_user_retain ORDER BY register_date DESC LIMIT 7) a 
+        FROM t_user_retain ORDER BY register_date DESC LIMIT {$limit}) a 
         LEFT JOIN (SELECT datestamp, new_user FROM t_user_summary) b 
         ON a.register_date = b.datestamp 
 EOF;

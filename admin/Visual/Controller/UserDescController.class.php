@@ -70,11 +70,15 @@ class UserDescController extends Controller {
 			$this->ajaxReturn(array('code'=>-1));
 	}
 
-	## 用户留存数（最近7天内）
+	## 用户留存数
+	## 参数type用于区分 查看最近7天 最近30天的数据
 	public function userRetain()
 	{
-		$result = $this->desc->retainData();
-		// var_dump($result);
+		$type = I('type', 1, 'intval'); ## 默认查看最近7天
+		$result = $this->desc->retainData($type);
+		$result = $this->calRetain($result);
+		var_dump($result);
+
 		if(!empty($result))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
 		else
@@ -116,7 +120,6 @@ class UserDescController extends Controller {
 			## 获得百分数, 保留小数点后一位
 			$ary[$i]['part_num'] = round(floatval($ary[$i]['part_num']) / $total_num * 100, 1); 
 		}
-
 		return $ary;
 	}
 
@@ -125,6 +128,33 @@ class UserDescController extends Controller {
 		for($i = 0; $i < count($ary); $i++)
 			$ary[$i]['field_name'] = 'V ' . $ary[$i]['field_name'];
 		return $ary;
+	}
+
+	## 计算用户的留存率
+	private function calRetain($result)
+	{
+		$return_ary = array();
+		for($i = 0; $i < count($result); $i++)
+		{
+			$return_ary[$i]['date'] = $result[$i]['register_date'];
+			$return_ary[$i]['new_user'] = $result[$i]['new_user'];
+			if($return_ary[$i]['new_user'] == 0)
+			{
+				// $return_ary[$i]['retain_2'] = 0;
+				$return_ary[$i]['retain_3'] = 0;
+				$return_ary[$i]['retain_7'] = 0;
+				$return_ary[$i]['retain_30'] = 0;
+			}
+			else
+			{
+				// $result[$i]['retain_2'] = round(floatval($result[$i]['retain_2']) / $result[$i]['new_user'] * 100, 1);
+				$return_ary[$i]['retain_3'] = round(floatval($result[$i]['retain_3']) / $result[$i]['new_user'] * 100, 1);
+				$return_ary[$i]['retain_7'] = round(floatval($result[$i]['retain_7']) / $result[$i]['new_user'] * 100, 1);
+				$return_ary[$i]['retain_30'] = round(floatval($result[$i]['retain_30']) / $result[$i]['new_user'] * 100, 1);
+			}
+			
+		}
+		return $return_ary;
 	}
 
 }
