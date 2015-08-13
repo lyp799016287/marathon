@@ -230,4 +230,42 @@ class SecretController extends Controller {
 		}
 	}
 	
+	/**
+	*秘贴评论
+	*/
+	public function secretComment(){
+		
+		$sid = I('sid', 0, 'intval');
+		$currpage = I('page', 1 , 'intval');
+		$page_size  = 10;
+		
+		$rs = $this->secret->getCommentList($sid, $currpage, $page_size);
+		//var_dump($rs);
+		if($rs === false){
+			header("Content-Type: text/html;charset=utf-8");
+			exit("系统错误");
+		}else{
+			
+			$info_arr = $this->secret->getSecretInfo($sid);
+
+			S(C('TOKEN_REDIS'));
+
+			if(!empty($rs)){
+				foreach($rs as &$item){
+					$item['nick_name'] = (S("seccom_".$sid."_".$item['user_id'])? S("seccom_".$sid."_".$item['user_id']).'楼' : '');
+				}
+			}
+
+			$total = $this->secret->getCommentTotal($sid);
+			$total_num = ceil($total/$page_size);
+			
+			$this->assign('sid', $sid);
+			$this->assign('secret_content', (empty($info_arr)? '' : $info_arr[0]['content']));
+			$this->assign('items', $rs);
+			$this->assign("total", $total);
+			$this->assign("current", $currpage);
+			$this->assign("total_num", $total_num);
+			$this->display('commentlist');
+		}
+	}
 }
