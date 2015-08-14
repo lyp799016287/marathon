@@ -31,8 +31,8 @@ class InfoAnalyzeModel extends Model {
 			// exit();
 			return array('code'=>-4, 'message'=>'读取文件失败');
 		}
-    	
-		// var_dump($time_str);
+    	var_dump("get max time");
+		var_dump($time_str);
     	$where_clause = '';
     	if($time_str != '')
 	    	$where_clause = " WHERE create_time > '" . $time_str . "'";
@@ -46,13 +46,14 @@ class InfoAnalyzeModel extends Model {
 	    {
 	    	//获取最大的时间戳 重新写入
 	    	$sql = "SELECT MAX(create_time) create_time FROM t_info_accumulate " . $where_clause;
-	    	var_dump($sql);
+	    	// var_dump($sql);
 	    	$re_time = $this->query($sql);
 	    	// var_dump($re_time);
 	    	if($re_time === false)
 	    		return array('code'=>-3, 'message'=>'获取时间戳失败');
 	    	$time_str = $re_time[0]['create_time'];
-	    	$re_file = $this->intoFile($time_str);
+	    	if(!is_null($time_str)) ## 新的时间戳 需要写入
+	    		$re_file = $this->intoFile($time_str);
 	    	if($re_file === false)
 	    		return array('code'=>-5, 'message'=>'写入文件失败');
 	    	return array('code'=>1, 'message'=>'执行成功');
