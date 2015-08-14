@@ -9,6 +9,7 @@ class InfoAnalyzeModel extends Model {
     public function _initialize()
     {
         $this->file_name = 't_info_accumulate_time.txt';
+        $this->path = dirname(__FILE__) . '/' . $this->file_name;
     }
 
     public function intoWords()
@@ -17,12 +18,14 @@ class InfoAnalyzeModel extends Model {
     	$time_str = '';
     	try
     	{
-    		$f_obj = fopen($this->file_name, 'r');
+    		$f_obj = fopen($this->path, 'r');
     		if($f_obj)
     		{
     			$time_str = fgets($f_obj);
     			$time_str = trim($time_str);
     		}
+    		else
+    			return array('code'=>-6, 'message'=>'读取文件失败');
     		fclose($f_obj);
     	}
     	catch(Exception $e)
@@ -31,36 +34,35 @@ class InfoAnalyzeModel extends Model {
 			// exit();
 			return array('code'=>-4, 'message'=>'读取文件失败');
 		}
-  //   	var_dump("get max time");
-		// var_dump($time_str);
     	$where_clause = '';
     	if($time_str != '')
 	    	$where_clause = " WHERE create_time > '" . $time_str . "'";
 	    $sql = "SELECT info_id, `keys` FROM t_info_accumulate " . $where_clause;
 	    $this->execute("SET NAMES utf8");
 	    $result = $this->query($sql);
-	    // var_dump($result);
 	    if($result === false)
 	    	return array('code'=>-1, 'message'=>'查询错误');
 	    $re = $this->splitWords($result);
-	    if($re === true)
+	    if($re == '')
 	    {
 	    	//获取最大的时间戳 重新写入
 	    	$sql = "SELECT MAX(create_time) create_time FROM t_info_accumulate " . $where_clause;
-	    	// var_dump($sql);
 	    	$re_time = $this->query($sql);
-	    	// var_dump($re_time);
 	    	if($re_time === false)
 	    		return array('code'=>-3, 'message'=>'获取时间戳失败');
 	    	$time_str = $re_time[0]['create_time'];
+	    	// var_dump($time_str);
 	    	if(!is_null($time_str)) ## 新的时间戳 需要写入
+	    	{
 	    		$re_file = $this->intoFile($time_str);
-	    	if($re_file === false)
-	    		return array('code'=>-5, 'message'=>'写入文件失败');
+		    	if($re_file === false)
+		    		return array('code'=>-5, 'message'=>'写入文件失败');
+	    	} 
+	    		
 	    	return array('code'=>1, 'message'=>'执行成功');
 	    }
 	    else
-	    	return array('code'=>-2, 'message'=>'插入数据错误');
+	    	return array('code'=>-2, 'message'=>'插入数据错误' . $re);
     }
 
 	private function splitWords($ary)
@@ -74,31 +76,35 @@ class InfoAnalyzeModel extends Model {
 			for($j = 0; $j < count($words); $j++)
 			{
 				$word = trim($words[$j]);
-				$tmp_str = "SET NAMES utf8";
-				$this->execute($tmp_str);
-				$insertSql = <<<EOF
-				INSERT INTO t_info_keys (info_id, key_word)
-				VALUES({$info_id}, "{$word}")
+				if(!empty($word))
+				{
+					$tmp_str = "SET NAMES utf8";
+					$this->execute($tmp_str);
+					$insertSql = <<<EOF
+					INSERT INTO t_info_keys (info_id, key_word)
+					VALUES({$info_id}, "{$word}")
 EOF;
-				$re = $this->execute($insertSql);
-				if($re === false)
-					$error_str .= $info_id . ": " . $word . ", ";
+					$re = $this->execute($insertSql);
+					if($re === false)
+						$error_str .= $info_id . ": " . $word . ", ";
+				}
+				
 			}
 		}
-		if($error_str == '')
-			return true;
-		else
-			return $error_str;
+		return $error_str;
 	}
 
 	## 最大时间戳写入文件
 	private function intoFile($str)
 	{
-		// var_dump($str);
+		var_dump("intoFile");
 		try
 		{
-			$f_obj = fopen($this->file_name, 'w');
-			$f_result = fwrite($f_obj, $str);
+			$f_obj = fopen($this->path, 'w');
+			if($f_obj)
+				$f_result = fwrite($f_obj, $str);
+			else
+				return false;
 			fclose($f_obj);
 		}
 		catch(Exception $e)
