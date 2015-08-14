@@ -72,6 +72,8 @@ class InfoAnalyzeModel extends Model {
 			for($j = 0; $j < count($words); $j++)
 			{
 				$word = $words[$j];
+				$tmp_str = "SET NAMES utf8";
+				$this->execute($tmp_str);
 				$insertSql = <<<EOF
 				INSERT INTO t_info_keys (info_id, key_word)
 				VALUES({$info_id}, "{$word}")
