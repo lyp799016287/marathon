@@ -270,6 +270,7 @@ EOF;
             $comment_uv = $info[$i]['comment_uv'];
             $share_pv = $info[$i]['share_pv'];
             $share_uv = $info[$i]['share_uv'];
+            $keys = $info[$i]['keys'];
             ## insert 
             if(count($re_exist) == 0)
             {
@@ -277,9 +278,9 @@ EOF;
                 $this->execute($tmp_sql);
                 $sql = <<<EOF
                 INSERT INTO t_info_accumulate(info_id, title, scan_pv, scan_uv, scan_no_login_pv, comment_pv, comment_uv, 
-                    share_uv, share_pv, pub_time, modify_time)
+                    share_uv, share_pv, pub_time, modify_time, `keys`)
                 VALUES($info_id, "{$title}", {$scan_pv}, {$share_uv}, {$scan_no_login_pv}, {$comment_pv}, 
-                    {$comment_uv}, {$share_uv}, {$share_pv}, '{$pub_time}', '{$max_time}')
+                    {$comment_uv}, {$share_uv}, {$share_pv}, '{$pub_time}', '{$max_time}', "{$keys}")
 EOF;
                 // var_dump($sql);
                 $re = $this->execute($sql);
