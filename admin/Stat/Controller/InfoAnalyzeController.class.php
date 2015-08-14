@@ -7,7 +7,6 @@ class InfoAnalyzeController extends Controller {
 
 	public function _initialize()
 	{
-		var_dump("into init");
 		$this->ana = D('InfoAnalyze');
 	}
 
