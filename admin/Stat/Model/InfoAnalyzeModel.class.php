@@ -37,6 +37,7 @@ class InfoAnalyzeModel extends Model {
     	if($time_str != '')
 	    	$where_clause = " WHERE create_time > '" . $time_str . "'";
 	    $sql = "SELECT info_id, `keys` FROM t_info_accumulate " . $where_clause;
+	    $this->execute("SET NAMES utf8");
 	    $result = $this->query($sql);
 	    // var_dump($result);
 	    if($result === false)
@@ -69,9 +70,10 @@ class InfoAnalyzeModel extends Model {
 		{
 			$info_id = $ary[$i]['info_id'];
 			$words = explode(',', $ary[$i]['keys']);
+			// var_dump($words);exit;
 			for($j = 0; $j < count($words); $j++)
 			{
-				$word = $words[$j];
+				$word = trim($words[$j]);
 				$tmp_str = "SET NAMES utf8";
 				$this->execute($tmp_str);
 				$insertSql = <<<EOF
