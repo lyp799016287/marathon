@@ -31,8 +31,8 @@ class InfoAnalyzeModel extends Model {
 			// exit();
 			return array('code'=>-4, 'message'=>'读取文件失败');
 		}
-    	var_dump("get max time");
-		var_dump($time_str);
+  //   	var_dump("get max time");
+		// var_dump($time_str);
     	$where_clause = '';
     	if($time_str != '')
 	    	$where_clause = " WHERE create_time > '" . $time_str . "'";
@@ -90,11 +90,11 @@ EOF;
 	## 最大时间戳写入文件
 	private function intoFile($str)
 	{
-		var_dump($str);
+		// var_dump($str);
 		try
 		{
 			$f_obj = fopen($this->file_name, 'w');
-			fwrite($f_obj, $str);
+			$f_result = fwrite($f_obj, $str);
 			fclose($f_obj);
 		}
 		catch(Exception $e)

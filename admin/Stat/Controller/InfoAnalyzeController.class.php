@@ -23,13 +23,6 @@ class InfoAnalyzeController extends Controller {
 		$log_str = "";
 		$time = date('Y-m-d H:i:s', time());
 		$log_str .= $time . ' ' . $tag . ': ' . $result['code'] . "   " . $result['message'];
-		// if($result !== false)
-		// {
-		// 	for($i = 0; $i < count($result); $i++)
-		// 		$log_str .= $result[$i] . ", ";
-		// }
-		// else
-		// 	$log_str .= 'execute error';
 		$log_str .= "\n";
 		$dir_name = dirname(dirname(dirname(__FILE__)));
 		$dir_name = $dir_name . "/Runtime/ScriptLogs/";
