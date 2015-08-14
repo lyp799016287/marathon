@@ -59,7 +59,7 @@ class InfoAnalyzeModel extends Model {
 	    	return array('code'=>-2, 'message'=>'插入数据错误');
     }
 
-	private functiong splitWords($ary)
+	private function splitWords($ary)
 	{
 		$error_str = "";
 		for($i = 0; $i < count($ary); $i++)
