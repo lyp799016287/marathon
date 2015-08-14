@@ -32,13 +32,13 @@ class InfoAnalyzeModel extends Model {
 			return array('code'=>-4, 'message'=>'读取文件失败');
 		}
     	
-		var_dump($time_str);
+		// var_dump($time_str);
     	$where_clause = '';
     	if($time_str != '')
 	    	$where_clause = " WHERE create_time > '" . $time_str . "'";
 	    $sql = "SELECT info_id, `keys` FROM t_info_accumulate " . $where_clause;
 	    $result = $this->query($sql);
-	    var_dump($result);
+	    // var_dump($result);
 	    if($result === false)
 	    	return array('code'=>-1, 'message'=>'查询错误');
 	    $re = $this->splitWords($result);
@@ -47,6 +47,7 @@ class InfoAnalyzeModel extends Model {
 	    	//获取最大的时间戳 重新写入
 	    	$sql = "SELECT MAX(create_time) create_time FROM t_info_accumulate " . $where_clause;
 	    	$re_time = $this->query($sql);
+	    	var_dump($re_time);
 	    	if($re_time === false)
 	    		return array('code'=>-3, 'message'=>'获取时间戳失败');
 	    	$time_str = $re_time[0]['create_time'];
