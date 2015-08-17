@@ -237,7 +237,7 @@ class SecretController extends Controller {
 		
 		$sid = I('sid', 0, 'intval');
 		$currpage = I('page', 1 , 'intval');
-		$page_size  = 10;
+		$page_size  = 20;
 		
 		$rs = $this->secret->getCommentList($sid, $currpage, $page_size);
 		//var_dump($rs);
