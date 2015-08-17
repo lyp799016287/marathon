@@ -269,4 +269,8 @@ class SecretController extends Controller {
 			$this->display('commentlist');
 		}
 	}
+
+	public function secretCommentPost(){
+		$this->display("commentpost");
+	}
 }
