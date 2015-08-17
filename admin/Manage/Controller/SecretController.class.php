@@ -249,6 +249,7 @@ class SecretController extends Controller {
 			$info_arr = $this->secret->getSecretInfo($sid);
 
 			S(C('TOKEN_REDIS'));
+			//echo "seccom_".$sid."_".$item['user_id'];exit;
 
 			if(!empty($rs)){
 				foreach($rs as &$item){
