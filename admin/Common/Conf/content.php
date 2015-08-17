@@ -12,7 +12,11 @@ $ZX_CATE_LIST = array(
 	'8'=> '热点'
 );
 
+//秘密评论设定的运营账号(1100-1109)
+$SECRET_COMMENT_UID = array(1100, 1101, 1102, 1103, 1104, 1105, 1106, 1107, 1108, 1109);
+
 return array(
 	'IMG_DOMAIN' => 'http://d.imed.me',
 	'ZX_CATE_LIST'		=> $ZX_CATE_LIST,
+	'SECRET_COMMENT_UID' => $SECRET_COMMENT_UID
 );

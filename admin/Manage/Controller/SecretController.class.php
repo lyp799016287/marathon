@@ -251,6 +251,8 @@ class SecretController extends Controller {
 			S(C('TOKEN_REDIS'));
 			//echo "seccom_".$sid."_".$item['user_id'];exit;
 
+			$default_uid_arr = C('SECRET_COMMENT_UID');
+			
 			if(!empty($rs)){
 				foreach($rs as &$item){
 					$item['nick_name'] = (S("seccom_".$sid."_".$item['user_id'])? S("seccom_".$sid."_".$item['user_id']).'楼' : '');
@@ -266,11 +268,53 @@ class SecretController extends Controller {
 			$this->assign("total", $total);
 			$this->assign("current", $currpage);
 			$this->assign("total_num", $total_num);
+			$this->assign("default_uid", $default_uid_arr);
 			$this->display('commentlist');
 		}
 	}
 
 	public function secretCommentPost(){
 		$this->display("commentpost");
+	}
+
+	public function secretCommentAdd(){
+		$sid = I("sid", 0, 'intval');
+		$uid = I("uid", 0, 'intval');
+		$content = I('content', '', 'strip_tags,addslashes');
+		//var_dump($content);
+
+		if(empty($sid) || empty($uid)){
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'参数错误'), 'JSON');
+		}
+
+		if((mb_strlen(trim($_POST['content']), 'utf-8') > 140) || (mb_strlen(trim($_POST['content']), 'utf-8') <=0)){
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'评论字数1-140'),'JSON');
+		}
+		
+		$data = array(
+			'info_id'	=> $sid,
+			'user_id'	=> $uid,
+			'content'	=> replaceDirty($content),
+			'type'		=> 2,
+			'status'	=> 1
+		);
+		
+		S(C('TOKEN_REDIS'));
+		if(S("seccom_".$sid."_".$uid)){
+			
+		}else{
+			$co_num = S("seccom_".$sid)? S("seccom_".$sid) : 1;
+			S("seccom_".$sid."_".$uid, $co_num, 0);
+			S("seccom_".$sid, ($co_num + 1), 0);
+		}
+		$floor = S("seccom_".$sid."_".$uid);
+
+		$rs = insertByNoModel('t_info_comment', '', 'DB_IMED', $data);
+
+		if($rs){
+			$this->ajaxReturn(array('code'=>1, 'message'=>'发表成功'), 'JSON');
+		}else{
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'发表失败'), 'JSON');
+		}
 	}
 }
