@@ -26,7 +26,7 @@ class UserDescController extends Controller {
 		$type = 1;
 		$result = $this->desc->deviceData($type);
 		$result = $this->calPercentage($result);
-		$result = $this->addV($result);
+		// $result = $this->addV($result);
 		// var_dump($result);
 		if(!empty($result))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
@@ -40,7 +40,7 @@ class UserDescController extends Controller {
 		$type = 2;
 		$result = $this->desc->deviceData($type);
 		$result = $this->calPercentage($result);
-		$result = $this->addV($result);
+		// $result = $this->addV($result);
 		// var_dump($result);
 		if(!empty($result))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
@@ -54,7 +54,7 @@ class UserDescController extends Controller {
 		$type = 3;
 		$result = $this->desc->deviceData($type);
 		$result = $this->calPercentage($result);
-		$result = $this->addV($result);
+		// $result = $this->addV($result);
 		// var_dump($result);
 		if(!empty($result))
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
