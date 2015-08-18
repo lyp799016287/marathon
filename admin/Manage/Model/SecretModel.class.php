@@ -157,7 +157,7 @@ class SecretModel extends Model {
 
 		$start = ($currpage-1) * $interval;
 		
-		$sql = "SELECT a.*, IFNULL(b.user_uid, '-') AS user_uid FROM t_info_comment a LEFT JOIN t_user_info b ON a.user_id=b.id WHERE a.type = 2 AND a.info_id = ".$sid." LIMIT ".$start.", ".$interval;
+		$sql = "SELECT a.*, IFNULL(b.user_uid, '-') AS user_uid FROM t_info_comment a LEFT JOIN t_user_info b ON a.user_id=b.id WHERE a.type = 2 AND a.info_id = ".$sid." ORDER BY a.time DESC LIMIT ".$start.", ".$interval;
 		//echo $sql;
 		//echo $sql;exit;
 		$rs = $this->getRows($sql);
