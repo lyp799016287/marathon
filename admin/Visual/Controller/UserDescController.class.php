@@ -113,7 +113,7 @@ class UserDescController extends Controller {
 	}
 
 	## 计算各个部分对应的百分比
-	## 排名前6的正常显示 剩下的部分全部归为其他
+	## 排名前5的正常显示 剩下的部分全部归为其他
 	private function calPercentage($ary)
 	{
 		$result_ary = array();
@@ -128,7 +128,7 @@ class UserDescController extends Controller {
 		{
 			if($i < $this->top)
 			{
-				$result_ary[$i]['field_name'] = $ary[$i]['field_name'];
+				$result_ary[$i]['field_name'] = 'V ' . $ary[$i]['field_name'];
 				## 获得百分数, 保留小数点后一位
 				$result_ary[$i]['part_num'] = round(floatval($ary[$i]['part_num']) / $total_num * 100, 1); 
 			}
@@ -143,12 +143,12 @@ class UserDescController extends Controller {
 		return $result_ary;
 	}
 
-	private function addV($ary)
-	{
-		for($i = 0; $i < count($ary); $i++)
-			$ary[$i]['field_name'] = 'V ' . $ary[$i]['field_name'];
-		return $ary;
-	}
+	// private function addV($ary)
+	// {
+	// 	for($i = 0; $i < count($ary); $i++)
+	// 		$ary[$i]['field_name'] = 'V ' . $ary[$i]['field_name'];
+	// 	return $ary;
+	// }
 
 	## 计算用户的留存率
 	## 返回值 array(array('data'=>, 'retain_3'=>, 'retain_7'=>, 'retain_30'=>))
