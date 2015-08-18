@@ -9,6 +9,7 @@ class UserDescController extends Controller {
 		$this->desc = D('Desc');
 		$this->assign("menu_path", ROOT_PATH.'/admin_imed_me/');
 		$this->assign("index", 10);
+		$this->top = 5; ## 显示排名前五的  剩下的用“其它”代替
 	}
 
 	public function show()
@@ -112,20 +113,34 @@ class UserDescController extends Controller {
 	}
 
 	## 计算各个部分对应的百分比
+	## 排名前6的正常显示 剩下的部分全部归为其他
 	private function calPercentage($ary)
 	{
+		$result_ary = array();
 		$total_num = 0;
 		for($i = 0; $i < count($ary); $i++)
 			$total_num += intval($ary[$i]['part_num']);
 		if($total_num == 0)
 			return false;
 
+		$other_num = 0; ##“其它”项的数值
 		for($i = 0; $i < count($ary); $i++)
 		{
-			## 获得百分数, 保留小数点后一位
-			$ary[$i]['part_num'] = round(floatval($ary[$i]['part_num']) / $total_num * 100, 1); 
+			if($i < $this->top)
+			{
+				$result_ary[$i]['field_name'] = $ary[$i]['field_name'];
+				## 获得百分数, 保留小数点后一位
+				$result_ary[$i]['part_num'] = round(floatval($ary[$i]['part_num']) / $total_num * 100, 1); 
+			}
+			else
+				$other_num += $ary[$i]['part_num'];	
 		}
-		return $ary;
+		if($other_num > 0) ## 存在“其它”项
+		{
+			$result_ary[$this->top]['field_name'] = '其它';
+			$result_ary[$this->top]['part_num'] = round(floatval($other_num) / $total_num * 100, 1); 
+		}
+		return $result_ary;
 	}
 
 	private function addV($ary)
