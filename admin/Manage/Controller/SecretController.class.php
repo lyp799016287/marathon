@@ -256,6 +256,7 @@ class SecretController extends Controller {
 			if(!empty($rs)){
 				foreach($rs as &$item){
 					$item['nick_name'] = (S("seccom_".$sid."_".$item['user_id'])? S("seccom_".$sid."_".$item['user_id']).'楼' : '');
+					$item['user_uid'] = in_array($item['user_id'],$default_uid_arr)? $item['user_id'].'|医道人员' : $item['user_uid'];
 				}
 			}
 
@@ -268,7 +269,7 @@ class SecretController extends Controller {
 			$this->assign("total", $total);
 			$this->assign("current", $currpage);
 			$this->assign("total_num", $total_num);
-			$this->assign("default_uid", $default_uid_arr);
+			//$this->assign("default_uid", $default_uid_arr);
 			$this->display('commentlist');
 		}
 	}
