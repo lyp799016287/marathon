@@ -237,9 +237,19 @@ class NewsController extends Controller {
 		$tempFile = $_FILES['uploadify']['tmp_name'];
 		$fileParts = pathinfo($_FILES['uploadify']['name']);
 		$targetPath = C('IMG_PATH');
-		$targetName = 'ycl_'.uniqid().'.'.$fileParts['extension'];
+		$newPicName = 'ycl_'.uniqid();
+		$targetName = $newPicName.'.'.$fileParts['extension'];
+		$targetThumbName = $newPicName.'_thumb.'.$fileParts['extension'];
 		$targetFile = rtrim($targetPath,'/').'/'.$targetName;
+		$filesize = $_FILES['uploadify']['size'];
 		
+		/*if($filesize > 100*1024){
+			echo "图片过大";
+			
+		}else{
+			echo "图片正常";
+		}*/
+
 		// Validate the file type
 		$fileTypes = array('jpg','jpeg','gif','png','JPG','JPEG','GIF','PNG'); // File extensions
 		
@@ -250,9 +260,12 @@ class NewsController extends Controller {
 				$post_url = C('IMG_DOMAIN')."/admin/upload/infoimage";
 				$post_field = 'uploadify';
 				
+				/***********缩略图************/
+				getThumbPic($targetFile,240,240,'thumb');
+				
 				curlPost($post_url, $post_field, $targetName, $targetFile);
 
-				$this->ajaxReturn(array('code'=>1, 'message'=>'上传成功', 'data'=>$targetName), 'JSON');
+				$this->ajaxReturn(array('code'=>1, 'message'=>'上传成功', 'data'=>$targetThumbName), 'JSON');
 			}else{
 				$this->ajaxReturn(array('code'=>-1, 'message'=>'上传失败'), 'JSON');
 			}
