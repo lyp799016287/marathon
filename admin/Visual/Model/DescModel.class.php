@@ -28,11 +28,18 @@ class DescModel extends Model {
             default:
                 break;
         }
+//         $sql = <<<EOF
+//         SELECT a.{$field} field_name, count(a.user_uid) part_num FROM 
+//         (SELECT DISTINCT user_uid, user_mobile, sdk, sys_version, app_version FROM t_user_device_flow) a 
+//         GROUP BY a.{$field}
+//         ORDER BY count(a.user_uid) DESC
+// EOF;
         $sql = <<<EOF
-        SELECT a.{$field} field_name, count(a.user_uid) part_num FROM 
-        (SELECT DISTINCT user_uid, user_mobile, sdk, sys_version, app_version FROM t_user_device_flow) a 
-        GROUP BY a.{$field}
-        ORDER BY count(a.user_uid) DESC
+        SELECT b.{$field} field_name, COUNT(a.user_uid) part_num FROM 
+        (SELECT user_uid, MAX(login_time) latest_login_time FROM t_user_device_flow GROUP BY user_uid) a 
+        LEFT JOIN t_user_device_flow b ON a.user_uid = b.user_uid AND a.latest_login_time = b.login_time
+        GROUP BY b.{$field}
+        ORDER BY COUNT(a.user_uid) DESC
 EOF;
         $result = $this->query($sql);
         return $result;
