@@ -10,6 +10,8 @@ class UserDescController extends Controller {
 		$this->assign("menu_path", ROOT_PATH.'/admin_imed_me/');
 		$this->assign("index", 10);
 		$this->top = 5; ## 显示排名前五的  剩下的用“其它”代替
+
+		$this->distri = D('Distri');
 	}
 
 	public function show()
@@ -175,7 +177,82 @@ class UserDescController extends Controller {
 				$return_ary[$i]['retain_7'] = round(floatval($result[$i]['retain_7']) / $result[$i]['new_user'] * 100, 1);
 				$return_ary[$i]['retain_30'] = round(floatval($result[$i]['retain_30']) / $result[$i]['new_user'] * 100, 1);
 			}
-			
+		}
+		return $return_ary;
+	}
+
+	public function provinceDis()
+	{
+		$type = 1;
+		$result = $this->distri->userDetail($type);
+		if(empty($result))
+			$this->ajaxReturn(array('code'=>-1, 'message'=>"执行错误"));
+		// var_dump($result);
+		$result = $this->calUserPer($result);
+		$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+	}
+
+	public function hospitalLevel()
+	{
+		$type = 2;
+		$result = $this->distri->userDetail($type);
+		if(empty($result))
+			$this->ajaxReturn(array('code'=>-1, 'message'=>"执行错误"));
+		$result = $this->calUserPer($result);
+		$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+	}
+
+	public function departDis()
+	{
+		$type = 3;
+		$result = $this->distri->userDetail($type);
+		if(empty($result))
+			$this->ajaxReturn(array('code'=>-1, 'message'=>"执行错误"));
+		$result = $this->calUserPer($result);
+		$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+	}
+
+	public function titleDis()
+	{
+		$type = 4;
+		$result = $this->distri->userDetail($type);
+		if(empty($result))
+			$this->ajaxReturn(array('code'=>-1, 'message'=>"执行错误"));
+		//职称中如果有“其他” 将其改成“其他职称”
+		for($i = 0; $i < count($result); $i++)
+			if(trim($result[$i]['field_name']) == "其他")
+			{
+				$result[$i]['field_name'] = "其他职称";
+				break;
+			}	
+		$result = $this->calUserPer($result);
+		$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+	}
+
+	## 计算用户分布的百分比
+	private function calUserPer($ary)
+	{
+		$return_ary = array();
+		$total_num = 0;
+		for($i = 0; $i < count($ary); $i++)
+			$total_num += intval($ary[$i]['num']);
+		$other_num = 0;
+		for($j = 0; $j < count($ary); $j++)
+		{
+			if($j < $this->top)
+			{
+				$return_ary[$j]['field_name'] = $ary[$j]['field_name'];
+				$return_ary[$j]['num'] = $ary[$j]['num'];
+			}
+			else
+			{
+				$other_num += $ary[$j]['num'];
+			}
+		}
+		if($other_num > 0)
+		{
+			$return_ary[$this->top]['field_name'] = "其他";
+			$return_ary[$this->top]['num'] = $other_num;
 		}
 		return $return_ary;
 	}

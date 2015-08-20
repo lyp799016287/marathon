@@ -79,4 +79,5 @@ EOF;
         $re = queryByNoModel('t_share', '', $this->imed_config, $sql);
         return $re;
     }
+
 }

@@ -97,7 +97,7 @@ EOF;
 	## 最大时间戳写入文件
 	private function intoFile($str)
 	{
-		var_dump("intoFile");
+		// var_dump("intoFile");
 		try
 		{
 			$f_obj = fopen($this->path, 'w');
