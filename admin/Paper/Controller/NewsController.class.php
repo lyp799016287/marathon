@@ -190,6 +190,35 @@ class NewsController extends Controller {
 		}
 	}
 
+	public function newsBack(){
+		
+		$id = I('id', 0, 'intval');
+
+		$info = $this->news->getNewsDetail($id);
+		
+
+		if(empty($info)){
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'改资讯没有详情内容'), 'JSON');
+		}
+
+		$idx = $info[0]['idx'];
+		
+		$update_sql = "UPDATE `t_info_summary` SET `update_time` = NOW(), `status` = 4 WHERE `info_id` = ".$idx;
+		$rrs = updateByNoModel('t_info_summary', '', 'DB_IMED', $update_sql);
+
+		if($rrs === false){
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'撤回失败'), 'JSON');
+		}
+
+		$rs = $this->news->backNews($id);
+		
+		if($rs === false){
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'撤回失败'), 'JSON');
+		}else{
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'撤回成功'), 'JSON');
+		}
+	}
+
 	public function newsSearch(){
 		
 		$data = array(
