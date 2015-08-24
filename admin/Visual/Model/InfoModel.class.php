@@ -81,7 +81,7 @@ EOF;
 			$order .= ' DESC';
 		}
 
-		$sql = "SELECT info_id, title, pub_time, scan_pv, scan_uv, scan_no_login_pv, comment_pv, comment_uv, share_pv, share_uv, score FROM t_info_daily WHERE title IS NOT NULL AND datestamp = '{$yesterday}' ".$order.$limit;
+		$sql = "SELECT info_id, title, pub_time, scan_pv, scan_uv, scan_no_login_pv, comment_pv, comment_uv, share_pv, share_uv, score FROM t_info_daily WHERE title IS NOT NULL AND pub_time != '0000-00-00 00:00:00' AND datestamp = '{$yesterday}' ".$order.$limit;
 		
 //         $sql = <<<EOF
 //         SELECT a.info_id, b.title, a.pub_time, a.scan_pv, a.scan_uv, a.scan_no_login_pv, a.comment_pv, a.comment_uv, a.share_pv, a.share_uv, a.score
@@ -99,7 +99,7 @@ EOF;*/
 
     public function accumulateInfo()
     {
-        $maxTime = "SELECT MAX(modify_time) max_time FROM t_info_accumulate";
+        $maxTime = "SELECT MAX(modify_time) max_time FROM t_info_accumulate"; ## 获取最新更新的时间戳
         $re_time = $this->queryFunction($maxTime);
         if($re_time === false)
             return array('code'=>-1, 'message'=>'查询错误');
@@ -150,8 +150,10 @@ EOF;
         if($info['code'] < 0)
             return $info;
         // var_dump($info['data']);
+        $modify_time = date("Y-m-d H:i:s", time());
         ## 将数据更新到表t_info_accumulate
-        $re = $this->insertOrUpdate($info['data'], $max_time);
+        $re = $this->insertOrUpdate($info['data'], $modify_time);
+        // $re = $this->insertOrUpdate($info['data'], $max_time);
         if($re['code'] < 0)
             return $re;
         $re = $this->calScore();
@@ -357,7 +359,7 @@ EOF;
 			$order .= ' DESC';
 		}
 
-		$sql = "SELECT info_id, title, scan_pv, scan_uv, scan_no_login_pv, comment_pv, comment_uv, share_pv, share_uv, score, pub_time FROM t_info_accumulate ".$order.$limit;
+		$sql = "SELECT info_id, title, scan_pv, scan_uv, scan_no_login_pv, comment_pv, comment_uv, share_pv, share_uv, score, pub_time FROM t_info_accumulate WHERE pub_time != '0000-00-00 00:00:00' ".$order.$limit;
 
         /*$sql = <<<EOF
         SELECT info_id, title, scan_pv, scan_uv, scan_no_login_pv, comment_pv, comment_uv, share_pv, share_uv, score, pub_time
