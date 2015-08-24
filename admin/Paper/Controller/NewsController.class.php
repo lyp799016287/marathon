@@ -3,8 +3,6 @@ namespace Paper\Controller;
 use Think\Controller;
 class NewsController extends Controller {
 
-	protected $focus =  null;
-
 	public function _initialize(){
 		$this->news = D('News');
 		$this->assign("img_domain", C('IMG_DOMAIN'));
@@ -205,7 +203,7 @@ class NewsController extends Controller {
 		
 
 		if(empty($info)){
-			$this->ajaxReturn(array('code'=>-1, 'message'=>'改资讯没有详情内容'), 'JSON');
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'该资讯没有详情内容'), 'JSON');
 		}
 
 		$idx = $info[0]['idx'];
