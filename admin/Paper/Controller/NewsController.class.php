@@ -16,12 +16,15 @@ class NewsController extends Controller {
     public function newsList(){
 
 		$data = array();
+		$str_url = ''; 
 
 		if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'search')){
 			$rdata = array(
 				'pub_date'	=> I('public_date', ''),
 				'status'	=> I('status', '')
 			);
+			
+			$str_url = "&action=search&public_date=".$rdata['pub_date']."&status=".$rdata['status'];
 		
 			$rs = $this->news->getSearchNews($rdata);
 		}else{
@@ -55,6 +58,7 @@ class NewsController extends Controller {
 		$this->assign("total", $total);
 		$this->assign("current", $curr_page);
 		$this->assign("total_num", $total_num);
+		$this->assign("str_url", $str_url);
 		$this->display("news_list");
 	}
 
@@ -183,6 +187,9 @@ class NewsController extends Controller {
 		}
 		//var_dump($ers);exit;
 
+		//更新t_info_original表的idx
+		$this->news->updateNewsIdx($id, $srs);
+
 		if($ers === false){
 			$this->ajaxReturn(array('code'=>-1, 'message'=>'发布失败'), 'JSON');
 		}else{
@@ -215,7 +222,7 @@ class NewsController extends Controller {
 		if($rs === false){
 			$this->ajaxReturn(array('code'=>-1, 'message'=>'撤回失败'), 'JSON');
 		}else{
-			$this->ajaxReturn(array('code'=>-1, 'message'=>'撤回成功'), 'JSON');
+			$this->ajaxReturn(array('code'=>1, 'message'=>'撤回成功'), 'JSON');
 		}
 	}
 

@@ -116,7 +116,7 @@ class NewsModel extends Model {
 	}
 
 	/**
-	*获取轮播图详情
+	*获取资讯详情
 	*@author mandyzhou
 	*@param  $id
 	*@return false/array()
@@ -161,7 +161,7 @@ class NewsModel extends Model {
 	}
 
 	/**
-	*更新轮播图信息
+	*更新资讯信息
 	*@author mandyzhou
 	*@param $data
 	*@return  false/true
@@ -176,6 +176,24 @@ class NewsModel extends Model {
 
 		//echo $sql;exit;
 
+		$rs = $this->exeSql($sql, true);
+		return $rs;
+	}
+
+	/**
+	*更新资讯关联ID
+	*@author mandyzhou
+	*@param $data
+	*@return  false/true
+	*/
+	public function updateNewsIdx($id, $idx){
+		
+		if(empty($id) || empty($idx)){
+			return false;
+		}
+
+		$sql = "UPDATE `t_info_original` SET `idx` = ".$idx." WHERE `id` = ".$id;
+		
 		$rs = $this->exeSql($sql, true);
 		return $rs;
 	}

@@ -76,7 +76,7 @@ table {
 			{if $current eq $smarty.section.total.index+1}
 			<span>{$smarty.section.total.index+1}</span>
 			{else}
-			<a href="/paper/news/newslist?page={$smarty.section.total.index+1}">{$smarty.section.total.index+1}</a>
+			<a href="/paper/news/newslist?page={$smarty.section.total.index+1}{$str_url}">{$smarty.section.total.index+1}</a>
 			{/if}
 			{/section}
 		</div>
@@ -204,6 +204,11 @@ var paperPage = {};
 			dataType : 'json',
 			success: function(rdata){
 				
+				alert(rdata.message);
+
+				if(rdata.code == 1){
+					window.location.reload();
+				}
 			},
 			error: function(){
 			
