@@ -21,8 +21,10 @@ class InfoAnalyzeController extends Controller {
 
 	public function splitKeywords()
 	{
+		$info_id = I('info_id', 0, 'intval');
 		$key = I('keywords', '');
-		$result = $this->ana->getWords($key);
+		$ary = array('info_id'=>$info_id, 'keys'=>$key);
+		$result = $this->ana->getWords($ary);
 		if($result === false)
 			$this->ajaxReturn(array('code'=>-1, 'message'=>'执行失败'));
 		else

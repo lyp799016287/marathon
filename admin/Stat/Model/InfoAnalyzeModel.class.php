@@ -119,8 +119,8 @@ EOF;
 
 	public function getWords($keys)
 	{
-		$ary = array();
-		$ary[] = $keys;
+		// $ary = array();
+		// $ary[] = $keys;
 		$result_str = $this->splitWords($ary);
 		return ($result_str == '') ? true : false;
 	}
