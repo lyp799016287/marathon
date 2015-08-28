@@ -28,8 +28,8 @@ class UserDescController extends Controller {
 		// var_dump($dir_name);
 		$date = date('Y-m-d', time());
 		$file_name = $dir_name . $date . ".txt";
-		var_dump($file_name);
-		var_dump($log_str);
+		// var_dump($file_name);
+		// var_dump($log_str);
 		try
 		{
 			$f_obj = fopen($file_name, 'a');

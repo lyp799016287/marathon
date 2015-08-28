@@ -47,7 +47,7 @@ EOF;
 		$yesterday = date('Y-m-d', strtotime("-1 day"));
 		
 		$sql = <<<EOF
-        SELECT COUNT(*) AS total FROM t_info_daily WHERE datestamp = '{$yesterday}'
+        SELECT COUNT(*) AS total FROM t_info_daily WHERE datestamp = '{$yesterday}' AND title IS NOT NULL AND pub_time != '0000-00-00 00:00:00'
 EOF;
 
 		$rs = $this->queryFunction($sql);
