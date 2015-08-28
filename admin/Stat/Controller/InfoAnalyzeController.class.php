@@ -11,10 +11,22 @@ class InfoAnalyzeController extends Controller {
 	}
 
 	## 拆分表t_info_daily/t_info_accumulate表中的keys字段
+	## 定时任务调用的接口
 	public function keySplit()
 	{
 		$result = $this->ana->intoWords();
 		$this->writeLog($result, 'Stat/InfoAnalyze/keySplit');
+	}
+
+
+	public function splitKeywords()
+	{
+		$key = I('keywords', '');
+		$result = $this->ana->getWords($key);
+		if($result === false)
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'执行失败'));
+		else
+			$this->ajaxReturn(array('code'=>1, 'message'=>'执行成功'));
 	}
 
 	## 跑脚本的内容  写log
