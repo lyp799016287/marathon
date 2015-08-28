@@ -275,9 +275,9 @@ var gridManager = $("#stats_content_detail").ligerGrid({
 
 // 表格数据
 statPort.getDetail = function(){
-
+	var params = {};
 	gridManager.setOptions({columns: statPort.header});
-	// gridManager.setOptions({parms: params});
+	gridManager.setOptions({parms: params});
 	gridManager.loadData();
 }
 
