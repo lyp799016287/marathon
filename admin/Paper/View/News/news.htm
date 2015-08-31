@@ -9,6 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <link rel="stylesheet" type="text/css" media="all" href="/res/JqueryUI/jquery-ui.min.css" />
 <link rel="stylesheet" type="text/css" media="all" href="/admin.css" />
+<link rel="stylesheet" type="text/css" media="all" href="/res/JqueryUI/jquery-timepicker-addon.css" />
 <title>原创文章（新建）</title>
 <script type="text/javascript" src="/res/js/jquery.min.js"></script>
 <script type="text/javascript" src="/res/Ueditor/ueditor.config.js"></script>
@@ -16,21 +17,11 @@
 <script type="text/javascript" src="/res/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="/res/js/jquery.md5.js"></script>
 <script type="text/javascript" src="/res/js/loginstatus.js"></script>
-<script type="text/javascript" src="/res/JqueryUI/jquery-ui-1.8.18.js"></script>
 <script type="text/javascript" src="/res/Uploadify/ajaxfileupload.js"></script>
-<script type="text/javascript" src="/res/JqueryUI/jquery-ui-slide.min.js"></script>
+<script type="text/javascript" src="/res/JqueryUI/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/res/JqueryUI/jquery-ui-timepicker-addon.js"></script>
 <style>
 {literal}
-.ui-timepicker-div .ui-widget-header { margin-bottom: 8px;}
-.ui-timepicker-div dl { text-align: left; }
-.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
-.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
-.ui-timepicker-div td { font-size: 90%; }
-.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
-.ui_tpicker_hour_label,.ui_tpicker_minute_label,.ui_tpicker_second_label,.ui_tpicker_millisec_label,.ui_tpicker_time_label{padding-left:20px}
-
-
 #oppanel input[type="button"] {
     display: inline;
 }
@@ -141,16 +132,9 @@ paperAdd.init = function(){
 		zIndex: 1
 	});
 
-	$("#pub_date").datetimepicker();
-
-	/*$( "#pub_date" ).datepicker({
+	$("#pub_date").datetimepicker({
 		dateFormat: "yy-mm-dd"
-	});*/
-
-	/*$("#pub_date").ligerDateEditor({ 
-		showTime: true,
-		absolute: false
-	});*/
+	});
 
 	$("#uploadBtn").click(function () { 
 		paperAdd.ajaxFileUpload();
