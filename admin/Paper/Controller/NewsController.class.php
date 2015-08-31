@@ -259,6 +259,7 @@ class NewsController extends Controller {
 		$this->assign('content', $rs[0]['content']);
 		$this->assign('source', $rs[0]['source']);
 		$this->assign('src_url', $rs[0]['src_url']);
+		$this->assign('imed_url', C('ZX_DOMAIN').'/info/newsdetail/showdetail?id='.$rs[0]['idx']);
 
 		$this->display('news_detail');
 	}
