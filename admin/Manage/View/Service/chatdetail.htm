@@ -58,9 +58,32 @@
 
     <script charset="utf-8" src="http://{$env}c.imed.me/res/js/jquery.min.js"></script>
     <script charset="utf-8" src="http://{$env}c.imed.me/res/js/jquery.cookie.js"></script>
-    <script src="http://{$env}c.imed.me/socket.io/socket.io.js"></script>
+    <script src="http://v2.dev.c.imed.me/socket.io/socket.io.js"></script>
     <script type="text/javascript">
     {literal}
+      function loadQuestion(uid){
+        $.post('/manage/service/getChatDetailInfo',{tid:tid},function(data){
+          if(data.code==1){
+            console.dir(data);
+            var list = data.data;
+            for(var i=0;i<list.length;i++){
+              var sender = list[i].uid;
+              var _class='';
+              
+              {/literal}
+              sender =  '{$user_name}:';
+              {literal}
+             
+              if(src==1){
+
+                $('<li class="'+_class+'"></li>').appendTo('#messages').html("<label for='"+list[i].chat_id+"'><input type='checkbox' id='"+list[i].chat_id+"' value='"+list[i].chat_id+"' />" +sender+list[i].content+'<span>'+list[i].create_time+'</span></label>');
+              }
+            
+            }
+          }
+          //
+        });
+      }
       $().ready(function(){
         $('#btn_classify').click(function(){
           if($('#selection').val()==''){
@@ -101,7 +124,7 @@
        
       {/literal}
 
-      var socket = io.connect('http://{$env}c.imed.me/');
+      var socket = io.connect('http://v2.dev.c.imed.me/');
       var sid="{$token}";
       var uid={$uid};
       var user_name ="{$user_name}";
@@ -109,22 +132,26 @@
       var param = $.getUrlVars();
       var tid = param['tid'];
       var type = param['type'];
+      var src = param['src'];
       if(!type){
         type = 0;
       }
       if(!sid){
         sid = 0;
       }
+      if(!src){
+        src = 0;
+      }
       //console.log('---------------');
       socket.emit('login',{ "uid":uid,"tid": tid,"type":type,"token":sid });
-      socket.emit('getmsg',{uid:uid,tid:tid});
+      //socket.emit('getmsg',{uid:uid,tid:tid});
       socket.on('pong',function(data){
         console.dir(data);
       });
       
       socket.on('login_return',function(data){
         console.log(data);
-        
+        loadQuestion(tid);
         if(data.code==1){
           $.cookie('c_uid',uid,{path:'/',domain:'imed.me'});
         }else{
@@ -139,8 +166,8 @@
         }catch(e){
           //console.dir(e);
         }
-       
-        if(data&&data.length>1){
+        //console.dir(data);
+        if(data&&data.length>0){
           for (var i = 0; i <data.length; i++) {
             var sender = data[i].tid;
             var _class='';
@@ -150,7 +177,10 @@
             }else{
               sender =  user_name+':';
             }
-            $('<li class="'+_class+'"></li>').appendTo('#messages').html("<label for='"+data[i].id+"'><input type='checkbox' id='"+data[i].id+"' value='"+data[i].id+"' />" +sender+data[i].msg+'<span>'+data[i].time+'</span></label>');
+            if(src==1){
+              $('<li class="'+_class+'"></li>').appendTo('#messages').html("<label for='"+data[i].id+"'><input type='checkbox' id='"+data[i].id+"' value='"+data[i].id+"' />" +sender+data[i].msg+'<span>'+data[i].time+'</span></label>');
+            }
+            
             $('html, body,#messages').animate({scrollTop: $(document).height()}, 10); 
           };
         }
@@ -177,24 +207,13 @@
       }
 
 
-      //发送消息
-      function sendMsg(uid,tid,token,msg){
-        //从客户端获取聊天信息数据
-        socket.emit('chat', {uid:uid,tid:tid,token:token,msg:msg});
-      }
-
-      function setReaded(data){
-        try{
-            var datastring =JSON.stringify(data); 
-            Android.setReaded(datastring);
-        }catch(e){
-          //console.dir(e);
-        }
-      }
-
       $('form').submit(function(){
         socket.emit('chat', {uid:uid,tid:tid,msg:$('#m').val()});
-        
+        //同步更新数据
+         $.post('/manage/service/mergeInfo',{tid:tid},function(d){
+              console.dir(d);
+          });
+
         var today = new Date();
         $('<li class="me"></li>').appendTo('#messages').html($('#m').val()+'<span>'+ today.toLocaleTimeString()+'</span>');
         $('#m').val('');
@@ -202,38 +221,67 @@
       
         return false;
       });
-      socket.on('feeds',function(data){
-        console.log('feeds');
-        
-        if(data.code==1){
-          data = data.data.body;
+      socket.on('notify',function(type,data){
+        console.log('===========notify==========');
+        console.log('===========type '+type+'==========');
+        console.dir(data);
+        switch(type){
+          case 4:{
+            //socket.emit('chat',7,data.data[0]);
+            break;
+          }
+          default:{
+            break;
+          }
+        }
+      });
+
+      socket.on('chat',function(type,data){
+        console.log('===========chat back==========');
+        console.log('============type '+type+'==================');
+        console.dir(data);
+        switch(type){
+          case 2:{
+            console.log('------------receive my msg-----------');
+            if(data.data.length>0){
+              socket.emit('chat',7,{uid:userid,tid:tid,maxmsgid:data.data[0].msgid});
+            }
+            break;
+          }
+          case 4:{
+            socket.emit('chat',5,data.data[0]);
+            break;
+          }
+          default:{
+            break;
+          }
+        }
+      });
+
+      socket.on('login',function(type,data){
+        console.log('===========login back==========');
+        console.log(data);
+      });
+
+      socket.on('typing',function(data){
+        console.log('=============typing===============');
+        console.dir(data);
+        var msg = '';
+        if(data.status==1){
+          msg = data.msg;  
         }else{
-          console.dir(data);
-          console.log('data error');
+          msg = '即时聊天';
         }
-
-        showChatMsg(data);
+        $('title').text(msg); 
       });
 
-      socket.on('news',function(data){
-        showMsgList(data);
-      });
-
-      socket.on('readed',function(data){
-        setReaded(data);
-      });
-
-      socket.on('login_error',function(data){
-        if(data.code<0){
-          showError(data);
-          //alert(data.message);
-          console.dir(data);
-        }
-      });
-
-      $('input').focus(function(){
-        $('html, body,#messages').animate({scrollTop: $(document).height()}, 10); 
-      });
+     //发送消息
+      function sendMsg(uid,tid,token,msg){
+        //从客户端获取聊天信息数据
+        console.log('===========sendMsg==========');
+        console.log(msg);
+        socket.emit('chat',3,{uid:uid,tid:tid,token:token,msg:msg});
+      }
 
       {/literal}
     </script>

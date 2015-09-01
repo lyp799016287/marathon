@@ -69,6 +69,21 @@ class ServiceController extends Controller {
 		$this->display("chatdetail");
 	}
 
+	/**秘密列表**/
+    public function getChatDetailInfo(){
+
+        $querypara='';
+		$tid = I('tid',0,'intval');
+		$result = $this->service->getChatDetailInfo($tid);
+		if($result===false){
+			$this->ajaxReturn(array("code"=>-1,'message'=>'获取数据失败'));
+		}else{
+			$this->ajaxReturn(array("code"=>1,'message'=>'获取数据成功','data'=>$result));
+			
+		}
+		
+	}
+
 	private function getUserName($uid){
 		$user_name = '';
 		$result = $this->service->getUserInfo($uid);
@@ -127,7 +142,11 @@ class ServiceController extends Controller {
 	}
 
 	public function mergeInfo(){
-		$this->ajaxReturn($this->service->mergeInfo());
+		$tid = I('tid',0,'intval');
+		if($tid==0){
+			$tid=null;
+		}
+		$this->ajaxReturn($this->service->mergeInfo($tid));
 	}
 
 
