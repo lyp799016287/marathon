@@ -16,7 +16,6 @@ class UserModel extends Model {
     {
         $sql = "SELECT MAX(datestamp) datestamp FROM t_user_summary";
         $date_info = queryByNoModel('t_user_summary', '', $this->stat_config, $sql);
-        // var_dump($date_info);
         if($date_info === false)
             return array('code'=>-1, 'message'=>'查询错误：' . $sql);
         $str_tmp = "";
@@ -25,24 +24,20 @@ class UserModel extends Model {
         if(!is_null($date_info[0]['datestamp']))
         {
             $str_tmp = date("Y-m-d", strtotime($date_info[0]['datestamp']) + 86400);
-            // var_dump($str_tmp);
         }
         else
         {
             $sql = "SELECT MIN(SUBSTRING(CAST(create_time AS CHAR(20)), 1, 10)) stamp FROM t_user_info WHERE `status` = 1";
             $re = $this->query($sql);
-            // var_dump($re);
             if($re === false)
                 return array('code'=>-2, 'message'=>'查询错误：' . $sql);
             $str_tmp = $re[0]['stamp'];
         }
-        // var_dump($str_tmp);
 
         $insert_data = array();
         $i = 0;
         while($str_tmp < $now_date)
         {
-            // var_dump($str_tmp);
             $endstamp = date("Y-m-d", strtotime($str_tmp) + 86400);
             $endstamp = $endstamp . " 00:00:00";
             ## 计算当天的累计用户数
@@ -76,7 +71,6 @@ class UserModel extends Model {
                 $insert_data[$i]['active_user'] = ($insert_data[$i]['active_user'] > 0) ? $insert_data[$i]['active_user'] : 0; 
             }
                 
-
             $i++;
             $str_tmp = $endstamp;
 
@@ -128,10 +122,11 @@ EOF;
 
     public function calRetain()
     {
-        
+        $min_date = date("Y-m-d", strtotime("-30 days"));
+
         $sql = <<<EOF
         SELECT MIN(register_date) `date` FROM t_user_retain 
-        WHERE retain_2 IS NULL OR retain_3 IS NULL OR retain_7 IS NULL OR retain_30 IS NULL
+        WHERE retain_2 IS NULL OR retain_3 IS NULL OR retain_7 IS NULL OR retain_30 IS NULL AND register_date >= '{$min_date}'
 EOF;
         $re = queryByNoModel('t_user_retain', '', $this->stat_config, $sql);
         if($re === false)
@@ -162,6 +157,7 @@ EOF;
                 if(is_null($date_info[$i]['retain_2']) && $day_interval >= 2)
                 {
                     $re = $this->calRetainNum($reg_date, 2);
+                    exit;
                     if($re === false)
                         return array('code'=>-9, 'message'=>"执行错误");
                     $update_date['retain_2'] = $re[0]['total_retain'];
@@ -242,21 +238,15 @@ EOF;
         while($now_date > $next_date)
         {              
             $day_interval = (strtotime($now_date) - strtotime($max_date)) / 86400;
-            // var_dump($day_interval); exit;
-            $data = $this->getInsertData($max_date, $day_interval);
-            // var_dump($data); exit;
+            $data = $this->getInsertData($next_date, $day_interval);
             if($data['code'] < 0)
                 return array('code'=>-16, 'message'=>'获取数据错误');
             $re = insertByNoModel('t_user_retain', '', $this->stat_config, $data['data']); 
             if($re === false)
                 return array('code'=>-17, 'message'=>'插入数据表错误');
-
-
             $max_date = date('Y-m-d', strtotime($max_date) + 86400);
             $next_date = date('Y-m-d', strtotime($next_date) + 86400);
         }
-        
-        // return true;
         return array('code'=>1, 'message'=>'执行成功');
     }
 

@@ -126,6 +126,66 @@ class SecretModel extends Model {
 		return $rs;
 	}
 
+	/**
+	*秘密详情
+	*@author mandyzhou
+	*@param $data
+	*@return  false/array
+	*/
+	public function getSecretInfo($sid){
+		if(empty($sid)){
+			return false;
+		}
+
+		$sql = "SELECT * FROM t_secret WHERE id = ".$sid;
+		
+		$rs = $this->getRows($sql);
+		return $rs;
+	}
+
+	/**
+	*秘密的评论列表
+	*@author mandyzhou
+	*@param $sid, $currpage, $interval
+	*@return  false/array
+	*/
+	public function getCommentList($sid, $currpage, $interval=10){
+		
+		if(empty($sid)){
+			return false;
+		}
+
+		$start = ($currpage-1) * $interval;
+		
+		$sql = "SELECT a.*, IFNULL(b.user_uid, '-') AS user_uid FROM t_info_comment a LEFT JOIN t_user_info b ON a.user_id=b.id WHERE a.type = 2 AND a.info_id = ".$sid." ORDER BY a.time DESC LIMIT ".$start.", ".$interval;
+		//echo $sql;
+		//echo $sql;exit;
+		$rs = $this->getRows($sql);
+		return $rs;
+	}
+
+	/**
+	*秘密的评论总数
+	*@author mandyzhou
+	*@param $sid
+	*@return  int
+	*/
+	public function getCommentTotal($sid){
+		
+		if(empty($sid)){
+			return 0;
+		}
+
+		$sql = "SELECT COUNT(*) AS total FROM t_info_comment WHERE type =2 AND info_id =".$sid;
+		
+		$rs = $this->getRows($sql);
+		if(!$rs){
+			return 0;
+		}else{
+			return $rs[0]['total'];
+		}
+	}
+
 	private function getRows($sql){
 
 		$this->execute("SET NAMES utf8");

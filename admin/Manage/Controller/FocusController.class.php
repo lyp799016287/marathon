@@ -144,7 +144,12 @@ class FocusController extends Controller {
 		$targetPath = C('IMG_PATH');
 		$targetName = uniqid().'.'.$fileParts['extension'];
 		$targetFile = rtrim($targetPath,'/').'/'.$targetName;
-		
+		$filesize = $_FILES['uploadify']['size'];
+
+		if($filesize > 100*1024){
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'上传图片不能大于100K'), 'JSON');
+		}
+
 		// Validate the file type
 		$fileTypes = array('jpg','jpeg','gif','png','JPG','JPEG','GIF','PNG'); // File extensions
 		

@@ -13,7 +13,7 @@ class NewsModel extends Model {
 	*/
 	public function getNewsList(){
 
-		$sql = "SELECT id, type, category, title, source, status, level, pub_date FROM t_info_original WHERE status !=4 ORDER BY pub_date DESC, level DESC";
+		$sql = "SELECT id, type, category, title, source, status, level, pub_date, idx FROM t_info_original WHERE status !=4 ORDER BY pub_date DESC, level DESC";
 		$rs = $this->getRows($sql);
 		return $rs;
 	}
@@ -36,7 +36,7 @@ class NewsModel extends Model {
 			$condition .= " AND status !=4";
 		}
 
-		$sql = "SELECT id, type, category, title, source, status, level, pub_date FROM t_info_original WHERE 1=1 ".$condition." ORDER BY pub_date DESC, level DESC";
+		$sql = "SELECT id, type, category, title, source, status, level, pub_date, idx FROM t_info_original WHERE 1=1 ".$condition." ORDER BY pub_date DESC, level DESC";
 		//echo $sql;exit;
 		$rs = $this->getRows($sql);
 		return $rs;
@@ -98,7 +98,25 @@ class NewsModel extends Model {
 	}
 
 	/**
-	*获取轮播图详情
+	*撤回原文
+	*@author mandyzhou
+	*@param  $id
+	*@return  false/true
+	*/
+	public function backNews($id){
+		
+		if(empty($id)){
+			return false;
+		}
+
+		$sql = "UPDATE t_info_original SET status = 0 WHERE id = ".$id;
+
+		$rs = $this->exeSql($sql);
+		return $rs;
+	}
+
+	/**
+	*获取资讯详情
 	*@author mandyzhou
 	*@param  $id
 	*@return false/array()
@@ -116,7 +134,8 @@ class NewsModel extends Model {
 				`content`, 
 				`img_url`, 
 				`level`,
-				`create_time`
+				`create_time`,
+				`idx`
 			FROM t_info_original WHERE id=".$id;	//echo $sql;exit;
 		$rs = $this->getRows($sql);
 		return $rs;
@@ -142,7 +161,7 @@ class NewsModel extends Model {
 	}
 
 	/**
-	*更新轮播图信息
+	*更新资讯信息
 	*@author mandyzhou
 	*@param $data
 	*@return  false/true
@@ -157,6 +176,24 @@ class NewsModel extends Model {
 
 		//echo $sql;exit;
 
+		$rs = $this->exeSql($sql, true);
+		return $rs;
+	}
+
+	/**
+	*更新资讯关联ID
+	*@author mandyzhou
+	*@param $data
+	*@return  false/true
+	*/
+	public function updateNewsIdx($id, $idx){
+		
+		if(empty($id) || empty($idx)){
+			return false;
+		}
+
+		$sql = "UPDATE `t_info_original` SET `idx` = ".$idx." WHERE `id` = ".$id;
+		
 		$rs = $this->exeSql($sql, true);
 		return $rs;
 	}

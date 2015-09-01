@@ -138,10 +138,11 @@ EOF;
             ## 每天各个资讯的uv/pv统计
             $date = $date_info[$i];
             $bgn_time = $date . " 00:00:00";
-            $end_time = $date . " 23:59:59";
+            $end_time = date("Y-m-d H:i:s", strtotime($bgn_time) + 86400);
+            // $end_time = $date . " 23:59:59";
             $sql = <<<EOF
             SELECT info_id, COUNT(DISTINCT user_id) uv, COUNT(comment_id) pv FROM t_info_comment
-            WHERE `time` >= '{$bgn_time}' AND `time` <= '{$end_time}' AND `type` = 0 AND `status` = 1 
+            WHERE `time` >= '{$bgn_time}' AND `time` < '{$end_time}' AND `type` = 0 AND `status` = 1 
             GROUP BY info_id
 EOF;
             $re = $this->query($sql);
@@ -161,7 +162,8 @@ EOF;
                     return array('code'=>-9, 'message'=>"插入表数据错误：" . 't_info_comment_daily');
             }  
         }
-        return $date_info;
+        // return $date_info;
+        return array('code'=>1, 'message'=>'执行成功');
     }
 
     public function calShareDaily()
@@ -222,7 +224,8 @@ EOF;
                     return array('code'=>-13, 'message'=>"插入表数据错误：" . 't_share_info_daily');
             }  
         }
-        return $date_info;
+        // return $date_info;
+        return array('code'=>1, 'message'=>'执行成功');
     }
 
 

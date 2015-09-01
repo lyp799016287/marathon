@@ -9,6 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <link rel="stylesheet" type="text/css" media="all" href="/res/JqueryUI/jquery-ui.min.css" />
 <link rel="stylesheet" type="text/css" media="all" href="/admin.css" />
+<link rel="stylesheet" type="text/css" media="all" href="/res/JqueryUI/jquery-timepicker-addon.css" />
 <title>原创文章（新建）</title>
 <script type="text/javascript" src="/res/js/jquery.min.js"></script>
 <script type="text/javascript" src="/res/Ueditor/ueditor.config.js"></script>
@@ -16,13 +17,15 @@
 <script type="text/javascript" src="/res/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="/res/js/jquery.md5.js"></script>
 <script type="text/javascript" src="/res/js/loginstatus.js"></script>
-<script type="text/javascript" src="/res/JqueryUI/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/res/Uploadify/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/res/JqueryUI/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/res/JqueryUI/jquery-ui-timepicker-addon.js"></script>
 <style>
-
+{literal}
 #oppanel input[type="button"] {
     display: inline;
 }
+{/literal}
 </style>
 </head>
 <body>
@@ -39,17 +42,19 @@
 		<form id="form_detail" method="post">
 			<div><label style="color:red;">*号必填</label></div>
 			<div>
-			<label>大&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类：<select name="type_type" id="type_type" style="width:180px;">
+			<label>类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：<select name="type_type" id="type_type" style="width:180px;">
 					<option value='1'>新闻</option>
-					<option value='2'>资讯</option>
+					<option value='2'>心血管资讯</option>
+					<option value='0'>无</option>
 					</select>&nbsp;&nbsp;<span style="color:red;">*</span>
 			</label>
 			</div>
 			<div>
-			<label>分&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类：<select name="label_type" id="label_type" style="width:180px;">
+			<label>标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;签：<select name="label_type" id="label_type" style="width:180px;">
 					<!--<option value="1">指南</option>
 					<option value="2">临床研究</option>
 					<option value="3">病例分析</option>-->
+					<option value='0'>无</option>
 					<option value='1'>推广</option>
 					<option value='2'>深度解读</option>
 					<option value='3'>指南</option>
@@ -80,14 +85,21 @@
 				<label>来&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;源：<input type="text" id="source" name="source" style="width:50%" /></label>
 			</div>
 			<div>
+				<label>是否推荐：
+					<input type="radio" value="1" name="promotion" />是
+					<input type="radio" value="0" name="promotion" checked="checked" />否
+				</label>
+				<br>
+			</div>
+			<!--<div>
 				<label>优&nbsp;先&nbsp;级：<select name="level_num" id="level_num" style="width:180px;">
 					<option value="1">1</option>
 					<option value="2">2</option>
 					<option value="3">3</option>
 					</select>
 				</label>
-			</div>
-			<br /><br />
+			</div>-->
+			<br />
 			<div>
 				<label>正&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;文：</label>
 				<br />
@@ -113,12 +125,12 @@
 		
 	</div>
 	</div>
+{literal}
 <script type="text/javascript">
 	
 $().ready(function(){
 
 var paperAdd = {}; //namespace
-//var param = $.getUrlVars();
 
 paperAdd.init = function(){
 
@@ -127,10 +139,11 @@ paperAdd.init = function(){
 		zIndex: 1
 	});
 
-	$( "#pub_date" ).datepicker({
-		dateFormat: "yy-mm-dd"
+	$("#pub_date").datetimepicker({
+		dateFormat: "yy-mm-dd",
+		timeFormat: "HH:mm:ss",
+		maxDate: new Date()
 	});
-
 
 	$("#uploadBtn").click(function () { 
 		paperAdd.ajaxFileUpload();
@@ -155,14 +168,14 @@ paperAdd.getParams = function(){
 	params['btype'] = $("#type_type").val();
 	params['keys'] = $("#keys").val();
 	params['url'] = $("#url").val();
-	params['level'] = $("#level_num").val();
+	//params['level'] = $("#level_num").val();
 	params['source'] = $("#source").val();
 	params['img'] = $("#img_val").val();
 	params['sub_title'] = $("#sub_title").val();
 	params['content'] = paperAdd.main_editor.getContent();
 	params['pub_date'] = $("#pub_date").val();
 
-	console.log(params);
+	//console.log(params);
 
 	return params;
 }
@@ -254,5 +267,6 @@ paperAdd.init();
 });
 
 </script>
+{/literal}
 </body>
 </html>

@@ -2,14 +2,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf8">
-<!-- <meta content="IE=EmulateIE8" http-equiv="X-UA-Compatible"> -->
 <title>资讯分析</title>
 <link rel= "stylesheet" type="text/css" media="all" href="/admin.css" />
 <link href= "/res/websrc/css/index.css" rel="stylesheet" type="text/css" />
 <link href= "/res/websrc/UIlib/ligerUI-1.1.9/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
-<!-- <link href= "/res/websrc/UIlib/ligerUI-1.1.9/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" /> -->
 <link href= "/res/websrc/UIlib/ligerUI-1.1.9/skins/ligerui-icons.css" rel="stylesheet" type="text/css" />
 <link href= "/res/websrc/UIlib/ligerUI-1.1.9/skins/Gray/css/all.css" rel="stylesheet" type="text/css" />
+<link href= "/res/websrc/css/jqcloud.css" rel="stylesheet" type="text/css" />
 <script src="/res/websrc/UIlib/jquery/jquery-1.5.2.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="/res/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="/res/js/loginstatus.js"></script>
@@ -19,6 +18,7 @@
 <script src="/res/websrc/UIlib/ligerUI-1.1.9/js/core/base.js" type="text/javascript"></script>
 <script src="/res/websrc/UIlib/ligerUI-1.1.9/js/plugins/ligerGrid.js" type="text/javascript" charset="utf-8"></script>
 <script src="/res/websrc/UIlib/ligerUI-1.1.9/js/plugins/ligerDialog.js" type="text/javascript" charset="utf-8"></script>
+<script src="/res/websrc/UIlib/jquery/jqcloud-1.0.4.min.js" type="text/javascript" charset="utf-8"></script>
 <style type="text/css">
 #table_show_options_sum span { width:150px;display: inline-block;}
 #table_show_options_details span { /*width:150px;*/display: inline-block;}
@@ -43,7 +43,7 @@
 				<!-- <div class="mod_list_hd org_l"> -->
 				<div class="org_l">
 				<div class="hd">
-					<h3 id="filter_desc_graph">资讯TOP</h3><span id="date_desc_graph" class="sub_tit"></span>
+					<h3 class="title" id="filter_desc_graph">资讯TOP</h3><span id="date_desc_graph" class="sub_tit"></span>
 				</div>
 				</div>
 				<div class="filter filter3" id="graph_top">
@@ -52,8 +52,8 @@
 						<div class="sel_item" id="show_item_div">
 							<span style="width:640px;">统计维度:
 								<select name="time_selector" id="stat_dimension" style="width:120px;margin-left:10px;">
-									<option value="1">昨日TOP</option>
-									<option value="2">累计TOP</option>
+									<option value="1">昨日访问量TOP</option>
+									<option value="2">累计访问量TOP</option>
 								</select>
 							</span>
 						</div>
@@ -71,7 +71,10 @@
 			<div class="mod_list" id="page_sum_table">
 				<!-- <div class="mod_list_hd org_l"> -->
 				<div class="org_l">
-					<div class="hd"><h3 id="filter_desc_table">详细报表</h3><span id="date_desc_table" class="sub_tit"></span></div>
+					<div class="hd">
+						<h3 class="title" id="filter_desc_table">详细报表</h3><span id="date_desc_table" class="sub_tit"></span>
+						<!-- <a href=""></a> -->
+					</div>
 		    	</div>
 				
 				<div class="filter filter3" id="graph_top">
@@ -79,8 +82,8 @@
 						<div class="sel_item" id="show_item_div">
 							<span style="width:640px;">显示维度:
 								<select name="time_selector" id="detail_dimension" style="width:120px;margin-left:10px;">
-									<option value="1">昨日资讯</option>
-									<option value="2">累计资讯</option>
+									<option value="1">昨日访问量</option>
+									<option value="2">累计访问量</option>
 								</select>
 							</span>
 						</div>
@@ -97,7 +100,7 @@
 			<div id="terms_definition_div" class="mod_list id_intr">
 			    <!-- <div class="mod_list_hd"> -->
 			    <div>
-			        <h3>指标解释</h3>
+			        <h3 class="title">指标解释</h3>
 			    </div>
 			    <!-- <div class="mod_list_bd" id="term_definition_list"> -->
 			    <div>
@@ -174,7 +177,7 @@ statInfo.header = [
 		name: 'comment_pv',
 		width: '10%',
 		type: 'int',
-		isSort: false,
+		isSort: true,
 		render:  window.G.common.formatInt,
 		align: 'right',
 		issortshow: true
@@ -184,7 +187,7 @@ statInfo.header = [
 		name: 'comment_uv',
 		width: '8%',
 		type: 'int',
-		isSort: false,
+		isSort: true,
 		render:  window.G.common.formatInt,
 		align: 'right',
 		issortshow: true
@@ -194,7 +197,7 @@ statInfo.header = [
 		name: 'share_pv',
 		width: '10%',
 		type: 'int',
-		isSort: false,
+		isSort: true,
 		render:  window.G.common.formatInt,
 		align: 'right',
 		issortshow: true
@@ -204,7 +207,7 @@ statInfo.header = [
 		name: 'share_uv',
 		width: '8%',
 		type: 'int',
-		isSort: false,
+		isSort: true,
 		render:  window.G.common.formatInt,
 		align: 'right',
 		issortshow: true

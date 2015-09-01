@@ -3,8 +3,6 @@ namespace Paper\Controller;
 use Think\Controller;
 class NewsController extends Controller {
 
-	protected $focus =  null;
-
 	public function _initialize(){
 		$this->news = D('News');
 		$this->assign("img_domain", C('IMG_DOMAIN'));
@@ -16,12 +14,15 @@ class NewsController extends Controller {
     public function newsList(){
 
 		$data = array();
+		$str_url = ''; 
 
 		if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'search')){
 			$rdata = array(
 				'pub_date'	=> I('public_date', ''),
 				'status'	=> I('status', '')
 			);
+			
+			$str_url = "&action=search&public_date=".$rdata['pub_date']."&status=".$rdata['status'];
 		
 			$rs = $this->news->getSearchNews($rdata);
 		}else{
@@ -55,12 +56,34 @@ class NewsController extends Controller {
 		$this->assign("total", $total);
 		$this->assign("current", $curr_page);
 		$this->assign("total_num", $total_num);
+		$this->assign("str_url", $str_url);
 		$this->display("news_list");
 	}
 
 	/**添加原文**/
     public function newsAdd(){
 		$this->display("news");
+	}
+
+	public function newsCateInit(){
+		$zx_label = C('ZX_CATE_LIST');
+		$zx_relation = C('ZX_CATE_LABEL_LIST');
+
+		$data = array();
+
+		if(!empty($zx_relation)){
+			foreach($zx_relation as $key=>$val){
+				$tmp_arr = explode(",", $val);
+				foreach($tmp_arr as $item){
+					$data[$key][] = array(
+						'id' => $item,
+						'name' => $zx_label[$item]
+					);
+				}				
+			}
+		}
+
+		$this->ajaxReturn(array('code'=>1, 'message'=>'', 'data'=>$data), 'JSON');
 	}
 
 	/**添加原文**/
@@ -183,10 +206,42 @@ class NewsController extends Controller {
 		}
 		//var_dump($ers);exit;
 
+		//更新t_info_original表的idx
+		$this->news->updateNewsIdx($id, $srs);
+
 		if($ers === false){
 			$this->ajaxReturn(array('code'=>-1, 'message'=>'发布失败'), 'JSON');
 		}else{
 			$this->ajaxReturn(array('code'=>1, 'message'=>'发布成功'), 'JSON');
+		}
+	}
+
+	public function newsBack(){
+		
+		$id = I('id', 0, 'intval');
+
+		$info = $this->news->getNewsDetail($id);
+		
+
+		if(empty($info)){
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'该资讯没有详情内容'), 'JSON');
+		}
+
+		$idx = $info[0]['idx'];
+		
+		$update_sql = "UPDATE `t_info_summary` SET `update_time` = NOW(), `status` = 4 WHERE `info_id` = ".$idx;
+		$rrs = updateByNoModel('t_info_summary', '', 'DB_IMED', $update_sql);
+
+		if($rrs === false){
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'撤回失败'), 'JSON');
+		}
+
+		$rs = $this->news->backNews($id);
+		
+		if($rs === false){
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'撤回失败'), 'JSON');
+		}else{
+			$this->ajaxReturn(array('code'=>1, 'message'=>'撤回成功'), 'JSON');
 		}
 	}
 
@@ -225,6 +280,7 @@ class NewsController extends Controller {
 		$this->assign('content', $rs[0]['content']);
 		$this->assign('source', $rs[0]['source']);
 		$this->assign('src_url', $rs[0]['src_url']);
+		$this->assign('imed_url', C('ZX_DOMAIN').'/info/newsdetail/showdetail?id='.$rs[0]['idx']);
 
 		$this->display('news_detail');
 	}
@@ -237,9 +293,19 @@ class NewsController extends Controller {
 		$tempFile = $_FILES['uploadify']['tmp_name'];
 		$fileParts = pathinfo($_FILES['uploadify']['name']);
 		$targetPath = C('IMG_PATH');
-		$targetName = 'ycl_'.uniqid().'.'.$fileParts['extension'];
+		$newPicName = 'ycl_'.uniqid();
+		$targetName = $newPicName.'.'.$fileParts['extension'];
+		$targetThumbName = $newPicName.'_thumb.'.$fileParts['extension'];
 		$targetFile = rtrim($targetPath,'/').'/'.$targetName;
+		$filesize = $_FILES['uploadify']['size'];
 		
+		/*if($filesize > 100*1024){
+			echo "图片过大";
+			
+		}else{
+			echo "图片正常";
+		}*/
+
 		// Validate the file type
 		$fileTypes = array('jpg','jpeg','gif','png','JPG','JPEG','GIF','PNG'); // File extensions
 		
@@ -250,9 +316,12 @@ class NewsController extends Controller {
 				$post_url = C('IMG_DOMAIN')."/admin/upload/infoimage";
 				$post_field = 'uploadify';
 				
+				/***********缩略图************/
+				getThumbPic($targetFile,240,240,'thumb');
+				
 				curlPost($post_url, $post_field, $targetName, $targetFile);
 
-				$this->ajaxReturn(array('code'=>1, 'message'=>'上传成功', 'data'=>$targetName), 'JSON');
+				$this->ajaxReturn(array('code'=>1, 'message'=>'上传成功', 'data'=>$targetThumbName), 'JSON');
 			}else{
 				$this->ajaxReturn(array('code'=>-1, 'message'=>'上传失败'), 'JSON');
 			}

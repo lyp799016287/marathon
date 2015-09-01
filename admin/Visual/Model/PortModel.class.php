@@ -63,4 +63,11 @@ EOF;
         return $re;
     }
 
+    public function calDetailTotal()
+    {
+        $sql = "SELECT COUNT(*) AS `total` FROM t_ajaxreturn_error";
+        $result = $this->query($sql);
+        return $result;
+    }
+
 }

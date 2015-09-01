@@ -9,7 +9,7 @@ class PortController extends Controller {
 	{
 		$this->port = D('Port');
 		$this->assign("menu_path", ROOT_PATH.'/admin_imed_me/');
-		// $this->assign("index", 7);
+		$this->assign("index", 9);
 	}
 	
 	public function show()
@@ -38,10 +38,11 @@ class PortController extends Controller {
 		$data['sort_order'] = I('sort_order');
 
 		$result = $this->port->calDetail($data);
-		if($result === false)
-			$this->ajaxReturn(array('code'=>-1));
+		$total = $this->port->calDetailTotal();
+		if($result === false || $total === false)
+			$this->ajaxReturn(array('code'=>-1, 'data'=>array(), 'total'=>0));
 		else
-			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result, 'total'=>$total[0]['total']));
 	}
 	
 }
