@@ -65,6 +65,27 @@ class NewsController extends Controller {
 		$this->display("news");
 	}
 
+	public function newsCateInit(){
+		$zx_label = C('ZX_CATE_LIST');
+		$zx_relation = C('ZX_CATE_LABEL_LIST');
+
+		$data = array();
+
+		if(!empty($zx_relation)){
+			foreach($zx_relation as $key=>$val){
+				$tmp_arr = explode(",", $val);
+				foreach($tmp_arr as $item){
+					$data[$key][] = array(
+						'id' => $item,
+						'name' => $zx_label[$item]
+					);
+				}				
+			}
+		}
+
+		$this->ajaxReturn(array('code'=>1, 'message'=>'', 'data'=>$data), 'JSON');
+	}
+
 	/**添加原文**/
 	public function newsPost(){
 		//var_dump($_POST);exit;
