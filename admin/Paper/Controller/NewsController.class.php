@@ -110,8 +110,8 @@ class NewsController extends Controller {
 		$data = array(
 			'title'			=> I('title', '', 'addslashes'),
 			'sub_title'		=> I('sub_title', '', 'addslashes'),
-			'type'			=> I('btype', 1, 'intval'),
-			'category'		=> I('type', 0, 'intval'),
+			'type'			=> I('type', 1, 'intval'),			//分类
+			'category'		=> I('btype', 0, 'intval'),			//标签
 			'url'			=> I('url'),
 			'keys'			=> I('keys'),
 			'source'		=> I('source'),

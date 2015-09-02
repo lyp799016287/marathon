@@ -9,6 +9,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <link rel="stylesheet" type="text/css" media="all" href="/res/JqueryUI/jquery-ui.min.css" />
 <link rel="stylesheet" type="text/css" media="all" href="/admin.css" />
+<link rel="stylesheet" type="text/css" media="all" href="/res/JqueryUI/jquery-timepicker-addon.css" />
+<link rel="stylesheet" type="text/css" media="all" href="/res/websrc/autocomplete.css" />
 <title>原创文章（编辑）</title>
 <script type="text/javascript" src="/res/js/jquery.min.js"></script>
 <script type="text/javascript" src="/res/Ueditor/ueditor.config.js"></script>
@@ -18,11 +20,15 @@
 <script type="text/javascript" src="/res/js/loginstatus.js"></script>
 <script type="text/javascript" src="/res/JqueryUI/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/res/Uploadify/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/res/JqueryUI/jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript" src="/res/websrc/UIlib/jquery/autocomplete.js"></script>
+<script type="text/javascript" src="/res/js/news.js"></script>
 <style>
-
+{literal}
 #oppanel input[type="button"] {
     display: inline;
 }
+{/literal}
 </style>
 </head>
 <body>
@@ -40,9 +46,9 @@
 			<input type="hidden" id="pid" name="pid" value="{$data.id}" />
 			<div><label style="color:red;">*号必填</label></div>
 			<div>
-			<label>大&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类：<select name="type_type" id="type_type" style="width:180px;">
-					<option value='1' {if $data.type eq 1}selected="selected"{/if}>新闻</option>
-					<option value='2' {if $data.type eq 2}selected="selected"{/if}>资讯</option>
+			<label>大&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类：<select name="category_type" id="category_type" style="width:180px;">
+					<!--<option value='1' {if $data.type eq 1}selected="selected"{/if}>新闻</option>
+					<option value='2' {if $data.type eq 2}selected="selected"{/if}>资讯</option>-->
 					</select>&nbsp;&nbsp;<span style="color:red;">*</span>
 			</label>
 			</div>
@@ -50,7 +56,7 @@
 			<label>分&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类：<select name="label_type" id="label_type" style="width:180px;">
 					<!--<option value="1" {if $data.category eq 1}selected="selected"{/if}>指南</option>
 					<option value="2" {if $data.category eq 2}selected="selected"{/if}>临床研究</option>
-					<option value="3" {if $data.category eq 3}selected="selected"{/if}>病例分析</option>-->
+					<option value="3" {if $data.category eq 3}selected="selected"{/if}>病例分析</option>
 					<option value='0' {if $data.category eq 0}selected="selected"{/if}>无</option>
 					<option value='1' {if $data.category eq 1}selected="selected"{/if}>推广</option>
 					<option value='2' {if $data.category eq 2}selected="selected"{/if}>深度解读</option>
@@ -59,7 +65,7 @@
 					<option value='5' {if $data.category eq 5}selected="selected"{/if}>病例分析</option>
 					<option value='6' {if $data.category eq 6}selected="selected"{/if}>会议</option>
 					<option value='7' {if $data.category eq 7}selected="selected"{/if}>推荐</option>
-					<option value='8' {if $data.category eq 8}selected="selected"{/if}>热点</option>
+					<option value='8' {if $data.category eq 8}selected="selected"{/if}>热点</option>-->
 					</select>&nbsp;&nbsp;<span style="color:red;">*</span>
 			</label>
 			</div>
@@ -73,7 +79,9 @@
 				<label>发布时间：<input type="text" id="pub_date" name="pub_date" value="{$data.pub_date}" />&nbsp;&nbsp;<span style="color:red;">*</span></label>
 			</div>
 			<div>
-			<label>关&nbsp;键&nbsp;字：<input type="text" id="keys" name="keys" value="{$data.keys}" style="width:50%" />&nbsp;&nbsp;(多个关键字请以逗号,分隔)</label>
+			<!--<label>关&nbsp;键&nbsp;字：<input type="text" id="keys" name="keys" value="{$data.keys}" style="width:50%" />&nbsp;&nbsp;(多个关键字请以逗号,分隔)</label>-->
+				<label>关&nbsp;键&nbsp;字：<input type="text" id="keys" name="keys" style="width:30%" /></label>
+				<label id="keywords"></label>
 			</div>
 			<div>
 				<label>原文链接：<input type="text" id="url" name="url" value="{$data.src_url}" style="width:50%" /></label>
@@ -81,14 +89,14 @@
 			<div>
 				<label>来&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;源：<input type="text" id="source" name="source" value="{$data.source}" style="width:50%" /></label>
 			</div>
-			<div>
+			<!--<div>
 				<label>优&nbsp;先&nbsp;级：<select name="level_num" id="level_num" style="width:180px;">
 					<option value="1" {if $data.level eq 1}selected="selected"{/if}>1</option>
 					<option value="2" {if $data.level eq 2}selected="selected"{/if}>2</option>
 					<option value="3" {if $data.level eq 3}selected="selected"{/if}>3</option>
 					</select>
 				</label>
-			</div>
+			</div>-->
 			<br />
 			<div>
 				<label>正&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;文：</label>
@@ -132,8 +140,10 @@ paperEdit.init = function(){
 		paperEdit.main_editor.setContent('{$content}');
 	});
 
-	$( "#pub_date" ).datepicker({
-		dateFormat: "yy-mm-dd"
+	$("#pub_date").datetimepicker({
+		dateFormat: "yy-mm-dd",
+		timeFormat: "HH:mm:ss",
+		maxDate: 0
 	});
 	
 	$("#uploadBtn").click(function () { 
@@ -159,17 +169,23 @@ paperEdit.getParams = function(){
 
 	params['id'] = $("#pid").val();
 	params['title'] = $("#title").val();
-	params['btype'] = $("#type_type").val();
+	params['btype'] = $("#category_type").val();
 	params['type'] = $("#label_type").val();
-	params['keys'] = $("#keys").val();
+	//params['keys'] = $("#keys").val();
 	params['url'] = $("#url").val();
-	params['level'] = $("#level_num").val();
+	//params['level'] = $("#level_num").val();
 	params['source'] = $("#source").val();
 	params['img'] = $("#img_val").val();
 	params['sub_title'] = $("#sub_title").val();
 	params['content'] = paperEdit.main_editor.getContent();
 	params['action'] = 'edit';
 	params['pub_date'] = $("#pub_date").val();
+	
+	$("#keywords").find("span").each(function(){
+		tmp_key.push($(this).text());
+	});
+
+	params['keys'] = tmp_key.join(',');
 
 	//console.log(params);
 
