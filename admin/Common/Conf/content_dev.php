@@ -44,7 +44,8 @@ $SECRET_COMMENT_UID = array(1100, 1101, 1102, 1103, 1104, 1105, 1106, 1107, 1108
 return array(
 	'IMG_DOMAIN' => 'http://dev.d.imed.me',
 	'ZX_DOMAIN'  => 'http://dev.d.imed.me',
-	'ZX_CATE_LIST'		=> $ZX_LABEL_LIST,
+	'ZX_LABEL_LIST'		=> $ZX_LABEL_LIST,
 	'ZX_CATE_LABEL_LIST'=> $ZX_CATE_LABEL_LIST,
+	'ZX_CATE_LIST'	=> $ZX_CATE_LIST,
 	'SECRET_COMMENT_UID' => $SECRET_COMMENT_UID
 );

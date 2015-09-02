@@ -65,17 +65,21 @@ class NewsController extends Controller {
 		$this->display("news");
 	}
 
+	/**类别初始化**/
 	public function newsCateInit(){
-		$zx_label = C('ZX_CATE_LIST');
+		$zx_label = C('ZX_LABEL_LIST');
 		$zx_relation = C('ZX_CATE_LABEL_LIST');
+		$zx_category = C('ZX_CATE_LIST');
 
 		$data = array();
+
+		$data['category'] = $zx_category;
 
 		if(!empty($zx_relation)){
 			foreach($zx_relation as $key=>$val){
 				$tmp_arr = explode(",", $val);
 				foreach($tmp_arr as $item){
-					$data[$key][] = array(
+					$data['label'][$key][] = array(
 						'id' => $item,
 						'name' => $zx_label[$item]
 					);
@@ -84,6 +88,20 @@ class NewsController extends Controller {
 		}
 
 		$this->ajaxReturn(array('code'=>1, 'message'=>'', 'data'=>$data), 'JSON');
+	}
+
+	/**查询关键字**/
+	public function newsKeyWords(){
+		$keywords = I('title');
+		
+		$sql = "SELECT id, key_word AS name FROM t_info_keys WHERE key_word LIKE '%".$keywords."%' GROUP BY key_word";
+		$rs = queryByNoModel('t_info_keys', '', 'DB_STAT', $sql);
+		
+		if(empty($rs)){
+			$this->ajaxReturn(array('code'=>1, 'data'=>array()), 'JSONP');
+		}else{
+			$this->ajaxReturn(array('code'=>1, 'data'=>$rs), 'JSONP');
+		}
 	}
 
 	/**添加原文**/
@@ -101,7 +119,8 @@ class NewsController extends Controller {
 			'img_url'		=> I('img'),
 			'content'		=> I('content', '', 'addslashes'),
 			'action'		=> I('action', ''),
-			'pub_date'		=> I('pub_date', date("Y-m-d"))
+			'pub_date'		=> I('pub_date', date("Y-m-d")),
+			'is_focus'		=> I('is_focus', 0, 'intval')
 		);
 		
 		
