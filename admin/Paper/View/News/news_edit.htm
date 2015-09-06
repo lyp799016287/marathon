@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" media="all" href="/res/JqueryUI/jquery-ui.min.css" />
 <link rel="stylesheet" type="text/css" media="all" href="/admin.css" />
 <link rel="stylesheet" type="text/css" media="all" href="/res/JqueryUI/jquery-timepicker-addon.css" />
-<link rel="stylesheet" type="text/css" media="all" href="/res/websrc/autocomplete.css" />
+<link rel="stylesheet" type="text/css" media="all" href="/res/websrc/css/autocomplete.css" />
 <title>原创文章（编辑）</title>
 <script type="text/javascript" src="/res/js/jquery.min.js"></script>
 <script type="text/javascript" src="/res/Ueditor/ueditor.config.js"></script>
@@ -81,13 +81,24 @@
 			<div>
 			<!--<label>关&nbsp;键&nbsp;字：<input type="text" id="keys" name="keys" value="{$data.keys}" style="width:50%" />&nbsp;&nbsp;(多个关键字请以逗号,分隔)</label>-->
 				<label>关&nbsp;键&nbsp;字：<input type="text" id="keys" name="keys" style="width:30%" /></label>
-				<label id="keywords"></label>
+				<label id="keywords">
+				{foreach from=$keys_arr item=key}
+					<span class="keyword" title="点击删除">{$key}</span>
+				{/foreach}
+				</label>
 			</div>
 			<div>
 				<label>原文链接：<input type="text" id="url" name="url" value="{$data.src_url}" style="width:50%" /></label>
 			</div>
 			<div>
 				<label>来&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;源：<input type="text" id="source" name="source" value="{$data.source}" style="width:50%" /></label>
+			</div>
+			<div>
+				<label>是否推荐：
+					<input type="radio" value="1" name="is_focus" {if $data.is_focus eq 1}checked="checked"{/if} />是
+					<input type="radio" value="0" name="is_focus" {if $data.is_focus eq 0}checked="checked"{/if} />否
+				</label>
+				<br>
 			</div>
 			<!--<div>
 				<label>优&nbsp;先&nbsp;级：<select name="level_num" id="level_num" style="width:180px;">
@@ -143,7 +154,7 @@ paperEdit.init = function(){
 	$("#pub_date").datetimepicker({
 		dateFormat: "yy-mm-dd",
 		timeFormat: "HH:mm:ss",
-		maxDate: 0
+		maxDate: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59)
 	});
 	
 	$("#uploadBtn").click(function () { 
@@ -161,6 +172,19 @@ paperEdit.init = function(){
 
 	$('#btn_publish').click(function(){
 		paperEdit.pubNews();
+	});
+
+	window.G.ui.news.CategoryInit();
+	window.G.ui.news.KeyWordsInit();
+
+	GetCategoryError = function(){
+    	$("#category_type").val({$data.type}).change();
+		$("#label_type").val({$data.category});
+    };
+
+	$("#keywords").find("span").click(function(){
+		$(this).remove();
+		return;
 	});
 }
 
@@ -180,6 +204,7 @@ paperEdit.getParams = function(){
 	params['content'] = paperEdit.main_editor.getContent();
 	params['action'] = 'edit';
 	params['pub_date'] = $("#pub_date").val();
+	params['is_focus'] = $("input[name='is_focus']:checked").val();
 	
 	$("#keywords").find("span").each(function(){
 		tmp_key.push($(this).text());

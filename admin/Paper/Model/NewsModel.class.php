@@ -13,7 +13,7 @@ class NewsModel extends Model {
 	*/
 	public function getNewsList(){
 
-		$sql = "SELECT id, type, category, title, source, status, level, pub_date, idx FROM t_info_original WHERE status !=4 ORDER BY pub_date DESC, level DESC";
+		$sql = "SELECT id, type, category, title, source, status, level, pub_date, idx, is_focus FROM t_info_original WHERE status !=4 ORDER BY pub_date DESC, level DESC";
 		$rs = $this->getRows($sql);
 		return $rs;
 	}
@@ -36,7 +36,7 @@ class NewsModel extends Model {
 			$condition .= " AND status !=4";
 		}
 
-		$sql = "SELECT id, type, category, title, source, status, level, pub_date, idx FROM t_info_original WHERE 1=1 ".$condition." ORDER BY pub_date DESC, level DESC";
+		$sql = "SELECT id, type, category, title, source, status, level, pub_date, idx, is_focus FROM t_info_original WHERE 1=1 ".$condition." ORDER BY pub_date DESC, level DESC";
 		//echo $sql;exit;
 		$rs = $this->getRows($sql);
 		return $rs;
@@ -135,7 +135,8 @@ class NewsModel extends Model {
 				`img_url`, 
 				`level`,
 				`create_time`,
-				`idx`
+				`idx`,
+				`is_focus`
 			FROM t_info_original WHERE id=".$id;	//echo $sql;exit;
 		$rs = $this->getRows($sql);
 		return $rs;
@@ -153,7 +154,7 @@ class NewsModel extends Model {
 			return false;
 		}
 		
-		$sql = 'INSERT INTO t_info_original(`type`, `category`, `title`, `pub_date`, `sub_title`, `source`, `src_url`, `keys`, `content`, `img_url`, `status`, `level`)VALUES("'.$data['type'].'", "'.$data['category'].'", "'.$data['title'].'","'.$data['pub_date'].'", "'.$data['sub_title'].'",  "'.$data['source'].'", "'.$data['url'].'", "'.$data['keys'].'", "'.$data['content'].'", "'.$data['img_url'].'", 0, "'.$data['level'].'")';
+		$sql = 'INSERT INTO t_info_original(`type`, `category`, `title`, `pub_date`, `sub_title`, `source`, `src_url`, `keys`, `content`, `img_url`, `status`, `level`, `is_focus`)VALUES("'.$data['type'].'", "'.$data['category'].'", "'.$data['title'].'","'.$data['pub_date'].'", "'.$data['sub_title'].'",  "'.$data['source'].'", "'.$data['url'].'", "'.$data['keys'].'", "'.$data['content'].'", "'.$data['img_url'].'", 0, '.$data['level'].', '.$data['is_focus'].')';
 		//echo $sql;exit;
 
 		$rs = $this->exeSql($sql, true);
@@ -172,7 +173,7 @@ class NewsModel extends Model {
 			return false;
 		}
 
-		$sql = 'UPDATE t_info_original SET `type` = "'.$data['type'].'", `category` = "'.$data['category'].'",`title` = "'.$data['title'].'" ,`sub_title` = "'.$data['sub_title'].'" ,`source` = "'.$data['source'].'" ,`src_url` = "'.$data['url'].'" ,`keys` = "'.$data['keys'].'" ,`content` = "'.$data['content'].'" ,`img_url` = "'.$data['img_url'].'" ,`update_time` = NOW() ,`level` = "'.$data['level'].'", `pub_date` = "'.$data['pub_date'].'" WHERE id = '.$data['id'];
+		$sql = 'UPDATE t_info_original SET `type` = "'.$data['type'].'", `category` = "'.$data['category'].'",`title` = "'.$data['title'].'" ,`sub_title` = "'.$data['sub_title'].'" ,`source` = "'.$data['source'].'" ,`src_url` = "'.$data['url'].'" ,`keys` = "'.$data['keys'].'" ,`content` = "'.$data['content'].'" ,`img_url` = "'.$data['img_url'].'" ,`update_time` = NOW() ,`level` = "'.$data['level'].'", `pub_date` = "'.$data['pub_date'].'", `is_focus` = '.$data['is_focus'].' WHERE id = '.$data['id'];
 
 		//echo $sql;exit;
 

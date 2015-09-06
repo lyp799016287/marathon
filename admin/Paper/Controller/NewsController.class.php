@@ -29,7 +29,8 @@ class NewsController extends Controller {
 			$rs = $this->news->getNewsList();
 		}
 
-		$zx_list = C('ZX_CATE_LIST');
+		$zx_list = C('ZX_LABEL_LIST');
+		$zx_category = C('ZX_CATE_LIST');
 		
 		$curr_page = I('page', 1, 'intval');
 		$page_size = 20;
@@ -42,7 +43,7 @@ class NewsController extends Controller {
 		if(!empty($data)){
 			foreach($data as &$val){
 				$val['category'] = $zx_list[$val['category']];
-				$val['type'] = ($val['type'] == 1)? '新闻' : '资讯';
+				$val['type'] = $zx_category[$val['type']];
 			}
 		}
 		
@@ -159,8 +160,11 @@ class NewsController extends Controller {
 		$content = str_replace("\n", "", $rs[0]['content']);
 		$content = str_replace("\r", "", $rs[0]['content']);
 		
+		$keys_arr = explode(",", $rs[0]['keys']);
+
 		$this->assign('data', $rs[0]);
 		$this->assign("content", $content);
+		$this->assign("keys_arr", $keys_arr);
 		$this->display("news_edit");
 	}
 
@@ -222,6 +226,22 @@ class NewsController extends Controller {
 			);
 
 			$ers = insertByNoModel('t_info_entity', '', 'DB_IMED', $sdata);	//插入资讯实体表
+
+
+			//插入Stat关键字表
+			if(!empty($rs[0]['keys'])){
+				$tmp_keys_arr = explode(",", $rs[0]['keys']);
+				
+				if(!empty($tmp_keys_arr)){
+					foreach($tmp_keys_arr as $item){
+						$kdata = array(
+							'info_id'	=>$srs,
+							'key_word'	=>$item
+						);
+						$krs = insertByNoModel('t_info_keys', '', 'DB_STAT', $kdata);	//插入资讯信息表		
+					}
+				}
+			}	
 		}
 		//var_dump($ers);exit;
 
