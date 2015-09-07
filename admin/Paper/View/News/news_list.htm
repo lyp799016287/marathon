@@ -66,7 +66,7 @@ table {
 				<td class="publish">{$foo.pub_date}</td>
 				<td class="level">{if $foo.is_focus eq 1}是{else}否{/if}</td>
 				<td class="status">{if $foo.status eq 4}删除{else if $foo.status eq 3}已发布{else if $foo.status eq 1}已审核未发布{else}未审核{/if}</td>
-				<td class="op"><a href="/paper/news/newsprev?id={$foo.id}" target="_blank" class="prevBtn">预览</a> {if $foo.status neq 3}| <a href="javascript:;" sValue="{$foo.id}" class="editBtn">编辑</a>{if $foo.status eq 0}| <a href="javascript:;" sValue="{$foo.id}" class="chkBtn">审核</a>{/if}{if $foo.status eq 1} | <a href="javascript:;" sValue="{$foo.id}" class="pubBtn">发布</a>{/if} | <a href="javascript:;" sValue="{$foo.id}" class="delBtn">删除</a>{/if}{if $foo.status eq 3 && $foo.idx neq 0} | <a href="javascript:;" sValue="{$foo.id}" class="backBtn">撤回</a> | <a href="javascript:;" sValue="{$foo.id}" class="commentBtn">管理评论</a>{/if}</td>
+				<td class="op"><a href="/paper/news/newsprev?id={$foo.id}" target="_blank" class="prevBtn">预览</a> {if $foo.status neq 3}| <a href="javascript:;" sValue="{$foo.id}" class="editBtn">编辑</a>{if $foo.status eq 0}| <a href="javascript:;" sValue="{$foo.id}" class="chkBtn">审核</a>{/if}{if $foo.status eq 1} | <a href="javascript:;" sValue="{$foo.id}" class="pubBtn">发布</a>{/if} | <a href="javascript:;" sValue="{$foo.id}" class="delBtn">删除</a>{/if}{if $foo.status eq 3 && $foo.idx neq 0} | <a href="javascript:;" sValue="{$foo.id}" class="backBtn">撤回</a> | <a href="javascript:;" sValue="{$foo.idx}" class="commentBtn">管理评论</a>{/if}</td>
 			</tr>
 			{/foreach}
 		</table>
@@ -102,6 +102,10 @@ var paperPage = {};
 
 		$(".chkBtn").click(function(){
 			paperPage.chkAction($(this).attr('sValue'));
+		});
+
+		$(".commentBtn").click(function(){
+			window.location.href = "/paper/news/newscommentlist?id="+$(this).attr('sValue');
 		});
 
 		/*$(".prevBtn").click(function(){

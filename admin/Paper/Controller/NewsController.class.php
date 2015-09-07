@@ -28,7 +28,7 @@ class NewsController extends Controller {
 		}else{
 			$rs = $this->news->getNewsList();
 		}
-
+		
 		$zx_list = C('ZX_LABEL_LIST');
 		$zx_category = C('ZX_CATE_LIST');
 		
@@ -194,6 +194,7 @@ class NewsController extends Controller {
 		}
 	}
 
+	/**原文发布**/
 	public function newsPub(){
 		
 		$id = I('id', 0, 'intval');
@@ -255,6 +256,7 @@ class NewsController extends Controller {
 		}
 	}
 
+	/**原文撤回**/
 	public function newsBack(){
 		
 		$id = I('id', 0, 'intval');
@@ -284,6 +286,7 @@ class NewsController extends Controller {
 		}
 	}
 
+	/**原文搜索**/
 	public function newsSearch(){
 		
 		$data = array(
@@ -300,6 +303,7 @@ class NewsController extends Controller {
 		}
 	}
 
+	/**原文预览**/
 	public function newsPrev(){
 	
 		$id = I('id', 0, 'intval');
@@ -322,6 +326,34 @@ class NewsController extends Controller {
 		$this->assign('imed_url', C('ZX_DOMAIN').'/info/newsdetail/showdetail?id='.$rs[0]['idx']);
 
 		$this->display('news_detail');
+	}
+
+	/**资讯评论**/
+	public function newsCommentList(){
+
+		$id = I('id', 0, 'intval');		//此处id为外网对应的资讯id(t_info_summary-info_id)
+
+		$currpage = I('page', 1 , 'intval');
+		$page_size  = 20;
+		
+		$rs = $this->news->getInfoComments($id, $currpage, $page_size);
+
+		if($rs === false){
+			header("Content-Type: text/html;charset=utf-8");
+			exit("查询有误");
+		}else{
+			
+			$total = $this->news->getInfoCommentTotal($id);
+			$total_num = ceil($total/$page_size);
+			
+			$this->assign('nid', $id);
+			$this->assign('items', $rs);
+			$this->assign("total", $total);
+			$this->assign("current", $currpage);
+			$this->assign("total_num", $total_num);
+			//$this->assign("default_uid", $default_uid_arr);
+			$this->display('comment_list');
+		}
 	}
 
 	/**上传图片**/

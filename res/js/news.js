@@ -96,6 +96,8 @@ function KeywordsInit(){
 		var input_key = $("#keys").val();
 		$("#keywords").append('<span class="keyword" title="点击删除">'+input_key+'</span>');
 		
+		$("#keys").val('');
+
 		$("#keywords").find("span").click(function(){
 			$(this).remove();
 		});
