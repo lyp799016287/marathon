@@ -5,6 +5,7 @@ class NewsController extends Controller {
 
 	public function _initialize(){
 		$this->news = D('News');
+		$this->comment = D('Comment');
 		$this->assign("img_domain", C('IMG_DOMAIN'));
 		$this->assign("menu_path", ROOT_PATH.'/admin_imed_me/');
 		$this->assign("index", 2);
@@ -336,7 +337,7 @@ class NewsController extends Controller {
 		$currpage = I('page', 1 , 'intval');
 		$page_size  = 20;
 		
-		$rs = $this->news->getInfoComments($id, $currpage, $page_size);
+		$rs = $this->comment->getInfoComments($id, $currpage, $page_size);
 
 		if($rs === false){
 			header("Content-Type: text/html;charset=utf-8");
