@@ -7,7 +7,7 @@
 <meta name="format-detection" content="telephone=no">
 <meta http-equiv="cleartype" content="on">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<link href="/res/websrc/UIlib/ligerUI-1.1.9/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
+<link href="/res/websrc/UIlib/ligerUI-1.1.9/skins/Aqua/css/ligerui-dialog.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" media="all" href="/admin.css" />
 <title>资讯评论列表</title>
 <script type="text/javascript" src="/res/websrc/UIlib/jquery/jquery-1.5.2.min.js"></script>
@@ -40,23 +40,27 @@ table {
 	<hr />
 	<div id="content">
 		<table id='datalist'>
-			<tr>
+			<tr id="headerlist">
 				<th class="check"><!--<input type="checkbox" id='checked' />--><label for="checked">全选</label></th>
-				<th class="title">评论ID</th>
-				<th width="30%" class="title">内容</th>
-				<th class="start">楼层</th>
-				<th class="end">评论人</th>
-				<th class="level">评论时间</th>
+				<th class="commentID">评论ID</th>
+				<th class="comment">评论人</th>
+				<th width="30%" class="content">内容</th>
+				<th class="time">评论时间</th>
+				<th class="top">是否加精</th>
+				<th class="status">评论状态</th>
+				<th class="op">操作</th>
 			</tr>
 
 			{foreach from=$items key=k item=foo}
 			<tr class="data">
 				<td><input type="checkbox" value="{$foo.comment_id}" name="comment_id"></td>
-				<td class="title">{$foo.comment_id}</td>
-				<td class="title">{$foo.content}</td>
-				<td class="start">{$foo.nick_name}</td>
-				<td class="end">{$foo.user_uid}</td>
-				<td class="start">{$foo.time|date_format:"%Y-%m-%d"}</td>				
+				<td class="commentID">{$foo.comment_id}</td>
+				<td class="comment">{$foo.nick_name}</td>
+				<td class="content">{$foo.content}</td>
+				<td class="time">{$foo.time|date_format:"%Y-%m-%d"}</td>	
+				<td class="top"></td>
+				<td class="status">{if $foo.status eq 1}正常{else}已删除{/if}</td>
+				<td class="op">{if $foo.status eq 1}<a href="javascript:;" sValue="{$foo.comment_id}" class="delBtn">删除</a> {if $foo.top eq 0}<a href="javascript:;" sValue="{$foo.comment_id}" class="topBtn">加精</a>{else}<a href="javascript:;" sValue="{$foo.comment_id}" class="untopBtn">取消加精</a>{/if}{/if} {if $foo.status neq 1}<a href="javascript:;" sValue="{$foo.comment_id}" class="rebackBtn">撤销删除</a>{/if}</td>			
 			</tr>
 			{/foreach}
 		</table>
@@ -79,8 +83,47 @@ var commentList = {};
 	commentList.m = '';
 	commentList.doneAction = function(){
 		
+		$(".delBtn").click(function(){
+			commentList.modifyAction($(this).attr('sValue'), 1);
+		});
+
+		$(".rebackBtn").click(function(){
+			commentList.modifyAction($(this).attr('sValue'), 2);
+		});
+
+		$(".topBtn").click(function(){
+			commentList.modifyAction($(this).attr('sValue'), 3);
+		});
+
+		$(".untopBtn").click(function(){
+			commentList.modifyAction($(this).attr('sValue'), 4);
+		});
+
 		$("#add_comment").click(function(){ 
 			commentList.m = $.ligerDialog.open({ url: '/paper/news/infocommentpost?sid={$sid}',height: 800, width: 850, isResize:false });
+		});
+	}
+
+	commentList.modifyAction = function(id, type){
+		var data = {
+			'id' : id,
+			'type' : type
+		};
+
+		$.ajax({
+			type : 'POST',
+			url : '/paper/news/newscommentmodify',
+			data : data,
+			dataType : 'json',
+			success: function(rdata) {
+				if(rdata.code == 1){
+					alert(rdata.message);
+					window.location.reload();
+				}
+			},
+			error: function() {
+				alert("接口调用失败");
+			}
 		});
 	}
 

@@ -344,7 +344,7 @@ class NewsController extends Controller {
 			exit("查询有误");
 		}else{
 			
-			$total = $this->news->getInfoCommentTotal($id);
+			$total = $this->comment->getInfoCommentTotal($id);
 			$total_num = ceil($total/$page_size);
 			
 			$this->assign('nid', $id);
@@ -354,6 +354,23 @@ class NewsController extends Controller {
 			$this->assign("total_num", $total_num);
 			//$this->assign("default_uid", $default_uid_arr);
 			$this->display('comment_list');
+		}
+	}
+
+	public function newsCommentModify(){
+		
+		$id = I('id', 0, 'intval');		 //comment_id
+		$type = I('type', 0, 'intval');
+
+		/**
+		*$type: 1 删除; 2 撤回删除; 3 加精; 4 取消加精
+		**/
+		$rs = $this->comment->modifyComment($id, $type);
+
+		if($rs === false){
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'操作失败'), 'JSON');
+		}else{
+			$this->ajaxReturn(array('code'=>1, 'message'=>'操作成功'), 'JSON');
 		}
 	}
 

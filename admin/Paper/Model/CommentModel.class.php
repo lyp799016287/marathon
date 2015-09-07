@@ -20,7 +20,7 @@ class CommentModel extends Model {
 
 		$start = ($currpage-1) * $interval;
 		
-		$sql = "SELECT a.*, IFNULL(b.user_uid, '-') AS user_uid FROM t_info_comment a LEFT JOIN t_user_info b ON a.user_id=b.id WHERE a.type = 0 AND a.info_id = ".$nid." ORDER BY a.time DESC LIMIT ".$start.", ".$interval;
+		$sql = "SELECT a.*, IFNULL(b.nick_name, '-') AS nick_name FROM t_info_comment a LEFT JOIN t_personal_info b ON a.user_id=b.user_id WHERE a.type = 0 AND a.info_id = ".$nid." ORDER BY a.time DESC LIMIT ".$start.", ".$interval;
 		//echo $sql;exit;
 		$rs = $this->getRows($sql);
 		return $rs;
@@ -46,6 +46,38 @@ class CommentModel extends Model {
 		}else{
 			return $rs[0]['total'];
 		}
+	}
+
+	/**
+	*评论操作函数(删除、撤回、加精等)
+	*@author mandyzhou
+	*@param $id	评论ID
+	*@param $type 操作类型
+	*@return  int
+	*/
+	public function modifyComment($id, $type){
+		
+		if(empty($id) || empty($type)){
+			return false;
+		}
+
+		switch($type){
+			case 1:		//删除
+				$sql = "UPDATE t_info_comment SET status = 2 WHERE comment_id = ".$id;
+				break;
+			case 2:		//撤回删除
+				$sql = "UPDATE t_info_comment SET status = 1 WHERE comment_id = ".$id;
+				break;
+			case 3:		//加为精品评论
+				$sql = "UPDATE t_info_comment SET is_top = 1 WHERE comment_id = ".$id;
+				break;
+			case 4:		//撤销精品评论
+				$sql = "UPDATE t_info_comment SET is_top = 0 WHERE comment_id = ".$id;
+				break;
+		}
+
+		$rs = $this->exeSql($sql);
+		return $rs;
 	}
 
 	private function getRows($sql){
