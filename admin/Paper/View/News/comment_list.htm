@@ -60,7 +60,7 @@ table {
 				<td class="time">{$foo.time|date_format:"%Y-%m-%d"}</td>	
 				<td class="top"></td>
 				<td class="status">{if $foo.status eq 1}正常{else}已删除{/if}</td>
-				<td class="op">{if $foo.status eq 1}<a href="javascript:;" sValue="{$foo.comment_id}" class="delBtn">删除</a> {if $foo.top eq 0}<a href="javascript:;" sValue="{$foo.comment_id}" class="topBtn">加精</a>{else}<a href="javascript:;" sValue="{$foo.comment_id}" class="untopBtn">取消加精</a>{/if}{/if} {if $foo.status neq 1}<a href="javascript:;" sValue="{$foo.comment_id}" class="rebackBtn">撤销删除</a>{/if}</td>			
+				<td class="op">{if $foo.status eq 1}<a href="javascript:;" sValue="{$foo.comment_id}" class="delBtn">删除</a> {if $foo.is_top eq 0}<a href="javascript:;" sValue="{$foo.comment_id}" class="topBtn">加精</a>{else}<a href="javascript:;" sValue="{$foo.comment_id}" class="untopBtn">取消加精</a>{/if}{/if} {if $foo.status neq 1}<a href="javascript:;" sValue="{$foo.comment_id}" class="rebackBtn">撤销删除</a>{/if}</td>			
 			</tr>
 			{/foreach}
 		</table>
@@ -70,7 +70,7 @@ table {
 			{if $current eq $smarty.section.total.index+1}
 			<span>{$smarty.section.total.index+1}</span>
 			{else}
-			<a href="/manage/secret/secretcomment?sid={$sid}&page={$smarty.section.total.index+1}">{$smarty.section.total.index+1}</a>
+			<a href="/paper/news/newscommentlist?id={$nid}&page={$smarty.section.total.index+1}">{$smarty.section.total.index+1}</a>
 			{/if}
 			{/section}
 		</div>
@@ -100,7 +100,7 @@ var commentList = {};
 		});
 
 		$("#add_comment").click(function(){ 
-			commentList.m = $.ligerDialog.open({ url: '/paper/news/infocommentpost?sid={$sid}',height: 800, width: 850, isResize:false });
+			commentList.m = $.ligerDialog.open({ url: '/paper/news/infocommentpost?nid={$nid}',height: 800, width: 850, isResize:false });
 		});
 	}
 

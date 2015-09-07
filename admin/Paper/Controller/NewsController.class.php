@@ -357,6 +357,7 @@ class NewsController extends Controller {
 		}
 	}
 
+	/**资讯评论操作**/
 	public function newsCommentModify(){
 		
 		$id = I('id', 0, 'intval');		 //comment_id
@@ -372,6 +373,12 @@ class NewsController extends Controller {
 		}else{
 			$this->ajaxReturn(array('code'=>1, 'message'=>'操作成功'), 'JSON');
 		}
+	}
+
+	/**发表资讯评论**/
+	public function newsCommentPost(){
+		
+		$id = I('nid', 0, 'intval');
 	}
 
 	/**上传图片**/
