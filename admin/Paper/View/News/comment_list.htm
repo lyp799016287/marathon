@@ -100,7 +100,7 @@ var commentList = {};
 		});
 
 		$("#add_comment").click(function(){ 
-			commentList.m = $.ligerDialog.open({ url: '/paper/news/infocommentpost?nid={$nid}',height: 800, width: 850, isResize:false });
+			commentList.m = $.ligerDialog.open({ url: '/paper/news/newscommentpost?nid={$nid}',height: 800, width: 850, isResize:false });
 		});
 	}
 

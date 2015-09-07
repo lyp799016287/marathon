@@ -16,7 +16,7 @@ class DataController extends Controller {
 				$data = array(
 					'user_uid'	=> '200000000'.($num <10? '0'.$num : $num),
 					'password'	=> '8:4777',
-					'user_from'	=> 1,	//后台自建用户
+					'user_from'	=> 0,	//后台自建用户
 					'status'	=> 1
 				);
 				//var_dump($data);

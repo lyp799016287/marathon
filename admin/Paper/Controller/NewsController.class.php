@@ -378,7 +378,48 @@ class NewsController extends Controller {
 	/**发表资讯评论**/
 	public function newsCommentPost(){
 		
-		$id = I('nid', 0, 'intval');
+		$id = I('nid', 0, 'intval');	//此处nid为外网对应的资讯id(t_info_summary-info_id)
+		
+		//筛选前台运营账号
+		$sql = 'SELECT a.id, b.user_name FROM t_user_info a LEFT JOIN t_personal_info b ON a.id = b.user_id  WHERE a.user_uid > 20000000000 AND a.user_uid < 20000000021';
+		$rs = queryByNoModel('t_user_info', '', 'DB_IMED', $sql);
+		
+		$this->assign("users", $rs);
+		$this->display('comment_add');
+	}
+
+	/**发表资讯评论**/
+	public function newsCommentAdd(){
+		
+		$nid = I('nid', 0, 'intval');
+		$uid = I('uid', 0, 'intval');
+		
+		$content = I('content', '', 'strip_tags,addslashes');
+		//var_dump($content);
+
+		if(empty($nid) || empty($uid)){
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'参数错误'), 'JSON');
+		}
+
+		if((mb_strlen(trim($_POST['content']), 'utf-8') > 140) || (mb_strlen(trim($_POST['content']), 'utf-8') <=0)){
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'评论字数1-140'),'JSON');
+		}
+		
+		$data = array(
+			'info_id'	=> $nid,
+			'user_id'	=> $uid,
+			'content'	=> replaceDirty($content),
+			'type'		=> 0,
+			'status'	=> 1
+		);
+		
+		$rs = insertByNoModel('t_info_comment', '', 'DB_IMED', $data);
+
+		if($rs){
+			$this->ajaxReturn(array('code'=>1, 'message'=>'发表成功'), 'JSON');
+		}else{
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'发表失败'), 'JSON');
+		}
 	}
 
 	/**上传图片**/
