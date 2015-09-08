@@ -58,7 +58,7 @@ table {
 				<td class="comment">{$foo.nick_name}</td>
 				<td class="content">{$foo.content}</td>
 				<td class="time">{$foo.time|date_format:"%Y-%m-%d"}</td>	
-				<td class="top"></td>
+				<td class="top">{if $foo.is_top eq 1}是{else}否{/if}</td>
 				<td class="status">{if $foo.status eq 1}正常{else}已删除{/if}</td>
 				<td class="op">{if $foo.status eq 1}<a href="javascript:;" sValue="{$foo.comment_id}" class="delBtn">删除</a> {if $foo.is_top eq 0}<a href="javascript:;" sValue="{$foo.comment_id}" class="topBtn">加精</a>{else}<a href="javascript:;" sValue="{$foo.comment_id}" class="untopBtn">取消加精</a>{/if}{/if} {if $foo.status neq 1}<a href="javascript:;" sValue="{$foo.comment_id}" class="rebackBtn">撤销删除</a>{/if}</td>			
 			</tr>
