@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+	<title>医道后台管理系统</title>
+	<!-- 新 Bootstrap 核心 CSS 文件 -->
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<!-- 可选的Bootstrap主题文件（一般不用引入） -->
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+	<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	<script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<style type="text/css">
+	{literal}
+	nav a{ font-family: '微软雅黑';letter-spacing: 0.1rem;}
+	header{height: 51px;}
+	.navbar-brand{font-weight: bold;font-size: 1.5em;}
+	{/literal}
+	</style>
+</head>
+<body>
+	<header>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="javascript:void(0);">医道后台管理系统</a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						{foreach from=$menus key=k item=v}
+							{if $v.top.parent_id eq 0}
+								<li class="dropdown">
+									<a href="{$v.top.url}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<span class="glyphicon {$v.top.icon}" aria-hidden="true"></span>
+										{$v.top.name}
+										{if count($v.sub) neq 0}<span class="caret"></span>{/if}
+									</a>
+									{if count($v.sub) neq 0}
+									<ul class="dropdown-menu">
+										{foreach from=$v.sub key=sk item=sv}
+											<li>
+												<a href="#">{$sv.name}</a>
+											</li>
+										{/foreach}
+									</ul>
+									{/if}
+								</li>
+								
+							{/if}
+						{/foreach}
+					</ul>
+					<ul id="menu-right" class="nav navbar-nav navbar-right">
+						<li class="">
+							<a href="javascript:void(0);">
+								<span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+								退出
+							</a>
+						</li>
+					</ul>
+				</div>
+				<!--/.nav-collapse -->
+			</div>
+		</nav>
+	</header>
+	<div class="container-fluid">
+	<section class="content-wrap">
+		<h1>
+		你好！
+		</h1>
+	</section>
+	</div>
+
+	<footer></footer>
+</body>
+</html>
