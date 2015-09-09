@@ -103,6 +103,12 @@ var commentPage = {};
 			'uid' : $("#user_list").val(),
 			'content' : $("#saytext").val()
 		};
+		
+		if($("#saytext").val() == ''){
+			alert('请填写评论内容');
+			return false;
+		}
+
 		//console.log(data);
 		$.ajax({
 			type : 'POST',

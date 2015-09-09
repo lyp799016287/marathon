@@ -336,23 +336,37 @@ class NewsController extends Controller {
 
 		$currpage = I('page', 1 , 'intval');
 		$page_size  = 20;
-		
-		$rs = $this->comment->getInfoComments($id, $currpage, $page_size);
 
+		$str_url = '';
+		$rdata = array();
+
+		$rdata['id'] = $id;
+
+		if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'search')){
+			$rdata['pub_date'] = I('public_date', '');
+			$rdata['is_top'] = I('status', '');
+			$str_url = "&action=search&public_date=".$rdata['pub_date']."&status=".$rdata['is_top'];
+		}
+		
+		$rs = $this->comment->getInfoComments($rdata, $currpage, $page_size);
+		
 		if($rs === false){
 			header("Content-Type: text/html;charset=utf-8");
 			exit("查询有误");
 		}else{
 			
-			$total = $this->comment->getInfoCommentTotal($id);
+			$total = $this->comment->getInfoCommentTotal($rdata);
 			$total_num = ceil($total/$page_size);
 			
+			$this->assign("public_date", I('public_date', ''));
+			$this->assign("status", I('status', ''));
 			$this->assign('nid', $id);
 			$this->assign('items', $rs);
 			$this->assign("total", $total);
 			$this->assign("current", $currpage);
 			$this->assign("total_num", $total_num);
 			//$this->assign("default_uid", $default_uid_arr);
+			$this->assign("str_url", $str_url);
 			$this->display('comment_list');
 		}
 	}

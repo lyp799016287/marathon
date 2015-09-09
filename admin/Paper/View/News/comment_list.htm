@@ -8,12 +8,14 @@
 <meta http-equiv="cleartype" content="on">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <link href="/res/websrc/UIlib/ligerUI-1.1.9/skins/Aqua/css/ligerui-dialog.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" media="all" href="/res/JqueryUI/jquery-ui.min.css" />
 <link rel="stylesheet" type="text/css" media="all" href="/admin.css" />
 <title>资讯评论列表</title>
 <script type="text/javascript" src="/res/websrc/UIlib/jquery/jquery-1.5.2.min.js"></script>
 <script type="text/javascript" src="/res/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="/res/js/jquery.md5.js"></script>
 <script type="text/javascript" src="/res/js/loginstatus.js"></script>
+<script type="text/javascript" src="/res/JqueryUI/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/res/websrc/UIlib/ligerUI-1.1.9/js/core/base.js"></script>
 <script type="text/javascript" src="/res/websrc/UIlib/ligerUI-1.1.9/js/plugins/ligerDialog.js"></script>
 <style>
@@ -35,7 +37,14 @@ table {
 <div id="main_body">
 	<header>
 		<p></p>
-		<div><input type="button" name="add_comment" id="add_comment" value="发表评论" /></div>
+		<label>评论时间：<input type="text" name='pub_date' id="pub_date" value="{$public_date}" /></label>
+		<label>加精：<select id="status" name="status"><option value="" {if $status eq ''}selected="selected"{/if}>--全部--</option>
+				<option value="0" {if $status eq '1'}selected="selected"{/if}>是</option>
+				<option value="1" {if $status eq '0'}selected="selected"{/if}>否</option>
+			</select>	
+		</label>
+		<label><button id="btn_search">搜 索</button></label>
+		<label><input type="button" name="add_comment" id="add_comment" value="发表评论" /></label>
 	</header>
 	<hr />
 	<div id="content">
@@ -70,7 +79,7 @@ table {
 			{if $current eq $smarty.section.total.index+1}
 			<span>{$smarty.section.total.index+1}</span>
 			{else}
-			<a href="/paper/news/newscommentlist?id={$nid}&page={$smarty.section.total.index+1}">{$smarty.section.total.index+1}</a>
+			<a href="/paper/news/newscommentlist?id={$nid}&page={$smarty.section.total.index+1}{$str_url}">{$smarty.section.total.index+1}</a>
 			{/if}
 			{/section}
 		</div>
@@ -83,6 +92,10 @@ var commentList = {};
 	commentList.m = '';
 	commentList.doneAction = function(){
 		
+		$( "#pub_date" ).datepicker({
+			dateFormat: "yy-mm-dd"
+		});
+
 		$(".delBtn").click(function(){
 			commentList.modifyAction($(this).attr('sValue'), 1);
 		});
@@ -101,6 +114,10 @@ var commentList = {};
 
 		$("#add_comment").click(function(){ 
 			commentList.m = $.ligerDialog.open({ url: '/paper/news/newscommentpost?nid={$nid}',height: 800, width: 850, isResize:false });
+		});
+
+		$("#btn_search").click(function(){
+			commentList.searchAction();
 		});
 	}
 
@@ -125,6 +142,10 @@ var commentList = {};
 				alert("接口调用失败");
 			}
 		});
+	}
+
+	commentList.searchAction = function(){
+		window.location.href = "/paper/news/newscommentlist?id={$nid}&action=search&public_date="+$("#pub_date").val()+"&status="+$("#status").val();		
 	}
 
 	commentList.init = function(){
