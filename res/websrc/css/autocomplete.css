@@ -1,0 +1,10 @@
+/**自动补充样式**/
+.autocomplete{ position:absolute; background:#ffffff; border:1px solid #817F82; display:none;z-index:9999;}
+.autocomplete_status_on{ display:block;}
+.autocomplete{margin:0px;padding:0px;width:140px;height:200px;overflow:auto;}
+.autocomplete li{height:25px;line-height:25px;font-size:12px;cursor:pointer;margin:0px;padding:0px 5px 0px 5px;list-style-type:none;clear:both;background:#FFFFFF;color:#000000;}
+.autocomplete li span{height:25px;line-height:25px;float:left;}
+.autocomplete li cite{height:25px;line-height:25px;font-style:normal;float:right;color:#666}
+.autocomplete li.status_on{background:#E2EAFF}
+
+.keyword {diplay:inline-block;padding:0 0.5rem;border:1px solid #ccc;margin:0 0.3rem;cursor:pointer;}

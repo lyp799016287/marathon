@@ -51,10 +51,10 @@ table {
 				<th class="type" width="10%">大类</th>
 				<th class="label" width="10%">分类</th>
 				<th class="title" width="40%">标题</th>
-				<th class="publish">发布时间</th>
-				<th class="level" width="10%">优先级</th>
+				<th class="publish" width="10%">发布时间</th>
+				<th class="level" width="5%">是否推荐</th>
 				<th class="status" width="10%">状态</th>
-				<th class="op" width="20%">操作</th>
+				<th class="op" width="15%">操作</th>
 			</tr>
 
 			{foreach from=$list key=k item=foo}
@@ -64,9 +64,9 @@ table {
 				<td class="label">{$foo.category}</td>
 				<td class="title">{$foo.title}</td>
 				<td class="publish">{$foo.pub_date}</td>
-				<td class="level">{$foo.level}</td>
+				<td class="level">{if $foo.is_focus eq 1}是{else}否{/if}</td>
 				<td class="status">{if $foo.status eq 4}删除{else if $foo.status eq 3}已发布{else if $foo.status eq 1}已审核未发布{else}未审核{/if}</td>
-				<td class="op"><a href="/paper/news/newsprev?id={$foo.id}" target="_blank" class="prevBtn">预览</a> {if $foo.status neq 3}| <a href="javascript:;" sValue="{$foo.id}" class="editBtn">编辑</a>{if $foo.status eq 0}| <a href="javascript:;" sValue="{$foo.id}" class="chkBtn">审核</a>{/if}{if $foo.status eq 1} | <a href="javascript:;" sValue="{$foo.id}" class="pubBtn">发布</a>{/if} | <a href="javascript:;" sValue="{$foo.id}" class="delBtn">删除</a>{/if}{if $foo.status eq 3 && $foo.idx neq 0} | <a href="javascript:;" sValue="{$foo.id}" class="backBtn">撤回</a>{/if}</td>
+				<td class="op"><a href="/paper/news/newsprev?id={$foo.id}" target="_blank" class="prevBtn">预览</a> {if $foo.status neq 3}| <a href="javascript:;" sValue="{$foo.id}" class="editBtn">编辑</a>{if $foo.status eq 0}| <a href="javascript:;" sValue="{$foo.id}" class="chkBtn">审核</a>{/if}{if $foo.status eq 1} | <a href="javascript:;" sValue="{$foo.id}" class="pubBtn">发布</a>{/if} | <a href="javascript:;" sValue="{$foo.id}" class="delBtn">删除</a>{/if}{if $foo.status eq 3 && $foo.idx neq 0} | <a href="javascript:;" sValue="{$foo.id}" class="backBtn">撤回</a> | <a href="javascript:;" sValue="{$foo.idx}" class="commentBtn">管理评论</a>{/if}</td>
 			</tr>
 			{/foreach}
 		</table>
@@ -102,6 +102,10 @@ var paperPage = {};
 
 		$(".chkBtn").click(function(){
 			paperPage.chkAction($(this).attr('sValue'));
+		});
+
+		$(".commentBtn").click(function(){
+			window.location.href = "/paper/news/newscommentlist?id="+$(this).attr('sValue');
 		});
 
 		/*$(".prevBtn").click(function(){

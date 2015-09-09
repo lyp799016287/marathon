@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" media="all" href="/res/JqueryUI/jquery-ui.min.css" />
 <link rel="stylesheet" type="text/css" media="all" href="/admin.css" />
 <link rel="stylesheet" type="text/css" media="all" href="/res/JqueryUI/jquery-timepicker-addon.css" />
+<link rel="stylesheet" type="text/css" media="all" href="/res/websrc/css/autocomplete.css" />
 <title>原创文章（新建）</title>
 <script type="text/javascript" src="/res/js/jquery.min.js"></script>
 <script type="text/javascript" src="/res/Ueditor/ueditor.config.js"></script>
@@ -20,11 +21,14 @@
 <script type="text/javascript" src="/res/Uploadify/ajaxfileupload.js"></script>
 <script type="text/javascript" src="/res/JqueryUI/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/res/JqueryUI/jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript" src="/res/websrc/UIlib/jquery/autocomplete.js"></script>
+<script type="text/javascript" src="/res/js/news.js"></script>
 <style>
 {literal}
 #oppanel input[type="button"] {
     display: inline;
 }
+
 {/literal}
 </style>
 </head>
@@ -42,10 +46,10 @@
 		<form id="form_detail" method="post">
 			<div><label style="color:red;">*号必填</label></div>
 			<div>
-			<label>类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：<select name="type_type" id="type_type" style="width:180px;">
-					<option value='1'>新闻</option>
+			<label>类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：<select name="category_type" id="category_type" style="width:180px;">
+					<!--<option value='1'>新闻</option>
 					<option value='2'>心血管资讯</option>
-					<option value='0'>无</option>
+					<option value='0'>无</option>-->
 					</select>&nbsp;&nbsp;<span style="color:red;">*</span>
 			</label>
 			</div>
@@ -54,7 +58,7 @@
 					<!--<option value="1">指南</option>
 					<option value="2">临床研究</option>
 					<option value="3">病例分析</option>-->
-					<option value='0'>无</option>
+					<!--<option value='0'>无</option>
 					<option value='1'>推广</option>
 					<option value='2'>深度解读</option>
 					<option value='3'>指南</option>
@@ -62,7 +66,7 @@
 					<option value='5'>病例分析</option>
 					<option value='6'>会议</option>
 					<option value='7'>推荐</option>
-					<option value='8'>热点</option>
+					<option value='8'>热点</option>-->
 					</select>&nbsp;&nbsp;<span style="color:red;">*</span>
 			</label>
 			</div>
@@ -76,7 +80,9 @@
 				<label>发布时间：<input type="text" id="pub_date" name="pub_date" />&nbsp;&nbsp;<span style="color:red;">*</span></label>
 			</div>
 			<div>
-			<label>关&nbsp;键&nbsp;字：<input type="text" id="keys" name="keys" style="width:50%" />&nbsp;&nbsp;(多个关键字请以逗号,分隔)</label>
+			<!--<label>关&nbsp;键&nbsp;字：<input type="text" id="keys" name="keys" style="width:50%" />&nbsp;&nbsp;(多个关键字请以逗号,分隔)</label>-->
+				<label>关&nbsp;键&nbsp;字：<input type="text" id="keys" name="keys" style="width:30%" /></label>
+				<label id="keywords"></label>
 			</div>
 			<div>
 				<label>原文链接：<input type="text" id="url" name="url" style="width:50%" /></label>
@@ -86,8 +92,8 @@
 			</div>
 			<div>
 				<label>是否推荐：
-					<input type="radio" value="1" name="promotion" />是
-					<input type="radio" value="0" name="promotion" checked="checked" />否
+					<input type="radio" value="1" name="is_focus" />是
+					<input type="radio" value="0" name="is_focus" checked="checked" />否
 				</label>
 				<br>
 			</div>
@@ -132,6 +138,8 @@ $().ready(function(){
 
 var paperAdd = {}; //namespace
 
+var today = new Date();
+
 paperAdd.init = function(){
 
 	paperAdd.main_editor = UE.getEditor('main',{
@@ -142,7 +150,7 @@ paperAdd.init = function(){
 	$("#pub_date").datetimepicker({
 		dateFormat: "yy-mm-dd",
 		timeFormat: "HH:mm:ss",
-		maxDate: new Date()
+		maxDate: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59)
 	});
 
 	$("#uploadBtn").click(function () { 
@@ -158,15 +166,20 @@ paperAdd.init = function(){
 	$('#btn_publish').click(function(){
 		paperAdd.pubNews();
 	});
+
+	window.G.ui.news.CategoryInit();
+	window.G.ui.news.KeyWordsInit();
 }
 
 paperAdd.getParams = function(){
 	var params = {};
 
+	var tmp_key = [];
+
 	params['title'] = $("#title").val();
-	params['type'] = $("#label_type").val();
-	params['btype'] = $("#type_type").val();
-	params['keys'] = $("#keys").val();
+	params['type'] = $("#category_type").val();
+	params['btype'] = $("#label_type").val();
+	//params['keys'] = $("#keys").val();
 	params['url'] = $("#url").val();
 	//params['level'] = $("#level_num").val();
 	params['source'] = $("#source").val();
@@ -174,8 +187,14 @@ paperAdd.getParams = function(){
 	params['sub_title'] = $("#sub_title").val();
 	params['content'] = paperAdd.main_editor.getContent();
 	params['pub_date'] = $("#pub_date").val();
+	params['is_focus'] = $("input[name='is_focus']:checked").val();
 
 	//console.log(params);
+	$("#keywords").find("span").each(function(){
+		tmp_key.push($(this).text());
+	});
+
+	params['keys'] = tmp_key.join(',');
 
 	return params;
 }
