@@ -161,8 +161,12 @@ class NewsController extends Controller {
 		$content = str_replace("\n", "", $rs[0]['content']);
 		$content = str_replace("\r", "", $rs[0]['content']);
 		
-		$keys_arr = explode(",", $rs[0]['keys']);
-
+		if(empty(trim($rs[0]['keys']))){
+			$keys_arr = array();
+		}else{
+			$keys_arr = explode(",", trim($rs[0]['keys']));
+		}
+		
 		$this->assign('data', $rs[0]);
 		$this->assign("content", $content);
 		$this->assign("keys_arr", $keys_arr);

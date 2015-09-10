@@ -81,11 +81,13 @@
 			<div>
 			<!--<label>关&nbsp;键&nbsp;字：<input type="text" id="keys" name="keys" value="{$data.keys}" style="width:50%" />&nbsp;&nbsp;(多个关键字请以逗号,分隔)</label>-->
 				<label>关&nbsp;键&nbsp;字：<input type="text" id="keys" name="keys" style="width:30%" /></label>
+				{if count($keys_arr) neq 0}
 				<label id="keywords">
 				{foreach from=$keys_arr item=key}
 					<span class="keyword" title="点击删除">{$key}</span>
 				{/foreach}
 				</label>
+				{/if}
 			</div>
 			<div>
 				<label>原文链接：<input type="text" id="url" name="url" value="{$data.src_url}" style="width:50%" /></label>
@@ -140,6 +142,8 @@ $().ready(function(){
 
 var paperEdit = {}; //namespace
 
+var today = new Date();
+
 paperEdit.init = function(){
 
 	paperEdit.main_editor = UE.getEditor('main',{
@@ -191,10 +195,12 @@ paperEdit.init = function(){
 paperEdit.getParams = function(){
 	var params = {};
 
+	var tmp_key = [];
+
 	params['id'] = $("#pid").val();
 	params['title'] = $("#title").val();
-	params['btype'] = $("#category_type").val();
-	params['type'] = $("#label_type").val();
+	params['type'] = $("#category_type").val();
+	params['btype'] = $("#label_type").val();
 	//params['keys'] = $("#keys").val();
 	params['url'] = $("#url").val();
 	//params['level'] = $("#level_num").val();
