@@ -20,10 +20,15 @@
 <script src="/res/websrc/UIlib/ligerUI-1.1.9/js/plugins/ligerDialog.js" type="text/javascript" charset="utf-8"></script>
 <script src="/res/websrc/UIlib/highcharts/modules/exporting.js"></script>
 <style type="text/css">
+{literal}
 #table_show_options_sum span { width:150px;display: inline-block;}
 #table_show_options_details span { /*width:150px;*/display: inline-block;} 
 #table_filter_div span { width:190px;display: inline-block;} 
 #show_item_div span { width:190px;display: inline-block;} 
+#highlight table{width: 100%;font-size: 14px;}
+#highlight table span.tit{font-weight: bold;}
+#highlight table td{font-weight: normal;text-align: left;line-height: 1.5rem;padding-left: 1rem;}
+{/literal}
 </style>
 </head>
 <body>
@@ -40,7 +45,7 @@
 			
 		<!-- start highline -->
 		<div class="hightline" id="highlight">
-			<h3 class="title" id="filter_desc_keydata">截止<span id="date_show"></span>的统计数据</h3>
+			<h3 class="title" id="filter_desc_keydata">截止 <span id="date_show"></span> 的统计数据</h3>
 			
 			<table>
 				<tbody>

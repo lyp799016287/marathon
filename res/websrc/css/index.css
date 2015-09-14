@@ -41,3 +41,4 @@ ul.hight_list li p.nu{font-weight: bold;}
 #terms_definition_div{}	/*指标解释专属*/
 #terms_definition_div>p{margin: 1rem;}
 
+.l-clear{display: inline-block;}
