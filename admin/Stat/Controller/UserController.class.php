@@ -17,6 +17,13 @@ class UserController extends Controller {
 		$this->writeLog($re, 'Stat/User/userSummary');
 	}
 
+	## 准实时计算用户数
+	public function userSummaryRealtime()
+	{
+		$re = $this->user->calRealtime();
+		$this->writeLog($re, 'Stat/User/userSummaryRealtime');
+	}
+
 	## 计算用户留存率
 	public function userRetain()
 	{

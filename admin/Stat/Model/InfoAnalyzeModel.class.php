@@ -117,11 +117,12 @@ EOF;
 	}
 
 
-	public function getWords($keys)
+	public function getWords($ary)
 	{
-		// $ary = array();
-		// $ary[] = $keys;
-		$result_str = $this->splitWords($ary);
+		// var_dump($ary);
+		$handle_ary = array();
+		$handle_ary[] = $ary;
+		$result_str = $this->splitWords($handle_ary);
 		return ($result_str == '') ? true : false;
 	}
 
