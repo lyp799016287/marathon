@@ -81,13 +81,13 @@
 			<div>
 			<!--<label>关&nbsp;键&nbsp;字：<input type="text" id="keys" name="keys" value="{$data.keys}" style="width:50%" />&nbsp;&nbsp;(多个关键字请以逗号,分隔)</label>-->
 				<label>关&nbsp;键&nbsp;字：<input type="text" id="keys" name="keys" style="width:30%" /></label>
-				{if count($keys_arr) neq 0}
 				<label id="keywords">
+				{if count($keys_arr) neq 0}
 				{foreach from=$keys_arr item=key}
 					<span class="keyword" title="点击删除">{$key}</span>
 				{/foreach}
-				</label>
 				{/if}
+				</label>
 			</div>
 			<div>
 				<label>原文链接：<input type="text" id="url" name="url" value="{$data.src_url}" style="width:50%" /></label>

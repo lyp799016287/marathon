@@ -219,6 +219,7 @@ class NewsController extends Controller {
 			'summary'	=> $rs[0]['sub_title'],
 			'img_url'	=> $rs[0]['img_url'],
 			'level'		=> $rs[0]['level'],
+			'is_focus'	=> $rs[0]['is_focus'],
 			'status'	=> 3
 		);
 		$srs = insertByNoModel('t_info_summary', '', 'DB_IMED', $data);	//插入资讯信息表
