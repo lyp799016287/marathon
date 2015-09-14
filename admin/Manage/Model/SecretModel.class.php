@@ -35,7 +35,11 @@ class SecretModel extends Model {
 			$sqlpara .= " AND a.id NOT IN (".$data['except'].")";
 		}
 
-		$sql = "SELECT a.id,a.user_id,a.uptimes,a.type,a.status,a.content,a.create_time,b.user_uid as mobile,c.user_name as name
+		/**用户信息（mobile）不显示**/
+		/*$sql = "SELECT a.id,a.user_id,a.uptimes,a.type,a.status,a.content,a.create_time,b.user_uid as mobile,c.user_name as name
+				FROM t_secret a LEFT JOIN t_user_info  b ON a.user_id=b.id  LEFT JOIN t_personal_info c ON a.user_id=c.user_id
+				WHERE 1=1" . $sqlpara;*/
+		$sql = "SELECT a.id,a.user_id,a.uptimes,a.type,a.status,a.content,a.create_time,c.user_name as name
 				FROM t_secret a LEFT JOIN t_user_info  b ON a.user_id=b.id  LEFT JOIN t_personal_info c ON a.user_id=c.user_id
 				WHERE 1=1" . $sqlpara;
 		
