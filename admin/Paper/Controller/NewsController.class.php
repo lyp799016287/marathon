@@ -161,8 +161,12 @@ class NewsController extends Controller {
 		$content = str_replace("\n", "", $rs[0]['content']);
 		$content = str_replace("\r", "", $rs[0]['content']);
 		
-		$keys_arr = explode(",", $rs[0]['keys']);
-
+		if(empty(trim($rs[0]['keys']))){
+			$keys_arr = array();
+		}else{
+			$keys_arr = explode(",", trim($rs[0]['keys']));
+		}
+		
 		$this->assign('data', $rs[0]);
 		$this->assign("content", $content);
 		$this->assign("keys_arr", $keys_arr);
@@ -336,23 +340,37 @@ class NewsController extends Controller {
 
 		$currpage = I('page', 1 , 'intval');
 		$page_size  = 20;
-		
-		$rs = $this->comment->getInfoComments($id, $currpage, $page_size);
 
+		$str_url = '';
+		$rdata = array();
+
+		$rdata['id'] = $id;
+
+		if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'search')){
+			$rdata['pub_date'] = I('public_date', '');
+			$rdata['is_top'] = I('status', '');
+			$str_url = "&action=search&public_date=".$rdata['pub_date']."&status=".$rdata['is_top'];
+		}
+		
+		$rs = $this->comment->getInfoComments($rdata, $currpage, $page_size);
+		
 		if($rs === false){
 			header("Content-Type: text/html;charset=utf-8");
 			exit("查询有误");
 		}else{
 			
-			$total = $this->comment->getInfoCommentTotal($id);
+			$total = $this->comment->getInfoCommentTotal($rdata);
 			$total_num = ceil($total/$page_size);
 			
+			$this->assign("public_date", I('public_date', ''));
+			$this->assign("status", I('status', ''));
 			$this->assign('nid', $id);
 			$this->assign('items', $rs);
 			$this->assign("total", $total);
 			$this->assign("current", $currpage);
 			$this->assign("total_num", $total_num);
 			//$this->assign("default_uid", $default_uid_arr);
+			$this->assign("str_url", $str_url);
 			$this->display('comment_list');
 		}
 	}
@@ -378,7 +396,48 @@ class NewsController extends Controller {
 	/**发表资讯评论**/
 	public function newsCommentPost(){
 		
-		$id = I('nid', 0, 'intval');
+		$id = I('nid', 0, 'intval');	//此处nid为外网对应的资讯id(t_info_summary-info_id)
+		
+		//筛选前台运营账号
+		$sql = 'SELECT a.id, b.user_name FROM t_user_info a LEFT JOIN t_personal_info b ON a.id = b.user_id  WHERE a.user_uid > 20000000000 AND a.user_uid < 20000000021';
+		$rs = queryByNoModel('t_user_info', '', 'DB_IMED', $sql);
+		
+		$this->assign("users", $rs);
+		$this->display('comment_add');
+	}
+
+	/**发表资讯评论**/
+	public function newsCommentAdd(){
+		
+		$nid = I('nid', 0, 'intval');
+		$uid = I('uid', 0, 'intval');
+		
+		$content = I('content', '', 'strip_tags,addslashes');
+		//var_dump($content);
+
+		if(empty($nid) || empty($uid)){
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'参数错误'), 'JSON');
+		}
+
+		if((mb_strlen(trim($_POST['content']), 'utf-8') > 140) || (mb_strlen(trim($_POST['content']), 'utf-8') <=0)){
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'评论字数1-140'),'JSON');
+		}
+		
+		$data = array(
+			'info_id'	=> $nid,
+			'user_id'	=> $uid,
+			'content'	=> replaceDirty($content),
+			'type'		=> 0,
+			'status'	=> 1
+		);
+		
+		$rs = insertByNoModel('t_info_comment', '', 'DB_IMED', $data);
+
+		if($rs){
+			$this->ajaxReturn(array('code'=>1, 'message'=>'发表成功'), 'JSON');
+		}else{
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'发表失败'), 'JSON');
+		}
 	}
 
 	/**上传图片**/

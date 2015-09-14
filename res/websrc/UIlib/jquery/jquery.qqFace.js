@@ -31,15 +31,16 @@
 					strFace += '<td><img src="'+path+'emoji_'+i+'.png" onclick="$(\'#'+option.assign+'\').setCaret();$(\'#'+option.assign+'\').insertAtCaret(\'' + labFace + '\');" /></td>';
 					if( i % 15 == 0 ) strFace += '</tr><tr>';
 				}
-				strFace += "<td><img onclick=\"$('#saytext').setCaret();$('#saytext').insertAtCaret('[em_179]');\" src=\"/res/emoji/emoji_179.png\"></td>";
-				strFace += "<td><img onclick=\"$('#saytext').setCaret();$('#saytext').insertAtCaret('[em_180]');\" src=\"/res/emoji/emoji_180.png\"></td>";
-				strFace += "<td><img onclick=\"$('#saytext').setCaret();$('#saytext').insertAtCaret('[em_181]');\" src=\"/res/emoji/emoji_181.png\"></td>";
-				strFace += "<td><img onclick=\"$('#saytext').setCaret();$('#saytext').insertAtCaret('[em_182]');\" src=\"/res/emoji/emoji_182.png\"></td>";
+				strFace += "<td><img onclick=\"$('#saytext').setCaret();$('#saytext').insertAtCaret('[顶]');\" src=\"/res/emoji/emoji_179.png\"></td>";
+				strFace += "<td><img onclick=\"$('#saytext').setCaret();$('#saytext').insertAtCaret('[写字]');\" src=\"/res/emoji/emoji_180.png\"></td>";
+				strFace += "<td><img onclick=\"$('#saytext').setCaret();$('#saytext').insertAtCaret('[衬衫]');\" src=\"/res/emoji/emoji_181.png\"></td>";
+				strFace += "<td><img onclick=\"$('#saytext').setCaret();$('#saytext').insertAtCaret('[小花]');\" src=\"/res/emoji/emoji_182.png\"></td>";
 				strFace += '</tr><tr>';
 				for(var j=1; j<=42; j++){
 					var internal = 182;
 					var i = internal + j;
-					labFace = '['+tip+i+']';
+					faceIndex = tip+i;
+					labFace = emData[faceIndex];
 					strFace += '<td><img src="'+path+'emoji_'+i+'.png" onclick="$(\'#'+option.assign+'\').setCaret();$(\'#'+option.assign+'\').insertAtCaret(\'' + labFace + '\');" /></td>';
 					if( j % 15 == 0 ) strFace += '</tr><tr>';
 				}

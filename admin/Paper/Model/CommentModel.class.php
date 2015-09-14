@@ -12,15 +12,24 @@ class CommentModel extends Model {
 	*@param $nid	资讯ID
 	*@return  false/array
 	*/
-	public function getInfoComments($nid, $currpage, $interval=10){
+	public function getInfoComments($data, $currpage, $interval=10){
 		
-		if(empty($nid)){
+		if(empty($data['id'])){
 			return false;
+		}
+
+		$search = '';
+		if(isset($data['pub_date']) && !empty($data['pub_date'])){
+			$search .= " AND time >='".$data['pub_date']." 00:00:00' AND time <='".$data['pub_date']." 23:59:59'";
+		}
+
+		if(isset($data['is_top']) && ($data['is_top'] !='')){
+			$search .= " AND is_top = ".$data['is_top'];
 		}
 
 		$start = ($currpage-1) * $interval;
 		
-		$sql = "SELECT a.*, IFNULL(b.nick_name, '-') AS nick_name FROM t_info_comment a LEFT JOIN t_personal_info b ON a.user_id=b.user_id WHERE a.type = 0 AND a.info_id = ".$nid." ORDER BY a.time DESC LIMIT ".$start.", ".$interval;
+		$sql = "SELECT a.*, IFNULL(b.nick_name, '-') AS nick_name FROM t_info_comment a LEFT JOIN t_personal_info b ON a.user_id=b.user_id WHERE a.type = 0 AND a.info_id = ".$data['id'].$search." ORDER BY a.time DESC LIMIT ".$start.", ".$interval;
 		//echo $sql;exit;
 		$rs = $this->getRows($sql);
 		return $rs;
@@ -32,13 +41,22 @@ class CommentModel extends Model {
 	*@param $nid	资讯ID
 	*@return  int
 	*/
-	public function getInfoCommentTotal($nid){
+	public function getInfoCommentTotal($data){
 		
-		if(empty($nid)){
+		if(empty($data['id'])){
 			return 0;
 		}
 
-		$sql = "SELECT COUNT(*) AS total FROM t_info_comment WHERE type =0 AND info_id =".$nid;
+		$search = '';
+		if(isset($data['pub_date']) && !empty($data['pub_date'])){
+			$search .= " AND time >='".$data['pub_date']." 00:00:00' AND time <='".$data['pub_date']." 23:59:59'";
+		}
+
+		if(isset($data['is_top']) && ($data['is_top'] !='')){
+			$search .= " AND is_top = ".$data['is_top'];
+		}
+
+		$sql = "SELECT COUNT(*) AS total FROM t_info_comment WHERE type =0 AND info_id =".$data['id'].$search;
 		
 		$rs = $this->getRows($sql);
 		if(!$rs){

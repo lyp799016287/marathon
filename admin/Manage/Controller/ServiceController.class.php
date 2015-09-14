@@ -10,13 +10,14 @@ class ServiceController extends Controller {
 		$this->pagesize = 15;
 		$this->assign("menu_path", ROOT_PATH.'/admin_imed_me/');
 		$this->assign("index", 6);
-		$this->assign('env','dev.');
-		$token = $this->getChatToken();
-		$this->assign('token',$token);
+		$this->assign('env','step.');
+
 	}
 
 	/**秘密列表**/
     public function ChatList(){
+
+
 
         $querypara='';
 		$curr_page = I('page', 1, 'intval');
@@ -57,11 +58,40 @@ class ServiceController extends Controller {
     public function ChatDetail(){
 
         $querypara='';
-		$uid = I('uid', 0, 'intval');
-		
-       	
+
+		$token = $this->getChatToken();
+		//var_dump($token);exit();
 		$this->assign('token',$token);
+		$this->assign('uid',1111);
+		$tid = I('tid',0,'intval');
+       	$user_name = $this->getUserName($tid);
+		$this->assign('user_name',$user_name);
 		$this->display("chatdetail");
+	}
+
+	/**秘密列表**/
+    public function getChatDetailInfo(){
+
+        $querypara='';
+		$tid = I('tid',0,'intval');
+		$result = $this->service->getChatDetailInfo($tid);
+		if($result===false){
+			$this->ajaxReturn(array("code"=>-1,'message'=>'获取数据失败'));
+		}else{
+			$this->ajaxReturn(array("code"=>1,'message'=>'获取数据成功','data'=>$result));
+			
+		}
+		
+	}
+
+	private function getUserName($uid){
+		$user_name = '';
+		$result = $this->service->getUserInfo($uid);
+    	if(!empty($result)){
+    		
+    		$user_name = $result['user_name'];
+    	}
+    	return $user_name;
 	}
 
 	/**客服自动登录,返回token**/
@@ -83,8 +113,40 @@ class ServiceController extends Controller {
     	return $token;
 	}
 
+	/*
+	客服问题归类	type 类型,1、其他 2、资讯 3、同道 4、成长 5、科研 6、个人资料
+	*/
+	public function classify(){
+		$ids = I('ids','');
+		$type = I('type',1,'intval');
+		$idArray = array();
+		//检查并处理ids合法性
+		if(!empty($ids)){
+			$idArray = explode(',', $ids);
+			for($i=0;$i<count($idArray);$i++){
+				$idArray[$i]=intval($idArray[$i]);
+			}
+		}
+		$ids = implode(',', $idArray);
+		if(count($idArray)>0){
+			$ret = $this->service->setQuestionClass($ids,$type);
+			if($ret!=false){
+				$this->ajaxReturn(array("code"=>1,'message'=>'设置分类成功'));
+			}
+		}else{
+			$this->ajaxReturn(array("code"=>-1,'message'=>'设置分类失败'));	
+		}
+
+		$this->ajaxReturn(array("code"=>-2,'message'=>'设置分类失败，缺少ids'));
+
+	}
+
 	public function mergeInfo(){
-		$this->ajaxReturn($this->service->mergeInfo());
+		$tid = I('tid',0,'intval');
+		if($tid==0){
+			$tid=null;
+		}
+		$this->ajaxReturn($this->service->mergeInfo($tid));
 	}
 
 

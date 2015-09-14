@@ -13,6 +13,7 @@
       *{ margin: 0; padding: 0; box-sizing: border-box; }
       body{font-family: 'lucida grande', 'lucida sans unicode', 'lucida', 'helvetica', 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;text-align:justify;font-weight:lighter;letter-spacing:0;}
       form { background: #333333; padding:0.2rem; position: fixed; bottom: 0; height: 3em; width: 100%; }
+      #classify{position: fixed; bottom: 3rem; height: 3em; width: 100%;}
       form input { height: 2.6rem;line-height: 2rem;margin:0 5rem 0 0;padding: 0 5rem 0 0.5rem;display: block; border: 1px solid #e5e5e5;font-size: 1rem;width: 100%;
     -moz-border-radius: 0.5rem;      /* Gecko browsers */
     -webkit-border-radius: 0.5rem;   /* Webkit browsers */
@@ -33,16 +34,77 @@
     <![endif]--> 
   </head>
   <body>
+
     <ul id="messages"></ul>
+    <div id="classify">
+    <!--
+    1、其他 2、资讯 3、同道 4、成长 5、科研 6、个人资料
+    -->
+    请选择问题归类：
+    <select id="selection">
+      <option value="">--请选择归类--</option>
+      <option value="1">其他</option>
+      <option value="2">资讯</option>
+      <option value="3">同道</option>
+      <option value="4">成长</option>
+      <option value="5">科研</option>
+      <option value="6">个人资料</option>
+    </select>
+    <input type="button" id="btn_classify" value="确定分类" />
+    </div>
     <form action="">
       <input id="m" autocomplete="off" /><button>发送</button>
     </form>
 
     <script charset="utf-8" src="http://{$env}c.imed.me/res/js/jquery.min.js"></script>
     <script charset="utf-8" src="http://{$env}c.imed.me/res/js/jquery.cookie.js"></script>
-    <script src="http://{$env}c.imed.me/socket.io/socket.io.js"></script>
+    <script src="http://v2.dev.c.imed.me/socket.io/socket.io.js"></script>
     <script type="text/javascript">
     {literal}
+      function loadQuestion(uid){
+        $.post('/manage/service/getChatDetailInfo',{tid:tid},function(data){
+          if(data.code==1){
+            console.dir(data);
+            var list = data.data;
+            for(var i=0;i<list.length;i++){
+              var sender = list[i].uid;
+              var _class='';
+              
+              {/literal}
+              sender =  '{$user_name}:';
+              {literal}
+             
+              if(src==1){
+
+                $('<li class="'+_class+'"></li>').appendTo('#messages').html("<label for='"+list[i].chat_id+"'><input type='checkbox' id='"+list[i].chat_id+"' value='"+list[i].chat_id+"' />" +sender+list[i].content+'<span>'+list[i].create_time+'</span></label>');
+              }
+            
+            }
+          }
+          //
+        });
+      }
+      $().ready(function(){
+        $('#btn_classify').click(function(){
+          if($('#selection').val()==''){
+            alert('请选择问题归类');
+            return false;
+          }
+          if($('input[type=checkbox]:checked').length==0){
+            alert('请选择需要归类的话题');
+            return false;
+          }
+          var checked_box = $('input[type=checkbox]:checked');
+          var checked_array = new Array();
+          for (var i = checked_box.length - 1; i >= 0; i--) {
+            checked_array.push($(checked_box[i]).val());
+          };
+          var checked_val = checked_array.join(',');
+          $.post('/manage/service/classify',{ids:checked_val,type:$('#selection').val()},function(d){
+              alert(d.message);
+          });
+        });
+      });
       $.extend({  
         getUrlVars: function(){  
           var vars = [], hash;  
@@ -62,41 +124,36 @@
        
       {/literal}
 
-      var socket = io.connect('http://{$env}c.imed.me/');
+      var socket = io.connect('http://v2.dev.c.imed.me/');
+      var sid="{$token}";
+      var uid={$uid};
+      var user_name ="{$user_name}";
       {literal}
       var param = $.getUrlVars();
-      var userid = param['userid'];
-      if(!userid){
-        userid = param['uid'];
-      }
-      var targetid = param['targetid'];
-      if(!targetid){
-        targetid = param['tid'];
-      }
+      var tid = param['tid'];
       var type = param['type'];
+      var src = param['src'];
       if(!type){
         type = 0;
       }
-
-      var sid=param['sid'];
       if(!sid){
         sid = 0;
       }
-      socket.emit('login',{ "uid":userid,"tid": targetid,"type":type,"token":sid });
-      socket.emit('ping',{uid:''});
+      if(!src){
+        src = 0;
+      }
+      //console.log('---------------');
+      socket.emit('login',{ "uid":uid,"tid": tid,"type":type,"token":sid });
+      //socket.emit('getmsg',{uid:uid,tid:tid});
       socket.on('pong',function(data){
         console.dir(data);
       });
-      //socket.emit('addrelation',"uid:58,tid:83,token:'abec3b899dce12f8033292659601ad72'");
-      /*
-      socket.on('tip_addrelation',function(data){
-        console.dir(data);
-      });
-      */
+      
       socket.on('login_return',function(data){
         console.log(data);
+        loadQuestion(tid);
         if(data.code==1){
-          $.cookie('c_uid',userid,{path:'/',domain:'imed.me'});
+          $.cookie('c_uid',uid,{path:'/',domain:'imed.me'});
         }else{
           $.cookie('c_uid','', { path:'/',domain:'imed.me',expires: -1 });
         }
@@ -108,6 +165,24 @@
           Android.showChatMsg(JSON.stringify(data));
         }catch(e){
           //console.dir(e);
+        }
+        //console.dir(data);
+        if(data&&data.length>0){
+          for (var i = 0; i <data.length; i++) {
+            var sender = data[i].tid;
+            var _class='';
+            if(data[i].direction==1){
+              sender = '';
+              _class='me';
+            }else{
+              sender =  user_name+':';
+            }
+            if(src==1){
+              $('<li class="'+_class+'"></li>').appendTo('#messages').html("<label for='"+data[i].id+"'><input type='checkbox' id='"+data[i].id+"' value='"+data[i].id+"' />" +sender+data[i].msg+'<span>'+data[i].time+'</span></label>');
+            }
+            
+            $('html, body,#messages').animate({scrollTop: $(document).height()}, 10); 
+          };
         }
         
       }
@@ -132,73 +207,81 @@
       }
 
 
-      //发送消息
-      function sendMsg(uid,tid,token,msg){
-        //从客户端获取聊天信息数据
-        socket.emit('chat', {uid:uid,tid:tid,token:token,msg:msg});
-      }
-
-      function setReaded(data){
-        try{
-            var datastring =JSON.stringify(data); 
-            Android.setReaded(datastring);
-        }catch(e){
-          //console.dir(e);
-        }
-      }
-
       $('form').submit(function(){
-        socket.emit('chat', {uid:userid,tid:targetid,msg:$('#m').val()});
-        
+        socket.emit('chat', {uid:uid,tid:tid,msg:$('#m').val()});
+        //同步更新数据
+         $.post('/manage/service/mergeInfo',{tid:tid},function(d){
+              console.dir(d);
+          });
+
         var today = new Date();
-        $('<li class="me"></li>').appendTo('#messages').html(userid +':'+$('#m').val()+'<span>'+ today.toLocaleTimeString()+'</span>');
+        $('<li class="me"></li>').appendTo('#messages').html($('#m').val()+'<span>'+ today.toLocaleTimeString()+'</span>');
         $('#m').val('');
 
-        socket.emit('acceptrelation',{uid:userid,tid:targetid});
+      
         return false;
       });
-      socket.on('feeds',function(data){
-        console.log('feeds');
-        //console.dir(data);
-        if(data.code==1){
-          data = data.data.body[0];
+      socket.on('notify',function(type,data){
+        console.log('===========notify==========');
+        console.log('===========type '+type+'==========');
+        console.dir(data);
+        switch(type){
+          case 4:{
+            //socket.emit('chat',7,data.data[0]);
+            break;
+          }
+          default:{
+            break;
+          }
+        }
+      });
+
+      socket.on('chat',function(type,data){
+        console.log('===========chat back==========');
+        console.log('============type '+type+'==================');
+        console.dir(data);
+        switch(type){
+          case 2:{
+            console.log('------------receive my msg-----------');
+            if(data.data.length>0){
+              socket.emit('chat',7,{uid:userid,tid:tid,maxmsgid:data.data[0].msgid});
+            }
+            break;
+          }
+          case 4:{
+            socket.emit('chat',5,data.data[0]);
+            break;
+          }
+          default:{
+            break;
+          }
+        }
+      });
+
+      socket.on('login',function(type,data){
+        console.log('===========login back==========');
+        console.log(data);
+      });
+
+      socket.on('typing',function(data){
+        console.log('=============typing===============');
+        console.dir(data);
+        var msg = '';
+        if(data.status==1){
+          msg = data.msg;  
         }else{
-          console.dir(data);
-          console.log('data error');
+          msg = '即时聊天';
         }
-        //console.dir(data);
-        var sender = data.tid;
-        var _class='';
-        if(data.msgtype==1){
-          sender = '';
-          _class='me';
-        }else{
-          sender = sender +':';
-        }
-        $('<li class="'+_class+'"></li>').appendTo('#messages').html(sender+data.msg+'<span>'+data.time.substr(11,5)+'</span>');
-        $('html, body,#messages').animate({scrollTop: $(document).height()}, 10); 
-        showChatMsg(data);
+        $('title').text(msg); 
       });
 
-      socket.on('news',function(data){
-        showMsgList(data);
-      });
-
-      socket.on('readed',function(data){
-        setReaded(data);
-      });
-
-      socket.on('login_error',function(data){
-        if(data.code<0){
-          showError(data);
-          //alert(data.message);
-          console.dir(data);
-        }
-      });
-
-      $('input').focus(function(){
-        $('html, body,#messages').animate({scrollTop: $(document).height()}, 10); 
-      });
+     //发送消息
+      function sendMsg(uid,tid,token,msg){
+        //从客户端获取聊天信息数据
+        console.log('===========sendMsg==========');
+        console.log(msg);
+        socket.emit('chat',3,{uid:uid,tid:tid,token:token,msg:msg});
+      }
 
       {/literal}
     </script>
