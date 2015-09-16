@@ -11,7 +11,7 @@ if(ENV_CONFIG=='product'){
     'TMPL_L_DELIM'          =>  '{',        // 模板引擎普通标签开始标记
     'TMPL_R_DELIM'          =>  '}',          // 模板引擎普通标签结束标记
 	
-	'LOAD_EXT_CONFIG'		=> 'db,content,redis',
+	'LOAD_EXT_CONFIG'		=> 'db,content,redis,privilege',
 	//返回压缩设置
 	'GZIP_CONFIG' =>'OFF',
 	'GZIP_PREFIX' =>'iknowdoctor.com',	//gzip压缩时的前缀，15位
@@ -29,7 +29,7 @@ if(ENV_CONFIG=='product'){
     'TMPL_L_DELIM'          =>  '{',        // 模板引擎普通标签开始标记
     'TMPL_R_DELIM'          =>  '}',          // 模板引擎普通标签结束标记
 	
-	'LOAD_EXT_CONFIG'		=> 'db_dev,content_dev,redis_dev',
+	'LOAD_EXT_CONFIG'		=> 'db_dev,content_dev,redis_dev,privilege_dev',
 	//返回压缩设置
 	'GZIP_CONFIG' =>'OFF',
 	'GZIP_PREFIX' =>'iknowdoctor.com',	//gzip压缩时的前缀，15位

@@ -6,7 +6,7 @@
  * @param        phone    $phone, 电话号码
  * @param        string   $type, CHN中国大陆电话号码, INT国际电话号码
  *
- * @return        bool    正确返回true, 错误返回false
+ * @return       bool    正确返回true, 错误返回false
  */
 function checkMobilePhone($phone, $type = 'CHN'){
 	
@@ -587,7 +587,7 @@ function getThumbPic($img_name,$max_width,$max_height,$suffix=''){
 }  
   
 /** 
-* @name get_thum_size 获得缩略图的尺寸 
+* @name getThumSize 获得缩略图的尺寸 
 * @param    $width  图片宽 
 * @param    $height 图片高 
 * @param    $max_width 最大宽度 
@@ -612,9 +612,42 @@ function getThumbSize($width,$height,$max_width,$max_height){
 }  
   
 /** 
-*@ name get_thum_name 获得略图的名称(在大图基础加_x) 
+*@ name getThumName 获得略图的名称(在大图基础加_x) 
 */  
 function getThumbName($img_name,$suffix){  
 	$str=explode('.',$img_name);
 	return $str[0].'_'.$suffix.'.'.$str[1];
+}
+
+/**
+ * 检查权限
+ *
+ *
+ * @return true/跳转页面
+ */
+function checkPrivilege(){
+	//判断是否开启认证，并且当前模块需要验证
+	if(C('USER_AUTH_ON')&&!in_array(MODULE_NAME, explode(',', C('NOT_AUTH_MODULE')))){
+
+		//import('Org.Util.Rbac');
+		$rbac = new \Org\Util\Rbac;
+
+		//通过accessDecision获取权限信息		
+		if(!$rbac->AccessDecision()){
+			//没有获取到权限信息时需要执行的代码
+			//1、用户没有登录
+			if(!$_SESSION[C('USER_AUTH_KEY')]){
+				header('Location: /index.htm');
+				exit();
+			}else{
+				header('Content-Type:application/json; charset=utf-8');
+				exit(json_encode(array('code'=> -100, 'message'=>'没有权限，请管理员开通操作权限'),true));
+			}
+		}else{
+			//var_dump(strtoupper(MODULE_NAME).'----'.strtoupper(CONTROLLER_NAME).'----'.strtoupper(ACTION_NAME));
+			return true;
+		}
+	}else{
+		return true;
+	}
 }
