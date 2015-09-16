@@ -134,16 +134,31 @@ class UserController extends Controller {
 		if($end_date != '')
 			$end_date = date("Y-m-d", $end_date);
 		$result = $this->user->userInfoByDay($type, $bgn_date, $end_date);
-		## 将result的顺序倒置
+		## 将result的顺序倒置 按照时间从小到大
 		if($result === false)
 			$this->ajaxReturn(array('code'=>-1));
 		$return_data = array();
 		for($i = count($result) - 1; $i >= 0; $i--)
 			$return_data[] = $result[$i];
 		// var_dump($return_data); exit;
+		## 当展示的时间段较长时 对datestamp字段进行缩减
+		##（保证只显示5个 保证开始和结束的日期显示出来）
+		// var_dump(count($return_data));
+		if(count($return_data) > 7)
+		{
+			// var_dump("into if");
+			$len = count($return_data);
+			$tmp_len = $len - 2;
+			$gap_len = $tmp_len / 3; ## 需要分段的各段长度
+			for($i = 1; $i < $len - 1; $i++)
+			{
+				if($i % $gap_len != 0)
+					$return_data[$i]['datestamp'] = '  ';
+			}
+		}
 		$this->ajaxReturn(array('code'=>1, 'data'=>$return_data));
 
-		## 当展示的时间段较长时 对datestamp字段进行缩减
+		## 
 	}
 
 	## 按天统计 每天用户的基础数据 Table

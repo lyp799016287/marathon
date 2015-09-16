@@ -281,15 +281,11 @@ EOF;
 
     public function calRetain()
     {
-        // $min_date = date("Y-m-d", strtotime("-30 days"));
-        // var_dump($min_date);
-//         $sql = <<<EOF
-//         SELECT MIN(register_date) `date` FROM t_user_retain 
-//         WHERE (retain_2 IS NULL OR retain_3 IS NULL OR retain_7 IS NULL OR retain_30 IS NULL) AND register_date >= '{$min_date}'
-// EOF;
         $sql = <<<EOF
-        SELECT MIN(register_date) `date` FROM t_user_retain 
-        WHERE retain_2 IS NULL OR retain_3 IS NULL OR retain_7 IS NULL OR retain_30 IS NULL
+        SELECT MIN(register_date) `date` 
+        FROM t_user_retain 
+        WHERE retain_1 IS NULL OR retain_2 IS NULL OR retain_3 IS NULL OR retain_4 IS NULL OR retain_5 IS NULL 
+        OR retain_6 IS NULL OR retain_7 IS NULL OR retain_14 IS NULL OR retain_30 IS NULL
 EOF;
         // var_dump($sql);
         $re = queryByNoModel('t_user_retain', '', $this->stat_config, $sql);
@@ -299,7 +295,6 @@ EOF;
         // if(count($re) > 0)
         if(!is_null($re[0]['date']))
         {
-            // var_dump("into not null");
             $sql = "SELECT * FROM t_user_retain WHERE register_date >= '" . $re[0]['date'] . "'";
             $date_info = queryByNoModel('t_user_retain', '', $this->stat_config, $sql);
             if($date_info === false)
@@ -307,10 +302,9 @@ EOF;
             for($i = 0; $i < count($date_info); $i++)
             {
                 $reg_date = $date_info[$i]['register_date'];
-                var_dump($reg_date);
                 $end_date = date("Y-m-d", strtotime("-1 day"));
                 $day_interval = (strtotime($end_date) - strtotime($reg_date)) / 86400; # 时间间隔
-                var_dump($day_interval);
+                // var_dump($day_interval);
                 $re_data = $this->getUpdateData($date_info[$i], $day_interval);
                 if($re_data === false)
                     return array('code'=>-9, 'message'=>'获取更新数据失败');
@@ -318,38 +312,38 @@ EOF;
                 $retain_data = $re_data['retain'];
                 ## update table
                 $data = array();
-                for($i = 0; $i <count($update_data); $i++)
+                for($j = 0; $j < count($update_data); $j++)
                 {
-                    if($update_data[$i] == 1)
+                    if($update_data[$j] == 1)
                     {
-                        switch($i)
+                        switch($j)
                         {
                             case 0:
-                                $data['retain_1'] = $retain_data[$i];
+                                $data['retain_1'] = $retain_data[$j];
                                 break;
                             case 1:
-                                $data['retain_2'] = $retain_data[$i];
+                                $data['retain_2'] = $retain_data[$j];
                                 break;
                             case 2:
-                                $data['retain_3'] = $retain_data[$i];
+                                $data['retain_3'] = $retain_data[$j];
                                 break;
                             case 3:
-                                $data['retain_4'] = $retain_data[$i];
+                                $data['retain_4'] = $retain_data[$j];
                                 break;
                             case 4:
-                                $data['retain_5'] = $retain_data[$i];
+                                $data['retain_5'] = $retain_data[$j];
                                 break;
                             case 5:
-                                $data['retain_6'] = $retain_data[$i];
+                                $data['retain_6'] = $retain_data[$j];
                                 break;
                             case 6:
-                                $data['retain_7'] = $retain_data[$i];
+                                $data['retain_7'] = $retain_data[$j];
                                 break;
                             case 7:
-                                $data['retain_14'] = $retain_data[$i];
+                                $data['retain_14'] = $retain_data[$j];
                                 break;
                             case 8:
-                                $data['retain_30'] = $retain_data[$i];
+                                $data['retain_30'] = $retain_data[$j];
                                 break;
                             default:
                                 break;
@@ -359,11 +353,8 @@ EOF;
 
                 $data['modify_time'] = date('Y-m-d H:i:s', time());
                 $condition['register_date'] = $reg_date;
-                // $condition = "register_date = '" . $reg_date . "'";
                 $table = 't_user_retain';
-                var_dump($data); exit;
                 $update_re = $this->updateTable($table, $condition, $data);
-                // exit;
                 if($update_re === false)
                     return array('code'=>-13, 'message'=>"更新表数据错误：" . 't_user_retain');
             }
@@ -373,7 +364,6 @@ EOF;
         $re = queryByNoModel('t_user_retain', '', $this->stat_config, $sql);
         if($re === false)
             return array('code'=>-14, 'message'=>'查询错误：' . $sql);
-        // if(count($re) > 0)
         if(!is_null($re[0]['date']))
         {
             $max_date = $re[0]['date'];
@@ -392,20 +382,19 @@ EOF;
             else
                 return array('code'=>0, 'message'=>'无更新数据');
         }
-        // var_dump($max_date); exit;
 
         $next_date = date('Y-m-d', strtotime($max_date) + 86400);
         $now_date = date('Y-m-d', time());
         while($now_date > $next_date)
         {
             $day_interval = (strtotime($now_date) - strtotime($next_date)) / 86400;
-            $data = $this->getInsertData($next_date, $day_interval);
-            if($data['code'] < 0)
+            $data = $this->getInsertData($max_date, $day_interval);
+            if($data === false)
                 return array('code'=>-16, 'message'=>'获取数据失败');
-            $re = insertByNoModel('t_user_retain', '', $this->stat_config, $data['data']); 
+            $re = insertByNoModel('t_user_retain', '', $this->stat_config, $data); 
             if($re === false)
                 return array('code'=>-17, 'message'=>'插入数据表错误');
-            // $max_date = date('Y-m-d', strtotime($max_date) + 86400);
+            $max_date = date('Y-m-d', strtotime($max_date) + 86400);
             $next_date = date('Y-m-d', strtotime($next_date) + 86400);
         }
         return array('code'=>1, 'message'=>'执行成功');
@@ -423,7 +412,6 @@ EOF;
         if(is_null($date_info['retain_1']) && $day_interval >= 1)
         {
             $re = $this->calRetainNum($reg_date, 1);
-            // exit;
             if($re === false)
                 return false;
             $retain_date[0] = $re[0]['total_retain'];
@@ -432,7 +420,6 @@ EOF;
         if(is_null($date_info['retain_2']) && $day_interval >= 2)
         {
             $re = $this->calRetainNum($reg_date, 2);
-            // exit;
             if($re === false)
                 return false;
             $retain_date[1] = $re[0]['total_retain'];
@@ -502,56 +489,12 @@ EOF;
     private function getInsertData($date, $day_interval)
     {
         $insert_data = array();
-        $insert_data['register_date'] = $date;
+        
         $insert_data = $this->getInsertField($date, $day_interval);
         if($insert_data === false)
-            return array('code'=>-18, 'message'=>'');
-        // if($day_interval >= 30)
-        // {
-            
-
-        // }
-        // elseif($day_interval >= 14)
-        // {
-
-        // }
-        // elseif($day_interval >= 7)
-        // {
-        //     $retain_7 = $this->calRetainNum($date, 7);
-        //     if($retain_7 === false)
-        //         return array('code'=>-22, 'message'=>"执行错误");
-        //     $insert_data['retain_7'] = $retain_7[0]['total_retain'];
-
-        //     $retain_3 = $this->calRetainNum($date, 3);
-        //     if($retain_3 === false)
-        //         return array('code'=>-23, 'message'=>"执行错误");
-        //     $insert_data['retain_3'] = $retain_3[0]['total_retain'];
-
-        //     $retain_2 = $this->calRetainNum($date, 2);
-        //     if($retain_2 === false)
-        //         return array('code'=>-24, 'message'=>"执行错误");
-        //     $insert_data['retain_2'] = $retain_2[0]['total_retain'];
-        // }
-        // elseif($day_interval >= 3)
-        // {
-        //     $retain_3 = $this->calRetainNum($date, 3);
-        //     if($retain_3 === false)
-        //         return array('code'=>-25, 'message'=>"执行错误");
-        //     $insert_data['retain_3'] = $retain_3[0]['total_retain'];
-
-        //     $retain_2 = $this->calRetainNum($date, 2);
-        //     if($retain_2 === false)
-        //         return array('code'=>-26, 'message'=>"执行错误");
-        //     $insert_data['retain_2'] = $retain_2[0]['total_retain'];      
-        // }
-        // elseif($day_interval >= 2)
-        // {
-        //     $retain_2 = $this->calRetainNum($date, 2);
-        //     if($retain_2 === false)
-        //         return array('code'=>-27, 'message'=>"执行错误");
-        //     $insert_data['retain_2'] = $retain_2[0]['total_retain'];
-        // }
-        return array('code'=>1, 'message'=>'', 'data'=>$insert_data);
+            return false;
+        $insert_data['register_date'] = $date;
+        return $insert_data;
     }
 
     private function getInsertField($date, $max_gap)
@@ -637,8 +580,6 @@ EOF;
         WHERE `status` IN (1, 2) AND create_time >= '{$time2}' AND create_time < '{$time3}'
         GROUP BY user_uid ) b ON a.user_uid = b.user_uid WHERE b.create_time IS NOT NULL;
 EOF;
-        // if($day_interval === 3)
-        //     var_dump($sql);
         return $this->query($sql);
     }
 
