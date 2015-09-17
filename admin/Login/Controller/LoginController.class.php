@@ -16,12 +16,21 @@ class LoginController extends Controller {
 		//if($result === true)
 		if(is_array($result))
 		{
+			$user_id = $result[0]['id'];
+
 			$expire = 3600;
 			$this->loginFlow($userName, 1);
 			session('userName',$userName);
-			session('userId', $result[0]['id']);
+			session('userId', $user_id);
 			cookie('userName',$userName,$expire);
 			cookie('password',$password,$expire);
+
+			//获取用户权限列表
+			$rbac = new \Org\Util\Rbac;	//导入权限验证类
+			$_SESSION[C('USER_AUTH_KEY')] = $user_id;
+			//获取用户的权限
+			$rbac->saveAccessList($user_id);
+
 			$this->ajaxReturn(array('code'=>1, 'message'=>'登录成功'));
 		}
 		elseif($result === -1)
