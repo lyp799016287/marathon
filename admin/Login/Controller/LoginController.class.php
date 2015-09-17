@@ -21,15 +21,17 @@ class LoginController extends Controller {
 			$expire = 3600;
 			$this->loginFlow($userName, 1);
 			session('userName',$userName);
-			session('userId', $user_id);
+			//session('userId', $user_id);
 			cookie('userName',$userName,$expire);
 			cookie('password',$password,$expire);
 
 			//获取用户权限列表
 			$rbac = new \Org\Util\Rbac;	//导入权限验证类
 			$_SESSION[C('USER_AUTH_KEY')] = $user_id;
+			
 			//获取用户的权限
 			$rbac->saveAccessList($user_id);
+
 
 			$this->ajaxReturn(array('code'=>1, 'message'=>'登录成功'));
 		}
@@ -89,5 +91,35 @@ class LoginController extends Controller {
 		}
 	}
 
+	public function getMenu(){
+		/*$sql = "SELECT menu_id, menu_name, menu_desc, menu_url FROM t_menu WHERE STATUS = 1";
+		$rs = queryByNoModel('t_menu', '', 'DB_LOCAL_ADMIN', $sql);
+		*/
+
+		$app_name = '';
+		$url_list = array();		//用户有访问权限的url
+
+		if(isset($_SESSION["_ACCESS_LIST"]) && !empty($_SESSION["_ACCESS_LIST"])){
+			foreach($_SESSION["_ACCESS_LIST"] as $app=>$controls){
+				foreach($controls as $control=>$actions){
+					foreach($actions as $action=>$val){
+						$tmp = '/'.strtolower($app).'/'.strtolower($control).'/'.strtolower($action);
+						array_push($url_list, $tmp);
+						unset($tmp);
+					}
+				}
+			}
+		}
+
+		//var_dump($url_list);
+
+		$_SESSION['_ACCESS_URL_LIST'] = $url_list;		//具有访问权限的链接url
+		
+		/*if(empty($rs)){
+			$this->ajaxReturn(array('code'=>0, 'message'=>'菜单为空'), 'JSON');
+		}else{
+			$this->ajaxReturn(array('code'=>1, 'message'=>'', 'data'=>$rs), 'JSON');
+		}*/
+	}
 	
 }
