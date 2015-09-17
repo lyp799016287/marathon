@@ -13,11 +13,13 @@ class LoginController extends Controller {
 		$login = new LoginModel();
 		$result = $login->loginVarify($userName, $password);
 		// var_dump($result);
-		if($result === true)
+		//if($result === true)
+		if(is_array($result))
 		{
 			$expire = 3600;
 			$this->loginFlow($userName, 1);
 			session('userName',$userName);
+			session('userId', $result[0]['id']);
 			cookie('userName',$userName,$expire);
 			cookie('password',$password,$expire);
 			$this->ajaxReturn(array('code'=>1, 'message'=>'登录成功'));

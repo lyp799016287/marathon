@@ -5,7 +5,7 @@ return array(
     'USER_AUTH_ON'			=>true, //是否需要认证
     'USER_AUTH_TYPE'		=>1, //认证类型
 	'ADMIN_AUTH_KEY'		=>'admin',
-    'USER_AUTH_KEY'			=>'user_id',  // 认证识别号
+    'USER_AUTH_KEY'			=>'userId',  // 认证识别号
     'USER_AUTH_MODEL'		=>'t_user',//模型实例（用户表名）
     'REQUIRE_AUTH_MODULE'	=>'',  //需要认证模块
     'NOT_AUTH_MODULE'		=>'',   //无需认证模块

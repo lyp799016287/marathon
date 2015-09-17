@@ -11,7 +11,8 @@ class LoginModel extends Model {
         $selectSql = "SELECT * FROM t_user WHERE user_name = '" . $name . "' AND user_psw = '" . $psw . "' AND `status` = 2";
         $re = $this->query($selectSql);
         if($re)
-            return true;
+            //return true;
+			return $re;
         else
         {
             $seSql = "SELECT * FROM t_user WHERE user_name = '" . $name . "' AND `status` = 1";
