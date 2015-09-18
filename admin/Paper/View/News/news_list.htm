@@ -45,7 +45,7 @@ table {
 			<tr id="headerlist">
 				<!--<th class="check"><input type="checkbox" id='checked' /><label for="checked">全选</label></th>-->
 				<th class="type" width="10%">大类</th>
-				<th class="label" width="10%">分类</th>
+				<th class="category" width="10%">分类</th>
 				<th class="title" width="40%">标题</th>
 				<th class="publish" width="10%">发布时间</th>
 				<th class="level" width="5%">是否推荐</th>
@@ -57,7 +57,7 @@ table {
 			<tr class="data">
 				<!--<td><input type="checkbox" value="{$foo.id}" name="info_id"></td>-->
 				<td class="type">{$foo.type}</td>
-				<td class="label">{$foo.category}</td>
+				<td class="category">{$foo.category}</td>
 				<td class="title">{$foo.title}</td>
 				<td class="publish">{$foo.pub_date}</td>
 				<td class="level">{if $foo.is_focus eq 1}是{else}否{/if}</td>
