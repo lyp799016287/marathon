@@ -170,7 +170,7 @@ hr {
 #pager span{color: #cccccc;display: inline-block;margin: 0 0.5rem;}
 #pager span.total{color: #000000;}
 #form_detail{border: none;}
-#form_detail label{display: block; border:none; line-height: 1rem;font-size: 1rem;margin: 1rem 0 0 0;}
+#form_detail label{display: inline-block; border:none; line-height: 1rem;font-size: 1.2rem;margin: 1rem 0 0 0;}
 #form_detail label input[type='text']{
 	padding: 0.2rem;
 	border: 1px solid #e5e5e5;
@@ -178,6 +178,7 @@ hr {
 	-moz-border-radius: 0.2rem; /* Gecko browsers */
 	-webkit-border-radius: 0.2rem; /* Webkit browsers */
 	border-radius: 0.2rem;
+	min-width: 20rem;
 }
 #oppanel{text-align: center;height: 3rem;line-height: 3rem;}
 #oppanel input[type='button']{
