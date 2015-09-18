@@ -287,3 +287,6 @@ td.title{max-width: 25rem;overflow: hidden;}
 #imgTag{display: none;}
 
 
+nav a { font-family: '微软雅黑';letter-spacing: 0.1rem; }
+header { height: 51px; }
+.navbar-brand { font-weight: bold;font-size: 1.5em; }

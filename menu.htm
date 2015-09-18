@@ -12,8 +12,8 @@
 				<a href="javascript:void(0);" class="navbar-brand">医道后台管理系统</a>
 			</div>
 			<div class="navbar-collapse collapse" id="navbar">
-				<ul class="nav navbar-nav">
-					<li class="dropdown">
+				<ul class="nav navbar-nav" id="menu_list">
+					<!--<li class="dropdown">
 						<a aria-expanded="false" aria-haspopup="true" role="button" data-toggle="dropdown" class="dropdown-toggle" href="/">
 							<span aria-hidden="true" class="glyphicon glyphicon-home"></span>首页
 						</a>
@@ -67,12 +67,12 @@
 							<li><a href="#">菜单管理</a></li>
 						</ul>
 					</li>
-							
+					-->			
 				</ul>
 				<ul class="nav navbar-nav navbar-right" id="menu-right">
 					<li class="">
 						<a href="javascript:void(0);">
-							<span aria-hidden="true" class="glyphicon glyphicon-off"></span>
+							<span aria-hidden="true" class="glyphicon glyphicon-off logout"></span>
 							退出
 						</a>
 					</li>
@@ -91,16 +91,34 @@
 			url : '/login/login/getmenu/',
 			dataType : 'json',
 			success: function(rdata) {
-				/*if(rdata.code == 1){
-					alert(rdata.message);
-					window.location.reload();
-				}*/
+				if(rdata.code == 1){
+					menu.makeMenu(rdata.data);
+				}
 			},
 			error: function() {
 				alert("接口调用失败");
 			}
 		});
-		
+	}
+
+	menu.makeMenu = function(data){
+		var hml = '';
+		for(var i=0; i< data.length; i++){
+			hml += '<li class="dropdown"><a aria-expanded="false" aria-haspopup="true" role="button" data-toggle="dropdown" class="dropdown-toggle" href="/"><span aria-hidden="true" class="glyphicon '+data[i]['icon']+'"></span>'+data[i]['name'];
+			var menu_arr = data[i]['menu'];
+			if(menu_arr.length !=0){
+				hml += '<span class="caret"></span>';
+				hml += '</a><ul class="dropdown-menu">';
+
+				for(var j=0; j < menu_arr.length; j++){
+					hml += '<li><a href="'+menu_arr[j]['url']+'">'+menu_arr[j]['name']+'</a></li>';
+				}
+				hml += '</ul>';
+			}	
+			hml += '</li>';
+
+		}
+		$("#menu_list").empty().html(hml);
 	}
 
 	menu.init();
