@@ -99,7 +99,7 @@ class LoginController extends Controller {
 		$rs = queryByNoModel('t_menu', '', 'DB_ADMIN', $sql);
 
 		if(!empty($rs)){
-			foreach($rs as $key=>$val){
+			foreach($rs as $key=>&$val){
 				$sql2 = "SELECT id, NAME, url, parent_id, icon FROM t_menu WHERE STATUS=1 AND parent_id = ".$val['id'];
 				$rrs = queryByNoModel('t_menu', '', 'DB_ADMIN', $sql2);
 				if(!empty($rrs)){
