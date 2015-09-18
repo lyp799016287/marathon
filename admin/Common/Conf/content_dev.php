@@ -47,5 +47,8 @@ return array(
 	'ZX_LABEL_LIST'		=> $ZX_LABEL_LIST,
 	'ZX_CATE_LABEL_LIST'=> $ZX_CATE_LABEL_LIST,
 	'ZX_CATE_LIST'	=> $ZX_CATE_LIST,
-	'SECRET_COMMENT_UID' => $SECRET_COMMENT_UID
+	'SECRET_COMMENT_UID' => $SECRET_COMMENT_UID,
+	'MENU_PATH' => ROOT_PATH.'/admin_imed_me/',
+	'CSS_PATH'	=> ROOT_PATH.'/admin_imed_me/res/css/',
+	'JS_PATH'	=> ROOT_PATH.'/admin_imed_me/res/js/' 
 );

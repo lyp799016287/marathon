@@ -7,8 +7,7 @@ class SecretController extends Controller {
 
 	public function _initialize(){
 		$this->secret = D('Secret');
-		$this->assign("menu_path", ROOT_PATH.'/admin_imed_me/');
-		$this->assign("index", 4);
+		$this->assign("menu_path", C("MENU_PATH"));
 	}
 
 	/**秘密列表**/
