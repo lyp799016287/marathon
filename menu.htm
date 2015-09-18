@@ -120,9 +120,20 @@
 		}
 		$("#menu_list").empty().html(hml);
 
-		$(".dropdown-toggle").click(function(){
+		/*$(".dropdown-toggle").click(function(){
 			$(this).parent("li").addClass('open');
+		});*/
+		$(".dropdown-toggle").hover(function(){
+			$(this).parent("li").addClass('open');
+		}, function(){
+			$(this).parent("li").removeClass('open');
 		});
+
+		$(".dropdown-menu").hover(function(){
+			$(this).parent("li").addClass('open');
+		}, function(){
+			$(this).parent("li").removeClass('open');
+		})
 	}
 
 	menu.init();
