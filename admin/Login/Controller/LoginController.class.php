@@ -95,7 +95,21 @@ class LoginController extends Controller {
 		/*$sql = "SELECT menu_id, menu_name, menu_desc, menu_url FROM t_menu WHERE STATUS = 1";
 		$rs = queryByNoModel('t_menu', '', 'DB_LOCAL_ADMIN', $sql);
 		*/
+		$sql = "SELECT id, NAME, url, parent_id, icon FROM t_menu WHERE STATUS=1 AND parent_id = 0";
+		$rs = queryByNoModel('t_menu', '', 'DB_ADMIN', $sql);
 
+		if(!empty($rs)){
+			foreach($rs as $key=>$val){
+				$sql2 = "SELECT id, NAME, url, parent_id, icon FROM t_menu WHERE STATUS=1 AND parent_id = ".$val['id'];
+				$rrs = queryByNoModel('t_menu', '', 'DB_ADMIN', $sql2);
+				if(!empty($rrs)){
+					$val['menu'] = $rrs;
+				}else{
+					$val['menu'] = array();
+				}
+			}
+		}
+/*
 		$app_name = '';
 		$url_list = array();		//用户有访问权限的url
 
@@ -113,13 +127,13 @@ class LoginController extends Controller {
 
 		//var_dump($url_list);
 
-		$_SESSION['_ACCESS_URL_LIST'] = $url_list;		//具有访问权限的链接url
+		$_SESSION['_ACCESS_URL_LIST'] = $url_list;		//具有访问权限的链接url*/
 		
-		/*if(empty($rs)){
+		if(empty($rs)){
 			$this->ajaxReturn(array('code'=>0, 'message'=>'菜单为空'), 'JSON');
 		}else{
 			$this->ajaxReturn(array('code'=>1, 'message'=>'', 'data'=>$rs), 'JSON');
-		}*/
+		}
 	}
 	
 }

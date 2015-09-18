@@ -1,4 +1,4 @@
-<script src="/res/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/res/js/bootstrap.min.js"></script>
 <header>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
@@ -83,6 +83,25 @@
 	</nav>
 </header>
 
-<script>
-	
+<script type="text/javascript">
+	var menu = {};
+	menu.init = function(){		
+		$.ajax({
+			type : 'POST',
+			url : '/login/login/getmenu/',
+			dataType : 'json',
+			success: function(rdata) {
+				/*if(rdata.code == 1){
+					alert(rdata.message);
+					window.location.reload();
+				}*/
+			},
+			error: function() {
+				alert("接口调用失败");
+			}
+		});
+		
+	}
+
+	menu.init();
 </script>
