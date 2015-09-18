@@ -7,6 +7,7 @@
 <meta name="format-detection" content="telephone=no">
 <meta http-equiv="cleartype" content="on">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+{include file="$menu_path/common_css.htm"}
 <link rel="stylesheet" type="text/css" media="all" href="/admin.css" />
 <title>首页轮播</title>
 <script type="text/javascript" src="/res/js/jquery.min.js"></script>
@@ -21,14 +22,9 @@ table {
 </style>
 </head>
 <body>
-<div id="left">
-	<div id="userinfo">
-		<span id='userName'></span>
-	</div>
-	<nav>
-		{include file="$menu_path/menu.htm"}
-	</nav>
-</div>
+
+{include file="$menu_path/menu.htm"}
+
 <div id="main_body">
 	<header>
 		<!--<label>状态：<select id="status" name="status"><option value="0">--全部--</option>

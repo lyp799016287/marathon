@@ -1,4 +1,4 @@
-<script type="text/javascript" src="/res/js/bootstrap.min.js"></script>
+<!--<script type="text/javascript" src="/res/js/bootstrap.min.js"></script>-->
 <header>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
@@ -104,7 +104,7 @@
 	menu.makeMenu = function(data){
 		var hml = '';
 		for(var i=0; i< data.length; i++){
-			hml += '<li class="dropdown"><a aria-expanded="false" aria-haspopup="true" role="button" data-toggle="dropdown" class="dropdown-toggle" href="/"><span aria-hidden="true" class="glyphicon '+data[i]['icon']+'"></span>'+data[i]['name'];
+			hml += '<li class="dropdown"><a aria-expanded="false" aria-haspopup="true" role="button" data-toggle="dropdown" class="dropdown-toggle" href="javascript:void(0);"><span aria-hidden="true" class="glyphicon '+data[i]['icon']+'"></span>'+data[i]['name'];
 			var menu_arr = data[i]['menu'];
 			if(menu_arr.length !=0){
 				hml += '<span class="caret"></span>';
@@ -119,6 +119,10 @@
 
 		}
 		$("#menu_list").empty().html(hml);
+
+		$(".dropdown-toggle").click(function(){
+			$(this).parent("li").addClass('open');
+		});
 	}
 
 	menu.init();
