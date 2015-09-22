@@ -501,6 +501,12 @@ class NewsController extends Controller {
 			// Validate the file type
 			$fileTypes = array('jpg','jpeg','gif','png','JPG','JPEG','GIF','PNG'); // File extensions
 			
+
+			$filesize = $_FILES['upfile']['size'];
+		
+			if($filesize > 100*1024){
+				$this->ajaxReturn(array('state'=>'FAIL', 'message'=>'图片过大，请调整图片大小'), 'JSON');	
+			}
 			
 			if (in_array($fileParts['extension'],$fileTypes)) {
 				if(move_uploaded_file($tempFile,$targetFile)){
