@@ -505,7 +505,7 @@ class NewsController extends Controller {
 			$filesize = $_FILES['upfile']['size'];
 		
 			if($filesize > 100*1024){
-				$this->ajaxReturn(array('state'=>'FAIL', 'message'=>'图片过大，请调整图片大小'), 'JSON');	
+				$this->ajaxReturn(array('state'=>'图片过大，请调整图片大小', 'message'=>''), 'JSON');	
 			}
 			
 			if (in_array($fileParts['extension'],$fileTypes)) {
@@ -527,7 +527,7 @@ class NewsController extends Controller {
 					$this->ajaxReturn(array('state'=>'FAIL'), 'JSON');
 				}
 			} else {
-				$this->ajaxReturn(array('state'=>'FAIL', 'message'=>'上传图片格式不对'), 'JSON');
+				$this->ajaxReturn(array('state'=>'上传图片格式不对', 'message'=>''), 'JSON');
 			}
 		}else{
 			$this->ajaxReturn($config, 'JSON');
