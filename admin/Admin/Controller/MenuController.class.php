@@ -83,10 +83,7 @@ class MenuController extends Controller {
 		if(isset($_REQUEST['menu_id'])) {
 			$menu_id = $_REQUEST['menu_id'];
 			$menu_id = intval($menu_id);
-			if($menu_id > 1000000000 || $menu_id < -1000000000){
-				$this->ajaxReturn(1, 'JSON');
-			}
-			$data['menu_id'] = $menu_id;
+			$data['id'] = $menu_id;
 		}
 		if(isset($_REQUEST['menu_name'])) {
 			$menu_name = $_REQUEST['menu_name'];
@@ -94,15 +91,7 @@ class MenuController extends Controller {
 			if($menu_nameLen > 32 || $menu_nameLen < 0){
 				$this->ajaxReturn(1, 'JSON');
 			}
-			$data['menu_name'] = $menu_name;
-		}
-		if(isset($_REQUEST['menu_desc'])) {
-			$menu_desc = $_REQUEST['menu_desc'];
-			$menu_descLen = strlen($menu_desc);
-			if($menu_descLen > 128 || $menu_descLen < 0){
-				$this->ajaxReturn(1, 'JSON');
-			}
-			$data['menu_desc'] = $menu_desc;
+			$data['name'] = $menu_name;
 		}
 		if(isset($_REQUEST['menu_url'])) {
 			$menu_url = $_REQUEST['menu_url'];
@@ -111,45 +100,10 @@ class MenuController extends Controller {
 			if($menu_urlLen > 128 || $menu_urlLen < 0){
 				$this->ajaxReturn(1, 'JSON');
 			}
-			$data['menu_url'] = $menu_url;
-		}
-		if(isset($_REQUEST['menu_tabid'])) {
-			$menu_tabid = $_REQUEST['menu_tabid'];
-			$menu_tabidLen = strlen($menu_tabid);
-			if($menu_tabidLen > 64 || $menu_tabidLen < 0){
-				$this->ajaxReturn(1, 'JSON');
-			}
-			$data['menu_tabid'] = $menu_tabid;
-		}
-		if(isset($_REQUEST['isdefault'])) {
-			$isdefault = $_REQUEST['isdefault'];
-			if($isdefault==true)
-			{
-				$data['isdefault']=1;
-			}
-			else
-			{
-				$data['isdefault']=0;
-			}
-		}
-		if(isset($_REQUEST['sortorder'])) {
-			$sortorder = $_REQUEST['sortorder'];
-			$sortorderLen = strlen($sortorder);
-			if($sortorderLen > 64 || $sortorderLen < 0){
-				$this->ajaxReturn(1, 'JSON');
-			}
-			$data['sortorder'] = $sortorder;
-		}
-		if(isset($_REQUEST['accordion'])) {
-			$accordion = $_REQUEST['accordion'];
-			$accordionLen = strlen($accordion);
-			if($accordionLen > 128 || $accordionLen < 0){
-				$this->ajaxReturn(1, 'JSON');
-			}
-			$data['accordion'] = $accordion;
+			$data['url'] = $menu_url;
 		}
 
-		$update = "UPDATE t_menu SET menu_name = '".$data['menu_name']."', menu_desc = '".$data['menu_desc']."', menu_url = '".$data['menu_url']."', menu_tabid = '".$data['menu_tabid']."', isdefault = '".$data['isdefault']."', sortorder = '".$data['sortorder']."', accordion = '".$data['accordion']."' WHERE menu_id={$menu_id}";
+		$update = "UPDATE t_menu SET name = '".$data['name']."', url = '".$data['url']."' WHERE menu_id={$menu_id}";
 		$retVal = execByNoModel('t_menu', '', 'DB_ADMIN', $update);
 		if($retVal === false) {
 			$this->ajaxReturn(1, 'JSON');
@@ -227,7 +181,7 @@ class MenuController extends Controller {
 		$menu_id = $_REQUEST['menu_id'];
 		$menu_id = intval($menu_id);
 
-		$sql = "SELECT * FROM t_menu WHERE menu_id={$menu_id}";
+		$sql = "SELECT * FROM t_menu WHERE id={$menu_id}";
 		$retVal = queryByNoModel('t_menu', '', 'DB_ADMIN', $sql);
 		if($retVal == false) {
 			$this->ajaxReturn(1, 'JSON');
@@ -301,7 +255,7 @@ class MenuController extends Controller {
 
 	function selectAll()
 	{
-		$sql = "SELECT * FROM t_menu";
+		$sql = "SELECT id, name, url, parent_id FROM t_menu WHERE status = 1";
 		$retVal = queryByNoModel('t_menu', '', 'DB_ADMIN', $sql);
 		if($retVal == false) {
 			$this->ajaxReturn(1, 'JSON');

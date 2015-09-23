@@ -354,6 +354,34 @@ function updateByNoModel($name, $prefix ='', $config, $sql){
 }
 
 /**
+ *基础方法，无模型文件的删除更新方法
+ * @params $name		table_name 
+ * @params $prefix		表前缀
+ * @params $config		数据库配置
+ * @params $sql			execute语句
+ * @return false/int
+ *
+ **/
+function execByNoModel($name, $prefix ='', $config, $sql){
+	if(empty($name)){
+		return false;
+	}
+
+	if(empty($config)){
+		return false;
+	}
+
+	if(empty($sql)){
+		return false;
+	}
+
+	$obj_mod = M($name, $prefix, $config);
+	$obj_mod->execute("SET NAMES utf8");
+	
+	return $obj_mod->execute($sql);
+}
+
+/**
  * 时间差计算
  * @params $startTime		开始时间 
  * @params $endTime			结束时间

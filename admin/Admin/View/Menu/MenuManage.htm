@@ -69,13 +69,13 @@
 	$(function ()
 	{
 		manager = $("#tree1").ligerTree({
-			url: '/json.php?mod=Menu&act=selectAll',
+			url: '/admin/menu/selectAll',
 			checkbox: false,
 			treeLine: true,
 			width: '100%',
-			idFieldName :'menu_id',
-			textFieldName:'menu_desc',
-			parentIDFieldName :'menu_fid',
+			idFieldName :'id',
+			textFieldName:'name',
+			parentIDFieldName :'parent_id',
 			onClick: TreeOnClick
 		});
 		manager.collapseAll();
@@ -86,12 +86,12 @@
 	{
 		if (window.isCollapsed) {
 			_currentTreeNode=treeNode;
-			_selectMenuName = treeNode.data.menu_desc;
-			_selectMenuID = treeNode.data.menu_id;
-			_selectMenuFatherID = treeNode.data.menu_fid;
+			_selectMenuName = treeNode.data.name;
+			_selectMenuID = treeNode.data.id;
+			_selectMenuFatherID = treeNode.data.parent_id;
 			$.ajax({
 				type: 'get',
-				url: "/json.php?mod=Menu&act=detl&menu_id="+_selectMenuID, 
+				url: "/admin/menu/detl?menu_id="+_selectMenuID, 
 				dataType: 'json',
 				success: ShowMenuInfo
 			});
@@ -102,16 +102,10 @@
 	{
 		var content;
 		content = "<table % class='inner_table'>";
-			content += "<tr><td>菜单编号</td><td>"+para[0]['menu_id']+"</td></tr>";
-			content += "<tr><td>菜单ID</td><td>"+para[0]['menu_name']+"</td></tr>";
-			content += "<tr><td>菜单描述</td><td>"+para[0]['menu_desc']+"</td></tr>";
-			content += "<tr><td>父级菜单</td><td>"+para[0]['menu_fid']+"</td></tr>";
-			content += "<tr><td>父级URL</td><td>"+para[0]['menu_url']+"</td></tr>";
-			content += "<tr><td>父级TABID</td><td>"+para[0]['menu_tabid']+"</td></tr>";
-			var check=para[0]['isdefault']==1?'checked':'';
-			content += "<tr><td>是否默认</td><td><input type='checkbox' disabled "+check+"></td></tr>";
-			content += "<tr><td>排序优先级</td><td>"+para[0]['sortorder']+"</td></tr>";
-			content += "<tr><td>所属组</td><td>"+para[0]['accordion']+"</td></tr>";
+			content += "<tr><td>菜单编号</td><td>"+para[0]['id']+"</td></tr>";
+			content += "<tr><td>菜单</td><td>"+para[0]['name']+"</td></tr>";
+			content += "<tr><td>父级菜单ID</td><td>"+para[0]['parent_id']+"</td></tr>";
+			content += "<tr><td>菜单URL</td><td>"+para[0]['url']+"</td></tr>";
 			content += "<tr><td>创建时间</td><td>"+para[0]['create_time']+"</td></tr>";
 			content += "</table>";
 		document.getElementById("detail_info").innerHTML=content;
@@ -132,7 +126,7 @@
 		}
 		$.ajax({
 			type: 'get',
-			url: '/json.php?mod=Menu&act=detl&menu_id='+_selectMenuID, 
+			url: '/admin/menu/detl?menu_id='+_selectMenuID, 
 			dataType: 'json',
 			success: ShowEditPage
 		});
@@ -142,15 +136,10 @@
 	{			
 		var content;
 		content = "<table class='inner_table dialog_content' >";
-			content += "<tr heigth=80 ><td  >菜单ID</td><td  ><input type='text' id='menu_name' value='"+para[0]['menu_name']+"' ></td></tr>";
-			content += "<tr heigth=80 ><td  >父级菜单</td><td   >"+para[0]['menu_fid']+"</td></tr>";
-			content += "<tr heigth=80 ><td  >菜单描述</td><td  ><textarea id='menu_desc'>"+para[0]['menu_desc']+"</textarea></td></tr>";
-			content += "<tr heigth=80 ><td  >菜单URL</td><td  ><textarea id='menu_url'>"+para[0]['menu_url']+"</textarea></td></tr>";
-			content += "<tr heigth=80 ><td  >菜单TABID</td><td  ><textarea id='menu_tabid'>"+para[0]['menu_tabid']+"</textarea></td></tr>";
-			var check=para[0]['isdefault']==1?'checked':'';
-			content += "<tr><td>是否默认</td><td><input type='checkbox' id='isdefault' "+check+"></td></tr>";
-			content += "<tr heigth=80 ><td  >排序优先级</td><td  ><textarea id='sortorder'>"+para[0]['sortorder']+"</textarea></td></tr>";
-			content += "<tr heigth=80 ><td  >所属组</td><td  ><textarea id='accordion'>"+para[0]['accordion']+"</textarea></td></tr>";
+			content += "<tr heigth=80><td>菜单ID</td><td><input type='text' id='menu_id' disabled='disabled' value='"+para[0]['id']+"' ></td></tr>";
+			content += "<tr heigth=80><td>父级菜单ID</td><td>"+para[0]['parent_id']+"</td></tr>";
+			content += "<tr heigth=80><td>菜单</td><td><textarea id='menu_name'>"+para[0]['name']+"</textarea></td></tr>";
+			content += "<tr heigth=80><td>菜单URL</td><td><textarea id='menu_url'>"+para[0]['url']+"</textarea></td></tr>";
 			content += "</table>";
 		content += "<span class='bl_btn'><input type='button' onclick='EditOperation();' value='更新' ></span>";
 		$.ligerDialog.open({title:"修改",width:500, target: content,isResize: true })
@@ -160,32 +149,22 @@
 	function EditOperation()
 	{
 		if(document.getElementById('menu_name').value == ""
-		|| document.getElementById('menu_desc').value == "")
+		|| document.getElementById('menu_url').value == "")
 		{
-			$.ligerDialog.warn("请填写菜单ID和菜单描述！");
+			$.ligerDialog.warn("请填写菜单名称和菜单描述！");
 			return;
 		}			
 		var name = document.getElementById("menu_name").value;
 		var fname =_selectMenuFatherID;
-		var desc = document.getElementById("menu_desc").value;
 		var url = document.getElementById("menu_url").value;//.replace('&','$');
-		var tabid = document.getElementById("menu_tabid").value;
-		var isdefault = $("#isdefault").attr("checked");
-		var sortorder = $("#sortorder").val();
-		var accordion = $("#accordion").val();
 		$.ajax({
 			type: 'post',
-			url: "/json.php?mod=Menu&act=edit",
+			url: "/admin/menu/edit",
 			data : {
 				menu_id : _selectMenuID,
 				menu_name : name,
 				menu_fid: fname,
-				menu_desc: desc,
-				menu_url: url,
-				menu_tabid: tabid,
-				isdefault: isdefault,
-				sortorder: sortorder,
-				accordion: accordion
+				menu_url: url
 			},
 			dataType: 'json',
 			success: EditResult
