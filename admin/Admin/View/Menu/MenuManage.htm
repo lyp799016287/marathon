@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
 <title>菜单管理</title>
+{include file="$menu_path/common_css.htm"}
 <link type="text/css" rel="stylesheet" href="/res/websrc/css/global.css" />
 <link href="/res/websrc/UIlib/ligerUI-1.1.9/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
 <script src="/res/websrc/UIlib/jquery/jquery-1.5.2.min.js" type="text/javascript"></script>
@@ -12,8 +13,14 @@
 <script src="/res/websrc/UIlib/ligerUI-1.1.9/js/plugins/ligerDrag.js" type="text/javascript"></script>
 <script src="/res/websrc/UIlib/ligerUI-1.1.9/js/plugins/ligerTree.js" type="text/javascript"></script>
 <script src="/res/websrc/UIlib/ligerUI-1.1.9/js/plugins/ligerResizable.js" type="text/javascript"></script>
+{include file="$menu_path/common_js.htm"}
 </head>
+
 <body class="normal_wrap">
+
+	{include file="$menu_path/menu.htm"}
+	<hr>
+	<div id="main_body">
 	<table class="gride_table" width="100%" border="0" cellspacing="0" cellpadding="0" >
 		<tr class="table_head">
 			<td width="210"">菜单树</td>
@@ -38,25 +45,26 @@
 				<br />
 				<div id="operation_btn_lst" class="center">
 					<span class="bl_btn"><input type="button" value="修改" onclick="PreShowEditPage();" /></span>&nbsp;
-					<span class="bl_btn"><input type="button" value="添加子菜单" onclick="ShowInsertPage('son');" /></span>&nbsp;
+					<!--<span class="bl_btn"><input type="button" value="添加子菜单" onclick="ShowInsertPage('son');" /></span>&nbsp;-->
 					<span class="bl_btn"><input type="button" value="添加兄弟菜单" onclick="ShowInsertPage('father');" /></span>&nbsp;
 					<span class="bl_btn"><input type="button" value="删除" onclick="ConfirmDelete();" /></span>
 				</div>
 			</td>
 		</tr>
 		<tr>
-			<td >
+			<!--<td >
 				<div id="search_div">
 					<input type=text id=keyword name=keyword value="" />
 					<span class="bl_btn"><input name="search" type="button" onclick="Search();" value="查找" /></span>
-					<!--
+					
 					<span class="or_btn"><input name="expend" type="button" value="展开" onclick="expand();"></span>
-					-->
+					
 				</div>
-			</td>
+			</td>-->
 
 		</tr> 
 	</table>
+	</div>
 </body>
 {literal}
 <script language="javascript" >
@@ -194,14 +202,9 @@
 		lid=0;
 		var content;
 		content = "<table class='inner_table dialog_content' >";
-			content += "<tr><td>菜单ID</td><td><input type='text' id='menu_name' value='' ></td></tr>";
 			content += "<tr><td>父级菜单</td><td>"+lid+"</td></tr>";
-			content += "<tr><td>菜单描述</td><td><textarea id='menu_desc'></textarea></td></tr>";
+			content += "<tr><td>菜单名称</td><td><textarea id='menu_name'></textarea></td></tr>";
 			content += "<tr><td>菜单URL</td><td><textarea id='menu_url'></textarea></td></tr>";
-			content += "<tr><td>菜单TabID</td><td><textarea id='menu_tabid'></textarea></td></tr>";
-			content += "<tr><td>是否默认</td><td><input type='checkbox' id='isdefault'> </td></tr>";
-			content += "<tr><td>排序优先级</td><td><textarea id='sortorder'></textarea></td></tr>";
-			content += "<tr><td>所属组</td><td><textarea id='accordion'></textarea></td></tr>";
 			content += "</table>";
 		content += "<span class='bl_btn'><input type='button' onclick='InsertOperation("+lid+");' value='添加' ></span>";
 		$.ligerDialog.open({ target: content, isResize: true})
@@ -210,31 +213,21 @@
 	function InsertOperation(lid)
 	{
 		if(document.getElementById('menu_name').value == ""
-		|| document.getElementById('menu_desc').value == "")
+		|| document.getElementById('menu_url').value == "")
 		{
-			$.ligerDialog.warn("请填写菜单ID和父级菜单！");
+			$.ligerDialog.warn("请填写菜单名称和URL！");
 			return;
 		}
 		var name = document.getElementById('menu_name').value;
 		var fname =lid;
-		var desc = document.getElementById('menu_desc').value;
 		var url = document.getElementById('menu_url').value;
-		var tabid = document.getElementById('menu_tabid').value;
-		var isdefault = $("#isdefault").attr("checked");
-		var sortorder = $("#sortorder").val();
-		var accordion = $("#accordion").val();
 		$.ajax({
 			type: 'post',
-			url: '/json.php?mod=Menu&act=add',
+			url: '/admin/menu/add',
 			data: {
 				menu_name : name,
 				menu_fid: fname,
-				menu_desc: desc,
-				menu_url: url,
-				menu_tabid: tabid,
-				isdefault: isdefault,
-				sortorder: sortorder,
-				accordion: accordion
+				menu_url: url
 			},
 			dataType: 'json',
 			success: InsertResult
@@ -262,7 +255,7 @@
 
 	function ReFreshTree()
 	{
-		manager.refresh();
+		//manager.refresh();
 	}
 
 	function ConfirmDelete()
@@ -279,7 +272,7 @@
 	{
 		$.ajax({
 			type: 'get',
-			url: '/json.php?mod=Menu&act=rmv&menu_id='+_selectMenuID, 
+			url: '/admin/menu/rmv?menu_id='+_selectMenuID, 
 			dataType: 'json',
 			success: DeleteResult
 		});
@@ -291,6 +284,9 @@
 			$.ligerDialog.success("成功删除");
 			document.getElementById("detail_info").innerHTML="";
 			manager.remove(_currentTreeNode.target);
+			break;
+			case 1:
+			$.ligerDialog.alert("成功删除");
 			break;
 			case 2:
 			$.ligerDialog.error("不能删除父权限");

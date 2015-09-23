@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+<title>角色管理</title>
+<link type="text/css" rel="stylesheet" href="/res/websrc/css/global.css" />
+<script src="/res/websrc/UIlib/jquery/jquery-1.5.2.min.js" type="text/javascript"></script>
+<link href="/res/websrc/UIlib/ligerUI-1.1.9/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
+<script src="/res/websrc/UIlib/ligerUI-1.1.9/js/core/base.js" type="text/javascript"></script>
+<script src="/res/websrc/UIlib/ligerUI-1.1.9/js/plugins/ligerDialog.js" type="text/javascript"></script>
+<script src="/res/websrc/UIlib/ligerUI-1.1.9/js/plugins/ligerResizable.js" type="text/javascript"></script>
+<script src="/res/websrc/UIlib/ligerUI-1.1.9/js/plugins/ligerDrag.js" type="text/javascript"></script>
+<script src="/res/websrc/UIlib/ligerUI-1.1.9/js/plugins/ligerTree.js" type="text/javascript"></script>
+<script src="/res/websrc/UIlib/ligerUI-1.1.9/js/plugins/ligerResizable.js" type="text/javascript"></script>
+<style type="text/css">
+	body {
+		_width:expression(this.parentNode.offsetHeight > this.parentNode.scrollHeight ? '100%' : parseInt(this.parentNode.clientWidth-10) + 'px');
+		padding:5px;
+	}
+</style>
+</head>
+<body class="normal_wrap">
+	<table class="gride_table" width="100%" border="0" cellspacing="0" cellpadding="0" >
+		<tr class="table_head" >
+			<td width="210">角色树</td>
+			<td>角色具体信息</td>
+		</tr>
+		<tr>
+			<td>
+				<div style="position:relative;height:500px; margin:5px auto; border:1px solid #ccc; overflow:auto; text-align:left">
+					<ul id="tree1"></ul>
+				</div>	
+			</td>
+			<td rowspan="2"  valign="top">
+				<div id="detail_info" style="width:80%; margin:0 auto; margin-top:1cm">
+					<table width='100%'  class='inner_table'>
+						<tr>
+							<td width="50%">角色ID</td>
+							<td width="50%" ></td>
+						</tr>
+						<tr>
+							<td>角色名称</td>
+							<td  ></td>
+						</tr>
+						<tr>
+							<td>父级角色</td>
+							<td></td>
+						</tr>
+					</table>
+				</div>
+				<br />
+				<div id="operation_btn_lst" class="center"> 
+					<span class="bl_btn"><input type="button" value="修改" onclick="GetEditItemDetail();" /></span>&nbsp;
+					<span class="bl_btn"><input type="button" value="添加角色" onclick="ShowInsertPage();" /></span>&nbsp;
+					<span class="bl_btn"><input type="button" value="删除" onclick="ConfirmDelete();" /></span>&nbsp;
+					<span class="bl_btn"><input type="button" value="修改权限" onclick="ModifyAuth();" /></span>&nbsp;
+					<span class="bl_btn"><input type="button" value="修改菜单" onclick="ModifyMenu();" /></span>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td ><div id="search_div">
+					<input type=text id=keyword name=keyword value="" />
+					<span class="bl_btn"><input type="button" value="查找" onclick="Search();" /></span>
+				</div>
+			</td>
+		</tr>
+	</table>
+</body>
+{literal}
+<script type="text/javascript">
+
+	var _selectRoleName = "";
+	var _selectRoleID = "";
+
+	$(function ()
+	{   
+		$("#tree1").ligerTree({  
+			url: "/admin/role/selectAll",
+			checkbox: false,
+			treeLine : true,        //是否显示line
+			width:'100%',
+			idFieldName :'role_id',
+			textFieldName:'role_desc',
+			onClick:TreeOnClick
+		}
+		);
+		manager = $(".l-tree").ligerGetTreeManager();
+	})
+
+	function TreeOnClick(treeNode)
+	{
+		_selectRoleName = treeNode.data.role_name;
+		_selectRoleID = treeNode.data.role_id;
+		$.ajax({
+			type: 'get',
+			url: '/admin/role/detail?role_id='+_selectRoleID,
+			dataType: 'json',
+			success: ShowRoleDetail
+		});
+	}
+
+	function ShowRoleDetail(para)
+	{
+		var content;
+		content = "<table width='100%'  class='inner_table'>";
+			content += "<tr><td>角色编号</td><td>"+para[0]['role_id']+"</td></tr>";
+			content += "<tr><td>角色ID</td><td>"+para[0]['role_name']+"</td></tr>";
+			content += "<tr><td>角色名称</td><td>"+para[0]['role_desc']+"</td></tr>";
+			content += "</table>";
+		document.getElementById("detail_info").innerHTML=content;
+	}
+
+	function Search()
+	{	
+		manager.find( $("#keyword").val());
+	}
+
+	function GetEditItemDetail()
+	{
+		// 要先选中一个角色才能更行
+		if(_selectRoleName=="")
+		{
+			$.ligerDialog.warn("请选择角色！");
+			return;
+		}
+		$.ajax({
+			type: 'post',
+			url: '/admin/role/detail?role_id='+_selectRoleID,
+			dataType: 'json',
+			success: ShowEditPage
+		});
+	}
+
+	function ShowEditPage(para)
+	{			
+		var content;
+		content = "<table width='100%'  class='inner_table'>";
+			content += "<tr><td>角色编号</td><td> "+para[0]['role_id']+"</td></tr>";
+			content += "<tr><td>角色ID</td><td><input type='text' id='role_name' value="+para[0]['role_name']+" </td></tr>";
+			content += "<tr><td>角色名称</td><td><input type='text' id='role_desc' value="+para[0]['role_desc']+" </td></tr>";
+			content += "</table>";
+		content += "<span class='bl_btn'><input type='button' onclick='EditOperation("+para[0]['role_id']+");' value='修改' ></span>";
+		$.ligerDialog.open({ target: content,isResize: true })
+	}
+
+
+	function EditOperation(lid)
+	{
+		if(document.getElementById('role_name').value == ""
+		|| document.getElementById('role_desc').value == "")
+		{
+			$.ligerDialog.warn("请填写角色ID和父级角色！");
+			return;
+		}			
+		var name = document.getElementById("role_name").value;
+		var desc = document.getElementById("role_desc").value;
+		$.ajax({
+			type: 'post',
+			url: "/admin/role/edit",
+			data:{
+				tr_role_id:lid,
+				old_role_name :_selectRoleName,
+				role_name :name,
+				role_desc:desc
+			},
+			dataType: 'json',
+			success: OperationResult
+		});
+	}
+
+	function ShowInsertPage()
+	{
+
+		var content;
+		content = "<table width='100%'  class='inner_table'>";
+			content += "<tr><td>角色ID</td><td><input type='text' id='role_name' value='' ></td></tr>";
+			content += "<tr><td>角色名称</td><td><textarea id='role_desc'></textarea></td></tr>";
+			content += "</table>";
+		content += "<span class='bl_btn'><input type='button' onclick='InsertRole();' value='添加' ></span>";
+		$.ligerDialog.open({ target: content,isResize: true })
+	}
+
+	function InsertRole()
+	{
+		if(document.getElementById('role_name').value == ""
+		|| document.getElementById('role_desc').value == "")
+		{
+			$.ligerDialog.warn("请填写角色ID和角色名称！");
+			return;
+		}
+		var name = document.getElementById('role_name').value;
+		var desc = document.getElementById('role_desc').value;
+
+		$.ajax({
+			type: 'post',
+			data:{
+				'role_name':name,
+				'role_desc':desc
+				},
+			url: '/admin/role/add',
+			dataType: 'json',
+			success: OperationResult
+		});
+	}
+
+	function OperationResult(str)
+	{
+		switch(str)
+		{
+			case 0:
+			$.ligerDialog.close();
+			$.ligerDialog.success("成功");
+			manager.refresh();
+			break;
+			case 3:
+			$.ligerDialog.warn('你没有权限!');
+			break;
+		}
+
+	}
+
+	function ConfirmDelete()
+	{
+		if(!_selectRoleID)
+		{
+			$.ligerDialog.warn("请选中要删除的节点！");
+			return;
+		}
+		$.ligerDialog.confirm("确定要删除"+_selectRoleName+"!",function(choice){if(choice) DeleteRole();});
+	}
+
+
+	function DeleteRole()
+	{
+		$.ajax({
+			type: 'post',
+			url: '/admin/role/rmv?role_id='+_selectRoleID,
+			dataType: 'json',
+			success: OperationResult
+		});
+	}
+
+	function DeleteResult(para) {
+		switch(para)
+		{
+			case 0:
+			$.ligerDialog.close(); 
+			$.ligerDialog.success("成功删除");
+			document.getElementById("detail_info").innerHTML="";
+			zTreeObj.reAsyncChildNodes(null, "refresh");
+			break;
+			case 2:
+			$.ligerDialog.error("不能删除父角色");
+			break;
+		}
+	}
+
+	function ModifyAuth()
+	{
+		if(!_selectRoleID)
+		{
+			$.ligerDialog.warn("请选中要修改权限的角色!");
+			return;
+		}
+		$.ligerDialog.open({ height: 550, url: 'ModifyPrivilege.htm', width: 380 });
+	}
+
+	function ModifyMenu()
+	{
+		if(!_selectRoleID)
+		{
+			$.ligerDialog.warn("请选中要修改菜单的角色!");
+			return;
+		}
+		$.ligerDialog.open({ height: 550, url: 'ModifyMenu.htm', width: 380 });
+	}
+
+	function CloseDialog()
+	{
+		$.ligerDialog.close();
+		$.ligerDialog.success("提交成功!");
+	}
+</script>
+{/literal}
+</html>
