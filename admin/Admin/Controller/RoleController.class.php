@@ -10,12 +10,12 @@ use Think\Controller;
 
 class RoleController extends Controller {
 
-	public function show(){
-		$this->display('RoleManage');
+	public function _initialize(){
+		$this->assign("menu_path", ROOT_PATH.'/admin_imed_me/');
 	}
 
-	public function modify(){
-		$this->display("ModifyRole");
+	public function show(){
+		$this->display('RoleManage');
 	}
 
 	/**
@@ -36,7 +36,7 @@ class RoleController extends Controller {
 			if($role_nameLen > 128 || $role_nameLen < 0){
 				$this->ajaxReturn(1, 'JSON');
 			}
-			$data['role_name'] = $role_name;
+			$data['name'] = $role_name;
 		}
 		if(isset($_REQUEST['role_desc'])) {
 			$role_desc = $_REQUEST['role_desc'];
@@ -44,16 +44,13 @@ class RoleController extends Controller {
 			if($role_descLen > 128 || $role_descLen < 0){
 				$this->ajaxReturn(1, 'JSON');
 			}
-			$data['role_desc'] = $role_desc;
+			$data['remark'] = $role_desc;
 		}
-		//set ip
-		$IP=getenv("REMOTE_ADDR");
-		$data['create_ip']=$IP;
-		//set create user
-		$data['create_id']=$_COOKIE['CurrentUserID'];
 
+		$data['status'] = 1;
+		
 		//处理数据中的特殊字符
-		$ret = insertByNoModel('t_role', '', 'DB_ADMIN', $data);
+		$ret = insertByNoModel('think_role', '', 'DB_ADMIN', $data);
 		if($ret == false) {
 			$this->ajaxReturn(1, 'JSON');
 		}
@@ -77,7 +74,7 @@ class RoleController extends Controller {
 			if($tr_role_idLen > 32 || $tr_role_idLen < 0){
 				$this->ajaxReturn(1, 'JSON');
 			}
-			$data['role_id'] = $tr_role_id;
+			$data['id'] = $tr_role_id;
 		}
 		if(isset($_REQUEST['role_name'])) {
 			$role_name = $_REQUEST['role_name'];
@@ -85,7 +82,7 @@ class RoleController extends Controller {
 			if($role_nameLen > 32 || $role_nameLen < 0){
 				$this->ajaxReturn(1, 'JSON');
 			}
-			$data['role_name'] = $role_name;
+			$data['name'] = $role_name;
 		}
 		if(isset($_REQUEST['role_desc'])) {
 			$role_desc = $_REQUEST['role_desc'];
@@ -93,10 +90,10 @@ class RoleController extends Controller {
 			if($role_descLen > 128 || $role_descLen < 0){
 				$this->ajaxReturn(1, 'JSON');
 			}
-			$data['role_desc'] = $role_desc;
+			$data['remark'] = $role_desc;
 		}
-		$sql = "UPDATE t_role SET role_name='{$role_name}', role_desc='{$role_desc}' WHERE role_id='{$tr_role_id}'";
-		$ret = execByNoModel('t_role', '', 'DB_ADMIN', $sql);
+		$sql = "UPDATE think_role SET name='{$role_name}', remark='{$role_desc}' WHERE id='{$tr_role_id}'";
+		$ret = execByNoModel('think_role', '', 'DB_ADMIN', $sql);
 		if($ret === false) {
 			$this->ajaxReturn(1, 'JSON');
 		}
@@ -114,22 +111,11 @@ class RoleController extends Controller {
 		}
 		//取得用户提交的数据
 		$role_id = $_REQUEST['role_id'];
-		$role_idLen = strlen($role_id);
-		if($role_idLen > 32 || $role_idLen < 0){
-			$this->ajaxReturn(1, 'JSON');
-		}
-		
-		//get content
-		$sql = "SELECT * FROM t_role WHERE role_id='{$role_id}'";
-		$retVal = queryByNoModel('t_role', '', 'DB_ADMIN', $sql);
-		if($retVal == false) {
-			$this->ajaxReturn(1, 'JSON');
-		}
-		
+	
 		//delete item
 		//处理数据中的特殊字符
-		$where  = "DELETE FROM t_role WHERE role_id='{$role_id}'";
-		$ret = execByNoModel('t_role', '', 'DB_ADMIN', $where);
+		$where  = "UPDATE think_role SET status = 2 WHERE id='{$role_id}'";
+		$ret = execByNoModel('think_role', '', 'DB_ADMIN', $where);
 		if($ret === false) {
 			$this->ajaxReturn(1, 'JSON');
 		}
@@ -139,8 +125,8 @@ class RoleController extends Controller {
 
 	function selectAll(){
 		$where = '1';
-		$sql = "SELECT * FROM t_role";
-		$ret = queryByNoModel('t_role', '', 'DB_ADMIN', $sql);
+		$sql = "SELECT * FROM think_role WHERE status = 1";
+		$ret = queryByNoModel('think_role', '', 'DB_ADMIN', $sql);
 		if($ret == false) {
 			$this->ajaxReturn(1, 'JSON');
 		}
@@ -152,7 +138,7 @@ class RoleController extends Controller {
 	 * @return var
 	 */
 	function detail(){
-		$where = '1';
+		$where = '';
 		if(!isset($_REQUEST['role_id'])) {
 			$this->ajaxReturn(1, 'JSON');
 		}
@@ -163,163 +149,16 @@ class RoleController extends Controller {
 			if($role_idLen > 32 || $role_idLen < 0){
 				$this->ajaxReturn(1, 'JSON');
 			}
-			$where .= " AND role_id='{$role_id}'";
+			$where .= " AND id='{$role_id}'";
 		}
 
-		$sql = "SELECT * FROM t_role WHERE ".$where;
-		$ret = queryByNoModel('t_role', '', 'DB_ADMIN', $sql);
+		$sql = "SELECT * FROM think_role WHERE status = 1 ".$where;
+		$ret = queryByNoModel('think_role', '', 'DB_ADMIN', $sql);
 		if($ret == false) {
 			$this->ajaxReturn(1, 'JSON');
 		}
 		$this->ajaxReturn($ret, 'JSON');
 	}
-	/*
-	function role_rightdetail(){
-		$result=array();
-		$where = '1';
-		if(!isset($_REQUEST['role_id'])) {
-			return 1;
-		}
-		if(!empty($_REQUEST['role_id'])) {
-			$tr_role_id = $_REQUEST['role_id'];
-			$tr_role_idLen = strlen($tr_role_id);
-			if($tr_role_idLen > 32 || $tr_role_idLen < 0){
-				return 1;
-			}
-			$where .= " AND role_id='{$tr_role_id}'";
-		}
-		$ret = IrolePrivilegeRelationDao::getRows('', $where, '', '');
-		if($ret == false) {
-			return 1;
-		}
-
-		foreach($ret as $lid)
-		{
-			$where = " privilege_id='{$lid['privilege_id']}'";
-			$retVal = IPrivilegeDao::getRows('', $where, '', '');
-			if($retVal == false) {
-				continue;
-			}
-			array_push($result,$retVal[0]);
-		}
-		return $result;
-
-	}*/
-
-	function selectByDepartId(){
-		if(!isset($_REQUEST['depart_fid'])||!isset($_REQUEST['depart_id'])) {
-			$this->ajaxReturn(1, 'JSON');
-		}
-		//取得用户提交的数据
-		$depart_id = $_REQUEST['depart_id'];
-		$depart_idLen = strlen($depart_id);
-		if($depart_idLen > 32 || $depart_idLen < 0){
-			$this->ajaxReturn(1, 'JSON');
-		}
-		$depart_fid = $_REQUEST['depart_fid'];
-		$depart_fidLen = strlen($depart_fid);
-		if($depart_fidLen > 32 || $depart_fidLen < 0){
-			$this->ajaxReturn(1, 'JSON');
-		}
-		//if the father depart's id is 0,show all privilege;otherwise show father's role;
-		$list= array();
-		if($depart_fid!=0)
-		{
-			//处理数据中的特殊字符
-			$where  = "SELECT * FROM t_depart WHERE depart_id='{$depart_fid}'";
-			$retVal = queryByNoModel('t_depart', '', 'DB_ADMIN', $where);
-			if($retVal == false) {
-				$this->ajaxReturn(1, 'JSON');
-			}
-			foreach($retVal as $row){
-				$where  = "SELECT * FROM t_role WHERE role_id='{$row['role_id']}'";
-
-				$retVal = queryByNoModel('t_role', '', 'DB_ADMIN', $where);
-				if($retVal == false) {
-					$this->ajaxReturn(1, 'JSON');
-				}
-				array_push($list,$retVal[0]);
-			}
-		}else{
-			$sql = "SELECT * FROM t_role";
-			$list = queryByNoModel('t_role', '', 'DB_ADMIN', $sql);
-		}
-
-		//get the selected role
-		$sql = "SELECT * FROM t_depart_role_relation WHERE ";
-		$where  = $sql."depart_id='{$depart_id}'";
-		$retVal = queryByNoModel('t_depart_role_relation', '', 'DB_ADMIN', $where);
-		if($retVal == false) {
-			$this->ajaxReturn($list, 'JSON');
-		}
-		
-		$selectRoles=array();
-		
-		unset($where);
-		unset($sql);
-		
-		$sql = "SELECT * FROM t_role WHERE ";
-		foreach($retVal as $row){
-			$where  = $sql."role_id='{$row['role_id']}'";
-
-			$ret = queryByNoModel('t_role', '', 'DB_ADMIN', $where);
-			if($ret == false) {
-				continue;
-			}
-			if (!in_array($ret[0], $list)) {
-				array_push($list,$ret[0]);
-			}
-			array_push($selectRoles,$row['role_id']);
-		}
-		$result=array();
-		foreach($list as $row)
-		{
-			if(in_array($row['role_id'],$selectRoles))
-			{
-				$row['ischecked']=true;
-			}
-			array_push($result,$row);
-		}
-
-		$this->ajaxReturn($result, 'JSON');
-	}
-
-	/*function role_selectByuserId(){
-		if(!isset($_REQUEST['user_id'])) {
-			return 1;
-		}
-		//取得用户提交的数据
-		$user_id = $_REQUEST['user_id'];
-		$user_idLen = strlen($user_id);
-		if($user_idLen > 32 || $user_idLen < 0){
-			return 1;
-		}
-
-		$list= array();
-		$list= role_selectAll();
-
-		//get the selected role
-		$where  = "user_id='{$user_id}'";
-		$retVal = IUserRoleRelationDao::getRows('', $where, 0, 0);
-		if($retVal == false) {
-			return $list;
-		}
-		$selectRoles=array();
-		foreach($retVal as $row)
-		{
-			array_push($selectRoles,$row['role_id']);
-		}
-		$result=array();
-		foreach($list as $row)
-		{
-			if(in_array($row['role_id'],$selectRoles))
-			{
-				$row['ischecked']=true;
-			}
-			array_push($result,$row);
-		}
-		return $result;
-	}*/
 }
 
 
