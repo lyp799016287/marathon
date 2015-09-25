@@ -60,8 +60,8 @@
 						<span class="bl_btn"><input type="button" value="修改" onclick="GetEditItemDetail();" /></span>&nbsp;
 						<span class="bl_btn"><input type="button" value="添加角色" onclick="ShowInsertPage();" /></span>&nbsp;
 						<span class="bl_btn"><input type="button" value="删除" onclick="ConfirmDelete();" /></span>&nbsp;
-						<!--<span class="bl_btn"><input type="button" value="修改权限" onclick="ModifyAuth();" /></span>&nbsp;
-						<span class="bl_btn"><input type="button" value="修改菜单" onclick="ModifyMenu();" /></span>-->
+						<span class="bl_btn"><input type="button" value="修改权限" onclick="ModifyAuth();" /></span>&nbsp;
+						<!--<span class="bl_btn"><input type="button" value="修改菜单" onclick="ModifyMenu();" /></span>-->
 					</div>
 				</td>
 			</tr>
@@ -272,17 +272,17 @@
 			$.ligerDialog.warn("请选中要修改权限的角色!");
 			return;
 		}
-		$.ligerDialog.open({ height: 550, url: 'ModifyPrivilege.htm', width: 380 });
+		$.ligerDialog.open({ height: 550, url: '/admin/role/modifyprivilege/', width: 380 });
 	}
 
 	function ModifyMenu()
 	{
-		if(!_selectRoleID)
+		/*if(!_selectRoleID)
 		{
 			$.ligerDialog.warn("请选中要修改菜单的角色!");
 			return;
 		}
-		$.ligerDialog.open({ height: 550, url: 'ModifyMenu.htm', width: 380 });
+		$.ligerDialog.open({ height: 550, url: 'ModifyMenu.htm', width: 380 });*/
 	}
 
 	function CloseDialog()

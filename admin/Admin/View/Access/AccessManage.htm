@@ -3,67 +3,76 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
 <title>权限管理</title>
+{include file="$menu_path/common_css.htm"}
 <link type="text/css" rel="stylesheet" href="/res/websrc/css/global.css" />
 <link href="/res/websrc/UIlib/ligerUI-1.1.9/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
 <script src="/res/websrc/UIlib/jquery/jquery-1.5.2.min.js" type="text/javascript"></script>
+<script src="/res/websrc/UIlib/ligerUI-1.1.9/js/core/base.js" type="text/javascript"></script>
 <script src="/res/websrc/UIlib/ligerUI-1.1.9/js/plugins/ligerDialog.js" type="text/javascript"></script>
-<script src="/res/websrc/UIlib/ligerUI-1.1.9/js/plugins/ligerResizable.js" type="text/javascript"></script>
-<script src="/res/websrc/UIlib/ligerUI-1.1.9/js/plugins/ligerDrag.js" type="text/javascript"></script>
 <script src="/res/websrc/UIlib/ligerUI-1.1.9/js/plugins/ligerTree.js" type="text/javascript"></script>
 <script src="/res/websrc/UIlib/ligerUI-1.1.9/js/plugins/ligerResizable.js" type="text/javascript"></script>
+{include file="$menu_path/common_js.htm"}
 
 <style type="text/css">
+	{literal}
 	body{_width:expression(this.parentNode.offsetHeight > this.parentNode.scrollHeight ? '100%' : parseInt(this.parentNode.clientWidth-10) + 'px');padding:5px;}
 	.inner_table{ width:100%; border:#a3c5fd 1px solid; border-collapse:collapse; }
 	.inner_table tr td{border:1px solid #a3c5fd;}
+	{/literal}
 </style>
 </head>
 
 <body class="normal_wrap">
-	<table class="gride_table" width="100%" border="0" cellspacing="0" cellpadding="0" >
-		<tr class="table_head">
-			<td width='210' >权限树</td>
-			<td>权限具体信息</td>
-		</tr>
-		<tr>
-			<td height="80%">
-				<div style="position:relative;width:200px; height:500px; margin:5px auto; border:1px solid #ccc; overflow:auto; text-align:left">
-					<ul id="tree1" class="tree" style="margin-top:3px;"></ul>
-				</div>	
-			</td>
-			<td rowspan="2" valign="top">
-				<div id="detail_info" style="width:80%; margin:0 auto; margin-top:1cm">
-					<table width='100%'  class='inner_table'>
-						<tr><td width="100" >权限ID</td><td width="100" ></td></tr>
-						<tr><td width="100" >权限名称</td><td width="100" ></td></tr>
-						<tr><td width="100" >父级权限</td><td width="100" ></td></tr>
-					</table>
-				</div>
-				<br />
-				<div id="operation_btn_lst" class="center">
-					<span class="bl_btn"><input type="button" value="修改" onclick="PreShowEditPage();" /></span>&nbsp;
-					<span class="bl_btn"><input type="button" value="添加子权限" onclick="ShowInsertPage('son');" /></span>&nbsp;
-					<span class="bl_btn"><input type="button" value="添加兄弟权限" onclick="ShowInsertPage('father');" /></span>&nbsp;
-					<span class="bl_btn"><input type="button" value="删除" onclick="ConfirmDelete();" /></span>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td >
-				<div id="search_div">
-					<input type=text id=keyword name=keyword value="" />
-					<span class="bl_btn"><input name="search" type="button" onclick="Search();" value="查找" /></span>
-					<!--
-					<span class="or_btn"><input name="expend" type="button" value="展开" onclick="expand();"></span>
-					-->
-				</div>
-			</td>
+	
+	{include file="$menu_path/menu.htm"}
+	<hr>
 
-		</tr> 
-	</table>
+	<div id="main_body">
+		<table class="gride_table" width="100%" border="0" cellspacing="0" cellpadding="0" >
+			<tr class="table_head">
+				<td width='210' >权限树</td>
+				<td>权限具体信息</td>
+			</tr>
+			<tr>
+				<td height="80%">
+					<div style="position:relative;width:200px; height:500px; margin:5px auto; border:1px solid #ccc; overflow:auto; text-align:left">
+						<ul id="tree1" class="tree" style="margin-top:3px;"></ul>
+					</div>	
+				</td>
+				<td rowspan="2" valign="top">
+					<div id="detail_info" style="width:80%; margin:0 auto; margin-top:1cm">
+						<table width='100%'  class='inner_table'>
+							<tr><td width="100" >权限ID</td><td width="100" ></td></tr>
+							<tr><td width="100" >权限名称</td><td width="100" ></td></tr>
+							<tr><td width="100" >父级权限</td><td width="100" ></td></tr>
+						</table>
+					</div>
+					<br />
+					<div id="operation_btn_lst" class="center">
+						<span class="bl_btn"><input type="button" value="修改" onclick="PreShowEditPage();" /></span>&nbsp;
+						<span class="bl_btn"><input type="button" value="添加子权限" onclick="ShowInsertPage('son');" /></span>&nbsp;
+						<span class="bl_btn"><input type="button" value="添加兄弟权限" onclick="ShowInsertPage('father');" /></span>&nbsp;
+						<span class="bl_btn"><input type="button" value="删除" onclick="ConfirmDelete();" /></span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<!--<td >
+					<div id="search_div">
+						<input type=text id=keyword name=keyword value="" />
+						<span class="bl_btn"><input name="search" type="button" onclick="Search();" value="查找" /></span>
+						
+						<span class="or_btn"><input name="expend" type="button" value="展开" onclick="expand();"></span>
+						
+					</div>
+				</td>-->
+
+			</tr> 
+		</table>
+	</div>
 </body>
 <script language="javascript" >
-
+{literal}
 	var _selectPrivilegeName = "";
 	var _selectPrivilegeID = "";
 	var _selectPrivilegeFatherID = "";
@@ -83,20 +92,20 @@
 			parentIDFieldName :'pid',
 			onClick: TreeOnClick
 		});
-		manager.collapseAll();
-		window.isCollapsed = true;
+		//manager.collapseAll();
+		//window.isCollapsed = true;
 	})
 
 	function TreeOnClick(treeNode)
 	{
 		if (window.isCollapsed) {
 			_currentTreeNode=treeNode;
-			_selectPrivilegeName = treeNode.data.privilege_desc;
-			_selectPrivilegeID = treeNode.data.privilege_id;
-			_selectPrivilegeFatherID = treeNode.data.privilege_fid;
+			_selectPrivilegeName = treeNode.data.title;
+			_selectPrivilegeID = treeNode.data.id;
+			_selectPrivilegeFatherID = treeNode.data.pid;
 			$.ajax({
 				type: 'get',
-				url: "/json.php?mod=Privilege&act=detail&privilege_id="+_selectPrivilegeID, 
+				url: "/admin/access/detail?privilege_id="+_selectPrivilegeID, 
 				dataType: 'json',
 				success: ShowPrivilegeorityInfo
 			});
@@ -107,12 +116,12 @@
 	{
 		var content;
 		content = "<table width=100% class='inner_table'>";
-			content += "<tr><td>权限编号</td><td>"+para[0]['privilege_id']+"</td></tr>";
-			content += "<tr><td>权限ID</td><td>"+para[0]['privilege_name']+"</td></tr>";
-			content += "<tr><td>权限名称</td><td>"+para[0]['privilege_desc']+"</td></tr>";
-			content += "<tr><td>父级权限</td><td>"+para[0]['privilege_fid']+"</td></tr>";
-			var check=para[0]['is_father']==1?'checked':'';
-			content += "<tr><td>是否父级权限</td><td><input type='checkbox' disabled id='isFather' "+check+"></td></tr>";
+			content += "<tr><td>权限编号</td><td>"+para[0]['id']+"</td></tr>";
+			content += "<tr><td>权限ID</td><td>"+para[0]['name']+"</td></tr>";
+			content += "<tr><td>权限名称</td><td>"+para[0]['title']+"</td></tr>";
+			content += "<tr><td>父级权限</td><td>"+para[0]['pid']+"</td></tr>";
+			content += "<tr><td>remark</td><td>"+para[0]['remark']+"</td></tr>";
+			content += "<tr><td>level</td><td>"+para[0]['level']+"</td></tr>";
 			content += "</table>";
 		document.getElementById("detail_info").innerHTML=content;
 	}
@@ -132,7 +141,7 @@
 		}
 		$.ajax({
 			type: 'post',
-			url: '/json.php?mod=Privilege&act=detail&privilege_id='+_selectPrivilegeID, 
+			url: '/admin/access/detail?privilege_id='+_selectPrivilegeID, 
 			dataType: 'json',
 			success: ShowEditPage
 		});
@@ -141,41 +150,49 @@
 	function ShowEditPage(para)
 	{			
 		var content;
-		content = "<table class='inner_table' >";
-			content += "<tr heigth=80 ><td width=100 >权限ID</td><td width=100 ><input type='text' id='privilege_name' value='"+para[0]['privilege_name']+"' ></td></tr>";
-			content += "<tr heigth=80 ><td width=100 >父级权限</td><td  width=100 >"+para[0]['privilege_fid']+"</td></tr>";
-			content += "<tr heigth=80 ><td width=100 >权限名称</td><td width=100 ><textarea id='privilege_desc'>"+para[0]['privilege_desc']+"</textarea></td></tr>";
-			var check=para[0]['is_father']==1?'checked':'';
-			content += "<tr><td>是否父级权限</td><td><input type='checkbox' id='isFather' "+check+"></td></tr>";
+			content = "<table class='inner_table' >";
+			content += "<tr heigth=80><td width=100>权限ID</td><td width=100><input type='text' id='privilege_name' value='"+para[0]['name']+"' /></td></tr>";
+			content += "<tr heigth=80><td width=100>父级权限</td><td width=100>"+para[0]['pid']+"</td></tr>";
+			content += "<tr heigth=80><td width=100>权限名称</td><td width=100><input type='text' id='privilege_desc' value='"+para[0]['title']+"' /></td></tr>";
+			content += "<tr><td>remark</td><td><input type='text' id='privilege_remark' value='"+para[0]['remark']+"' /></td></tr>";
+			content += "<tr><td>level</td><td><input type='text' id='privilege_level' value='"+para[0]['level']+"' /></td></tr>";
 			content += "</table>";
-		content += "<span class='bl_btn'><input type='button' onclick='EditOperation();' value='更新' ></span>";
-		$.ligerDialog.open({title:"修改", target: content })
+			content += "<span class='bl_btn'><input type='button' onclick='EditOperation();' value='更新' ></span>";
+		$.ligerDialog.open({title:"修改", target: content });
 	}
 
 
 	function EditOperation()
 	{
-		if(document.getElementById('privilege_name').value == "")
+		if(document.getElementById('privilege_name').value == "" || document.getElementById('privilege_desc').value == "")
 		{
 			$.ligerDialog.warn("请填写权限ID和权限名称！");
 			return;
-		}			
+		}
+		
+		if(document.getElementById("privilege_level").value == ""){
+			$.ligerDialog.warn("请填写权限level！");
+			return;
+		}
 		var name = document.getElementById("privilege_name").value;
 		var fname =_selectPrivilegeFatherID;
 		var desc = document.getElementById("privilege_desc").value;
-		var isfather = document.getElementById("isFather").checked;
+		var level = document.getElementById("privilege_level").value;
+		var remark = document.getElementById("privilege_remark").value;
+		
 		var data ={
-			'privilegeid' : _selectPrivilegeID,
+			'privilege_id' : _selectPrivilegeID,
 			'privilege_name' : name,
 			'privilege_fid':fname,
 			'privilege_desc' : desc,
-			'isfather' : isfather
+			'privilege_level' : level,
+			'privilege_remark' : remark
 		};
 
 
 		$.ajax({
 			type: 'post',
-			url: "/json.php?mod=Privilege&act=edit",
+			url: "/admin/access/edit",
 			data:data,
 			dataType: 'json',
 			success: EditResult
@@ -200,39 +217,46 @@
 
 	function ShowInsertPage(type)
 	{
-		var lid=type=='son'?_selectPrivilegeID:_selectPrivilegeFatherID;
-		if(lid=="")
-		lid=0;
-		var content;
-		content = "<table  class='inner_table'>";
-			content += "<tr><td>权限ID</td><td><input type='text' id='privilege_name' value='' ></td></tr>";
+		var lid = type=='son'?_selectPrivilegeID:_selectPrivilegeFatherID;
+		
+		if(lid == ""){
+			lid=0;
+		}
+
+		var contet;
+			content = "<table class='inner_table'>";
+			content += "<tr><td>权限ID</td><td><input type='text' id='privilege_name' value='' /></td></tr>";
 			content += "<tr><td>父级权限</td><td>"+lid+"</td></tr>";
 			content += "<tr><td>权限名称</td><td><textarea id='privilege_desc'></textarea></td></tr>";
-			content += "<tr><td>是否父权限</td><td><input type='checkbox' id='isFather'></td></tr>";
+			//content += "<tr><td>是否父权限</td><td><input type='checkbox' id='isFather'></td></tr>";
+			content += "<tr><td>remark</td><td><input type='text' id='privilege_remark' value='' /></td></tr>";
+			content += "<tr><td>level</td><td><input type='text' id='privilege_level' value='' /></td></tr>";
 			content += "</table>";
-		content += "<span class='bl_btn'><input type='button' onclick='InsertOperation("+lid+");' value='添加' ></span>";
-		$.ligerDialog.open({ target: content })
+			content += "<span class='bl_btn'><input type='button' onclick='InsertOperation("+lid+");' value='添加' ></span>";
+		$.ligerDialog.open({ target: content });
 	}
 
 	function InsertOperation(lid)
 	{
-		if(document.getElementById('privilege_name').value == ""
-		|| document.getElementById('privilege_desc').value == "")
+		if(document.getElementById('privilege_name').value == "" || document.getElementById('privilege_desc').value == "")
 		{
-			$.ligerDialog.warn("请填写权限ID和父级权限！");
+			$.ligerDialog.warn("请填写权限ID和权限名称！");
 			return;
 		}
 		var name = document.getElementById('privilege_name').value;
-		var fname =lid;
+		var fname = lid;
 		var desc = document.getElementById('privilege_desc').value;
-		var isFather = document.getElementById('isFather').checked;
+		var remark = document.getElementById('privilege_remark').value;
+		var level = document.getElementById('privilege_level').value;
 		$.ajax({
 			type: 'post',
-			url: '/json.php?mod=Privilege&act=add',
+			url: '/admin/access/add',
 			data : {
 				privilege_name :name,
 				privilege_fname :fname,
-				privilege_desc: desc
+				privilege_desc: desc,
+				privilege_remark: remark,
+				privilege_level: level
 			},
 			dataType: 'json',
 			success: InsertResult
@@ -248,6 +272,9 @@
 			$.ligerDialog.success("添加成功");
 			ReFreshTree();
 			break;
+			case 1:
+			$.ligerDialog.error('操作失败!');
+			break;
 			case 3:
 			$.ligerDialog.error('你没有添加权限!');                    
 			break;
@@ -257,7 +284,7 @@
 
 	function ReFreshTree()
 	{
-		manager.refresh();
+		window.location.reload();
 	}
 
 	function ConfirmDelete()
@@ -274,7 +301,7 @@
 	{
 		$.ajax({
 			type: 'post',
-			url: '/json.php?mod=Privilege&act=delete&privilege_id='+_selectPrivilegeID, 
+			url: '/admin/access/rmv?privilege_id='+_selectPrivilegeID, 
 			dataType: 'json',
 			success: DeleteResult
 		});
@@ -287,6 +314,9 @@
 			document.getElementById("detail_info").innerHTML="";
 			manager.remove(_currentTreeNode.target);
 			break;
+			case 1:
+			$.ligerDialog.error("删除失败！");
+			break;
 			case 2:
 			$.ligerDialog.error("不能删除父权限！");
 			break;
@@ -295,6 +325,7 @@
 			break;
 		}
 	}
+{/literal}
 </script>
 </html>
 

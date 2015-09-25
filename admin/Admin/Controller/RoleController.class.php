@@ -22,7 +22,7 @@ class RoleController extends Controller {
 	 * 新增一条记录
 	 * @return var
 	 */
-	function add()
+	public function add()
 	{
 		if(!isset($_REQUEST['role_name']) || !isset($_REQUEST['role_desc'])){
 			$this->ajaxReturn(1, 'JSON');
@@ -61,7 +61,7 @@ class RoleController extends Controller {
 	 * 修改一条记录
 	 * @return var
 	 */
-	function edit()
+	public function edit()
 	{
 		if(!isset($_REQUEST['role_name'])) {
 			$this->ajaxReturn(1, 'JSON');
@@ -104,7 +104,7 @@ class RoleController extends Controller {
 	 * 删除一条记录
 	 * @return var
 	 */
-	function rmv()
+	public function rmv()
 	{
 		if(!isset($_REQUEST['role_id'])) {
 			$this->ajaxReturn(1, 'JSON');
@@ -123,7 +123,7 @@ class RoleController extends Controller {
 		$this->ajaxReturn(0, 'JSON');
 	}
 
-	function selectAll(){
+	public function selectAll(){
 		$where = '1';
 		$sql = "SELECT * FROM think_role WHERE status = 1";
 		$ret = queryByNoModel('think_role', '', 'DB_ADMIN', $sql);
@@ -137,7 +137,7 @@ class RoleController extends Controller {
 	 * 查询一条记录
 	 * @return var
 	 */
-	function detail(){
+	public function detail(){
 		$where = '';
 		if(!isset($_REQUEST['role_id'])) {
 			$this->ajaxReturn(1, 'JSON');
@@ -158,6 +158,14 @@ class RoleController extends Controller {
 			$this->ajaxReturn(1, 'JSON');
 		}
 		$this->ajaxReturn($ret, 'JSON');
+	}
+
+	public function modifyPrivilege(){
+		$this->display("ModifyPrivilege");
+	}
+
+	public function getAccess(){
+	
 	}
 }
 
