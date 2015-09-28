@@ -187,4 +187,73 @@ class UserController extends Controller {
 			$this->ajaxReturn(array('code'=>-1));
 	}
 
+	## 活跃用户的数据 折线图
+	public function activeUserGraph()
+	{
+		$bgn_date = I('bgn_date', '');
+		$end_date = I('end_date', '');
+		$type = I('type', 1, 'intval'); ## 默认为1
+		$result = $this->user->getActiveCnt($bgn_date, $end_date, $type);
+		if(!empty($result))
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+		else
+			$this->ajaxReturn(array('code'=>-1));
+	}
+
+	## 活跃用户的数据 table
+	public function activeUserTable()
+	{
+		$bgn_date = I('bgn_date', '');
+		$end_date = I('end_date', '');
+		if($bgn_date == '' || $end_date == '')
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'参数错误'));
+		$bgn_date = date("Y-m-d", strtotime($bgn_date));
+		$end_date = date("Y-m-d", strtotime($end_date));
+
+		$data = array();
+		$data['current_page'] = I('current_page', 1, 'intval');
+		$data['page_size'] = I('page_size', 30, 'intval');
+		$data['sort_name'] = I('sort_name');
+		$data['sort_order'] = I('sort_order');
+
+		$result = $this->user->getActiveLost($data, $bgn_date, $end_date);
+		if(!empty($result))
+		{
+			## 处理null值 计算dau/wau   dau/mau   churn_rate
+			for($i = 0; $i < count($result); $i++) 
+			{
+				$result[$i]['dau_wau'] = 0;
+				$result[$i]['dau_mau'] = 0;
+				$result[$i]['churn_rate'] = 0;
+
+				if(empty($result[$i]['dau']))
+					$result[$i]['dau'] = 0;
+
+				if(empty($result[$i]['wau']))
+					$result[$i]['wau'] = 0;
+				else
+					$result[$i]['dau_wau'] = round(floatval($result[$i]['dau']) / $result[$i]['wau'] * 100, 2);
+
+				if(empty($result[$i]['mau']))
+					$result[$i]['mau'] = 0;
+				else
+					$result[$i]['dau_mau'] = round(floatval($result[$i]['dau']) / $result[$i]['mau'] * 100, 2);
+
+				if(empty($result[$i]['churn']))
+					$result[$i]['churn'] = 0;
+
+				if(empty($result[$i]['cumulation_user']))
+					$result[$i]['cumulation_user'] = 0;
+				else
+					$result[$i]['churn_rate'] = round(floatval($result[$i]['churn']) / $result[$i]['cumulation_user'] * 100, 2);
+
+			}
+			// var_dump($result);
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+		}
+			
+		else
+			$this->ajaxReturn(array('code'=>-1));
+	}
+
 }

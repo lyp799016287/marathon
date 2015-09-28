@@ -10,12 +10,20 @@ class UserDescController extends Controller {
 		$this->desc = D('Desc');
 	}
 
-	## 用户设备信息（可实时）
+	## 用户设备信息及来源渠道（可实时）
 	public function deviceSummary()
 	{
 		$re = $this->desc->calDevice();
 		$this->writeLog($re, 'Stat/UserDesc/deviceSummary');
 	}
+
+	## 每天新增用户的列表
+	public function newUserList()
+	{
+		$re = $this->desc->getNewUserInfo();
+		$this->writeLog($re, 'Stat/UserDesc/newUserList');
+	}
+
 	
 	private function writeLog($result, $tag)
 	{

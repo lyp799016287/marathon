@@ -8,6 +8,7 @@ class UserController extends Controller {
 	public function _initialize()
 	{
 		$this->user = D('User');
+		$this->userStat = D('UserStat');
 	}
 
 	## 计算用户数的基础信息
@@ -24,6 +25,7 @@ class UserController extends Controller {
 		$this->writeLog($re, 'Stat/User/userSummaryRealtime');
 	}
 
+	## modified by Bella 2015-09-18
 	## 计算用户留存率
 	public function userRetain()
 	{
@@ -36,6 +38,31 @@ class UserController extends Controller {
 	{
 		$re = $this->user->calFreq();
 		$this->writeLog($re, 'Stat/User/userFreq');
+	}
+
+	## added by Bella 2015-09-22
+	## 计算用户最近一次登录的时间 距离现在的时间
+	public function latestLogin()
+	{
+		$re = $this->userStat->calLatestLogin();
+		$this->writeLog($re, 'Stat/User/latestLogin');
+	}
+
+	## added by Bella 2015-09-22
+	## 计算活跃用户数 及 流失数
+	## DAU  WAU   MAU
+	public function userActiveChurn()
+	{
+		$re = $this->user->calActiveLost();
+		$this->writeLog($re, 'Stat/User/userActiveChurn');
+	}
+
+	## added by Bella 2015-09-23
+	## 计算活跃用户的留存率
+	public function userActiveRetain()
+	{
+		$result = $this->user->calActiveRetain();
+		$this->writeLog($result, 'Stat/User/userActiveRetain');
 	}
 
 	private function writeLog($result, $tag)
@@ -60,5 +87,7 @@ class UserController extends Controller {
 			exit();
 		}
 	}
+
 	
+
 }

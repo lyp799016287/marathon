@@ -662,4 +662,291 @@ EOF;
         return array('code'=>1, 'message'=>"执行成功");
     }
 
+    public function calActiveLost()
+    {
+        $sql = "SELECT MAX(date_stamp) `date` FROM t_user_active";
+        $re = queryByNoModel('t_user_active', '', $this->stat_config, $sql);
+        if($re === false)
+            return array('code'=>-32, 'message'=>'查询错误');
+        $min_date = '';
+        if(!is_null($re[0]['date']))
+        {
+            $min_date = date("Y-m-d", strtotime("+1 day", strtotime($re[0]['date'])));
+            // $min_date = $re[0]['date'];
+        }
+        else
+        {
+            $sql = "SELECT MIN(SUBSTRING(CAST(create_time AS CHAR(20)), 1, 10)) stamp FROM t_user_info WHERE `status` = 1";
+            $re = $this->query($sql);
+            if($re === false)
+                return array('code'=>-33, 'message'=>'查询错误');
+            $min_date = $re[0]['stamp'];
+        }
+        $max_date = date('Y-m-d', strtotime('-1 day'));
+        // var_dump($min_date);
+        // var_dump($max_date);
+        while($min_date <= $max_date)
+        {
+            $insert_re = $this->insertActive($min_date);
+            if($insert_re === false)
+                return array('code'=>-34, 'message'=>'更新数据表失败');
+            $min_date = date('Y-m-d', strtotime("+1 day", strtotime($min_date))); ## 循环条件
+        }
+        $update_re = $this->calLost();
+        if($update_re === false)
+            return array('code'=>-35, 'message'=>"更新流失用户失败");
+        return array('code'=>1, 'message'=>'执行成功');
+    }
+
+
+    private function insertActive($m_date)
+    {
+        $insert_data = array();
+        $insert_data['date_stamp'] = $m_date;
+
+        $re_active = $this->activeUser($m_date, 1);
+        if($re_active === false)
+            return false;
+        $insert_data['dau'] = $re_active;
+
+        $re_active = $this->activeUser($m_date, 2);
+        // exit;
+        if($re_active === false)
+            return false;
+        $insert_data['wau'] = $re_active;
+
+        $re_active = $this->activeUser($m_date, 3);
+        if($re_active === false)
+            return false;
+        $insert_data['mau'] = $re_active;
+        // var_dump($insert_data); exit;
+        $re = insertByNoModel('t_user_active', '', $this->stat_config, $insert_data);
+        return $re;
+    }
+
+
+    ## 活跃用户 做渠道和版本的区分？
+    private function activeUser($m_date, $type)
+    {
+        $login_cnt = $new_cnt = 0;
+        $min_date = '';
+        if($type == 1)
+            $min_date = $m_date . " 00:00:00";
+            // $min_date = date('Y-m-d H:i:s', strtotime("-1 day", strtotime($m_date)));
+        elseif($type == 2)
+            $min_date = date('Y-m-d H:i:s', strtotime("-6 day", strtotime($m_date)));
+        elseif($type == 3)
+            $min_date = date('Y-m-d H:i:s', strtotime("-29 day", strtotime($m_date)));
+        else
+            return false;
+        $m_date = date('Y-m-d H:i:s', strtotime("+1 day", strtotime($m_date)));
+        $sql = "SELECT COUNT(DISTINCT user_uid) total_cnt FROM t_login_flow WHERE `status` IN(1, 2) AND create_time >= '" . $min_date . "' AND create_time < '" . $m_date . "'";
+        // var_dump($sql);
+        $re = $this->query($sql);
+        if($re === false)
+            return false;
+        else
+            $login_cnt = $re[0]['total_cnt'];
+
+        $sql = "SELECT COUNT(DISTINCT user_uid) total_cnt FROM t_user_info WHERE `status` = 1 AND create_time >= '" . $min_date . "' AND create_time < '" . $m_date . "'";
+        // var_dump($sql);
+        $re = $this->query($sql);
+        if($re === false)
+            return false;
+        else
+            $new_cnt = $re[0]['total_cnt'];
+
+        $active_cnt = ($login_cnt - $new_cnt > 0) ? ($login_cnt - $new_cnt) : 0;
+        // var_dump($login_cnt);
+        // var_dump($new_cnt);
+        return $active_cnt;
+    }
+
+    ## 计算流失用户数
+    private function calLost()
+    {
+        $sql = <<< EOF
+        SELECT DISTINCT date_stamp 
+        FROM t_user_active 
+        WHERE churn IS NULL AND date_stamp > 
+            (SELECT MIN(cal_time) min_stamp 
+                FROM t_user_latest_login)
+EOF;
+        $date_re = queryByNoModel('t_user_active', '', $this->stat_config, $sql);
+        if($date_re === false)
+            return false;
+        for($i = 0; $i < count($date_re); $i++)
+        {
+            $date_stamp = $date_re[$i]['date_stamp'];
+            $tmp_sql = "SELECT COUNT(DISTINCT user_uid) cnt FROM t_user_latest_login WHERE day_interval >= 30 AND cal_time = '" . $date_stamp . "'";
+            // var_dump($tmp_sql); exit;
+            $cnt_re = queryByNoModel('t_user_latest_login', '', $this->stat_config, $tmp_sql);
+            if($cnt_re === false)
+                return false;
+            $cnt = $cnt_re[0]['cnt'];
+
+            $condition['date_stamp'] = $date_stamp;
+            $data['churn'] = $cnt;
+            // var_dump($condition);
+            // var_dump($data);
+            // exit;
+            $obj_mod = M('t_user_active', '', $this->stat_config);
+            $obj_mod->execute("SET NAMES utf8");
+            $result = $obj_mod->where($condition)->setField($data);
+            if($result === false)
+                return false;
+        }
+        return true;
+
+    }
+
+
+    public function calActiveRetain()
+    {
+        $sql = "SELECT MAX(datestamp) max_date FROM t_user_active_retain";
+        $date_re = queryByNoModel('t_user_active_retain', '', $this->stat_config, $sql);
+        if($date_re === false)
+            return array('code'=>-1, 'message'=>'数据查询失败');
+        $min_date = '';
+        if(empty($date_re[0]['max_date'])) ## 当前表中没有数据
+        {
+            $tmp_sql = "SELECT MIN(SUBSTRING(CAST(create_time AS CHAR(20)),1,10)) min_date FROM t_login_flow WHERE `status` IN(1, 2)";
+            $re = $this->query($tmp_sql);
+            if($re === false)
+                return array('code'=>-2, 'message'=>'数据查询失败');
+            $min_date = $re[0]['min_date'];
+        }
+        else
+            $min_date = date('Y-m-d', strtotime("+1 day", strtotime($date_re[0]['max_date'])));
+
+        $max_date = date('Y-m-d', time());
+        // var_dump($min_date); exit;
+        while($min_date < $max_date)
+        {
+            // var_dump("into while");
+            $bgn = $min_date; 
+            $end = date('Y-m-d', strtotime("+1 day", strtotime($min_date)));
+            ## 查询当天的活跃用户列表
+            $sql = <<<EOF
+            SELECT DISTINCT user_uid FROM t_login_flow 
+            WHERE create_time >= '{$bgn}' AND create_time < '{$end}' AND `status` IN(1, 2) AND user_uid NOT IN 
+            (SELECT DISTINCT user_uid FROM t_user_info WHERE `status` = 1 AND create_time >= '{$bgn}' AND create_time < '{$end}');
+EOF;
+            $active_list = $this->query($sql);
+            if($active_list === false)
+                return array('code'=>-3, 'message'=>'数据查询失败');
+            $data = array();
+            $data['datestamp'] = $min_date;
+            if(count($active_list) == 0)
+            {
+                $data['active_user'] = 0;
+                $data['retain_1'] = 0;
+                $data['retain_2'] = 0;
+                $data['retain_3'] = 0;
+                $data['retain_4'] = 0;
+                $data['retain_5'] = 0;
+                $data['retain_6'] = 0;
+                $data['retain_7'] = 0;
+                $data['retain_14'] = 0;
+                $data['retain_30'] = 0;
+                $re = insertByNoModel('t_user_active_retain', '', $this->stat_config, $data);
+                $min_date = $end;
+                // var_dump("into if");
+                continue;
+            }
+            else
+            {
+                ## 当天活跃用户列表字串
+                $list = "(";
+                for($i = 0; $i < count($active_list); $i++)
+                {
+                    if($i != count($active_list) - 1)
+                        $list .= "'" . $active_list[$i]['user_uid'] . "',";
+                    else
+                        $list .= "'" . $active_list[$i]['user_uid'] . "')";
+                }
+                $data['active_user'] = count($active_list);
+                $re = $this->calIntervalRetain($end, $list);
+                if($re === false)
+                    return array('code'=>-4, 'message'=>'数据查询失败');
+                for($i = 0; $i < count($re); $i++)
+                {
+                    switch($i)
+                    {
+                        case 0:
+                            $data['retain_1'] = $re[$i];
+                            break;
+                        case 1:
+                            $data['retain_2'] = $re[$i];
+                            break;
+                        case 2:
+                            $data['retain_3'] = $re[$i];
+                            break;
+                        case 3:
+                            $data['retain_4'] = $re[$i];
+                            break;
+                        case 4:
+                            $data['retain_5'] = $re[$i];
+                            break;
+                        case 5:
+                            $data['retain_6'] = $re[$i];
+                            break;
+                        case 6:
+                            $data['retain_7'] = $re[$i];
+                            break;
+                        case 7:
+                            $data['retain_14'] = $re[$i];
+                            break;
+                        case 8:
+                            $data['retain_30'] = $re[$i];
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                // var_dump($data); exit;
+                insertByNoModel('t_user_active_retain', '', $this->stat_config, $data);
+            }
+            $min_date = $end;
+        }
+        return array('code'=>1, 'message'=>'执行成功');
+    }
+
+    private function calIntervalRetain($bgn, $list)
+    {
+        $return_data = array();
+
+        $time_end = array();
+        $time_end[] = date('Y-m-d', strtotime('+1 day', strtotime($bgn)));
+        $time_end[] = date('Y-m-d', strtotime('+2 day', strtotime($bgn)));
+        $time_end[] = date('Y-m-d', strtotime('+3 day', strtotime($bgn)));
+        $time_end[] = date('Y-m-d', strtotime('+4 day', strtotime($bgn)));
+        $time_end[] = date('Y-m-d', strtotime('+5 day', strtotime($bgn)));
+        $time_end[] = date('Y-m-d', strtotime('+6 day', strtotime($bgn)));
+        $time_end[] = date('Y-m-d', strtotime('+7 day', strtotime($bgn)));
+        $time_end[] = date('Y-m-d', strtotime('+14 day', strtotime($bgn)));
+        $time_end[] = date('Y-m-d', strtotime('+30 day', strtotime($bgn)));
+        for($i = 0; $i < count($time_end); $i++)
+        {
+            $end = $time_end[$i];
+            $sql = <<<EOF
+            SELECT COUNT(DISTINCT user_uid) cnt 
+            FROM t_login_flow 
+            WHERE create_time >= '{$bgn}' AND create_time < '{$end}' AND user_uid IN {$list}
+EOF;
+            // var_dump($sql); exit;
+            $re = $this->query($sql);
+            if($re === false)
+                return false;
+            $cnt = $re[0]['cnt'];
+            $return_data[] = $cnt;
+        }
+        return $return_data;
+    }
+
+    private function getIntervalEach()
+    {
+
+    }
+
 }

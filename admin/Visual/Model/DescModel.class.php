@@ -87,4 +87,16 @@ EOF;
         return $re;
     }
 
+    public function calNewRetain($bgn, $end)
+    {
+        $bgn = date('Y-m-d', strtotime($bgn));
+        $end = date('Y-m-d', strtotime($end));
+        $sql = <<<EOF
+        SELECT a.*, b.new_user FROM 
+        (SELECT register_date, retain_1, retain_2, retain_3, retain_4, retain_5, retain_6, retain_7, retain_14, retain_30 
+        FROM t_user_retain WHERE register_date >= '{$bgn}' AND register_date <= '{$end}') a 
+        LEFT JOIN t_user_summary b ON a.register_date = b.datestamp 
+EOF;
+        return $this->query($sql);
+    }
 }

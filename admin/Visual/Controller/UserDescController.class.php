@@ -229,6 +229,51 @@ class UserDescController extends Controller {
 		$this->ajaxReturn(array('code'=>1, 'data'=>$result));
 	}
 
+	## 用户留存率  more detail
+	## added by Bella 2015-09-23
+	public function userRetainMore()
+	{
+		$bgn_date = I('bgn_date', '');
+        $end_date = I('end_date', '');
+        if(empty($bgn_date) || empty($end_date))
+        	$this->ajaxReturn(array('code'=>-1, 'message'=>'参数错误'));
+		$result = $this->desc->calNewRetain($bgn_date, $end_date);
+		if($result === false)
+			$this->ajaxReturn(array('code'=>-2, 'message'=>'查询失败'));
+		// var_dump($result); exit;
+		$re_ary = array();
+		for($i = 0; $i < count($result); $i++)
+		{
+			if(empty($result[$i]['new_user']))
+			{
+				$re_ary[$i]['retain_1'] = 0;
+				$re_ary[$i]['retain_2'] = 0;
+				$re_ary[$i]['retain_3'] = 0;
+				$re_ary[$i]['retain_4'] = 0;
+				$re_ary[$i]['retain_5'] = 0;
+				$re_ary[$i]['retain_6'] = 0;
+				$re_ary[$i]['retain_7'] = 0;
+				$re_ary[$i]['retain_14'] = 0;
+				$re_ary[$i]['retain_30'] = 0;
+				$re_ary[$i]['new_user'] = 0;
+				$re_ary[$i]['date'] = $result[$i]['register_date'];
+				continue;
+			}
+			$re_ary[$i]['date'] = $result[$i]['register_date'];
+			$re_ary[$i]['new_user'] = $result[$i]['new_user'];
+			$re_ary[$i]['retain_1'] = round(floatval($result[$i]['retain_1']) / $result[$i]['new_user'] * 100, 2);
+			$re_ary[$i]['retain_2'] = round(floatval($result[$i]['retain_2']) / $result[$i]['new_user'] * 100, 2);
+			$re_ary[$i]['retain_3'] = round(floatval($result[$i]['retain_3']) / $result[$i]['new_user'] * 100, 2);
+			$re_ary[$i]['retain_4'] = round(floatval($result[$i]['retain_4']) / $result[$i]['new_user'] * 100, 2);
+			$re_ary[$i]['retain_5'] = round(floatval($result[$i]['retain_5']) / $result[$i]['new_user'] * 100, 2);
+			$re_ary[$i]['retain_6'] = round(floatval($result[$i]['retain_6']) / $result[$i]['new_user'] * 100, 2);
+			$re_ary[$i]['retain_7'] = round(floatval($result[$i]['retain_7']) / $result[$i]['new_user'] * 100, 2);
+			$re_ary[$i]['retain_14'] = round(floatval($result[$i]['retain_14']) / $result[$i]['new_user'] * 100, 2);
+			$re_ary[$i]['retain_30'] = round(floatval($result[$i]['retain_30']) / $result[$i]['new_user'] * 100, 2);
+		}
+		$this->ajaxReturn(array('code'=>1, 'data'=>$re_ary));
+	}
+
 	## 计算用户分布的百分比
 	private function calUserPer($ary)
 	{

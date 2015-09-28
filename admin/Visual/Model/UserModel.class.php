@@ -316,4 +316,50 @@ EOF;
 
     }
 
+    public function getActiveCnt($bgn_date, $end_date, $type)
+    {
+        $field = '';
+        if($type == 1)
+            $field = "dau";
+        elseif($type == 2)
+            $field = "wau";
+        elseif($type == 3)
+            $field = "mau";
+        else
+            return false;
+        $sql = <<<EOF
+        SELECT date_stamp, {$field} 
+        FROM t_user_active 
+        WHERE date_stamp >= '{$bgn_date}' AND date_stamp <= '{$end_date}' 
+        ORDER BY date_stamp 
+EOF;
+        // var_dump($sql);
+        $result = $this->query($sql);
+        return $result;
+    }
+
+    public function getActiveLost($data, $bgn, $end)
+    {
+        $start = ($data['current_page'] - 1) * $data['page_size'];
+        $len = $data['page_size'] - 1;
+        $limit = ' LIMIT '.$start.', '.$len;
+        $order = '';
+        if(isset($data['sort_name']) && !empty($data['sort_name']))
+            $order .= ' ORDER BY '.$data['sort_name'];
+        else
+            $order .= ' ORDER BY tua.date_stamp';
+        if(isset($data['sort_order']) && !empty($data['sort_order']))
+            $order .= ' '.$data['sort_order'];
+        else
+            $order .= ' DESC'; ## 默认降序
+
+        $sql = <<<EOF
+        SELECT tua.*, tus.cumulation_user FROM 
+        (SELECT date_stamp, dau, wau, mau, churn FROM t_user_active WHERE date_stamp >= '{$bgn}' AND date_stamp <= '{$end}') tua 
+        LEFT JOIN t_user_summary tus ON tua.date_stamp = tus.datestamp {$order} {$limit}
+EOF;
+        // var_dump($sql); exit;
+        return $this->query($sql);
+    }
+
 }
