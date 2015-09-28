@@ -18,13 +18,34 @@ class UserDescController extends Controller {
 	}
 
 	## 每天新增用户的列表
-	public function newUserList()
+	// public function newUserList()
+	// {
+	// 	$re = $this->desc->getNewUserInfo();
+	// 	$this->writeLog($re, 'Stat/UserDesc/newUserList');
+	// }
+
+	## 按照渠道划分用户
+	public function userByChannel()
 	{
-		$re = $this->desc->getNewUserInfo();
-		$this->writeLog($re, 'Stat/UserDesc/newUserList');
+		$re = $this->desc->userChannel();
+		$this->writeLog($re, 'Stat/UserDesc/userByChannel');
 	}
 
-	
+	## 按照app版本划分用户
+	public function userByVersion()
+	{
+		$re = $this->desc->userVersion();
+		$this->writeLog($re, 'Stat/UserDesc/userByVersion');
+	}
+
+	## 按照手机系统版本划分用户
+	public function userBySysVersion()
+	{
+		$re = $this->desc->userSysVersion();
+		$this->writeLog($re, 'Stat/UserDesc/userBySysVersion');
+	}
+
+
 	private function writeLog($result, $tag)
 	{
 		$log_str = "";
