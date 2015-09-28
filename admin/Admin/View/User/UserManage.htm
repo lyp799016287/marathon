@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="cleartype" content="on">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+{include file="$menu_path/common_css.htm"}
+<link rel="stylesheet" type="text/css" media="all" href="/res/JqueryUI/jquery-ui.min.css" />
+<link rel="stylesheet" type="text/css" media="all" href="/admin.css" />
+<title>用户管理</title>
+<script type="text/javascript" src="/res/js/jquery.min.js"></script>
+<script type="text/javascript" src="/res/JqueryUI/jquery-ui.min.js"></script>
+{include file="$menu_path/common_js.htm"}
+<style>
+table {
+	font-size:14px;
+	text-align:center;
+}
+</style>
+</head>
+<body>
+
+{include file="$menu_path/menu.htm"}
+
+<div id="main_body">
+	<header>
+		<label>发布时间：<input type="text" name='pub_date' id="pub_date" value="{$public_date}" /></label>
+		<label>状态：<select id="status" name="status"><option value="" {if $status eq ''}selected="selected"{/if}>--全部--</option>
+				<option value="0" {if $status eq '0'}selected="selected"{/if}>待审核</option>
+				<option value="1" {if $status eq '1'}selected="selected"{/if}>已审核未发布</option>
+				<option value="3" {if $status eq '3'}selected="selected"{/if}>已发布</option>
+			</select>	
+		</label>
+		<label><button id="btn_search">搜 索</button></label>
+		<label><button id="btn_add">新 增</button></label>
+	</header>
+	<hr />
+	<div id="content">
+		<table id='datalist'>
+			<tr id="headerlist">
+				<!--<th class="check"><input type="checkbox" id='checked' /><label for="checked">全选</label></th>-->
+				<th class="type" width="10%">大类</th>
+				<th class="category" width="10%">分类</th>
+				<th class="title" width="40%">标题</th>
+				<th class="publish" width="10%">发布时间</th>
+				<th class="level" width="5%">是否推荐</th>
+				<th class="status" width="10%">状态</th>
+				<th class="op" width="15%">操作</th>
+			</tr>
+
+			{foreach from=$list key=k item=foo}
+			<tr class="data">
+				<!--<td><input type="checkbox" value="{$foo.id}" name="info_id"></td>-->
+				<td class="type">{$foo.type}</td>
+				<td class="category">{$foo.category}</td>
+				<td class="title">{$foo.title}</td>
+				<td class="publish">{$foo.pub_date}</td>
+				<td class="level">{if $foo.is_focus eq 1}是{else}否{/if}</td>
+				<td class="status">{if $foo.status eq 4}删除{else if $foo.status eq 3}已发布{else if $foo.status eq 1}已审核未发布{else}未审核{/if}</td>
+				<td class="op"><a href="/paper/news/newsprev?id={$foo.id}" target="_blank" class="prevBtn">预览</a> {if $foo.status neq 3}| <a href="javascript:;" sValue="{$foo.id}" class="editBtn">编辑</a>{if $foo.status eq 0}| <a href="javascript:;" sValue="{$foo.id}" class="chkBtn">审核</a>{/if}{if $foo.status eq 1} | <a href="javascript:;" sValue="{$foo.id}" class="pubBtn">发布</a>{/if} | <a href="javascript:;" sValue="{$foo.id}" class="delBtn">删除</a>{/if}{if $foo.status eq 3 && $foo.idx neq 0} | <a href="javascript:;" sValue="{$foo.id}" class="backBtn">撤回</a> | <a href="javascript:;" sValue="{$foo.idx}" class="commentBtn">管理评论</a>{/if}</td>
+			</tr>
+			{/foreach}
+		</table>
+		<div id="pager">
+			<span class="total">共{$total}条记录/第{$current}/{$total_num}页</span>
+			{section name=total loop=$total_num}
+			{if $current eq $smarty.section.total.index+1}
+			<span>{$smarty.section.total.index+1}</span>
+			{else}
+			<a href="/paper/news/newslist?page={$smarty.section.total.index+1}{$str_url}">{$smarty.section.total.index+1}</a>
+			{/if}
+			{/section}
+		</div>
+	</div>
+</div>
+	
+
+<script type="text/javascript">
+var paperPage = {};
+	paperPage.doneAction = function(){
+
+		$( "#pub_date" ).datepicker({
+			dateFormat: "yy-mm-dd"
+		});
+		
+		$(".editBtn").click(function(){
+			window.location.href = "/paper/news/newsshow?id="+$(this).attr('sValue');
+		});
+
+		$(".delBtn").click(function(){
+			paperPage.delAction($(this).attr('sValue'));
+		});
+
+		$(".chkBtn").click(function(){
+			paperPage.chkAction($(this).attr('sValue'));
+		});
+
+		$(".commentBtn").click(function(){
+			window.location.href = "/paper/news/newscommentlist?id="+$(this).attr('sValue');
+		});
+
+		/*$(".prevBtn").click(function(){
+			console.log($(this).attr('sValue'));
+			window.open('/paper/news/newsprev?id='+$(this).attr('sValue'));
+		});*/
+
+		$(".backBtn").click(function(){
+			paperPage.backAction($(this).attr('sValue'));
+		});
+
+		$(".pubBtn").click(function(){
+			paperPage.pubAction($(this).attr('sValue'));
+		});
+
+		$("#btn_add").click(function(){
+			window.location.href = "/paper/news/newsadd";
+		});
+
+		$("#btn_search").click(function(){
+			paperPage.searchAction();
+		});
+	}
+
+	paperPage.chkAction = function(id){
+		var data = {
+			'id' : id
+		};
+
+		$.ajax({
+			type : 'POST',
+			url : '/paper/news/newschk/',
+			data : data,
+			dataType : 'json',
+			success: function(rdata) {
+				if(rdata.code == 1){
+					alert(rdata.message);
+					window.location.reload();
+				}
+			},
+			error: function() {
+				alert("接口调用失败");
+			}
+		});
+	}
+
+	paperPage.delAction = function(id){
+		var data = {
+			'id' : id
+		};
+
+		$.ajax({
+			type : 'POST',
+			url : '/paper/news/newsdel/',
+			data : data,
+			dataType : 'json',
+			success: function(rdata) {
+				if(rdata.code == 1){
+					alert(rdata.message);
+					window.location.reload();
+				}
+			},
+			error: function() {
+				alert("接口调用失败");
+			}
+		});
+	}
+
+	paperPage.pubAction = function(id){
+		var data = {
+			'id' : id
+		};
+
+		$.ajax({
+			type : 'POST',
+			url : '/paper/news/newspub/',
+			data : data,
+			dataType : 'json',
+			success: function(rdata) {
+				if(rdata.code == 1){
+					alert(rdata.message);
+					window.location.reload();
+				}
+			},
+			error: function() {
+				alert("接口调用失败");
+			}
+		});
+	}
+
+	paperPage.backAction = function(id){
+		var data = {
+			'id' : id
+		};
+
+		$.ajax({
+			type : 'POST',
+			url : '/paper/news/newsback/',
+			data : data,
+			dataType : 'json',
+			success: function(rdata){
+				
+				alert(rdata.message);
+
+				if(rdata.code == 1){
+					window.location.reload();
+				}
+			},
+			error: function(){
+			
+			}
+		});
+	}
+
+	paperPage.searchAction = function(){
+		window.location.href = "/paper/news/newslist?action=search&public_date="+$("#pub_date").val()+"&status="+$("#status").val();		
+	}
+
+	paperPage.init = function(){
+		paperPage.doneAction();
+	}
+
+paperPage.init();
+</script>	
+</body>
+</html>

@@ -165,7 +165,120 @@ class RoleController extends Controller {
 	}
 
 	public function getAccess(){
-	
+		
+		$role_id = I('role_id', 0, 'intval');
+
+		$ssql = "SELECT id AS node_id, name, title, pid, level FROM think_node WHERE STATUS = 1";
+		$rrs = queryByNoModel('think_node', '', 'DB_ADMIN', $ssql);
+		//var_dump($rrs);
+
+		if($rrs === false){
+			$this->ajaxReturn(1, 'JSON');
+		}else{
+			$sql = "SELECT a.role_id, b.id AS node_id, b.name, b.title, b.pid, b.level FROM think_access a LEFT JOIN think_node b ON a.node_id=b.id WHERE b.status =1 AND a.role_id = ".$role_id;
+
+			$rs = queryByNoModel('think_access', '', 'DB_ADMIN', $sql);
+
+			if($rs === false){
+				$this->ajaxReturn(1, 'JSON');
+			}else{
+				foreach($rrs as &$node){
+					foreach($rs as $access){
+						if(($node['node_id'] == $access['node_id']) && ($access['level'] == 3)){
+							$node['ischecked'] = 'true';
+						}
+					}
+				}
+
+				$this->ajaxReturn($rrs, 'JSON');
+			}
+		}
+	}
+
+	public function setAccess(){
+
+		$role_id = I('role_id', 0, 'intval');
+		$access_arr = I('privilege_id');
+		
+
+		if(empty($access_arr)){
+			$this->ajaxReturn(1, 'JSON');
+		}
+
+		$del = "DELETE FROM think_access WHERE role_id = ".$role_id;
+		$rs = execByNoModel('think_access', '', 'DB_ADMIN', $del);
+
+		$second = array();
+
+		foreach($access_arr as $access){
+			$tmp = explode("-", $access);	//参数为node_id-pid(三级id-二级id or 二级id-一级id)
+
+			if(empty($tmp[1])){
+				$fdata = array(
+					'role_id' => $role_id,
+					'node_id' => $tmp[0],
+					'level'	=> 1,
+					'module' => $tmp[1]	
+				);
+				$frs = insertByNoModel('think_access', '', 'DB_ADMIN', $fdata);
+				
+				continue;
+			}
+			
+			if(!in_array($tmp[1], $second)){
+				
+				$select = "SELECT pid FROM think_node WHERE id = ".$tmp[1];
+				$rrs = queryByNoModel('think_node', '', 'DB_ADMIN', $select);
+
+				$rs = 0;
+
+				if($rrs){
+					$data = array(
+						'role_id' => $role_id,
+						'node_id' => $rrs[0]['pid'],
+						'level'	=> 1,
+						'module' => 0
+					);
+
+					$rs = insertByNoModel('think_access', '', 'DB_ADMIN', $data);
+				}
+				
+				if(!$rs){
+					$this->ajaxReturn(1, 'JSON');
+				}
+				
+				$sdata = array(
+					'role_id' => $role_id,
+					'node_id' => $tmp[1],
+					'level'	=> 2,
+					'module' => $rrs[0]['pid']	
+				);
+				$srs = insertByNoModel('think_access', '', 'DB_ADMIN', $sdata);
+				
+				if(!$srs){
+					$this->ajaxReturn(1, 'JSON');
+				}
+
+				array_push($second, $tmp[1]);
+
+			}else{
+				$srs = $tmp[1];
+			}
+
+			$tdata = array(
+				'role_id' => $role_id,
+				'node_id' => $tmp[0],
+				'level'	=> 3,
+				'module' => $tmp[1]	
+			);
+			$trs = insertByNoModel('think_access', '', 'DB_ADMIN', $tdata);
+		}
+
+		if($trs){
+			$this->ajaxReturn(0, 'JSON');
+		}else{
+			$this->ajaxReturn(1, 'JSON');
+		}
 	}
 }
 
