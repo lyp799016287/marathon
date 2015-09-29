@@ -25,6 +25,8 @@ $().ready(function(){
 		}
 	});
 
+	$('nav.navbar').parent().after('<h1 class="document_title">'+$(document).attr('title')+'</h1>');
+
 	if($.cookie('userName')==""||$.cookie('password')==''){return;}
 	$.post('/login/login/sessionVarify',function(data){
 		if(data.code==1){

@@ -84,9 +84,7 @@ body {
 
 #left nav li.current a{color: #ffffff;font-weight: bolder;}
 
-header {
-	margin: 1rem;
-}
+
 
 form {
 	border: 1px solid #e5e5e5;
@@ -289,5 +287,8 @@ td.title{max-width: 25rem;overflow: hidden;}
 
 
 nav a { font-family: '微软雅黑';letter-spacing: 0.1rem; }
-header { height: 51px; }
+header { height: 51px; margin: 0 1rem;}
+
 .navbar-brand { font-weight: bold;font-size: 1.5em; }
+
+h1.document_title{height: 3rem;line-height: 3rem;font-size: 2rem;border-left: 1rem solid #cccccc;margin:0rem 0 1rem 0;padding: 0; text-indent: 1rem; border-bottom: 2px solid #cccccc;font-weight: bold;}
