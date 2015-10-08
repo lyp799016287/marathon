@@ -326,8 +326,52 @@ EOF;
         WHERE datastamp >= '{$bgn}' AND datestamp <= '{$end}'
 EOF;
         return $this->stdQuery($sql);
-
-        }
-        
     }
+
+
+    public function retainSummary($bgn, $end)
+    {
+        $sql = <<<EOF
+        SELECT a.*, b.retain_1 retain_user FROM 
+        (SELECT datestamp, new_user FROM t_user_summary WHERE datestamp >= '{$bgn}' AND datestamp <= '{$end}') a 
+        LEFT JOIN t_user_retain b ON a.datestamp = b.register_date
+EOF;
+        // var_dump($sql); exit;
+        return $this->query($sql);
+    }
+
+    public function retainTable($data, $bgn, $end)
+    {
+        $start = ($data['current_page'] - 1) * $data['page_size'];
+        $len = $data['page_size'] - 1;
+        $limit = ' LIMIT '.$start.', '.$len;
+        $order = '';
+        if(isset($data['sort_name']) && !empty($data['sort_name']))
+            $order .= ' ORDER BY '.$data['sort_name'];
+        else
+            $order .= ' ORDER BY datestamp';
+        if(isset($data['sort_order']) && !empty($data['sort_order']))
+            $order .= ' '.$data['sort_order'];
+        else
+            $order .= ' DESC';
+
+        $sql = <<<EOF
+        SELECT a.*, b.retain_1 retain_user FROM 
+        (SELECT datestamp, new_user FROM t_user_summary WHERE datestamp >= '{$bgn}' AND datestamp <= '{$end}') a 
+        LEFT JOIN t_user_retain b ON a.datestamp = b.register_date {$order} {$limit}
+EOF;
+        $re_data = $this->query($sql);
+        if($re_data === false)
+            return false;
+
+        $sql_len = <<<EOF
+        SELECT COUNT(DISTINCT a.datestamp) len FROM 
+        (SELECT datestamp, new_user FROM t_user_summary WHERE datestamp >= '{$bgn}' AND datestamp <= '{$end}') a 
+        LEFT JOIN t_user_retain b ON a.datestamp = b.register_date
+EOF;
+        $re_len = $this->query($sql_len);
+        return array('data'=>$re_data, 'len'=>$re_len[0]['len']);
+    }
+
+
 }

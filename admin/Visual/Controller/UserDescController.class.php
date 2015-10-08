@@ -19,6 +19,11 @@ class UserDescController extends Controller {
 		$this->display('statUserDesc');
 	}
 
+	public function retainDefined()
+	{
+		$this->display('retainUser1');
+	}
+
 	## 用户设备信息相关统计量
 	## 获取的数据 截止昨天24:00
 
@@ -227,6 +232,75 @@ class UserDescController extends Controller {
 			}	
 		$result = $this->calUserPer($result);
 		$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+	}
+
+	## 新用户自定义留存 趋势图
+	## 留存用户 新用户 
+	## added by Bella 2015-10-08
+	public function userRetainSelfdefined()
+	{
+		$bgn_date = I('bgn_date', '');
+        $end_date = I('end_date', '');
+        if(empty($bgn_date) || empty($end_date))
+        	$this->ajaxReturn(array('code'=>-1, 'message'=>'参数错误'));
+        $result = $this->desc->retainSummary($bgn_date, $end_date);
+        if($result === false)
+        	$this->ajaxReturn(array('code'=>-1, 'message'=>'查询失败'));
+        else
+        	$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+	}
+
+
+	## 新用户自定义留存 趋势图
+	## 留存率 
+	## added by Bella 2015-10-08
+	public function userRetainRate()
+	{
+		$bgn_date = I('bgn_date', '');
+        $end_date = I('end_date', '');
+        if(empty($bgn_date) || empty($end_date))
+        	$this->ajaxReturn(array('code'=>-1, 'message'=>'参数错误'));
+        $result = $this->desc->retainSummary($bgn_date, $end_date);
+        if($result === false)
+        	$this->ajaxReturn(array('code'=>-1, 'message'=>'查询失败'));
+        else
+        {
+        	//计算留存率
+        	$result_rate = array();
+        	for($i = 0; $i < count($result); $i++)
+        	{
+        		$result_rate[$i]['datestamp'] = $result[$i]['datestamp'];
+        		if(empty($result[$i]['new_user']) || empty($result[$i]['retain_user']))
+        			$result_rate[$i]['retain_rate'] = 0;
+        		else
+        			$result_rate[$i]['retain_rate'] = round((float)$result[$i]['retain_user'] / $result[$i]['new_user'] * 100, 2);
+        	}
+        		
+        	// var_dump($result_rate); exit;
+        	$this->ajaxReturn(array('code'=>1, 'data'=>$result_rate));
+        }
+	}
+
+	## 新用户自定义留存 table
+	## added by Bella 2015-10-08
+	public function userRetainTable()
+	{
+		$bgn_date = I('bgn_date', '');
+        $end_date = I('end_date', '');
+        if(empty($bgn_date) || empty($end_date))
+        	$this->ajaxReturn(array('code'=>-1, 'message'=>'参数错误'));
+		## 分页及排序顺序
+		$data = array();
+		$data['current_page'] = I('current_page', 1, 'intval');
+		$data['page_size'] = I('page_size', 30, 'intval');
+		$data['sort_name'] = I('sort_name');
+		$data['sort_order'] = I('sort_order');
+
+		$result = $this->desc->retainTable($data, $bgn_date, $end_date);
+		if(!empty($result))
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result['data'], 'total'=>$result['len']));
+		else
+			$this->ajaxReturn(array('code'=>-1));
 	}
 
 	## 用户留存率  more detail

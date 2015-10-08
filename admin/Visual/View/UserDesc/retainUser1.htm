@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf8">
-<title>活跃用户</title>
+<title>新用户自定义留存</title>
 {include file="$menu_path/common_css.htm"}
 {include file="$menu_path/common_js.htm"}
 
@@ -60,17 +60,22 @@
 					<div>
 						<div id="table_show_options_div" class="sel_item">
 							<span style="width:640px;"><select name="zhibiao" id="mix_user_time" style="width:120px;margin-left:10px;">
-								<option value="1">DAU</option>
-								<option value="2">WAU</option>
-								<option value="3">MAU</option>
+								<option value="1">留存用户、新用户</option>
+								<option value="2">留存率</option>
+								<!-- <option value="3">MAU</option> -->
 							</select></span>
 						</div>
 					</div>
 				</div>
 			</div>
 		    <!-- <div class="mod_list_bd" style="margin-top:5px;"> -->
+		    <!--留存用户、新用户-->
 		    <div>
 		        <div id="stats_content_detail" class="block_content center" style="width:1200px;height:450px;margin-left:50px;"></div>
+		    </div>
+		    <!--留存率-->
+		    <div>
+		        <div id="stats_content_rate" class="block_content center" style="width:1200px;height:450px;margin-left:50px;display: none;"></div>
 		    </div>
 		</div>
 		<!-- End 活跃用户折线图 -->
@@ -98,14 +103,15 @@
 {literal}
 $(document).ready(function(){
 	
-var statActive = {};
+var retainDefined = {};
 
 // var type = 1; //全局变量
 
 //调用接口
-statActive.cgi = {
-	"mixData" : "/Visual/User/activeUserGraph",
-	"mixTable" : "/Visual/User/activeUserTable",
+retainDefined.cgi = {
+	"mixData" : "/Visual/UserDesc/userRetainSelfdefined",
+	"mixRate" : "/Visual/UserDesc/userRetainRate",
+	"mixTable" : "/Visual/UserDesc/userRetainTable",
 };
 
 function getDateStr(addDayCnt)
@@ -122,18 +128,15 @@ function getDateStr(addDayCnt)
 	return y + '-' + m + '-' + d;
 }
 
-statActive.actionHtml = function (){
-	// $("#total_user_time").change(statActive.getTotalUser);
+retainDefined.actionHtml = function (){
 	// 默认显示7天的数据
-	// console.log(getDateStr(0));
-	// console.log(getDateStr(-10));
 	$("#bgn_date").val(getDateStr(-6));
 	$("#end_date").val(getDateStr(0));
 	
-	$("#mix_user_time").change(statActive.getMixUser);
+	$("#mix_user_time").change(retainDefined.getMixUser);
 }
 
-statActive.init = function (){
+retainDefined.init = function (){
 	$("#bgn_date").datepicker({
 		dateFormat: "yy-mm-dd"
 	});
@@ -142,12 +145,12 @@ statActive.init = function (){
 	});
 	// 搜索按钮点击
 	$("#btn_search").click(function(){
-		var check_re = statActive.checkDate();
+		var check_re = retainDefined.checkDate();
 		if(check_re)
 		{
 			// console.log('upload');
-			statActive.getMixUser();
-			statActive.getDetailInfo();
+			retainDefined.getMixUser();
+			retainDefined.getDetailInfo();
 		}
 		
 	});
@@ -170,13 +173,13 @@ statActive.init = function (){
 		$("#end_date").val(getDateStr(0));
 	});
 
-	statActive.actionHtml();
-	statActive.getMixUser();
-	statActive.getDetailInfo();
+	retainDefined.actionHtml();
+	retainDefined.getMixUser();
+	retainDefined.getDetailInfo();
 }
 
 // 验证时间的合法性
-statActive.checkDate = function(){
+retainDefined.checkDate = function(){
 	var bgn = $("#bgn_date").val();
 	var end = $("#end_date").val();
 	// console.log(bgn);
@@ -192,19 +195,19 @@ statActive.checkDate = function(){
 }
 
 // 表头
-statActive.header = [
+retainDefined.header = [
 	{
 		display: '时间',
-		name: 'date_stamp',
-		width: '15%',
+		name: 'datestamp',
+		width: '25%',
 		isSort: true,
 		align: 'center',
 		issortshow: true
 	},
 	{
-		display: 'DAU',
-		name: 'dau',
-		width: '15%',
+		display: '留存用户',
+		name: 'retain_user',
+		width: '25%',
 		type: 'int',
 		isSort: true,
 		align: 'center',
@@ -212,9 +215,9 @@ statActive.header = [
 		issortshow: true
 	},
 	{
-		display: 'WAU',
-		name: 'wau',
-		width: '15%',
+		display: '新增用户',
+		name: 'new_user',
+		width: '25%',
 		type: 'int',
 		isSort: true,
 		align: 'center',
@@ -222,65 +225,19 @@ statActive.header = [
 		issortshow: true
 	},
 	{
-		display: 'MAU',
-		name: 'mau',
-		width: '15%',
-		type: 'int',
-		isSort: true,
-		align: 'center',
-		render:  window.G.common.formatInt,
-		issortshow: true
-	},
-	{
-		display: 'DAU/WAU',
-		name: 'dau_wau',
-		width: '8%',
+		display: '留存率',
+		name: 'retain_rate',
+		width: '25%',
 		isSort: true,
 		align: 'center',
 		issortshow: true
-	},
-	{
-		display: 'DAU/MAU',
-		name: 'dau_mau',
-		width: '8%',
-		isSort: true,
-		align: 'center',
-		issortshow: true
-	},
-	{
-		display: '流失用户',
-		name: 'churn',
-		width: '8%',
-		isSort: true,
-		align: 'center',
-		issortshow: true,
-		type: 'int',
-		render:  window.G.common.formatInt,
-	},
-	{
-		display: '流失率',
-		name: 'churn_rate',
-		width: '8%',
-		isSort: true,
-		align: 'center',
-		issortshow: true
-	},
-	{
-		display: '累计用户',
-		name: 'cumulation_user',
-		width: '8%',
-		isSort: true,
-		align: 'center',
-		issortshow: true,
-		type: 'int',
-		render:  window.G.common.formatInt,
 	},
 ];
 
 
 
 var gridManager = $("#stats_user_detail").ligerGrid({
-	url: statActive.cgi.mixTable,
+	url: retainDefined.cgi.mixTable,
 	pageParmName: 'current_page',
 	pagesizeParmName: 'page_size',
 	sortnameParmName: 'sort_name',
@@ -303,7 +260,7 @@ var gridManager = $("#stats_user_detail").ligerGrid({
 
 
 // 获取table中数据
-statActive.getDetailInfo = function(){
+retainDefined.getDetailInfo = function(){
 	var params = {};
 	// params['type'] = $("#detail_dimension").val();
 	// 获取参数
@@ -312,86 +269,125 @@ statActive.getDetailInfo = function(){
 	params['end_date'] = $("#end_date").val();
 	// params['bgn_date'] = '2015-09-10';
 	// params['end_date'] = '2015-09-21';
-	gridManager.setOptions({columns: statActive.header});
+	gridManager.setOptions({columns: retainDefined.header});
 	gridManager.setOptions({parms: params});
 	gridManager.loadData();
 }
 
 
-//DAU WAU MAU
-statActive.getMixUser = function(){
-	
+//留存用户、新用户 || 留存率
+retainDefined.getMixUser = function(){
+	// console.log("change");
 	var params = {};
-	params['type'] = $("#mix_user_time").val();
+	var type = $("#mix_user_time").val();
 	// params['type'] = type; 
 	params['bgn_date'] = $("#bgn_date").val();
 	params['end_date'] = $("#end_date").val();
-	// console.log(params);
+	// console.log(type);
 	// params['bgn_date'] = '2015-09-10';
 	// params['end_date'] = '2015-09-21';
-	$.ajax({
-		type : 'POST',
-		url : statActive.cgi.mixData,
-		dataType : 'json',
-		data: '&' + window.G.common.jsonToUrl(params),
-		success: function(rdata) {
-			if(rdata.code == 1){
-				var data = rdata.data;
-				showTimeLines(data, 'stats_content_detail');
+	if(type == 1) //留存用户 新用户
+	{
+		$.ajax({
+			type : 'POST',
+			url : retainDefined.cgi.mixData,
+			dataType : 'json',
+			data: '&' + window.G.common.jsonToUrl(params),
+			success: function(rdata) {
+				if(rdata.code == 1){
+					var data = rdata.data;
+					//visiable 设置
+					$("#stats_content_detail").css("display","block");
+					$("#stats_content_rate").css("display","none");
+					showTimeLines_detail(data, 'stats_content_detail');
+				}
 			}
-		}
-	});
+		});
+	}
+	else //留存率
+	{
+		$.ajax({
+			type : 'POST',
+			url : retainDefined.cgi.mixRate,
+			dataType : 'json',
+			data: '&' + window.G.common.jsonToUrl(params),
+			success: function(rdata) {
+				// console.log(rdata);
+				if(rdata.code == 1){
+					var data = rdata.data;
+					$("#stats_content_detail").css("display","none");
+					$("#stats_content_rate").css("display","block");
+					showTimeLines_rate(data, 'stats_content_rate');
+				}
+			}
+		});
+	}
+	
 }
 
-
-
-function showTimeLines(data, oDiv){
+function showTimeLines_rate(data, oDiv){
+	console.log('function show');
 	if(!data){
 		return;
 	}
 
 	var d1=[], s_date=[];
-
 	var style_type = 'line';
-	
 	var series = [];
-
-	var data = window.G.common.listSortBy(data, 'date_stamp', 'asc');
+	var data = window.G.common.listSortBy(data, 'datestamp', 'asc');
 
 	for(var i in data){
-		s_date.push(data[i].date_stamp);
-		d1.push(parseInt(data[i].cnt));
-		// d2.push(parseInt(data[i].active_user));
-		// d3.push(parseInt(data[i].open_times));
+		s_date.push(data[i].datestamp);
+		d1.push(parseInt(data[i].retain_rate));
 	}
 
-	/*console.log(d1);
-	console.log(d2);
-	console.log(d3);*/
+	var start_item = {
+			name: '留存率(%)',
+			type:style_type,
+			data: d1
+		};
+	series.push(start_item);
+
+	retainDefined.newHighCharts(oDiv, s_date, series);	
+}
+
+
+function showTimeLines_detail(data, oDiv){
+	if(!data){
+		return;
+	}
+
+	var d1=[], d2=[], s_date=[];
+	var style_type = 'line';
+	var series = [];
+	var data = window.G.common.listSortBy(data, 'datestamp', 'asc');
+
+	for(var i in data){
+		s_date.push(data[i].datestamp);
+		d1.push(parseInt(data[i].new_user));
+		d2.push(parseInt(data[i].retain_user));
+	}
 
 	var start_item = {
-			name: '用户数量',
+			name: '新用户',
 			type:style_type,
 			data: d1
 		};
 	
 	series.push(start_item);
 
-	// var second_item = {
-	// 	name: '活跃用户',
-	// 	type:style_type,
-	// 	data: d2
-	// }
-	// series.push(second_item);
+	var second_item = {
+		name: '留存用户',
+		type:style_type,
+		data: d2
+	}
+	series.push(second_item);
 
-	// var third_item = {
-	// 	name: '启动次数',
-	// 	type:style_type,
-	// 	data: d3
-	// }
-	// series.push(third_item);
+	retainDefined.newHighCharts(oDiv, s_date, series);
+}
 
 
+retainDefined.newHighCharts = function(oDiv, s_date, series){
 	var chart1 = new Highcharts.Chart({
 		title:{
 			text:"",
@@ -477,7 +473,7 @@ function showTimeLines(data, oDiv){
 }
 
 
-statActive.init();
+retainDefined.init();
 
 });
 {/literal}
