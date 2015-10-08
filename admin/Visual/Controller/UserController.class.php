@@ -223,7 +223,7 @@ class UserController extends Controller {
 		$data['sort_order'] = I('sort_order');
 
 		$result_ary = $this->user->getActiveLost($data, $bgn_date, $end_date);
-		if(!empty($result))
+		if(!empty($result_ary))
 		{
 			## 处理null值 计算dau/wau   dau/mau   churn_rate
 			$result = $result_ary['data'];
@@ -255,7 +255,7 @@ class UserController extends Controller {
 					$result[$i]['churn_rate'] = round(floatval($result[$i]['churn']) / $result[$i]['cumulation_user'] * 100, 2);
 
 			}
-			// var_dump($result);
+			// var_dump($result); exit;
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result, 'total'=>$result_ary['len']));
 		}
 			

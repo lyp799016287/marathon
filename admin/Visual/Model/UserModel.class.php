@@ -354,22 +354,23 @@ EOF;
             $order .= ' DESC'; ## 默认降序
 
         $sql = <<<EOF
-        SELECT tua.*, tus.cumulation_user FROM 
+        SELECT DISTINCT tua.*, tus.cumulation_user FROM 
         (SELECT date_stamp, dau, wau, mau, churn FROM t_user_active WHERE date_stamp >= '{$bgn}' AND date_stamp <= '{$end}') tua 
         LEFT JOIN t_user_summary tus ON tua.date_stamp = tus.datestamp {$order} {$limit}
 EOF;
         // var_dump($sql); exit;
-        $data = $this->query($sql);
-        if($data === false)
+        $data_re = $this->query($sql);
+        if($data_re === false)
             return false;
         ## 计算结果的记录条数
         $sql_len = <<<EOF
-        SELECT COUNT(tua.date_stamp) len_cnt FROM 
+        SELECT COUNT(DISTINCT tua.date_stamp) len_cnt FROM 
         (SELECT date_stamp, dau, wau, mau, churn FROM t_user_active WHERE date_stamp >= '{$bgn}' AND date_stamp <= '{$end}') tua 
         LEFT JOIN t_user_summary tus ON tua.date_stamp = tus.datestamp 
 EOF;
         $len = $this->query($sql_len);
-        return array('data'=>$data, 'len'=>$len[0]['len_cnt']);
+        // var_dump($sql_len); exit;
+        return array('data'=>$data_re, 'len'=>$len[0]['len_cnt']);
     }
 
 }
