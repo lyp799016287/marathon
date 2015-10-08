@@ -328,7 +328,7 @@ EOF;
         else
             return false;
         $sql = <<<EOF
-        SELECT date_stamp, {$field} 
+        SELECT date_stamp, {$field} cnt
         FROM t_user_active 
         WHERE date_stamp >= '{$bgn_date}' AND date_stamp <= '{$end_date}' 
         ORDER BY date_stamp 
@@ -359,7 +359,17 @@ EOF;
         LEFT JOIN t_user_summary tus ON tua.date_stamp = tus.datestamp {$order} {$limit}
 EOF;
         // var_dump($sql); exit;
-        return $this->query($sql);
+        $data = $this->query($sql);
+        if($data === false)
+            return false;
+        ## 计算结果的记录条数
+        $sql_len = <<<EOF
+        SELECT COUNT(tua.date_stamp) len_cnt FROM 
+        (SELECT date_stamp, dau, wau, mau, churn FROM t_user_active WHERE date_stamp >= '{$bgn}' AND date_stamp <= '{$end}') tua 
+        LEFT JOIN t_user_summary tus ON tua.date_stamp = tus.datestamp 
+EOF;
+        $len = $this->query($sql_len);
+        return array('data'=>$data, 'len'=>$len[0]['len_cnt']);
     }
 
 }

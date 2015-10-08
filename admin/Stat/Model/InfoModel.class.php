@@ -326,4 +326,21 @@ EOF;
         return $insert_data;
     }
 
+    public function infoCount()
+    {
+        $sql = "SELECT MAX(datestamp) datestamp FROM t_info_operate";
+        $re = queryByNoModel('t_info_operate', '', $this->stat_config, $sql);
+        if($re === false)
+            return false;
+        $min_date = '';
+        if(empty($re[0]['datestamp']))
+        {
+            $sql = "SELECT MIN(SUBSTRING(CAST(`time` AS CHAR(20)),1, 10)) datestamp FROM t_info_comment WHERE `status` = 1";
+            
+        }
+        else
+            $min_date = date('Y-m-d', strtotime("+1 day", strtotime($re[0]['datestamp'])));
+
+    }
+
 }

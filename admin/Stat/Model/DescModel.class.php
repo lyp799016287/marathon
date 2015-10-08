@@ -353,36 +353,44 @@ EOF;
         while($min_date < $max_date)
         {
             // var_dump($min_date);
-            $new_user = $this->newUserChannel($min_date, $type);
+            // $new_user = $this->newUserChannel($min_date, $type);
+            // 该版本的新增用户 包含当天注册新增+升级到该版本的用户
+            $new_user = $this->versionNewUser($min_date);
+            // var_dump($new_user); exit;
+            $update_user = $this->versionUpdateUser($min_date); ## 升级用户
             $all_user = $this->allUserChannel($min_date, $type);
             $open_times = $this->openChannel($min_date, $type);
 
-            if($new_user === false || $all_user === false || $open_times === false)
+            if($new_user === false || $all_user === false || $open_times === false || $update_user === false)
                 return array('code'=>-3, 'message'=>'数据查询失败');
             
             for($i = 0; $i < count($all_user); $i++)
             {
-                $insert_data = array('datestamp'=>'', 'app_version'=>'', 'new_user'=>0, 'active_user'=>0, 'open_times'=>0);
+                $insert_data = array('datestamp'=>'', 'app_version'=>'', 'new_user'=>0, 'update_user'=>0, 'active_user'=>0, 'open_times'=>0);
                 $insert_data['datestamp'] = $min_date;
                 $version = $insert_data['app_version'] = $all_user[$i]['app_version'];
 
                 for($j = 0; $j < count($open_times); $j++)
-                {
                     if($open_times[$j]['app_version'] == $version)
                     {
                         $insert_data['open_times'] = is_null($open_times[$j]['cnt']) ? 0 : $open_times[$j]['cnt'];
                         break;
                     }
-                        
-                }
+
                 for($k = 0; $k < count($new_user); $k++)
-                {
                     if($new_user[$k]['app_version'] == $version)
                     {
                         $insert_data['new_user'] = is_null($new_user[$k]['cnt']) ? 0 : $new_user[$k]['cnt'];
                         break;
                     }
-                }
+
+                for($n = 0; $n < count($update_user); $n++)
+                    if($update_user[$n]['app_version'] == $version)
+                    {
+                        $insert_data['update_user'] = is_null($update_user[$n]['cnt']) ? 0 : $update_user[$n]['cnt'];
+                        break;
+                    }
+
                 $insert_data['active_user'] = ($all_user[$i]['cnt'] - $insert_data['new_user'] >= 0) ? ($all_user[$i]['cnt'] - $insert_data['new_user']) : 0;
                 ## 插入表
                 $obj_mod = M('t_user_app_version', '', $this->stat_config);
@@ -397,6 +405,42 @@ EOF;
         return array('code'=>1, 'message'=>'执行成功');
     }
 
+
+    private function versionNewUser($date)
+    {
+        $sql_new = <<<EOF
+            SELECT b.app_version, COUNT(b.user_uid) cnt FROM 
+            (SELECT * FROM t_user_device_flow WHERE login_date = '{$date}') b
+            LEFT JOIN 
+            (SELECT user_uid, MAX(app_version) max_version_before
+            FROM t_user_device_flow 
+            WHERE user_uid IN (SELECT user_uid FROM t_user_device_flow WHERE login_date = '{$date}') AND login_date < '{$date}'
+            GROUP BY user_uid ) a
+            ON a.user_uid = b.user_uid 
+            WHERE a.user_uid IS NULL OR (max_version_before < app_version)
+            GROUP BY b.app_version 
+EOF;
+        // var_dump($sql_new);
+        return queryByNoModel('t_user_device_flow', '', $this->stat_config, $sql_new);
+    }
+
+
+    private function versionUpdateUser($date)
+    {
+        $sql_update = <<<EOF
+            SELECT app_version, COUNT(a.user_uid) cnt FROM 
+            (SELECT user_uid, MAX(app_version) max_version_before
+            FROM t_user_device_flow 
+            WHERE user_uid IN (SELECT user_uid FROM t_user_device_flow WHERE login_date = '{$date}') AND login_date < '{$date}'
+            GROUP BY user_uid) a
+            LEFT JOIN 
+            (SELECT * FROM t_user_device_flow WHERE login_date = '{$date}') b
+            ON a.user_uid = b.user_uid 
+            WHERE max_version_before < app_version
+            GROUP BY app_version 
+EOF;
+        return queryByNoModel('t_user_device_flow', '', $this->stat_config, $sql_update);
+    }
 
     public function userSysVersion()
     {

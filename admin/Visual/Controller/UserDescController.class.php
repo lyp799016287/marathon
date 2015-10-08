@@ -302,4 +302,85 @@ class UserDescController extends Controller {
 		return $return_ary;
 	}
 
+	## added by Bella 2015-09-28
+	## 渠道分布的table数据
+	public function channelTable()
+	{
+		$date = I('date', '');
+		$date = empty($date) ? date('Y-m-d', strtotime("-1 day")) : $date; ## 默认显示前一天
+		$result = $this->desc->getChannelByDate($date);
+		if($result === false)
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'执行错误'));
+		else
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+	}
+
+	## added by Bella 2015-09-28
+	## 渠道分布的折线图数据
+	public function channelGraph()
+	{
+		$date_bgn = I('bgn', '');
+		$date_end = I('end', '');
+		$type = I('type', 1, 'intval');
+		$result = $this->desc->getGraphData($date_bgn, $date_end, $type);
+		if($result === false)
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'执行错误'));
+		else
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+	}
+
+	## added by Bella 2015-09-29
+	## 终端设备的table数据
+	public function sdkTable()
+	{
+		$date = I('date', '');
+		$date = empty($date) ? date('Y-m-d', strtotime("-1 day")) : $date; ## 默认显示前一天
+		$result = $this->desc->getSdkByDate($date);
+		if($result === false)
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'执行错误'));
+		else
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+	}
+
+	## added by Bella 2015-09-30
+	## 终端设备的折线图数据
+	public function sdkGraph()
+	{
+		$date_bgn = I('bgn', '');
+		$date_end = I('end', '');
+		$type = I('type', 1, 'intval');
+		$result = $this->desc->getSdkGraph($date_bgn, $date_end, $type);
+		if($result === false)
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'执行错误'));
+		else
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+	}
+
+	## added by Bella 2015-09-29
+	## 版本分布的table数据
+	public function versionTable()
+	{
+		$date = I('date', '');
+		$date = empty($date) ? date('Y-m-d', strtotime("-1 day")) : $date; ## 默认显示前一天
+		$result = $this->desc->getVersionByDate($date);
+		if($result === false)
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'执行错误'));
+		else
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+	}
+
+	## added by Bella 2015-09-29
+	## 版本分布的折线数据
+	public function versionGraph()
+	{
+		$date_bgn = I('bgn', '');
+		$date_end = I('end', '');
+		$type = I('type', 1, 'intval');
+		$result = $this->desc->getVersionLine($date_bgn, $date_end, $type);
+		if($result === false)
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'执行错误'));
+		else
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+	}
+
 }

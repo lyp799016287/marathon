@@ -141,5 +141,51 @@ class InfoController extends Controller {
 			exit();
 		}
 	}
+
+	## added by Bella 2015-09-30
+	## 资讯内容
+	public function infoType()
+	{
+		$date_bgn = I('bgn', '');
+		$date_end = I('end', '');
+		if(empty($date_bgn) || empty($date_end))
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'参数错误'));
+		$result = $this->info->getInfoType($date_bgn, $date_end);
+		if($result === false)
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'执行错误'));
+		else
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+	}
+
+	## added by Bella 2015-09-30
+	## 资讯操作 table数据
+	public function infoOperateTable()
+	{
+		$date_bgn = I('bgn', '');
+		$date_end = I('end', '');
+		if(empty($date_bgn) || empty($date_end))
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'参数错误'));
+		$result = $this->info->getOperateDetail($date_bgn, $date_end);
+		if($result === false)
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'执行错误'));
+		else
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+	}
+
+
+	## added by Bella 2015-09-30
+	## 资讯操作 折线图数据
+	public function infoOperateGraph()
+	{
+		$date_bgn = I('bgn', '');
+		$date_end = I('end', '');
+		if(empty($date_bgn) || empty($date_end))
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'参数错误'));
+		$result = $this->info->getOperateSummary($date_bgn, $date_end);
+		if($result === false)
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'执行错误'));
+		else
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+	}
 	
 }

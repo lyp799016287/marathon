@@ -99,4 +99,235 @@ EOF;
 EOF;
         return $this->query($sql);
     }
+
+    public function getChannelByDate($date)
+    {
+        $sql = "SELECT channel, new_user, active_user, open_times FROM t_user_channel WHERE datestamp = '" . $date . "'";
+        $re = $this->stdQuery($sql);
+        if($re === false)
+            return false;
+        ## 当天各个维度的总用户量
+        $sql_sum = "SELECT SUM(new_user) all_new, SUM(active_user) all_active, SUM(open_times) all_open FROM t_user_channel WHERE datestamp = '" . $date . "'";
+        $re_sum = $this->query($sql_sum);
+        if($re_sum === false)
+            return false;
+        $all_new = $re_sum[0]['all_new'];
+        $all_active = $re_sum[0]['all_active'];
+        $all_open = $re_sum[0]['all_open'];
+        ## 各个渠道的累计用户
+        $sql_cumu = <<<EOF
+            SELECT channel, SUM(new_user) cnt 
+            FROM t_user_channel 
+            WHERE datestamp <= '{$date}' AND channel IN (SELECT channel FROM t_user_channel WHERE datestamp = '{$date}')
+            GROUP BY channel 
+EOF;
+        $re_cumu = $this->stdQuery($sql_cumu);
+        if($re_cumu === false)
+            return false;
+
+        for($i = 0; $i < count($re); $i++)
+        {
+            $re[$i]['new_per'] = round((float)$re[$i]['new_user'] / $all_new * 100, 2);
+            $re[$i]['active_per'] = round((float)$re[$i]['active_user'] / $all_active * 100, 2);
+            $re[$i]['cumu_user'] = 0;
+            for($j = 0; $j < count($re_cumu); $j++)
+                if($re_cumu[$j]['channel'] == $re[$i]['channel'])
+                {
+                    $re[$i]['cumu_user'] = $re_cumu[$j]['cnt'];
+                    break;
+                }
+        }
+        return $re;
+
+    }
+
+    private function stdQuery($sql)
+    {
+        $tmp_sql = "SET NAMES utf8";
+        $this->execute($tmp_sql);
+        return $this->query($sql);
+    }
+
+
+    public function getGraphData($bgn, $end, $type)
+    {
+        $field = '';
+        if($type == 1)
+            $field = "new_user";
+        elseif($type == 2)
+            $field = "active_user";
+        elseif($type == 3)
+            $field = "open_times";
+
+        if(empty($field))
+            return false;
+        $sql = <<<EOF
+            SELECT datestamp, channel, {$field} FROM t_user_channel 
+            WHERE datestamp >= '{$bgn}' AND datestamp <= '{$end}'
+EOF;
+        return $this->stdQuery($sql);
+    }
+
+    public function getSdkByDate($date)
+    {
+        $sql = "SELECT sys_version, new_user, active_user, open_times FROM t_user_sys_version WHERE datestamp = '" . $date . "'";
+        $re = $this->stdQuery($sql);
+        if($re === false)
+            return false;
+        ## 各个维度的总用户量
+        $sql_sum = "SELECT SUM(new_user) all_new, SUM(active_user) all_active, SUM(open_times) all_open FROM t_user_sys_version WHERE datestamp = '" . $date . "'";
+        $re_sum = $this->stdQuery($sql_sum);
+        if($re_sum === false)
+            return false;
+        $all_new = $re_sum[0]['all_new'];
+        $all_active = $re_sum[0]['all_active'];
+        $all_open = $re_sum[0]['all_open'];
+        ## 计算百分比
+        for($i = 0; $i < count($re); $i++)
+        {
+            $re[$i]['new_per'] = round((float)$re[$i]['new_user'] / $all_new * 100, 2);
+            $re[$i]['active_per'] = round((float)$re[$i]['active_user'] / $all_active * 100, 2);
+            $re[$i]['open_per'] = round((float)$re[$i]['open_times'] / $all_open * 100, 2);
+        }
+        return $re;
+    }
+
+    public function getSdkGraph($bgn, $end, $type)
+    {
+        $field = '';
+        if($type == 1)
+            $field = 'new_user';
+        elseif($type == 2)
+            $field = 'active_user';
+        elseif($type == 3)
+            $field = "open_times";
+        else
+            return false;
+        $sql = <<<EOF
+            SELECT app_version, SUM({$field}) all_cnt FROM t_user_app_version 
+            WHERE datestamp >= '{$bgn}' AND datestamp <= '{$end}' 
+            GROUP BY app_version 
+EOF;
+        return $this->stdQuery($sql);
+    }
+
+    public function getVersionByDate($date)
+    {
+        $sql = "SELECT app_version, new_user, update_user, active_user, open_times FROM t_user_app_version WHERE datestamp = '" . $date . "'";
+        $re = $this->stdQuery($sql);
+        if($re === false)
+            return false;
+        ## 各个维度的总用户量
+        $sql_all = "SELECT SUM(new_user) all_new, SUM(active_user) all_active, SUM(open_times) all_open FROM t_user_app_version WHERE datestamp = '" . $date . "'";
+        $re_all = $this->stdQuery($sql_all);
+        if($re_all === false)
+            return false;
+        $new_all = $re_all[0]['all_new'];
+        // $update_all = $re_all[0]['all_update'];
+        $active_all = $re_all[0]['all_active'];
+        $open_all = $re_all[0]['all_open'];
+
+        ## 各个版本的累计用户
+        $sql_cumu = <<<EOF
+        SELECT app_version, SUM(new_user) all_new 
+        FROM t_user_app_version 
+        WHERE datestamp <= '{$date}' AND app_version IN 
+                        (SELECT DISTINCT app_version FROM t_user_app_version WHERE datestamp = '{$date}')
+        GROUP BY app_version 
+EOF;
+        $re_cumu = $this->stdQuery($sql_cumu);
+        if($re_cumu === false)
+            return false;
+        ## 各个版本的新增用户
+//         $sql_new = <<<EOF
+//             SELECT b.app_version, COUNT(b.user_uid) cnt FROM 
+//             (SELECT * FROM t_user_device_flow WHERE login_date = '{$date}') b
+//             LEFT JOIN 
+//             (SELECT user_uid, MAX(app_version) max_version_before
+//             FROM t_user_device_flow 
+//             WHERE user_uid IN (SELECT user_uid FROM t_user_device_flow WHERE login_date = '{$date}') AND login_date < '{$date}'
+//             GROUP BY user_uid ) a
+//             ON a.user_uid = b.user_uid 
+//             WHERE a.user_uid IS NULL 
+//             GROUP BY b.app_version 
+// EOF;
+//         $re_new = $this->stdQuery($sql_new);
+//         if($re_new === false)
+//             return false;
+//         ## 各个版本的升级用户
+//         $sql_update = <<<EOF
+//             SELECT app_version, COUNT(a.user_uid) cnt FROM 
+//             (SELECT user_uid, MAX(app_version) max_version_before
+//             FROM t_user_device_flow 
+//             WHERE user_uid IN (SELECT user_uid FROM t_user_device_flow WHERE login_date = '{$date}') AND login_date < '{$date}'
+//             GROUP BY user_uid) a
+//             LEFT JOIN 
+//             (SELECT * FROM t_user_device_flow WHERE login_date = '{$date}') b
+//             ON a.user_uid = b.user_uid 
+//             WHERE max_version_before < app_version
+//             GROUP BY app_version 
+// EOF;
+//         $re_update = $this->stdQuery($sql_update);
+//         if($re_update === false)
+//             return false;
+
+        for($i = 0; $i < count($re); $i++)
+        {
+            $version = $re[$i]['app_version'];
+            $re[$i]['new_per'] = round((float)$re[$i]['new_user'] / $new_all * 100, 2);
+            $re[$i]['active_per'] = round((float)$re[$i]['active_user'] / $active_all * 100, 2);
+            $re[$i]['open_per'] = round((float)$re[$i]['open_times'] / $open_all * 100, 2);
+
+            // ## 新增用户
+            // for($j = 0; $j < count($re_new); $j++)
+            //     if($re_new[$j]['app_version'] == $version)
+            //     {
+            //         $re[$i]['new_user'] = $re_new[$j]['cnt'];
+            //         $new_all += $re_new[$j]['cnt'];
+            //         break;
+            //     }
+            // ## 更新用户
+            // for($k = 0; $k < count($re_update); $k++)
+            //     if($re_update[$k]['app_version'] == $version)
+            //     {
+            //         $re[$i]['update_user'] = $re_update[$k]['cnt'];
+            //         break;
+            //     }
+            for($j = 0; $j < count($re_cumu); $j++)
+                if($re_cumu[$j]['app_version'] == $version)
+                {
+                    $re[$i]['cumu_user'] = $re_cumu[$j]['all_new'];
+                }
+        }
+
+        // ## 计算各个版本的新增用户占比
+        // for($i = 0; $i < count($re); $i++)
+        //     $re[$i]['new_per'] = ($re[$i]['new_per'] == 0) ? 0 : round((float)$re[$i]['new_user'] / $all_new * 100, 2);
+
+        return $re;
+    }
+
+    public function getVersionLine($bgn, $end, $type)
+    {
+        $field = '';
+        if($type == 1) ## 新用户
+            $field = "new_user";
+        elseif ($type == 2) ## 更新用户
+            $field = "update_user";
+        elseif($type == 3) ## 活跃用户
+            $field = 'active_user';
+        elseif($type == 4) ## 启动次数
+            $field = 'open_times';
+        else
+            return false;
+        $sql = <<<EOF
+        SELECT datestamp, app_version, {$field} 
+        FROM t_user_app_version 
+        WHERE datastamp >= '{$bgn}' AND datestamp <= '{$end}'
+EOF;
+        return $this->stdQuery($sql);
+
+        }
+        
+    }
 }

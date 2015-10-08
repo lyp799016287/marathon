@@ -25,6 +25,12 @@ class UserController extends Controller {
 		$this->display('basicInfo');
 	}
 
+	## 活跃用户
+	public function activeUser()
+	{
+		$this->display('activeUser');
+	}
+
 	## 获取最新的用户总览信息
 	public function totalSummary()
 	{
@@ -216,10 +222,11 @@ class UserController extends Controller {
 		$data['sort_name'] = I('sort_name');
 		$data['sort_order'] = I('sort_order');
 
-		$result = $this->user->getActiveLost($data, $bgn_date, $end_date);
+		$result_ary = $this->user->getActiveLost($data, $bgn_date, $end_date);
 		if(!empty($result))
 		{
 			## 处理null值 计算dau/wau   dau/mau   churn_rate
+			$result = $result_ary['data'];
 			for($i = 0; $i < count($result); $i++) 
 			{
 				$result[$i]['dau_wau'] = 0;
@@ -249,7 +256,7 @@ class UserController extends Controller {
 
 			}
 			// var_dump($result);
-			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result, 'total'=>$result_ary['len']));
 		}
 			
 		else

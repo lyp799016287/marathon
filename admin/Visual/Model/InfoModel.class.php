@@ -370,4 +370,27 @@ EOF;*/
         return $detail;
     }
 
+    public function getInfoType($bgn, $end)
+    {
+        $sql = <<<EOF
+        SELECT CASE `type` WHEN 0 THEN '无' WHEN 1 THEN '推广' WHEN 2 THEN '职业化培训' WHEN 3 THEN '指南共识' WHEN 4 THEN '临床研究' 
+                WHEN 5 THEN '病例' WHEN 6 THEN '会议' WHEN 7 THEN '专家课堂' WHEN 8 THEN '热点' WHEN 9 THEN '综述' ELSE '无' END,
+                COUNT(`type`) type_cnt 
+        FROM t_info_summary 
+        WHERE `status` = 3 AND SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10) >= '{$bgn}' AND SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10) <= '{$end}'
+EOF;
+        return queryByNoModel('t_info_summary', '', $this->imed_config, $sql);
+
+    }
+
+    public function getOperateDetail($bgn, $end)
+    {
+        
+    }
+
+    public function getOperateSummary($bgn, $end)
+    {
+        
+    }
+
 }

@@ -45,8 +45,8 @@
 </div>
 <div class="main" id="main_body">
 	<header>
-		<label>选取时间段：<input type="text" name='pub_date' id="bgn_date" value="{$public_date}" />至
-							<input type="text" name='pub_date' id="end_date" value="{$public_date}" />
+		<label>选取时间段：<input type="text" name='pub_date' id="bgn_date" value=""/>至
+							<input type="text" name='pub_date' id="end_date" value="" />
 		</label>
 		<label><a id="time_btn_1">7天</a></label>
 		<label><a id="time_btn_2">14天</a></label>
@@ -104,21 +104,25 @@ $(document).ready(function(){
 	
 var statActive = {};
 
-var type = 1; //全局变量
+// var type = 1; //全局变量
 
 //调用接口
 statActive.cgi = {
-	"mixData" : "/Visual/User/userByDay",
-	"mixTable" : "/Visual/User/userByDayTable",
+	"mixData" : "/Visual/User/activeUserGraph",
+	"mixTable" : "/Visual/User/activeUserTable",
 };
 
 statActive.actionHtml = function (){
 	// $("#total_user_time").change(statActive.getTotalUser);
-	// $("#mix_user_time").change(statActive.getMixUser);
+	// 默认显示7天的数据
+	var myDate = new Date();
+	$("#bgn_date").value(myDate.getDate() - 7);
+	$("#end_date").value(myDate.toLocaleDateString());
+	$("#mix_user_time").change(statActive.getMixUser);
 }
 
 statActive.init = function (){
-	$("#bgn_date" ).datepicker({
+	$("#bgn_date").datepicker({
 		dateFormat: "yy-mm-dd"
 	});
 	$("#end_date").datepicker({
@@ -126,46 +130,56 @@ statActive.init = function (){
 	});
 	// 搜索按钮点击
 	$("#btn_search").click(function(){
+		statActive.checkDate();
 		statActive.getMixUser();
 		statActive.getDetailInfo();
 	});
 
 	$("#time_btn_1").click(function(){
-		type = 1;
-		statActive.getMixUser();
-		statActive.getDetailInfo();
+		var myDate = new Date();
+		$("#bgn_date").value(myDate.getDate() - 7);
+		$("#end_date").value(myDate.toLocaleDateString());
 	});
 
 	$("#time_btn_2").click(function(){
-		type = 2;
-		statActive.getMixUser();
-		statActive.getDetailInfo();
+		var myDate = new Date();
+		$("#bgn_date").value(myDate.getDate() - 14);
+		$("#end_date").value(myDate.toLocaleDateString());
 	});
 
 	$("#time_btn_3").click(function(){
-		type = 3;
-		statActive.getMixUser();
-		statActive.getDetailInfo();
+		var myDate = new Date();
+		$("#bgn_date").value(myDate.getDate() - 30);
+		$("#end_date").value(myDate.toLocaleDateString());
 	});
+
 	statActive.actionHtml();
 	statActive.getMixUser();
 	statActive.getDetailInfo();
+}
+
+// 验证时间的合法性
+statActive.checkDate = function(){
+	var bgn = $("#bgn_date").value();
+	var end = $("end_date").value();
+	if(bgn == '' || end == '' || bgn >= end)
+		alert("请选择合法的时间范围");
 }
 
 // 表头
 statActive.header = [
 	{
 		display: '时间',
-		name: 'datestamp',
-		width: '25%',
+		name: 'date_stamp',
+		width: '15%',
 		isSort: true,
 		align: 'center',
 		issortshow: true
 	},
 	{
-		display: '新增用户',
-		name: 'new_user',
-		width: '25%',
+		display: 'DAU',
+		name: 'dau',
+		width: '15%',
 		type: 'int',
 		isSort: true,
 		align: 'center',
@@ -173,9 +187,9 @@ statActive.header = [
 		issortshow: true
 	},
 	{
-		display: '活跃用户',
-		name: 'active_user',
-		width: '25%',
+		display: 'WAU',
+		name: 'wau',
+		width: '15%',
 		type: 'int',
 		isSort: true,
 		align: 'center',
@@ -183,14 +197,58 @@ statActive.header = [
 		issortshow: true
 	},
 	{
-		display: '启动次数',
-		name: 'open_times',
-		width: '10%',
+		display: 'MAU',
+		name: 'mau',
+		width: '15%',
 		type: 'int',
 		isSort: true,
 		align: 'center',
 		render:  window.G.common.formatInt,
 		issortshow: true
+	},
+	{
+		display: 'DAU/WAU',
+		name: 'dau_wau',
+		width: '8%',
+		isSort: true,
+		align: 'center',
+		issortshow: true
+	},
+	{
+		display: 'DAU/MAU',
+		name: 'dau_mau',
+		width: '8%',
+		isSort: true,
+		align: 'center',
+		issortshow: true
+	},
+	{
+		display: '流失用户',
+		name: 'churn',
+		width: '8%',
+		isSort: true,
+		align: 'center',
+		issortshow: true,
+		type: 'int',
+		render:  window.G.common.formatInt,
+	},
+	{
+		display: '流失率',
+		name: 'churn_rate',
+		width: '8%',
+		isSort: true,
+		align: 'center',
+		issortshow: true
+	},
+	{
+		display: '累计用户',
+		name: 'cumulation_user',
+		width: '8%',
+		isSort: true,
+		align: 'center',
+		issortshow: true,
+		type: 'int',
+		render:  window.G.common.formatInt,
 	},
 ];
 
@@ -224,7 +282,7 @@ statActive.getDetailInfo = function(){
 	var params = {};
 	// params['type'] = $("#detail_dimension").val();
 	// 获取参数
-	params['type'] = type;
+	// params['type'] = type;
 	params['bgn_date'] = $("#bgn_date").val();
 	params['end_date'] = $("#end_date").val();
 	
@@ -234,12 +292,12 @@ statActive.getDetailInfo = function(){
 }
 
 
-//获取新增、活跃用户数、APP启动次数
+//DAU WAU MAU
 statActive.getMixUser = function(){
 	
 	var params = {};
-	// params['type'] = $("#mix_user_time").val();
-	params['type'] = type; 
+	params['type'] = $("#mix_user_time").val();
+	// params['type'] = type; 
 	params['bgn_date'] = $("#bgn_date").val();
 	params['end_date'] = $("#bgn_date").val();
 	// console.log(params);
@@ -264,7 +322,7 @@ function showTimeLines(data, oDiv){
 		return;
 	}
 
-	var d1=[], d2=[], d3=[], s_date=[];
+	var d1=[], s_date=[];
 
 	var style_type = 'line';
 	
@@ -273,10 +331,10 @@ function showTimeLines(data, oDiv){
 	var data = window.G.common.listSortBy(data, 'datestamp', 'asc');
 
 	for(var i in data){
-		s_date.push(data[i].datestamp);
-		d1.push(parseInt(data[i].new_user));
-		d2.push(parseInt(data[i].active_user));
-		d3.push(parseInt(data[i].open_times));
+		s_date.push(data[i].date_stamp);
+		d1.push(parseInt(data[i].cnt));
+		// d2.push(parseInt(data[i].active_user));
+		// d3.push(parseInt(data[i].open_times));
 	}
 
 	/*console.log(d1);
@@ -284,26 +342,26 @@ function showTimeLines(data, oDiv){
 	console.log(d3);*/
 
 	var start_item = {
-			name: '新增用户',
+			name: '',
 			type:style_type,
 			data: d1
 		};
 	
 	series.push(start_item);
 
-	var second_item = {
-		name: '活跃用户',
-		type:style_type,
-		data: d2
-	}
-	series.push(second_item);
+	// var second_item = {
+	// 	name: '活跃用户',
+	// 	type:style_type,
+	// 	data: d2
+	// }
+	// series.push(second_item);
 
-	var third_item = {
-		name: '启动次数',
-		type:style_type,
-		data: d3
-	}
-	series.push(third_item);
+	// var third_item = {
+	// 	name: '启动次数',
+	// 	type:style_type,
+	// 	data: d3
+	// }
+	// series.push(third_item);
 
 
 	var chart1 = new Highcharts.Chart({

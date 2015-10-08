@@ -38,6 +38,14 @@ class InfoController extends Controller {
 		$this->writeLog($result, 'Stat/Info/mergeInfoDaily');
 	}
 
+	## added by Bella 2015-09-30
+	## 统计每天用户参与内容
+	public function infoOperate()
+	{
+		$result = $this->info->infoCount();
+		$this->writeLog($result, 'Stat/Info/infoOperate');
+	}
+
 	## 跑脚本的内容  写log
 	private function writeLog($result, $tag)
 	{
