@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf8">
-<title>新用户留存</title>
+<title>活跃用户留存</title>
 {include file="$menu_path/common_css.htm"}
 {include file="$menu_path/common_js.htm"}
 
@@ -57,13 +57,13 @@
 {literal}
 $(document).ready(function(){
 	
-var retainNew = {};
+var retainActive = {};
 
 // var type = 1; //全局变量
 
 //调用接口
-retainNew.cgi = {
-	"mixData" : "/Visual/UserDesc/userRetainMore",
+retainActive.cgi = {
+	"mixData" : "/Visual/UserDesc/activeUserRetain",
 	// "mixRate" : "/Visual/UserDesc/userRetainRate",
 	// "mixTable" : "/Visual/UserDesc/userRetainTable",
 };
@@ -82,15 +82,15 @@ function getDateStr(addDayCnt)
 	return y + '-' + m + '-' + d;
 }
 
-retainNew.actionHtml = function (){
+retainActive.actionHtml = function (){
 	// 默认显示7天的数据
 	$("#bgn_date").val(getDateStr(-6));
 	$("#end_date").val(getDateStr(0));
 	
-	// $("#mix_user_time").change(retainNew.getMixUser);
+	// $("#mix_user_time").change(retainActive.getMixUser);
 }
 
-retainNew.init = function (){
+retainActive.init = function (){
 	$("#bgn_date").datepicker({
 		dateFormat: "yy-mm-dd"
 	});
@@ -99,18 +99,18 @@ retainNew.init = function (){
 	});
 	// 搜索按钮点击
 	$("#btn_search").click(function(){
-		var check_re = retainNew.checkDate();
+		var check_re = retainActive.checkDate();
 		if(check_re)
-			retainNew.getMixUser();
+			retainActive.getMixUser();
 	});
 
-	retainNew.actionHtml();
-	retainNew.getMixUser();
-	// retainNew.getDetailInfo();
+	retainActive.actionHtml();
+	retainActive.getMixUser();
+	// retainActive.getDetailInfo();
 }
 
 // 验证时间的合法性
-retainNew.checkDate = function(){
+retainActive.checkDate = function(){
 	var bgn = $("#bgn_date").val();
 	var end = $("#end_date").val();
 	// console.log(bgn);
@@ -126,15 +126,15 @@ retainNew.checkDate = function(){
 
 
 //每天对应的各项留存率指标
-retainNew.getMixUser = function(){
+retainActive.getMixUser = function(){
 	var params = {};
 	params['bgn_date'] = $("#bgn_date").val();
 	params['end_date'] = $("#end_date").val();
-	// params['bgn_date'] = '2015-09-10';
-	// params['end_date'] = '2015-09-21';
+	params['bgn_date'] = '2015-07-10';
+	params['end_date'] = '2015-07-15';
 	$.ajax({
 		type : 'POST',
-		url : retainNew.cgi.mixData,
+		url : retainActive.cgi.mixData,
 		dataType : 'json',
 		data: '&' + window.G.common.jsonToUrl(params),
 		success: function(rdata) {
@@ -278,7 +278,7 @@ function showArea_detail(data, oDiv){
     });
 }
 
-retainNew.init();
+retainActive.init();
 
 });
 {/literal}

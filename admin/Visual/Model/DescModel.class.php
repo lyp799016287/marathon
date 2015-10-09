@@ -96,6 +96,19 @@ EOF;
         (SELECT register_date, retain_1, retain_2, retain_3, retain_4, retain_5, retain_6, retain_7, retain_14, retain_30 
         FROM t_user_retain WHERE register_date >= '{$bgn}' AND register_date <= '{$end}') a 
         LEFT JOIN t_user_summary b ON a.register_date = b.datestamp 
+        ORDER BY a.register_date
+EOF;
+        return $this->query($sql);
+    }
+
+    public function calActiveRetain($bgn, $end)
+    {
+        $bgn = date('Y-m-d', strtotime($bgn));
+        $end = date('Y-m-d', strtotime($end));
+        $sql = <<<EOF
+        SELECT datestamp, active_user, retain_1, retain_2, retain_3, retain_4, retain_5, retain_6, retain_7, retain_14, retain_30 
+        FROM t_user_active_retain WHERE datestamp >= '{$bgn}' AND datestamp <= '{$end}'
+        ORDER BY datestamp 
 EOF;
         return $this->query($sql);
     }
