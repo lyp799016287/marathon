@@ -180,19 +180,14 @@ EOF;
 EOF;
         // return $this->stdQuery($sql);
         $data = $this->stdQuery($sql);
-        $sql_date = <<<EOF
-            SELECT DISTINCT datestamp FROM t_user_channel
-            WHERE datestamp >= '{$bgn}' AND datestamp <= '{$end}'
-EOF;
-        $re_date = $this->stdQuery($sql_date);
         $sql_channel = <<<EOF
             SELECT DISTINCT channel FROM t_user_channel
             WHERE datestamp >= '{$bgn}' AND datestamp <= '{$end}'
 EOF;
         $re_channel = $this->stdQuery($sql_channel);
-        if($data === false || $re_date === false || $re_channel === false)
+        if($data === false || $re_channel === false)
             return false;
-        return array('data'=>$data, 'datestamp'=>$re_date, 'channel'=>$re_channel);
+        return array('data'=>$data, 'channel'=>$re_channel);
     }
 
     public function getSdkByDate($date)
@@ -348,11 +343,18 @@ EOF;
         else
             return false;
         $sql = <<<EOF
-        SELECT datestamp, app_version, {$field} 
+        SELECT datestamp, app_version `version`, {$field} cnt
         FROM t_user_app_version 
-        WHERE datastamp >= '{$bgn}' AND datestamp <= '{$end}'
+        WHERE datestamp >= '{$bgn}' AND datestamp <= '{$end}'
 EOF;
-        return $this->stdQuery($sql);
+        $data = $this->stdQuery($sql);
+        $sql_version = <<<EOF
+        SELECT DISTINCT app_version `version`
+        FROM t_user_app_version 
+        WHERE datestamp >= '{$bgn}' AND datestamp <= '{$end}'
+EOF;
+        $version = $this->stdQuery($sql_version);
+        return array('data'=>$data, 'version'=>$version);
     }
 
 

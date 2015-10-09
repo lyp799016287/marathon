@@ -39,6 +39,11 @@ class UserDescController extends Controller {
 		$this->display('channel');
 	}
 
+	public function version()
+	{
+		$this->display('version');
+	}
+
 	## 用户设备信息相关统计量
 	## 获取的数据 截止昨天24:00
 
@@ -463,7 +468,13 @@ class UserDescController extends Controller {
 			$this->ajaxReturn(array('code'=>-1, 'message'=>'执行错误'));
 		else
 		{
-			$datestamp = $result['datestamp']; ## 日期的最大集
+			// $datestamp = $result['datestamp']; ## 日期的最大集
+			$datestamp = array();
+			while($date_bgn <= $date_end)
+			{
+				$datestamp[] = $date_bgn;
+				$date_bgn = date('Y-m-d', strtotime("+1 day", strtotime($date_bgn)));
+			}
 			$channel = $result['channel']; ## 渠道的最大集
 			$data = $result['data'];
 			$data_len = count($data);
@@ -471,7 +482,7 @@ class UserDescController extends Controller {
 			for($i = 0; $i < count($datestamp); $i++)
 				for($j = 0; $j < count($channel); $j++)
 				{
-					$tmp_date = $datestamp[$i]['datestamp'];
+					$tmp_date = $datestamp[$i];
 					$tmp_channel = $channel[$j]['channel'];
 					$flag = 0;
 					for($k = 0; $k < count($data); $k++)
@@ -524,7 +535,7 @@ class UserDescController extends Controller {
 			for($i = 0; $i < count($datestamp); $i++)
 			{
 				$tmp_len = 0;
-				$result_ary[$i]['datestamp'] = $datestamp[$i]['datestamp'];
+				$result_ary[$i]['datestamp'] = $datestamp[$i];
 				for($j = 0; $j < count($data); $j++)
 					if($data[$j]['datestamp'] == $result_ary[$i]['datestamp'])
 					{
@@ -584,14 +595,61 @@ class UserDescController extends Controller {
 	## 版本分布的折线数据
 	public function versionGraph()
 	{
-		$date_bgn = I('bgn', '');
-		$date_end = I('end', '');
+		$date_bgn = I('bgn_date', '');
+		$date_end = I('end_date', '');
 		$type = I('type', 1, 'intval');
 		$result = $this->desc->getVersionLine($date_bgn, $date_end, $type);
 		if($result === false)
 			$this->ajaxReturn(array('code'=>-1, 'message'=>'执行错误'));
 		else
-			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+		{
+			$datestamp = array();
+			while($date_bgn <= $date_end)
+			{
+				$datestamp[] = $date_bgn;
+				$date_bgn = date('Y-m-d', strtotime("+1 day", strtotime($date_bgn)));
+			}
+			$version = $result['version']; ## 版本的最大集
+			$data = $result['data'];
+			$data_len = count($data);
+			## 日期最大集与渠道最大集的组合
+			for($i = 0; $i < count($datestamp); $i++)
+				for($j = 0; $j < count($version); $j++)
+				{
+					$tmp_date = $datestamp[$i];
+					$tmp_version = $version[$j]['version'];
+					$flag = 0;
+					for($k = 0; $k < count($data); $k++)
+						if($data[$k]['datestamp'] == $tmp_date && $data[$k]['version'] == $tmp_version)
+						{
+							$flag = 1;
+							break;
+						}
+					if($flag == 0) ## 需要新增的记录
+					{
+						$data[$data_len]['datestamp'] = $tmp_date;
+						$data[$data_len]['version'] = $tmp_version;
+						$data[$data_len]['cnt'] = 0;
+						$data_len++;
+					}
+				}
+			$result_ary = array();
+			for($i = 0; $i < count($datestamp); $i++)
+			{
+				$tmp_len = 0;
+				$result_ary[$i]['datestamp'] = $datestamp[$i];
+				for($j = 0; $j < count($data); $j++)
+					if($data[$j]['datestamp'] == $result_ary[$i]['datestamp'])
+					{
+						$result_ary[$i]['data'][$tmp_len]['version'] = $data[$j]['version'];
+						$result_ary[$i]['data'][$tmp_len]['cnt'] = $data[$j]['cnt'];
+						$tmp_len++;
+					}
+			}
+
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result_ary, 'version'=>$version));
+		}
+			
 	}
 
 }

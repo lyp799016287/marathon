@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf8">
-<title>渠道分布</title>
+<title>版本分布</title>
 {include file="$menu_path/common_css.htm"}
 {include file="$menu_path/common_js.htm"}
 
@@ -50,7 +50,6 @@
 	<div id="content">
 		
 		<!-- Start 活跃用户折线图 -->
-		<!-- <div class="mod_list" id="page_sum_table"> -->
 		<div id="page_sum_table">
 	        <h3 class="title" id="filter_desc_table">关键指标数据<span id="date_desc_table" class="sub_tit"></span></h3>
 			<div id="block_title"></div>
@@ -60,13 +59,14 @@
 					<div id="table_show_options_div" class="sel_item">
 						<span style="width:640px;">展示维度：<select name="zhibiao" id="mix_user_time" style="width:120px;margin-left:10px;">
 							<option value="1">新增用户</option>
-							<option value="2">活跃用户</option>
-							<option value="3">启动次数</option>
+							<option value="2">升级用户</option>
+							<option value="3">活跃用户</option>
+							<option value="4">启动次数</option>
 						</select></span>
 					</div>
 				</div>
 			</div>
-		    <!-- <div class="mod_list_bd" style="margin-top:5px;"> -->
+
 		    <div>
 		        <div id="stats_content_detail" class="block_content center" style="width:1200px;height:450px;margin-left:50px;"></div>
 		    </div>
@@ -91,6 +91,7 @@
 		    <h3 class="title">指标解释</h3>
 			<p><strong>新增用户: </strong>包含重复安装的用户</p>
 			<p><strong>新增用户占比: </strong>该渠道新增用户占当天新增用户总和的百分比</p>
+			<p><strong>升级用户: </strong>当天从该版本升级的用户数</p>
 			<p><strong>活跃用户占比：</strong>该渠道活跃用户占当天活跃用户总和的百分比</p>
 			<p><strong>累计用户：</strong>该渠道截止当天为止的累计用户数</p>
 		</div>
@@ -101,12 +102,12 @@
 {literal}
 $(document).ready(function(){
 	
-var channel = {};
+var version = {};
 
 //调用接口
-channel.cgi = {
-	"mixData" : "/Visual/UserDesc/channelGraph",
-	"mixTable" : "/Visual/UserDesc/channelTable",
+version.cgi = {
+	"mixData" : "/Visual/UserDesc/versionGraph",
+	"mixTable" : "/Visual/UserDesc/versionTable",
 };
 
 function getDateStr(addDayCnt)
@@ -123,16 +124,17 @@ function getDateStr(addDayCnt)
 	return y + '-' + m + '-' + d;
 }
 
-channel.actionHtml = function (){
+version.actionHtml = function (){
 	// 默认显示7天的曲线数据
 	$("#bgn_date").val(getDateStr(-6));
 	$("#end_date").val(getDateStr(0));
+	// 默认显示前一天的详细数据
 	$("#show_date").val(getDateStr(-1));
-	$("#mix_user_time").change(channel.getMixUser);
-	$("#show_date").change(channel.getDetailInfo);
+	$("#mix_user_time").change(version.getMixUser);
+	$("#show_date").change(version.getDetailInfo);
 }
 
-channel.init = function (){
+version.init = function (){
 	$("#bgn_date").datepicker({
 		dateFormat: "yy-mm-dd"
 	});
@@ -144,12 +146,12 @@ channel.init = function (){
 	});
 	// 搜索按钮点击
 	$("#btn_search").click(function(){
-		var check_re = channel.checkDate();
+		var check_re = version.checkDate();
 		if(check_re)
 		{
 			// console.log('upload');
-			channel.getMixUser();
-			channel.getDetailInfo();
+			version.getMixUser();
+			version.getDetailInfo();
 		}
 		
 	});
@@ -172,13 +174,13 @@ channel.init = function (){
 		$("#end_date").val(getDateStr(0));
 	});
 
-	channel.actionHtml();
-	channel.getMixUser();
-	channel.getDetailInfo();
+	version.actionHtml();
+	version.getMixUser();
+	version.getDetailInfo();
 }
 
 // 验证时间的合法性
-channel.checkDate = function(){
+version.checkDate = function(){
 	var bgn = $("#bgn_date").val();
 	var end = $("#end_date").val();
 	// console.log(bgn);
@@ -193,10 +195,10 @@ channel.checkDate = function(){
 }
 
 // 表头
-channel.header = [
+version.header = [
 	{
-		display: '渠道',
-		name: 'channel',
+		display: '版本',
+		name: 'app_version',
 		width: '10%',
 		isSort: true,
 		align: 'center',
@@ -205,7 +207,7 @@ channel.header = [
 	{
 		display: '新增用户',
 		name: 'new_user',
-		width: '15%',
+		width: '10%',
 		type: 'int',
 		isSort: true,
 		align: 'center',
@@ -215,15 +217,25 @@ channel.header = [
 	{
 		display: '新增用户占比(%)',
 		name: 'new_per',
-		width: '15%',
+		width: '13%',
 		isSort: true,
 		align: 'center',
 		issortshow: true
 	},
 	{
+		display: '升级用户',
+		name: 'update_user',
+		width: '10%',
+		type: 'int',
+		isSort: true,
+		align: 'center',
+		render:  window.G.common.formatInt,
+		issortshow: true
+	},
+	{
 		display: '活跃用户',
 		name: 'active_user',
-		width: '15%',
+		width: '10%',
 		type: 'int',
 		isSort: true,
 		align: 'center',
@@ -233,7 +245,7 @@ channel.header = [
 	{
 		display: '活跃用户占比(%)',
 		name: 'active_per',
-		width: '15%',
+		width: '13%',
 		isSort: true,
 		align: 'center',
 		issortshow: true
@@ -241,7 +253,7 @@ channel.header = [
 	{
 		display: '启动次数',
 		name: 'open_times',
-		width: '15%',
+		width: '10%',
 		isSort: true,
 		align: 'center',
 		issortshow: true,
@@ -249,9 +261,17 @@ channel.header = [
 		render:  window.G.common.formatInt,
 	},
 	{
+		display: '启动次数占比(%)',
+		name: 'open_per',
+		width: '13%',
+		isSort: true,
+		align: 'center',
+		issortshow: true
+	},
+	{
 		display: '累计用户',
 		name: 'cumu_user',
-		width: '15%',
+		width: '11%',
 		isSort: true,
 		align: 'center',
 		issortshow: true,
@@ -262,7 +282,7 @@ channel.header = [
 
 
 var gridManager = $("#stats_user_detail").ligerGrid({
-	url: channel.cgi.mixTable,
+	url: version.cgi.mixTable,
 	pageParmName: 'current_page',
 	pagesizeParmName: 'page_size',
 	sortnameParmName: 'sort_name',
@@ -285,18 +305,18 @@ var gridManager = $("#stats_user_detail").ligerGrid({
 
 
 // 获取table中数据
-channel.getDetailInfo = function(){
+version.getDetailInfo = function(){
 	var params = {};
 	params['date'] = $("#show_date").val();
 	// params['date'] = '2015-09-21';
-	gridManager.setOptions({columns: channel.header});
+	gridManager.setOptions({columns: version.header});
 	gridManager.setOptions({parms: params});
 	gridManager.loadData();
 }
 
 
 //渠道分布曲线图
-channel.getMixUser = function(){
+version.getMixUser = function(){
 	
 	var params = {};
 	params['type'] = $("#mix_user_time").val();
@@ -308,22 +328,22 @@ channel.getMixUser = function(){
 	// params['end_date'] = '2015-09-21';
 	$.ajax({
 		type : 'POST',
-		url : channel.cgi.mixData,
+		url : version.cgi.mixData,
 		dataType : 'json',
 		data: '&' + window.G.common.jsonToUrl(params),
 		success: function(rdata) {
 			if(rdata.code == 1){
 				var data = rdata.data;
-				var channel_ary = rdata.channel;
-				showTimeLines(data, channel_ary, 'stats_content_detail');
+				var version_ary = rdata.version;
+				showTimeLines(data, version_ary, 'stats_content_detail');
 			}
 		}
 	});
 }
 
 
-function showTimeLines(data, channel_ary, oDiv){
-	if(!data || !channel_ary){
+function showTimeLines(data, version_ary, oDiv){
+	if(!data || !version_ary){
 		return;
 	}
 
@@ -338,12 +358,12 @@ function showTimeLines(data, channel_ary, oDiv){
 	}
 
 	// 各个渠道的数据填充到d1中
-	for(var i in channel_ary){
-		var tmp_channel = channel_ary[i].channel;
+	for(var i in version_ary){
+		var tmp_version = version_ary[i].version;
 		d1[i] = [];
 		for(var j in data){
 			for(var k in data[j].data)
-				if(data[j]['data'][k]['channel'] == tmp_channel){
+				if(data[j]['data'][k]['version'] == tmp_version){
 					d1[i].push(parseInt(data[j]['data'][k]['cnt']));
 					break;
 				}
@@ -351,10 +371,10 @@ function showTimeLines(data, channel_ary, oDiv){
 	}
 
 	// 填充到series中
-	for(var i in channel_ary){
-		var channel_name = channel_ary[i]['channel'];
+	for(var i in version_ary){
+		var version_name = version_ary[i]['version'];
 		var item = {
-			name: channel_name,
+			name: version_name,
 			type:style_type,
 			data: d1[i]
 		};
@@ -448,7 +468,7 @@ function showTimeLines(data, channel_ary, oDiv){
 }
 
 
-channel.init();
+version.init();
 
 });
 {/literal}
