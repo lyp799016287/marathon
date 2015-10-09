@@ -175,10 +175,24 @@ EOF;
         if(empty($field))
             return false;
         $sql = <<<EOF
-            SELECT datestamp, channel, {$field} FROM t_user_channel 
+            SELECT datestamp, channel, {$field} cnt FROM t_user_channel 
             WHERE datestamp >= '{$bgn}' AND datestamp <= '{$end}'
 EOF;
-        return $this->stdQuery($sql);
+        // return $this->stdQuery($sql);
+        $data = $this->stdQuery($sql);
+        $sql_date = <<<EOF
+            SELECT DISTINCT datestamp FROM t_user_channel
+            WHERE datestamp >= '{$bgn}' AND datestamp <= '{$end}'
+EOF;
+        $re_date = $this->stdQuery($sql_date);
+        $sql_channel = <<<EOF
+            SELECT DISTINCT channel FROM t_user_channel
+            WHERE datestamp >= '{$bgn}' AND datestamp <= '{$end}'
+EOF;
+        $re_channel = $this->stdQuery($sql_channel);
+        if($data === false || $re_date === false || $re_channel === false)
+            return false;
+        return array('data'=>$data, 'datestamp'=>$re_date, 'channel'=>$re_channel);
     }
 
     public function getSdkByDate($date)

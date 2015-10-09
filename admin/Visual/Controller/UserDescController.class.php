@@ -34,6 +34,11 @@ class UserDescController extends Controller {
 		$this->display('retainUser3');
 	}
 
+	public function channel()
+	{
+		$this->display('channel');
+	}
+
 	## 用户设备信息相关统计量
 	## 获取的数据 截止昨天24:00
 
@@ -437,7 +442,9 @@ class UserDescController extends Controller {
 	{
 		$date = I('date', '');
 		$date = empty($date) ? date('Y-m-d', strtotime("-1 day")) : $date; ## 默认显示前一天
+
 		$result = $this->desc->getChannelByDate($date);
+		// var_dump($result); exit;
 		if($result === false)
 			$this->ajaxReturn(array('code'=>-1, 'message'=>'执行错误'));
 		else
@@ -448,14 +455,89 @@ class UserDescController extends Controller {
 	## 渠道分布的折线图数据
 	public function channelGraph()
 	{
-		$date_bgn = I('bgn', '');
-		$date_end = I('end', '');
+		$date_bgn = I('bgn_date', '');
+		$date_end = I('end_date', '');
 		$type = I('type', 1, 'intval');
 		$result = $this->desc->getGraphData($date_bgn, $date_end, $type);
 		if($result === false)
 			$this->ajaxReturn(array('code'=>-1, 'message'=>'执行错误'));
 		else
-			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+		{
+			$datestamp = $result['datestamp']; ## 日期的最大集
+			$channel = $result['channel']; ## 渠道的最大集
+			$data = $result['data'];
+			$data_len = count($data);
+			## 日期最大集与渠道最大集的组合
+			for($i = 0; $i < count($datestamp); $i++)
+				for($j = 0; $j < count($channel); $j++)
+				{
+					$tmp_date = $datestamp[$i]['datestamp'];
+					$tmp_channel = $channel[$j]['channel'];
+					$flag = 0;
+					for($k = 0; $k < count($data); $k++)
+						if($data[$k]['datestamp'] == $tmp_date && $data[$k]['channel'] == $tmp_channel)
+						{
+							$flag = 1;
+							break;
+						}
+					if($flag == 0) ## 需要新增的记录
+					{
+						$data[$data_len]['datestamp'] = $tmp_date;
+						$data[$data_len]['channel'] = $tmp_channel;
+						$data[$data_len]['cnt'] = 0;
+						$data_len++;
+					}
+				}
+			## 新的数据集按照日期分组
+			## 返回的数据结构
+			/*
+			{
+				{
+					'datestamp': '2015-09-10',
+					'data':{
+						{
+							'channel': '91助手',
+							'cnt': 12
+						},
+						{
+							'channel': '360',
+							'cnt': 10
+						},
+					}
+				},
+				{
+					'datestamp': '2015-09-11',
+					'data':{
+						{
+							'channel': '91助手',
+							'cnt': 8
+						},
+						{
+							'channel': '360',
+							'cnt': 34
+						},
+					}
+				},
+			}
+			*/
+			$result_ary = array();
+			for($i = 0; $i < count($datestamp); $i++)
+			{
+				$tmp_len = 0;
+				$result_ary[$i]['datestamp'] = $datestamp[$i]['datestamp'];
+				for($j = 0; $j < count($data); $j++)
+					if($data[$j]['datestamp'] == $result_ary[$i]['datestamp'])
+					{
+						$result_ary[$i]['data'][$tmp_len]['channel'] = $data[$j]['channel'];
+						$result_ary[$i]['data'][$tmp_len]['cnt'] = $data[$j]['cnt'];
+						$tmp_len++;
+					}
+			}
+			// var_dump($channel);
+			// var_dump($result_ary); exit;
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result_ary, 'channel'=>$channel));
+		}
+			
 	}
 
 	## added by Bella 2015-09-29
