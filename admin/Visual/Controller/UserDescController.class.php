@@ -24,6 +24,16 @@ class UserDescController extends Controller {
 		$this->display('retainUser1');
 	}
 
+	public function retainNew()
+	{
+		$this->display('retainUser2');
+	}
+
+	public function retainActive()
+	{
+		$this->display('retainUser3');
+	}
+
 	## 用户设备信息相关统计量
 	## 获取的数据 截止昨天24:00
 
