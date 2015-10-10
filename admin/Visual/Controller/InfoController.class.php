@@ -15,6 +15,10 @@ class InfoController extends Controller {
 		$this->display("statInfo");
 	}
 
+	public function infoLabel(){
+		$this->display("infoLabel");
+	}
+
 	public function infoTop()
 	{
 		$type = I('type', 1, 'intval');
@@ -143,16 +147,85 @@ class InfoController extends Controller {
 	}
 
 	## added by Bella 2015-09-30
-	## 资讯内容
-	public function infoType()
+	## 资讯标签统计 折线图
+	public function infoTypeGraph()
 	{
-		$date_bgn = I('bgn', '');
-		$date_end = I('end', '');
+		$date_bgn = I('bgn_date', '');
+		$date_end = I('end_date', '');
 		if(empty($date_bgn) || empty($date_end))
 			$this->ajaxReturn(array('code'=>-1, 'message'=>'参数错误'));
 		$result = $this->info->getInfoType($date_bgn, $date_end);
 		if($result === false)
 			$this->ajaxReturn(array('code'=>-1, 'message'=>'执行错误'));
+		else
+		{
+			// var_dump($result); exit;
+			$data = $result['data'];
+			$data_len = count($data);
+			$type = $result['type']; ## 版本的最大集
+			$type_name = $result['type_name'];
+			$datestamp = array(); ## 日期的最大集
+			while($date_bgn <= $date_end)
+			{
+				$datestamp[] = $date_bgn;
+				$date_bgn = date('Y-m-d', strtotime("+1 day", strtotime($date_bgn)));
+			}
+			for($i = 0; $i < count($datestamp); $i++)
+				for($j = 0; $j < count($type); $j++)
+				{
+					$tmp_date = $datestamp[$i];
+					$tmp_type = $type[$j]['category'];
+					$flag = 0;
+					for($k = 0; $k < count($data); $k++)
+						if($data[$k]['pub_date'] == $tmp_date && $data[$k]['category'] == $tmp_type)
+						{
+							$flag = 1;
+							break;
+						}
+					if($flag == 0) ## 需要增加的记录
+					{
+						$data[$data_len]['pub_date'] = $tmp_date;
+						$data[$data_len]['category'] = $tmp_type;
+						$data[$data_len]['cnt'] = 0;
+						$data_len++;
+					}
+				}
+			$result_ary = array();
+			for($i = 0; $i < count($datestamp); $i++)
+			{
+				$tmp_len = 0;
+				$result_ary[$i]['datestamp'] = $datestamp[$i];
+				for($j = 0; $j < count($data); $j++)
+					if($data[$j]['pub_date'] == $result_ary[$i]['datestamp'])
+					{
+						$result_ary[$i]['data'][$tmp_len]['category'] = $data[$j]['category'];
+						$result_ary[$i]['data'][$tmp_len]['cnt'] = $data[$j]['cnt'];
+						$tmp_len++;
+					}
+			}
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result_ary, 'type'=>$type, 'name'=>$type_name));
+		}	
+	}
+
+	## 资讯标签统计 table
+	## added by Bella 2015-10-09
+	public function infoTypeTable()
+	{
+		$date_bgn = I('bgn_date', '');
+		$date_end = I('end_date', '');
+		if(empty($date_bgn) || empty($date_end))
+			$this->ajaxReturn(array('code'=>-1, 'message'=>'参数错误'));
+
+		$data = array();
+		$data['current_page'] = I('current_page', 1, 'intval');
+		$data['page_size'] = I('page_size', 30, 'intval');
+		$data['sort_name'] = I('sort_name');
+		$data['sort_order'] = I('sort_order');
+
+		$result = $this->info->infoTable($date_bgn, $date_end, $data);
+		// var_dump($result);
+		if($result === false)
+			$this->ajaxReturn(array('code'=>-1));
 		else
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
 	}

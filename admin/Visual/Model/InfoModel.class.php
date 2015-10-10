@@ -370,17 +370,68 @@ EOF;*/
         return $detail;
     }
 
+    
     public function getInfoType($bgn, $end)
     {
         $sql = <<<EOF
-        SELECT CASE `type` WHEN 0 THEN '无' WHEN 1 THEN '推广' WHEN 2 THEN '职业化培训' WHEN 3 THEN '指南共识' WHEN 4 THEN '临床研究' 
-                WHEN 5 THEN '病例' WHEN 6 THEN '会议' WHEN 7 THEN '专家课堂' WHEN 8 THEN '热点' WHEN 9 THEN '综述' ELSE '无' END,
-                COUNT(`type`) type_cnt 
+        SELECT `category`, SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10) pub_date, COUNT(`category`) cnt
         FROM t_info_summary 
         WHERE `status` = 3 AND SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10) >= '{$bgn}' AND SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10) <= '{$end}'
+        GROUP BY `category`, SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10)
+        ORDER BY SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10) DESC 
+EOF;
+        // var_dump($sql); exit;
+        $data = queryByNoModel('t_info_summary', '', $this->imed_config, $sql);
+        $sql_type = <<<EOF
+        SELECT DISTINCT (CASE WHEN `category` IS NULL THEN 0 WHEN `category` = '' THEN 0 ELSE `category` END) `category`
+        FROM t_info_summary
+        WHERE `status` = 3 AND SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10) >= '{$bgn}' AND SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10) <= '{$end}'
+        ORDER BY category
+EOF;
+        $type = queryByNoModel('t_info_summary', '', $this->imed_config, $sql_type);
+        $sql_name = <<<EOF
+        SELECT DISTINCT (CASE `category` WHEN 0 THEN '无' WHEN 1 THEN '推广' WHEN 2 THEN '职业化培训' WHEN 3 THEN '指南共识' WHEN 4 THEN '临床研究' 
+                WHEN 5 THEN '病例' WHEN 6 THEN '会议' WHEN 7 THEN '专家课堂' WHEN 8 THEN '热点' WHEN 9 THEN '综述' ELSE '无' END) `category`
+        FROM t_info_summary
+        WHERE `status` = 3 AND SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10) >= '{$bgn}' AND SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10) <= '{$end}'
+        ORDER BY category
+EOF;
+        $name = queryByNoModel('t_info_summary', '', $this->imed_config, $sql_name);
+        return array('data'=>$data, 'type'=>$type, 'type_name'=>$name);
+    }
+
+    public function infoTable($bgn, $end, $data)
+    {
+        $start = ($data['current_page'] - 1) * $data['page_size'];
+        $len = $data['page_size'] - 1;
+        $limit = ' LIMIT '.$start.', '.$len;
+        $order = '';
+        // if(isset($data['sort_name']) && !empty($data['sort_name']))
+        //     $order .= ' ORDER BY '.$data['sort_name'];
+        // else
+        //     $order .= ' ORDER BY SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10)';
+        if(isset($data['sort_order']) && !empty($data['sort_order']))
+            $order .= ' '.$data['sort_order'];
+        else
+            $order .= ' DESC';
+        $sql = <<<EOF
+            SELECT SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10) datestamp,
+            COUNT(CASE WHEN category = 0 THEN category WHEN (category IS NULL OR category = '') THEN 0 END) AS category_0,
+            COUNT(CASE WHEN category = 1 THEN category END) AS category_1,
+            COUNT(CASE WHEN category = 2 THEN category END) AS category_2,
+            COUNT(CASE WHEN category = 3 THEN category END) AS category_3,
+            COUNT(CASE WHEN category = 4 THEN category END) AS category_4,
+            COUNT(CASE WHEN category = 5 THEN category END) AS category_5,
+            COUNT(CASE WHEN category = 6 THEN category END) AS category_6,
+            COUNT(CASE WHEN category = 7 THEN category END) AS category_7,
+            COUNT(CASE WHEN category = 8 THEN category END) AS category_8,
+            COUNT(CASE WHEN category = 9 THEN category END) AS category_9
+            FROM t_info_summary 
+            WHERE SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10) >= '{$bgn}' AND SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10) <= '{$end}' 
+            GROUP BY SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10) 
+            ORDER BY SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10) {$order} {$limit}
 EOF;
         return queryByNoModel('t_info_summary', '', $this->imed_config, $sql);
-
     }
 
     public function getOperateDetail($bgn, $end)
