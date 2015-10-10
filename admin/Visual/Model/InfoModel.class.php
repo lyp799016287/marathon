@@ -431,17 +431,178 @@ EOF;
             GROUP BY SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10) 
             ORDER BY SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10) {$order} {$limit}
 EOF;
-        return queryByNoModel('t_info_summary', '', $this->imed_config, $sql);
+        $data = queryByNoModel('t_info_summary', '', $this->imed_config, $sql);
+        $sql_len = <<<EOF
+        SELECT COUNT(DISTINCT SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10)) cnt
+        FROM t_info_summary 
+        WHERE SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10) >= '{$bgn}' AND SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10) <= '{$end}' 
+EOF;
+        $len = queryByNoModel('t_info_summary', '', $this->imed_config, $sql);
+        if($data === false || $len === false)
+            return false;
+        return array('data'=>$data, 'len'=>$len);
     }
 
     public function getOperateDetail($bgn, $end)
     {
-        
+        $info_pub = $this->infoPub($bgn, $end);
+        $info_comment = $this->infoComment($bgn, $end);
+        $info_fav = $this->infoFav($bgn, $end);
+        $info_share = $this->infoShare($bgn, $end);
+        $secret_pub = $this->secretPub($bgn, $end);
+        $secret_comment = $this->secretComment($bgn, $end);
+
+        $datestamp = []; ## 日期的最大集
+        while($bgn <= $end)
+        {
+            $datestamp[] = $end;
+            $end = date('Y-m-d', strtotime("-1 day", strtotime($end)));
+        }
+
+        return $this->intoAry($info_pub, $info_comment, $info_fav, $info_share, $secret_pub, $secret_comment, $datestamp);
     }
 
-    public function getOperateSummary($bgn, $end)
+    private function intoAry($info_pub, $info_comment, $info_fav, $info_share, $secret_pub, $secret_comment, $datestamp)
     {
-        
+        $data = []; 
+        for($i = 0;$i < count($datestamp); $i++)
+        {
+            $data[$i]['datestamp'] = $datestamp[$i];
+            $flag = 0;
+            for($j = 0; $j < count($info_pub); $j++)
+                if($info_pub[$j]['datestamp'] == $datestamp[$i])
+                {
+                    $data[$i]['info_pub'] = $info_pub[$j]['cnt'];
+                    $flag = 1;
+                    break;
+                }
+            if($flag == 0) ## 需要加入的记录
+                $data[$i]['info_pub'] = 0;
+
+            $flag = 0;
+            for($j = 0; $j < count($info_comment); $j++)
+                if($info_comment[$j]['datestamp'] == $datestamp[$i])
+                {
+                    $data[$i]['info_comment'] = $info_comment[$j]['cnt'];
+                    $flag = 1;
+                    break;
+                }
+            if($flag == 0)
+                $data[$i]['info_comment'] = 0;
+
+            $flag = 0;
+            for($j = 0; $j < count($info_fav); $j++)
+                if($info_fav[$j]['datestamp'] == $datestamp[$i])
+                {
+                    $data[$i]['info_fav'] = $info_fav[$j]['cnt'];
+                    $flag = 1;
+                    break;
+                }
+            if($flag == 0)
+                $data[$i]['info_fav'] = 0;
+
+            $flag = 0;
+            for($j = 0; $j < count($info_share); $j++)
+                if($info_share[$j]['datestamp'] == $datestamp[$i])
+                {
+                    $data[$i]['info_share'] = $info_share[$j]['cnt'];
+                    $flag = 1;
+                    break;
+                }
+            if($flag == 0)
+                $data[$i]['info_share'] = 0;
+
+            $flag = 0;
+            for($j = 0; $j < count($secret_pub); $j++)
+                if($secret_pub[$j]['datestamp'] == $datestamp[$i])
+                {
+                    $data[$i]['secret_pub'] = $secret_pub[$j]['cnt'];
+                    $flag = 1;
+                    break;
+                }
+            if($flag == 0)
+                $data[$i]['secret_pub'] = 0;
+
+            $flag = 0;
+            for($j = 0; $j < count($secret_comment); $j++)
+                if($secret_comment[$j]['datestamp'] == $datestamp[$i])
+                {
+                    $data[$i]['secret_comment'] = $secret_comment[$j]['cnt'];
+                    $flag = 1;
+                    break;
+                }
+            if($flag == 0)
+                $data[$i]['secret_comment'] = 0;
+        }
+        // var_dump($data); exit;
+        return $data;
+    }
+
+    public function infoPub($bgn, $end)
+    {
+        $sql = <<<EOF
+            SELECT SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10) datestamp, COUNT(info_id) cnt FROM t_info_summary 
+            WHERE `status` = 3 AND SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10) >= '{$bgn}' AND SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10) <= '{$end}' 
+            GROUP BY SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10)
+            ORDER BY SUBSTRING(CAST(pub_date AS CHAR(20)), 1, 10) DESC
+EOF;
+        // var_dump($sql);
+        return queryByNoModel('t_info_summary', '', $this->imed_config, $sql);
+    }
+
+    public function infoComment($bgn, $end)
+    {
+        $sql = <<<EOF
+            SELECT SUBSTRING(CAST(`time` AS CHAR(20)), 1, 10) datestamp, COUNT(comment_id) cnt FROM t_info_comment 
+            WHERE `type` = 0 AND `status` = 1 AND SUBSTRING(CAST(`time` AS CHAR(20)), 1, 10) >= '{$bgn}' AND SUBSTRING(CAST(`time` AS CHAR(20)), 1, 10) <= '{$end}' 
+            GROUP BY SUBSTRING(CAST(`time` AS CHAR(20)), 1, 10)
+            ORDER BY SUBSTRING(CAST(`time` AS CHAR(20)), 1, 10) DESC
+EOF;
+        return queryByNoModel('t_info_comment', '', $this->imed_config, $sql);
+    }
+
+    public function infoFav($bgn, $end)
+    {
+        $sql = <<<EOF
+            SELECT SUBSTRING(CAST(`create_time` AS CHAR(20)), 1, 10) datestamp, COUNT(id) cnt FROM t_info_fav
+            WHERE `type` = 1 AND `status` = 1 AND SUBSTRING(CAST(`create_time` AS CHAR(20)), 1, 10) >= '{$bgn}' AND SUBSTRING(CAST(`create_time` AS CHAR(20)), 1, 10) <= '{$end}'
+            GROUP BY SUBSTRING(CAST(`create_time` AS CHAR(20)), 1, 10)
+            ORDER BY SUBSTRING(CAST(`create_time` AS CHAR(20)), 1, 10) DESC
+EOF;
+        return queryByNoModel('t_info_fav', '', $this->imed_config, $sql);
+    }
+
+    public function infoShare($bgn, $end)
+    {
+        $sql = <<<EOF
+            SELECT SUBSTRING(CAST(`create_time` AS CHAR(20)), 1, 10) datestamp, COUNT(id) cnt FROM t_share 
+            WHERE `type` = 2 AND SUBSTRING(CAST(`create_time` AS CHAR(20)), 1, 10) >= '{$bgn}' AND SUBSTRING(CAST(`create_time` AS CHAR(20)), 1, 10) <= '{$end}'
+            GROUP BY SUBSTRING(CAST(`create_time` AS CHAR(20)), 1, 10)
+            ORDER BY SUBSTRING(CAST(`create_time` AS CHAR(20)), 1, 10) DESC
+EOF;
+        return queryByNoModel('t_share', '', $this->imed_config, $sql);
+    }
+
+    public function secretPub($bgn, $end)
+    {
+        $sql = <<<EOF
+            SELECT SUBSTRING(CAST(`create_time` AS CHAR(20)), 1, 10) datestamp, COUNT(id) cnt FROM t_secret 
+            WHERE `type` = 0 AND `status` = 1 AND SUBSTRING(CAST(`create_time` AS CHAR(20)), 1, 10) >= '{$bgn}' AND SUBSTRING(CAST(`create_time` AS CHAR(20)), 1, 10) <= '{$end}'
+            GROUP BY SUBSTRING(CAST(`create_time` AS CHAR(20)), 1, 10)
+            ORDER BY SUBSTRING(CAST(`create_time` AS CHAR(20)), 1, 10) DESC
+EOF;
+        return queryByNoModel('t_secret', '', $this->imed_config, $sql);
+    }
+
+    public function secretComment($bgn, $end)
+    {
+        $sql = <<<EOF
+            SELECT SUBSTRING(CAST(`time` AS CHAR(20)), 1, 10) datestamp, COUNT(comment_id) cnt FROM t_info_comment
+            WHERE `type` = 2 AND `status` = 1 AND SUBSTRING(CAST(`time` AS CHAR(20)), 1, 10) >= '{$bgn}' AND SUBSTRING(CAST(`time` AS CHAR(20)), 1, 10) <= '{$end}' 
+            GROUP BY SUBSTRING(CAST(`time` AS CHAR(20)), 1, 10)
+            ORDER BY SUBSTRING(CAST(`time` AS CHAR(20)), 1, 10) DESC
+EOF;
+        return queryByNoModel('t_info_comment', '', $this->imed_config, $sql);
     }
 
 }

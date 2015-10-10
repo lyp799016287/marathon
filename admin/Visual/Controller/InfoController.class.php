@@ -19,6 +19,11 @@ class InfoController extends Controller {
 		$this->display("infoLabel");
 	}
 
+	public function infoPub()
+	{
+		$this->display("infoPub");
+	}
+
 	public function infoTop()
 	{
 		$type = I('type', 1, 'intval');
@@ -227,38 +232,106 @@ class InfoController extends Controller {
 		if($result === false)
 			$this->ajaxReturn(array('code'=>-1));
 		else
-			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result['data'], 'total'=>$result['len'][0]['cnt']));
 	}
 
-	## added by Bella 2015-09-30
+	## added by Bella 2015-10-10
 	## 资讯操作 table数据
 	public function infoOperateTable()
 	{
-		$date_bgn = I('bgn', '');
-		$date_end = I('end', '');
+		$date_bgn = I('bgn_date', '');
+		$date_end = I('end_date', '');
 		if(empty($date_bgn) || empty($date_end))
 			$this->ajaxReturn(array('code'=>-1, 'message'=>'参数错误'));
-		$result = $this->info->getOperateDetail($date_bgn, $date_end);
+
+		$data = array();
+		$data['current_page'] = I('current_page', 1, 'intval');
+		$data['page_size'] = I('page_size', 30, 'intval');
+		// $data['sort_name'] = I('sort_name');
+		$data['sort_order'] = I('sort_order');
+
+		$result = $this->info->getOperateDetail($date_bgn, $date_end);// 返回按照日期降序排列的数据
 		if($result === false)
 			$this->ajaxReturn(array('code'=>-1, 'message'=>'执行错误'));
 		else
-			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+		{
+			$len = count($result);
+			$start = ($data['current_page'] - 1) * $data['page_size'];
+        	$len = $data['page_size'] - 1;
+        	if(isset($data['sort_name']) && !empty($data['sort_name']))
+        		$result = array_reverse($result);
+        	$result = array_slice($result, $start, $len);
+        	
+			$this->ajaxReturn(array('code'=>1, 'data'=>$result, 'total'=>$len));
+		}
+			
 	}
 
 
-	## added by Bella 2015-09-30
+	## added by Bella 2015-10-10
 	## 资讯操作 折线图数据
 	public function infoOperateGraph()
 	{
-		$date_bgn = I('bgn', '');
-		$date_end = I('end', '');
+		$date_bgn = I('bgn_date', '');
+		$date_end = I('end_date', '');
 		if(empty($date_bgn) || empty($date_end))
 			$this->ajaxReturn(array('code'=>-1, 'message'=>'参数错误'));
-		$result = $this->info->getOperateSummary($date_bgn, $date_end);
+		$type = I('type', 1, 'intval');
+		switch($type)
+		{
+			case 1:
+				$result = $this->info->infoPub($date_bgn, $date_end);
+				break;
+			case 2:
+				$result = $this->info->infoComment($date_bgn, $date_end);
+				break;
+			case 3:
+				$result = $this->info->infoFav($date_bgn, $date_end);
+				break;
+			case 4:
+				$result = $this->info->infoShare($date_bgn, $date_end);
+				break;
+			case 5:
+				$result = $this->info->secretPub($date_bgn, $date_end);
+				break;
+			case 6:
+				$result = $this->info->secretComment($date_bgn, $date_end);
+				break;
+			default:
+				$result = $this->info->infoPub($date_bgn, $date_end);
+				break;
+		}
+		// $result = $this->info->getOperateSummary($date_bgn, $date_end);
 		if($result === false)
 			$this->ajaxReturn(array('code'=>-1, 'message'=>'执行错误'));
 		else
+		{
+			$datestamp = array(); ## 时间的最大集
+			while($date_bgn <= $date_end)
+			{
+				$datestamp[] = $date_end;
+				$date_end = date('Y-m-d', strtotime("-1 day", strtotime($date_end)));
+			}
+			$result_len = count($result);
+			for($i = 0; $i < count($datestamp); $i++)
+			{	
+				$flag = 0;
+				for($j = 0; $j < count($result); $j++)
+					if($result[$j]['datestamp'] == $datestamp[$i])
+					{
+						$flag = 1;
+						break;
+					}
+				if($flag == 0)
+				{
+					$result[$result_len]['datestamp'] = $datestamp[$i];
+					$result[$result_len]['cnt'] = 0;
+					$result_len++;
+				}
+			}
 			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+		}
+			
 	}
 	
 }
