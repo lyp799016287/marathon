@@ -226,11 +226,23 @@ EOF;
         else
             return false;
         $sql = <<<EOF
-            SELECT app_version, SUM({$field}) all_cnt FROM t_user_app_version 
-            WHERE datestamp >= '{$bgn}' AND datestamp <= '{$end}' 
-            GROUP BY app_version 
+            SELECT sys_version, SUM({$field}) cnt FROM t_user_sys_version 
+            WHERE datestamp >= '{$bgn}' AND datestamp <= '{$end}'
+            GROUP BY sys_version
+            ORDER BY SUM({$field}) DESC
+            LIMIT 10
 EOF;
-        return $this->stdQuery($sql);
+        $data = $this->stdQuery($sql);
+        ## 计算这段时间的total field
+        $sql = <<<EOF
+            SELECT SUM($field) cnt FROM t_user_sys_version 
+            WHERE datestamp >= '{$bgn}' AND datestamp <= '{$end}'
+EOF;
+        $sum = $this->stdQuery($sql);
+        if($data === false || $sum === false)
+            return false;
+        else
+            return array('data'=>$data, 'sum'=>$sum[0]['cnt']);
     }
 
     public function getVersionByDate($date)

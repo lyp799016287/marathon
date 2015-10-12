@@ -558,6 +558,7 @@ class UserDescController extends Controller {
 		$date = I('date', '');
 		$date = empty($date) ? date('Y-m-d', strtotime("-1 day")) : $date; ## 默认显示前一天
 		$result = $this->desc->getSdkByDate($date);
+		// var_dump($result); exit;
 		if($result === false)
 			$this->ajaxReturn(array('code'=>-1, 'message'=>'执行错误'));
 		else
@@ -568,14 +569,29 @@ class UserDescController extends Controller {
 	## 终端设备的折线图数据
 	public function sdkGraph()
 	{
-		$date_bgn = I('bgn', '');
-		$date_end = I('end', '');
+		$date_bgn = I('bgn_date', '');
+		$date_end = I('end_date', '');
 		$type = I('type', 1, 'intval');
 		$result = $this->desc->getSdkGraph($date_bgn, $date_end, $type);
 		if($result === false)
 			$this->ajaxReturn(array('code'=>-1, 'message'=>'执行错误'));
 		else
-			$this->ajaxReturn(array('code'=>1, 'data'=>$result));
+		{
+			## 计算百分比
+			$data = $result['data'];
+			$sum = $result['sum'];
+			$return_ary = array();
+			for($i = 0; $i < count($data); $i++)
+			{
+				$return_ary[$i]['version'] = $data[$i]['sys_version'];
+				if($sum == 0)
+					$return_ary[$i]['per'] = 0;
+				else
+					$return_ary[$i]['per'] = round(floatval($data[$i]['cnt']) / $sum * 100, 2);
+			}
+			$this->ajaxReturn(array('code'=>1, 'data'=>$return_ary));
+		}
+			
 	}
 
 	## added by Bella 2015-09-29

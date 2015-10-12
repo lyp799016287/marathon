@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf8">
-<title>版本分布</title>
+<title>终端设备</title>
 {include file="$menu_path/common_css.htm"}
 {include file="$menu_path/common_js.htm"}
 
@@ -38,13 +38,23 @@
 </div>
 <div class="main" id="main_body">
 	<header>
-		<label>选取时间段：<input type="text" name='pub_date' id="bgn_date" value=""/>至
-							<input type="text" name='pub_date' id="end_date" value="" />
-		</label>
-		<label><a id="time_btn_1">7天</a></label>
-		<label><a id="time_btn_2">14天</a></label>
-		<label><a id="time_btn_3">30天</a></label>
-		<label><button id="btn_search">搜 索</button></label>
+		<div>
+			<label>选取时间段：<input type="text" name='pub_date' id="bgn_date" value=""/>至
+								<input type="text" name='pub_date' id="end_date" value="" />
+			</label>
+			<label><a id="time_btn_1">7天</a></label>
+			<label><a id="time_btn_2">14天</a></label>
+			<label><a id="time_btn_3">30天</a></label>
+		</div>
+		<div class="sel_item">
+			<span style="width:640px;">操作平台：
+				<select name="zhibiao" id="system_type" style="width:120px;margin-left:10px;">
+					<option value="1">Android</option>
+					<option value="2">iOS</option>
+				</select>
+			</span>
+			<label><button id="btn_search">搜 索</button></label>
+		</div>
 	</header>
 	<hr />
 	<div id="content">
@@ -91,9 +101,10 @@
 		    <h3 class="title">指标解释</h3>
 			<p><strong>新增用户: </strong>包含重复安装的用户</p>
 			<p><strong>新增用户占比: </strong>该渠道新增用户占当天新增用户总和的百分比</p>
-			<p><strong>升级用户: </strong>当天从该版本升级的用户数</p>
+			<p><strong>活跃用户: </strong>该渠道启动APP的用户 - 该渠道打开APP的用户</p>
 			<p><strong>活跃用户占比：</strong>该渠道活跃用户占当天活跃用户总和的百分比</p>
-			<p><strong>累计用户：</strong>该渠道截止当天为止的累计用户数</p>
+			<p><strong>启动次数：</strong>该渠道用户打开APP的次数</p>
+			<p><strong>启动次数占比：</strong>该渠道用户打开APP的次数占当天APP总打开次数和的百分比</p>
 		</div>
 		<!--指标解释 E-->
 	</div>
@@ -102,12 +113,12 @@
 {literal}
 $(document).ready(function(){
 	
-var version = {};
+var sdk = {};
 
 //调用接口
-version.cgi = {
-	"mixData" : "/Visual/UserDesc/versionGraph",
-	"mixTable" : "/Visual/UserDesc/versionTable",
+sdk.cgi = {
+	"mixData" : "/Visual/UserDesc/sdkGraph",
+	"mixTable" : "/Visual/UserDesc/sdkTable",
 };
 
 function getDateStr(addDayCnt)
@@ -124,17 +135,17 @@ function getDateStr(addDayCnt)
 	return y + '-' + m + '-' + d;
 }
 
-version.actionHtml = function (){
+sdk.actionHtml = function (){
 	// 默认显示7天的曲线数据
 	$("#bgn_date").val(getDateStr(-6));
 	$("#end_date").val(getDateStr(0));
 	// 默认显示前一天的详细数据
 	$("#show_date").val(getDateStr(-1));
-	$("#mix_user_time").change(version.getMixUser);
-	$("#show_date").change(version.getDetailInfo);
+	$("#mix_user_time").change(sdk.getMixUser);
+	$("#show_date").change(sdk.getDetailInfo);
 }
 
-version.init = function (){
+sdk.init = function (){
 	$("#bgn_date").datepicker({
 		dateFormat: "yy-mm-dd"
 	});
@@ -146,12 +157,12 @@ version.init = function (){
 	});
 	// 搜索按钮点击
 	$("#btn_search").click(function(){
-		var check_re = version.checkDate();
+		var check_re = sdk.checkDate();
 		if(check_re)
 		{
 			// console.log('upload');
-			version.getMixUser();
-			version.getDetailInfo();
+			sdk.getMixUser();
+			sdk.getDetailInfo();
 		}
 		
 	});
@@ -174,13 +185,13 @@ version.init = function (){
 		$("#end_date").val(getDateStr(0));
 	});
 
-	version.actionHtml();
-	version.getMixUser();
-	version.getDetailInfo();
+	sdk.actionHtml();
+	sdk.getMixUser();
+	sdk.getDetailInfo();
 }
 
 // 验证时间的合法性
-version.checkDate = function(){
+sdk.checkDate = function(){
 	var bgn = $("#bgn_date").val();
 	var end = $("#end_date").val();
 	// console.log(bgn);
@@ -192,13 +203,13 @@ version.checkDate = function(){
 	}
 	else
 		return true;
-}
+};
 
 // 表头
-version.header = [
+sdk.header = [
 	{
 		display: '版本',
-		name: 'app_version',
+		name: 'sys_version',
 		width: '10%',
 		isSort: true,
 		align: 'center',
@@ -207,7 +218,7 @@ version.header = [
 	{
 		display: '新增用户',
 		name: 'new_user',
-		width: '10%',
+		width: '15%',
 		type: 'int',
 		isSort: true,
 		align: 'center',
@@ -217,25 +228,15 @@ version.header = [
 	{
 		display: '新增用户占比(%)',
 		name: 'new_per',
-		width: '13%',
+		width: '15%',
 		isSort: true,
 		align: 'center',
-		issortshow: true
-	},
-	{
-		display: '升级用户',
-		name: 'update_user',
-		width: '10%',
-		type: 'int',
-		isSort: true,
-		align: 'center',
-		render:  window.G.common.formatInt,
 		issortshow: true
 	},
 	{
 		display: '活跃用户',
 		name: 'active_user',
-		width: '10%',
+		width: '15%',
 		type: 'int',
 		isSort: true,
 		align: 'center',
@@ -245,7 +246,7 @@ version.header = [
 	{
 		display: '活跃用户占比(%)',
 		name: 'active_per',
-		width: '13%',
+		width: '15%',
 		isSort: true,
 		align: 'center',
 		issortshow: true
@@ -253,7 +254,7 @@ version.header = [
 	{
 		display: '启动次数',
 		name: 'open_times',
-		width: '10%',
+		width: '15%',
 		isSort: true,
 		align: 'center',
 		issortshow: true,
@@ -263,26 +264,16 @@ version.header = [
 	{
 		display: '启动次数占比(%)',
 		name: 'open_per',
-		width: '13%',
+		width: '15%',
 		isSort: true,
 		align: 'center',
 		issortshow: true
-	},
-	{
-		display: '累计用户',
-		name: 'cumu_user',
-		width: '11%',
-		isSort: true,
-		align: 'center',
-		issortshow: true,
-		type: 'int',
-		render:  window.G.common.formatInt,
 	},
 ];
 
 
 var gridManager = $("#stats_user_detail").ligerGrid({
-	url: version.cgi.mixTable,
+	url: sdk.cgi.mixTable,
 	pageParmName: 'current_page',
 	pagesizeParmName: 'page_size',
 	sortnameParmName: 'sort_name',
@@ -305,18 +296,18 @@ var gridManager = $("#stats_user_detail").ligerGrid({
 
 
 // 获取table中数据
-version.getDetailInfo = function(){
+sdk.getDetailInfo = function(){
 	var params = {};
 	params['date'] = $("#show_date").val();
 	// params['date'] = '2015-09-21';
-	gridManager.setOptions({columns: version.header});
+	gridManager.setOptions({columns: sdk.header});
 	gridManager.setOptions({parms: params});
 	gridManager.loadData();
 }
 
 
 //渠道分布曲线图
-version.getMixUser = function(){
+sdk.getMixUser = function(){
 	
 	var params = {};
 	params['type'] = $("#mix_user_time").val();
@@ -328,64 +319,49 @@ version.getMixUser = function(){
 	// params['end_date'] = '2015-09-21';
 	$.ajax({
 		type : 'POST',
-		url : version.cgi.mixData,
+		url : sdk.cgi.mixData,
 		dataType : 'json',
 		data: '&' + window.G.common.jsonToUrl(params),
 		success: function(rdata) {
 			if(rdata.code == 1){
+
 				var data = rdata.data;
-				var version_ary = rdata.version;
-				showTimeLines(data, version_ary, 'stats_content_detail');
+				// console.log(data);
+				showTimeLines(data, 'stats_content_detail');
 			}
 		}
 	});
 }
 
 
-function showTimeLines(data, version_ary, oDiv){
-	if(!data || !version_ary){
+function showTimeLines(data, oDiv){
+	if(!data){
 		return;
 	}
 
-	var d1=[], s_date=[];
+	var d1=[], s_version=[];
 	var series = [];
 	var style_type = 'line';
 	
-	var data = window.G.common.listSortBy(data, 'datestamp', 'asc');
+	// var data = window.G.common.listSortBy(data, 'per', 'desc');
 
 	for(var i in data){
-		s_date.push(data[i].datestamp);
+		s_version.push(data[i].version);
+		d1.push(data[i].per);
 	}
 
-	// 各个渠道的数据填充到d1中
-	for(var i in version_ary){
-		var tmp_version = version_ary[i].version;
-		d1[i] = [];
-		for(var j in data){
-			for(var k in data[j].data)
-				if(data[j]['data'][k]['version'] == tmp_version){
-					d1[i].push(parseInt(data[j]['data'][k]['cnt']));
-					break;
-				}
-		}
-	}
-
-	// 填充到series中
-	for(var i in version_ary){
-		var version_name = version_ary[i]['version'];
-		var item = {
-			name: version_name,
-			type:style_type,
-			data: d1[i]
+	var item = {
+		name: '百分比',
+		type: style_type,
+		data: d1
 		};
-		series.push(item);
-	}
-	console.log(s_date);
-	console.log(series);
+	series.push(item);
+	// console.log(s_version);
+	// console.log(series);
 
 	var chart1 = new Highcharts.Chart({
 		title:{
-			text:"",
+			text:"操作系统版本分布TOP10",
 			align:"center",
 			style:{
 				color: '#b5b5b9',
@@ -406,7 +382,7 @@ function showTimeLines(data, version_ary, oDiv){
 			marginLeft:150
 		},
 		xAxis:{
-			categories: s_date,
+			categories: s_version,
             lineColor:'#e5e5e5',
             tickColor:'#e5e5e5',
             labels:{
@@ -464,11 +440,11 @@ function showTimeLines(data, version_ary, oDiv){
 		exporting:{
 			enabled:false
 		}
-	})
+	});
 }
 
 
-version.init();
+sdk.init();
 
 });
 {/literal}
