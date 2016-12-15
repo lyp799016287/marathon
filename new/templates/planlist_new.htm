@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% if not data.planid%}
+        <title>我的马拉松训练计划</title>
+        {% else %}
+        <title>{{data.user_info['name']}}的马拉松训练日程</title>
+        {% endif %}
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta content="telephone=no" name="format-detection" />
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+        <link rel="stylesheet" href="/static/css/weui.min.css"/>
+        <link rel="stylesheet" href="/static/css/sm.min.css"/>
+        <style type="text/css">
+            body{font-family: '微软雅黑';vertical-align: text-bottom;background-color: #232227;color: white;}
+            .weui_tabbar {
+                margin-left: -1rem;
+                position: fixed;
+                width: 102%;
+                height:3rem;
+            }       
+            .weui_tabbar:before {
+                width:102%;
+            }
+/*            .top{
+                margin:-8px;
+            }*/
+            .background{
+                float:right;
+                width:100%;
+                height: 10rem;
+            }
+            .user_icon{
+                width: 24%;
+                margin:-44% 38% 0 0;
+                float: right;
+            }
+            .baifen{
+                float: right;
+                color:#fff;
+                width: 100%;
+                text-align: center;
+                margin-top: -15%;
+                margin-top: -39%;
+                font-size: 1.5rem;
+                color: #f67e54;
+            }
+            .wandu{
+                float: right;
+                color:#fff;
+                width: 100%;
+                text-align: center;
+                margin-top: -15%;
+                margin-top: -28%;
+                font-size: 0.5rem;
+                color: #f67e54;
+            }
+            .name{
+                float: right;
+                color:#fff;
+                width: 100%;
+                text-align: center;
+                margin-top: -15%;
+            }
+            .phone{
+                float: right;
+                color: #fff;
+                width:100%;
+                text-align:center;
+                margin-top: -8%;
+                font-size: 0.8rem;
+            }
+            .weekday{
+                float: left;
+                margin: 1rem 0 1rem 2rem;
+                color: #bababa;
+            }
+            .border{
+            margin: 0;
+            padding-top: 20px;
+            width: 100%;
+            display: block;
+            clear: both;
+            height: 2rem;
+            background-color: #323548;
+            width: 84%;
+            margin-left: 8%;
+            border-radius: 0.5rem;
+        }
+        .weekseq{
+            margin: -0.8rem 0 0 1rem;            
+        }
+        .mingci{
+            float: right;
+            margin: -1.5rem 1rem 0 0;
+        }
+        #btn{
+            text-align: center;
+            color: white;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;          
+            border-radius: 0;
+            background-color: #f67e54;
+            font-weight: lighter;
+            height: 2rem;
+            line-height: 2rem;
+            }
+            :root {
+              background: #fff;
+            }
+            span#procent {
+              display: block;
+              position: absolute;
+              left: 50%;
+              top: 36%;
+              font-size: 50px;
+              transform: translate(-50%, -50%);
+              float: right;
+              width: 100%;
+              text-align: center;
+              margin-top: -15%;
+              margin-top: -39%;
+              font-size: 1.5rem;
+              color: #f67e54;
+            }
+            span#procent::after {
+              content: '%';
+            }
+            canvas{
+                width: 51%;
+                margin: -58% 24.5% 0 0;
+                float: right
+            }
+            img.headimg{
+                width: 2.5em;
+                height: 2.5em;
+                border-radius: 1.5em;
+                vertical-align: middle;
+                float: right;
+                margin:-9rem 2rem 0 0;
+            }
+            .xuanfu{
+                width: 12%;
+                margin-right: 1rem;
+                position: fixed;
+                right: 0;
+                top: 75%;
+            }
+            .xuanfu img{
+                width: 100%;
+            }
+            .rebuild_img{                
+                float: right;
+                margin-right: 3rem;
+            }
+            .close_img{
+                float: right;
+                margin-top: -1.5rem;                
+            }
+            .share_yindao{
+                width: 60%;
+                margin-left: 5rem;
+            }
+            .back{
+                position: absolute;
+                background-color: black;
+                width: 100%;
+                top: 0;
+                height: 100%;
+                opacity: 0.8;
+            }
+        </style>
+    </head>
+    <body>
+        <div class='top'>
+        <img src="/static/images/shade@2x.png" class="background">
+        <img src='/static/images/ball_jindu@2x.png' class='user_icon'>
+        <img class="headimg" src="{{data.user_info['headimgurl']}}">
+        <div class="canvas-wrap">
+          <canvas id="canvas" width="300" height="300"></canvas>
+        </div>
+        <span id="procent" class="baike"></span>
+        <!-- <p class='baifen'>{{data.plan_info['progress']}}</p> -->
+        <p class='wandu'>已完成</p>
+        <p class='name'>马拉松备战</p>
+        {% if data.plan_info['remaindays'] %}
+        <p class='phone'>倒计时：{{data.plan_info['remaindays']}}</p>
+        {% endif %}
+        </div>
+        <div class="xuanfu">
+            <img src="/static/images/share@2x.png" class="share_img" hidden>
+            <img src="/static/images/rebuild@2x.png" class="rebuild_img" hidden>
+            <img src="/static/images/close@2x.png" class="close_img" style="width: 60%" hidden>
+            <img src="/static/images/more_be@2x.png" class="more_img">
+        </div>
+        {%if data.plan %}
+        {% for p in data.plan %}
+        <p class="weekday">第{{p.week}}周</p>
+            {% if p.detail %}
+            {% for d in p.detail %}
+            <div class="border loca_click" style="margin-top: 1rem;{% if d.date==data.today %} color:#f67e54 {%else%}color:#bababa{% endif %}">
+                <p class="weekseq" id="scroll">{{d.day_name}}{% if d.date==data.today %}(当天){%endif%}</p>
+                <font class="mingci">{{d.item.fName}} </font>
+                <span class="mini get_date" style="display: none;">{{d.date}}</span>
+            </div>
+            {%endfor%}
+            {%endif%}
+        {%endfor%}
+        {%endif%}
+        <a id="btn" href="/training" class="weui_btn weui_btn_primary">开始训练</a>
+        <div class="back" hidden>
+        <img src="/static/images/yindaoye.png" class="share_yindao">
+        </div>
+        <script type="text/javascript" src="/static/js/zepto.min.js"></script>
+        <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+        <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+        <script>
+        $("html, body").scrollTop(0).animate({scrollTop: $("#scroll").offset().top});
+        $('.loca_click').click(function(){
+            g_date = $(this).find('.get_date').text();
+            window.location.href = '/training?date_time='+g_date
+        });
+        $('.headimg').click(function(){
+            window.location.href = "/showme";
+        });
+        $('.more_img').click(function(){
+            $('.share_img,.rebuild_img,.close_img').show();
+            $('.more_img').hide();
+        })
+        $('.close_img').click(function(){
+            $('.share_img,.rebuild_img,.close_img').hide();
+            $('.more_img').show();
+        })
+        $('.rebuild_img').click(function(){
+            window.location.href = "/vdot";
+        })
+        $('.share_img').click(function(){
+            $("html, body").scrollTop(0);
+            $('.back').show();
+        })
+        $('.back').click(function(){
+            $('.back').hide();
+        })
+        </script>
+        <script type="text/javascript">
+        {% if data.wx %}
+        wx.config({
+            debug: false, 
+            appId: '{{data.wx.appId}}', // 必填，公众号的唯一标识
+            timestamp:{{data.wx.timestamp}} , // 必填，生成签名的时间戳
+            nonceStr: '{{data.wx.nonceStr}}', // 必填，生成签名的随机串
+            signature: '{{data.wx.signature}}',// 必填，签名，见附录1
+            jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','showMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        });
+        
+
+        wx.ready(function(){
+            {% if not data.planid %}
+            share_title="定制我的马拉松训练计划";
+            {% else %}
+            share_title="{{data.user_info['name']}}的马拉松训练计划";
+            {% endif %}
+            share_desc = '依照《丹尼尔斯经典跑步训练法》和《汉森马拉松训练法》，结合跑者现状，生成个人训练计划，助飞马拉松';
+            share_link = '{{data.wx.url}}';
+            share_type = 'link';
+            share_dataUrl = '';
+
+            share_data = {
+                title: share_title, // 分享标题
+                desc: share_desc,
+                link: share_link, // 分享链接
+                imgUrl: 'http://x.lares.me/static/images/running.jpg', // 分享图标
+                type: share_type, // 分享类型,music、video或link，不填默认为link
+                dataUrl: share_dataUrl, // 如果type是music或video，则要提供数据链接，默认为空
+
+            }
+            $('#share_tips').click(function(){
+                $('#share_tips').fadeOut();
+            });
+            $('#btn_share').click(function(){
+                $('#share_tips').fadeIn();
+                // wx.onMenuShareAppMessage(share_data);
+            });
+            wx.onMenuShareAppMessage({
+                title: share_title, // 分享标题
+                desc: share_desc, // 分享描述
+                link: '{{data.wx.url}}', // 分享链接
+                imgUrl: 'http://x.lares.me/static/images/running.jpg', // 分享图标
+                type: 'link', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function () { 
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function () { 
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            wx.onMenuShareTimeline({
+                title: share_title, // 分享标题
+                link: '{{data.wx.url}}', // 分享链接
+                imgUrl: 'http://x.lares.me/static/images/running.jpg', // 分享图标
+                success: function () { 
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function () { 
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+        });
+
+    {% endif %}
+    </script>
+    <script type="text/javascript">
+        
+        window.onload = function() {          
+          var can = document.getElementById('canvas'),
+              spanProcent = document.getElementById('procent'),
+               c = can.getContext('2d');
+         
+          var posX = can.width / 2,
+              posY = can.height / 2,
+              fps = 1000 / 200,
+              procent = 0,
+              oneProcent = 360 / 100,
+              result = oneProcent * 54;
+          
+          c.lineCap = 'round';
+          arcMove();
+          
+          function arcMove(){
+            var deegres = 0;
+            var acrInterval = setInterval (function() {
+              deegres += 1;
+              c.clearRect( 0, 0, can.width, can.height );
+              procent = deegres / oneProcent;
+
+              spanProcent.innerHTML = procent.toFixed();
+
+              c.beginPath();
+              c.arc( posX, posY, 70, (Math.PI/180) * 270, (Math.PI/180) * (270 + 360) );
+              c.strokeStyle = 'rgba(0,0,0,0)';
+              c.lineWidth = '10';
+              c.stroke();
+              c.beginPath();
+            var gradient = c.createLinearGradient( posX, posY, 70, (Math.PI/180) * 270, (Math.PI/180) * (270 + 360));
+            gradient.addColorStop('0', '#ff7151');
+            gradient.addColorStop('0.5', '#ffca74');
+            c.strokeStyle = gradient;
+              // c.strokeStyle = '#f67e54';
+              c.lineWidth = '15';
+              c.arc( posX, posY, 70, (Math.PI/180) * 270, (Math.PI/180) * (270 + deegres) );
+              c.stroke();
+              if( deegres >= result ) clearInterval(acrInterval);
+            }, fps);
+            
+          }
+          
+          
+        }
+    </script>
+    <script type="text/javascript" src="/static/js/ga.js"></script>
+    </body>
+</html>

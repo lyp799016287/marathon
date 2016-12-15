@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	    <meta name="viewport" content="initial-scale=1, user-scalable=0, minimal-ui">
+	    <link rel="stylesheet" href="/static/css/sm.min.css"/>
+	    <link rel="stylesheet" href="/static/css/weui.min.css"/>
+	    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/weui/0.4.0/style/weui.css">
+	    <style type="text/css">
+	    	body{font-family: '微软雅黑';vertical-align: text-bottom;background-color: #232227;}
+	    	h1,h3{text-align: center;}
+	    	li{/*margin-left: 1em;*/}
+	    	span.red{color: #FF0000;font-weight: bold;padding:0 0.5em;}
+	    	img{width: 100%;margin:0;padding:0;}
+	    	a{text-decoration: none;color: blue}
+	    	img.headimg{width: 1.5em;height: 1.5em;border-radius: 1.5em;vertical-align: middle; margin-right: 0.5em}
+	    	h3.nickname{font-size: 1.5em;line-height: 1.5em;vertical-align: text-bottom; margin:0.5em auto;}
+	        #btn{
+        	text-align: center;
+    		color: white;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;          
+            border-radius: 0;
+            background-color: #f67e54;
+            font-weight: lighter;
+            height: 2rem;
+            line-height: 2rem;
+    		}
+/*    		.data-week{
+    			text-align: center;
+    			padding: 2em;
+    		}*/
+    		.top_img{height:10rem;}
+    		.introduce{margin: -9rem 0 0 1rem;color:white;text-align: center;}
+    		.container{
+    			height: 7rem;
+    			margin-top: 5rem;
+    			background-color: #323548;
+    			color: #bababa;
+    		}
+    		.run_img{
+    			width: 8%;
+			    margin: 0.8rem 0 0 0.5rem;
+    		}
+    		.left_con{
+    			float: left;
+			    margin: 0rem -1.5rem 0 0.5rem;
+		    	/*margin: 1rem 0 0rem -1.5rem;*/
+    		}
+    		.minute{
+				font-size: 0.8rem;
+    			margin-left: 0.1rem;
+    		}
+    		.right_con{
+			    float: right;
+			    height: 5rem;
+			    background-color: #323548;
+			    width: 65%;
+			    /* margin-right: 1rem; */
+			    border-radius: 0.2rem;
+			    margin: -4rem 1rem 0 0;
+			    color: #bababa;
+    		}
+    		.weather{
+			    margin: 2rem 0rem 5rem 10%;
+			    background-color: #323548;
+			    /* background-color: white; */
+			    width: 80%;
+			    color: #bababa;
+			    padding: 0.5rem;
+			    border-radius: 0.5rem;
+    		}
+	    </style>
+	    <title>{{data.title}}</title>
+	</head>
+
+	<body>
+			<img src = '/static/images/shade@2x.png' class='top_img'>
+			<div class='introduce'>
+				<p>
+				Day {{data.weekday}} </br>
+				第 {{data.weekseq}} 周
+				</p>
+			</div>
+			{% if data.plan %}
+			<div style="margin:8rem 0 0 0.5rem;color: #bababa">
+				{% if data.plan.item.mins%}
+				<font class="left_con">
+					{{data.plan.item.mins}}
+				</font>
+				<font class="minute">
+					分钟
+				</font>
+				{%endif%}
+				{% if data.plan.item.dist %}
+				<font class="left_con">
+                   	{{data.plan.item.dist}}
+               	</font>
+				<font class="minute">
+				KM
+				</font>
+               	{% endif %}
+				<img {% if data.plan['item']['cn_name'] == '休息'%} style="visibility:hidden;"{% endif %} src="/static/images/run@2x.png" class="run_img">
+			</div>
+			<div class="right_con project_name">
+				<p style="margin: 0.5rem 0 0 1rem;" class="p_name">{{data.plan['item']['cn_name']}}</p>
+				{% if data.plan.item.pace%}
+				<p style="margin-left: 1rem;">配速：{{data.plan.item.pace}}</p>
+				{%endif%}
+			</div>
+			{%endif%}
+				{% if data.weather %}
+				<div class="weather">
+				{% for r in data.weather %}
+				<p>
+                	{{r}}
+                </p>							
+				{% endfor %}
+				</div>
+				{% endif %}
+		{% if data['nextday'] == '1'%}
+		<a id="btn" href="javascript:;" class="weui_btn weui_btn_primary" style='background-color: #333;'>明日训练</a>
+		{% else %}
+			{% if data['nowdate'] != data['date_time'] and data['date_time'] != '0'%}
+				{% if data['nowdate'] > data['date_time'] and data['date_time'] != '0'%}
+				<a id="btn" href="javascript:;" class="weui_btn weui_btn_primary" style='background-color: #333;'>训练已过期</a>
+				{% elif data['nowdate'] < data['date_time'] and data['date_time'] != '0'%}
+				<a id="btn" href="javascript:;" class="weui_btn weui_btn_primary" style='background-color: #333;'>还未到训练日</a>
+				{%endif%}
+			{% elif data['nowdate'] == data['date_time'] or data['date_time'] =='0'%}
+				{% if data['is_finish'] == 0 %}
+				<a id="btn" href="javascript:;" class="weui_btn weui_btn_primary">完成训练</a>
+				{% elif data['is_finish'] == 1 %}
+				<a id="btn" href="javascript:;" class="weui_btn weui_btn_primary" style='background-color: #333;'>今日已经训练</a>
+				{%endif%}
+			{%endif%}
+		{% endif %}
+		{% if data['nowdate'] != data['date_time'] or data['date_time'] !='0' %}
+        <div class="weui_dialog_confirm" id="confirm" style="display: none;">
+        <div class="weui_mask"></div>
+        <div class="weui_dialog" style="padding-top: 1rem;">
+            <div class="weui_dialog_bd confirm_text"><p style="text-align:center;">是否去训练当天的计划？</p><p style="text-align:center; font-size: 30px;"></p></div>
+            <div class="weui_dialog_ft">
+                <a href="javascript:;" class="weui_btn_dialog default" id="confirmdefault">不用了</a>
+                <a href="javascript:;" class="weui_btn_dialog primary" id="confirmprimary">前去训练</a>
+            </div>
+        </div>
+        </div>
+        {% endif %}
+	<script type="text/javascript" src="/static/js/ga.js"></script>
+	<script type="text/javascript" src="/static/js/zepto.min.js"></script>
+	<script type="text/javascript">
+		$('.project_name').click(function(){
+			var text = String($('.project_name').find('.p_name').text());
+			console.log(text);
+			console.log(text.length);
+			if(text =='轻松跑')
+				var param = 'easy_run';
+			else if(text =='马拉松配速跑')
+				var param = 'mara_run';
+			else if(text =='间歇训练')
+				var param = 'jianxie_run';
+			else if(text =='重复训练')
+				var param = 'repeat_run';
+			else if(text =='乳酸门槛跑')
+				var param = 'rusuan_run';
+			else
+				var param ='';
+			if(param !='')
+			window.location.href = '/project_info?project_name='+param;
+		});
+		$('#btn').click(function(){
+			$.ajax({
+				  type: 'POST',
+				  url: '/finish_todaytrain',
+				  data: {
+				  	'nextday':{{data.nextday}},
+				  	'date_time':'{{data.date_time}}'
+				  },
+				  dataType: 'json',
+				  success: function(rdata){
+				  	console.log(rdata);
+					  if(rdata.code == 1){
+					  		alert(rdata.msg);
+							window.location.href = '/training?nextday=1';
+					  }else if(rdata.code == -4){
+					  	alert(rdata.msg);
+					  	return;
+					  }
+					  else{
+							$('#confirm').show();
+					  }
+				  },
+				  error: function(xhr, type){
+					alert('Ajax error!');
+				  }
+			});
+		});
+        $('#confirmdefault').click(function(){
+            $('#confirm').hide();
+            return;
+        });
+        $('#confirmprimary').click(function(){
+			window.location.href = '/training';
+            return;
+        });
+	</script>
+	</body>
+</html>

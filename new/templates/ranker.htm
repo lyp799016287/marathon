@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+	    <link rel="stylesheet" href="/static/css/weui.css"/>
+	    <style type="text/css">
+	    	body{font-family: '微软雅黑';vertical-align: text-bottom;}
+	    	h1,h3,h4{text-align: center;}
+	    	span.red{color: #FF0000;font-weight: bold;padding:0 0.5em;}
+	    	img{width: 100%;margin:0;padding:0;}
+	    	img.headimg{width: 2em;height: 2em;border-radius: 2em;vertical-align: middle; margin-right: 0.5em}
+	    	h3.nickname{font-size: 2em;line-height: 2em;vertical-align: text-bottom; margin:1em auto;}
+	    	#tips{display: none;margin: 1em auto; text-align: center;vertical-align: middle;line-height: 2em;font-size: 23px;}
+	    	#share_tips{z-index: 1;display: none;}
+	    	#share_tips img{width: 40%;margin: 0;position: fixed;right: 1em;top: 1em;}
+	    </style>
+	    {% if data.rankerid %}
+	    <title>{{data.user_info['name']}}超越了{{data.ranker.percent}}%的{{data.gender}}子{{data.project}}跑者</title>
+	    {% else %}
+	    <title>{{data.user_info['name']}}の{{data.title}}</title>
+	    {% endif %}
+
+	    
+	    
+	</head>
+
+	<body>
+		<div id="container" class="container">
+			<div class="page__hd">
+		        <h1 class="page__title">{{data.user_info['name']}}の{{data.title}}</h1>
+		        <!-- <h3 class="page__desc">看看我的成绩超越了多少跑者</h3> -->
+		    </div>
+			<div class="page__bd page__bd_spacing">
+				<form action="/ranker" id="form_ranker" method="post">
+				<div class="weui-cells__title">我的成绩：</div>
+				<div class="weui-cells weui-cells_form">
+					<div class="weui-cell weui-cell_select weui-cell_select-after">
+		                <div class="weui-cell__hd">
+		                    <label for="" class="weui-label">性别{{data.gender}}</label>
+		                </div>
+		                <div class="weui-cell__bd">
+		                    <select class="weui-select" name="gender" id="gender">
+		                        <option value="男" {% if data.gender=='男'%}selected{%endif%}>男</option>
+								<option value="女" {% if data.gender=='女'%}selected{%endif%}>女</option>
+		                    </select>
+		                </div>
+		            </div>
+		            <div class="weui-cell weui-cell_select weui-cell_select-after">
+		                <div class="weui-cell__hd">
+		                    <label for="" class="weui-label">项目</label>
+		                </div>
+		                <div class="weui-cell__bd">
+		                    <select class="weui-select" name="project" id="project">
+								<option value="全程" {% if data.project=='全程'%}selected{%endif%}>全程</option>
+								<option value="半程" {% if data.project=='半程'%}selected{%endif%}>半程</option>
+								<option value="10公里" {% if data.project=='10公里'%}selected{%endif%}>10公里</option>
+							</select>
+		                </div>
+		            </div>
+		            <div class="weui-cell weui-cell_select weui-cell_select-after">
+		                <div class="weui-cell__hd">
+		                    <label for="" class="weui-label">成绩</label>
+		                </div>
+		                <div class="weui-cell__bd">
+		                    <select id="hour" name="hour" class="weui-select">
+								<option value="00">时</option>
+								{% for i in data.hours%}
+								<option value="{{i}}" {%if data.hms[0]==i%}selected{%endif%}>{{i}}</option>
+								{% endfor%}
+							</select>
+						</div>
+						<div class="weui-cell__bd">
+							<select id="minute" name="minute" class="weui-select">
+								<option value="00">分</option>
+								{% for i in data.minutes%}
+								<option value="{{i}}" {%if data.hms[1]==i%}selected{%endif%}>{{i}}</option>
+								{% endfor%}
+							</select>
+						</div>
+						<div class="weui-cell__bd">
+							<select id="second" name="second" class="weui-select">
+								<option value="00">秒</option>
+								{% for i in data.seconds%}
+								<option value="{{i}}" {%if data.hms[2]==i%}selected{%endif%}>{{i}}</option>
+								{% endfor%}
+							</select>
+		                </div>
+		            </div>
+
+			        <div class="icon-box" id="tips" >
+			            <i class="weui-icon-info-circle"></i>亲，你还没选择成绩呢
+			        </div>
+
+		            {% if not data.ranker %}
+		            <div class="weui-btn-area">
+			            <a class="weui-btn weui-btn_primary" href="javascript:submit_form();" name="btnsubmit" id="showTooltips">立即查看我超越了多少跑者</a>
+			        </div>
+			        {% endif %}
+		            
+		        </div>
+		        <!-- end for form -->
+		        </form>
+
+		    </div>
+		    <div class="page__hd">
+		        <h1 class="page__title">
+					{% if data.user_info %}
+						<h3 class="nickname">
+							<img class="headimg" src="{{data.user_info['headimgurl']}}">{{data.user_info['name']}}
+						</h3>
+					{% endif%}
+		        </h1>
+		        <p class="page__desc">
+		        	{% if data.ranker %}
+						<h4>按{{data.year}}年全年{{data.gender}}子{{data.project}}计算</h4>
+						<h4>您的排名为：第{{ data.ranker.ranker }} / {{data.ranker.total}} </h4>
+						<h3>超越了<span class="red">{{data.ranker.percent}}%</span>的{{data.gender}}子{{data.project}}参赛选手</h3>
+					{% endif %}
+		        </p>
+		       
+
+		    </div>
+		    <div class="page__bd page__bd_spacing">
+		    	<div class="weui-btn-area">
+			    	<a href="/ranker" class="weui-btn weui-btn_default">去看看我超越了多少跑者</a>
+			    </div>
+			    <div class="weui-btn-area">
+			    	<a href="javascript:void(0);" id="btn_share" class="weui-btn weui-btn_plain-primary">分享给好友</a>
+			    </div>
+				<img src="/static/images/qrcode.png">
+				<h4>欢迎长按关注公众号</h4>
+				<!-- <img src="/static/images/running.jpg"> -->
+		    </div>
+			
+			
+			
+			<div class="weui-footer">
+				<h4>历史比赛数据来自中国田径协会，中国马拉松站点</h4>
+	            <p class="weui-footer__text">Copyright © 2016 lares.me</p>
+	        </div>
+		</div>
+		<div class="weui-mask" id="share_tips">
+			<img  src="/static/images/icon_wx_share.png" />
+		</div>
+		
+	<script type="text/javascript" src="/static/js/zepto.min.js"></script>
+	<script type="text/javascript" src="/static/js/fx.js"></script>
+	<script type="text/javascript" src="/static/js/fx_methods.js"></script>
+
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+	<script type="text/javascript">
+		{% if data.rankerid %}
+	    share_title="{{data.user_info['name']}}超越了{{data.ranker.percent}}%的{{data.gender}}子{{data.project}}跑者";
+	    {% else %}
+	    share_title="{{data.user_info['name']}}の{{data.title}}";
+	    {% endif %}
+	    share_desc = '跑者，跑着，我们并不孤独，很多人一起，只是不一定就在身边，看看我在哪个段位';
+	    share_link = '{{data.wx.url}}';
+	    share_type = 'link';
+	    share_dataUrl = '';
+
+	    share_data = {
+	    	title: share_title, // 分享标题
+		    desc: share_desc,
+		    link: share_link, // 分享链接
+		    imgUrl: 'http://x.lares.me/static/images/running.jpg', // 分享图标
+		    type: share_type, // 分享类型,music、video或link，不填默认为link
+		    dataUrl: share_dataUrl, // 如果type是music或video，则要提供数据链接，默认为空
+
+	    }
+
+    	function submit_form() {
+    		if($('#hour').val()=='00'&&$('#minute').val()=='00'&&$('#second').val()=='00'){
+    			$('#tips').fadeIn(1000);
+    		}else{
+    			$('#form_ranker').submit();
+    		}
+    	}
+    </script>
+	<script type="text/javascript">
+	{% if data.wx %}
+		wx.config({
+		    debug: false, 
+		    appId: '{{data.wx.appId}}', // 必填，公众号的唯一标识
+		    timestamp:{{data.wx.timestamp}} , // 必填，生成签名的时间戳
+		    nonceStr: '{{data.wx.nonceStr}}', // 必填，生成签名的随机串
+		    signature: '{{data.wx.signature}}',// 必填，签名，见附录1
+		    jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','showMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+		});
+		
+
+		wx.ready(function(){
+			$('#share_tips').click(function(){
+				$('#share_tips').fadeOut();
+			});
+			$('#btn_share').click(function(){
+				$('#share_tips').fadeIn();
+				// wx.onMenuShareAppMessage(share_data);
+			});
+		    wx.onMenuShareAppMessage({
+			    title: share_title, // 分享标题
+			    desc: '跑者，跑着，我们并不孤独，很多人一起，只是不一定就在身边，看看我在哪个段位', // 分享描述
+			    link: '{{data.wx.url}}', // 分享链接
+			    imgUrl: 'http://x.lares.me/static/images/running.jpg', // 分享图标
+			    type: 'link', // 分享类型,music、video或link，不填默认为link
+			    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+			    success: function () { 
+			        // 用户确认分享后执行的回调函数
+			    },
+			    cancel: function () { 
+			        // 用户取消分享后执行的回调函数
+			    }
+			});
+			wx.onMenuShareTimeline({
+			    title: share_title, // 分享标题
+			    link: '{{data.wx.url}}', // 分享链接
+			    imgUrl: 'http://x.lares.me/static/images/running.jpg', // 分享图标
+			    success: function () { 
+			        // 用户确认分享后执行的回调函数
+			    },
+			    cancel: function () { 
+			        // 用户取消分享后执行的回调函数
+			    }
+			});
+		});
+
+	{% endif %}
+	</script>
+	<script type="text/javascript" src="/static/js/ga.js"></script>
+	</body>
+</html>

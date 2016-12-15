@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Insert title here</title>
+    <script src="/static/js/zepto.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        /*$(function () {
+            $(":button").click(function () {
+                ajaxFileUpload();
+            })
+        })
+        function ajaxFileUpload() {
+            $.ajaxFileUpload
+            (
+                {
+                    url: '/test.php', //用于文件上传的服务器端请求地址
+                    secureuri: false, //一般设置为false
+                    fileElementId: 'file1', //文件上传空间的id属性  <input type="file" id="file" name="file" />
+                    dataType: 'json', //返回值类型 一般设置为json
+                    success: function (data, status)  //服务器成功响应处理函数
+                    {
+                        $("#img1").attr("src", data.imgurl);
+                        if (typeof (data.error) != 'undefined') {
+                            if (data.error != '') {
+                                alert(data.error);
+                            } else {
+                                alert(data.msg);
+                            }
+                        }
+                    },
+                    error: function (data, status, e)//服务器响应失败处理函数
+                    {
+                        alert(e);
+                    }
+                }
+            )
+            return false;
+        }
+
+		var str = "脂肪酸使用指南：d六fhdh六种你常吃但不一定了解的脂肪酸";
+		var substr = str.substring(0, 10) + (str.length > 10 ? '...' : '');
+		//alert(substr);
+    
+		//js取唯一值
+		j = parseInt((new Date()).getTime() + "" + (new Date()).getMilliseconds() + (Math.random() * 10000 + "").substr(1, 10)).toString(16);
+		j = (j + "").toUpperCase();*/
+		//alert(j);
+	</script>
+</head>
+<body>
+    <!--<p><input type="file" id="file1" name="file" /></p>
+    <input type="button" value="上传" />
+    <p><img id="img1" alt="上传成功啦" src="" /></p>
+	-->
+	<div id="n1">
+		<div id="n2">
+			<ul id="n3">
+				<li class="list_arr" id="n4">item1</li>
+				<li class="list_arr" id="n5">item2</li>
+				<li class="list_arr" id="n6">item3</li>
+			</ul>
+		</div>
+		<div id="n7">
+			<ul id="n8">
+				<li id="n9">item1</li>
+				<li id="n10">item2</li>
+			</ul>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+/*$(document).ready(function(){
+	console.log("dssss");
+	$(".list_arr").click(function(){
+		$(".list_arr").removeClass("sss");
+		$(this).addClass("sss");
+	});
+	$(".list_arr:eq(0)").addClass('sss');
+	$(".list_arr:eq(0)").css("color","red");
+});*/
+
+(function(){
+	function fun1(){
+		console.log('it works');
+	}
+
+	fun1();
+})();
+</script>
+</html>

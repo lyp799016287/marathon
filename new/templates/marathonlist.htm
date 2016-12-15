@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	    <meta name="viewport" content="initial-scale=1, user-scalable=0, minimal-ui">
+	    <style type="text/css">
+	    	body{font-family: '微软雅黑'}
+	    	h1,h5{text-align: center;}
+	    	li{/*margin-left: 1em;*/}
+	    	span.red{color: #FF0000;font-weight: bold;padding:0 0.5em;}
+	    	img{width: 100%;margin:0;padding:0;}
+	    </style>
+	    <title>{{data.title}}</title>
+	</head>
+
+	<body>
+		<h1>{{data.title}}</h1>
+		<ol>
+			{% for it in data.dlist %}
+			<li>
+				<h4>{{it.name}}</h4>
+				日期：{{it.date}} 离开赛还有<span class="red">{{it.days}}</span>天<br>
+				地点：{{it.addr}}<br>
+				项目：{{it.project}}<br>
+				规模：{{it.scale}}<br>
+				报名：<a href="{{it.site}}">点击去官网</a>
+			</li>
+			{% endfor %}
+		</ol>
+		<img src="/static/images/running.jpg">
+		<h5>欢迎长按关注公众号</h5>
+		<img src="/static/images/qrcode.png">
+		<script type="text/javascript" src="/static/js/ga.js"></script>
+	</body>
+</html>

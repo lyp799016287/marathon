@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	    <meta name="viewport" content="initial-scale=1, user-scalable=0, minimal-ui">
+	    <link rel="stylesheet" href="/static/css/weui.min.css"/>
+	    <style type="text/css">
+	     body{font-family: '微软雅黑';vertical-align: text-bottom;background-color: #232227;color: white;}
+	    .border{
+    	    margin: 0;
+		    padding-top: 20px;
+		    width: 100%;
+		    display: block;
+		    clear: both;
+		    height: 4rem;
+		    background-color: #323548;
+		    width: 88%;
+		    margin: 5%;
+		    border-radius: 0.5rem;
+	    }
+	    .cup{
+    	    width: 15%;
+		    float: left;
+		    margin: -0.3rem 0 0 2rem;
+	    }
+	    .wenzi{
+	    	float: left;
+	    	margin: 0.7rem 0 0 1rem;
+	    }
+        .dayshu{
+			font-size: 1rem;
+		    float: left;
+		    width: 2rem;
+		    margin: 1.5rem 0rem 0 -2.5rem;
+		    display: block;
+		    text-align: center;
+	        }
+	    .finish{
+    	    height: 5rem;
+		    float: right;
+		    margin-top: -1rem;
+	    }
+	    </style>
+	<title>
+		获得荣誉
+	</title>
+	</head>
+	<body>
+		{% if data.plan_info['trainingdays'] %}
+			{% if data.plan_info['trainingdays'] >= 5%}
+			{% for i in range(data.plan_info['trainingdays'] // 5) %}			
+		<div class="border" style="margin-top: 2rem;">
+			<img src="/static/images/rongyu_big@2x.png" class="cup">
+			<font class="dayshu">5</font>
+			<font class="wenzi">坚持训练5天</font>
+			<img src="/static/images/yiwancheng@2x.png" class="finish">
+		</div>
+			{% endfor %}
+			{%endif%}
+		{%endif%}
+		<div class="border">
+			<img src="/static/images/done_big@2x.png" class="cup">
+			<font class="wenzi">完成一套训练计划</font>
+		{% if data.plan_info['trainingdays'] %}
+			{% if data.plan_info['trainingdays'] == "bingo"%}
+			<img src="/static/images/yiwancheng@2x.png" class="finish" style="margin-top: -3.4rem;">
+			{%else%}
+			<img src="/static/images/weiwancheng@2x.png" class="finish" style="margin-top: -3.4rem;">
+			{%endif%}
+		{%endif%}
+		</div>
+	</body>

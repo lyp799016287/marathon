@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1, user-scalable=0, minimal-ui">
+    <title>跑力值</title>
+    <style>
+        div{
+        margin:0 auto;
+        text-align:center}
+
+        .box{ border:1px solid #f60; width:100px; height:100px;
+        -webkit-border-radius:50px;
+        -moz-border-radius:50px;
+        -o-border-radius:50px;
+        border-radius:50px;
+
+        }
+
+        .box_up{width:100px;
+        height:70px;
+        }
+
+        .box_down{width:100px;
+        height:30px;
+        }
+
+    </style>
+        <link rel="stylesheet" href="/static/css/sm.min.css"/>
+        <link rel="stylesheet" href="/static/css/weui.min.css"/>
+</head>
+<body>
+
+<div class="box">
+    {%if data==''or data==null%}
+    <div class="box_up" ><font  size='18'  color=" #EEAD0E" >999</font>
+    </div>
+    <div class="box_down"> 跑力值</div>
+    {%else%}
+    <div class="box_up" ><font size='18'  color=" #EEAD0E" >{{data.vdots}}</font>
+    </div>
+    <div class="box_down">跑力值</div>
+    {%endif%}
+</div>
+<div>
+
+
+</div><div>全国跑友排名{{data.num}}</div>
+
+<div>性别标签:
+    {% for i in data.target_dist.sex_msg%}
+   {{i}}
+{%endfor%}
+</div>
+<div>年龄标签:
+    {% for i in data.target_dist.age_msg%}
+       {{i}}
+{%endfor%}
+</div>
+<div>跑力值标签:
+    {% for i in data.target_dist.vdots_msg%}
+       {{i}}
+{%endfor%}
+</div>
+
+		<img src="/static/images/qrcode.png">
+
+
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+
+
+</body>
+</html>

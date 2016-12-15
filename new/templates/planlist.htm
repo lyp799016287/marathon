@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+	    <!-- <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.css"> -->
+	    <link rel="stylesheet" href="/static/css/sm.min.css"/>
+	    <link rel="stylesheet" href="/static/css/weui.min.css"/>
+	    <style type="text/css">
+	    	body{font-family: '微软雅黑';vertical-align: text-bottom;}
+	    	h1,h3,h4{text-align: center;}
+	    	span.red{color: #FF0000;font-weight: bold;padding:0 0.5em;}
+	    	img{width: 100%;margin:0;padding:0;}
+	    	img.headimg{width: 1.5em;height: 1.5em;border-radius: 1.5em;vertical-align: middle; margin-right: 0.5em}
+	    	h3.nickname{font-size: 1.5em;line-height: 1.5em;vertical-align: text-bottom; margin:0.5em auto;}
+	    	#tips{display: none;margin: 1em auto; text-align: center;vertical-align: middle;line-height: 2em;font-size: 23px;}
+	    	#share_tips{z-index: 1;display: none;}
+	    	#share_tips img{width: 40%;margin: 0;position: fixed;right: 1em;top: 1em;}
+	    	
+	    	h3.forecast,h4.forecast{text-indent: 15px;text-align: left;}
+	    	.weui-grid{width: 12.5%;height: 50px;text-align: center;padding:0;}
+	    	.grid-title{line-height: 50px; text-align: center;font-size: 1em;}
+	    	.detail{text-align:center;padding: 1px;}
+	    	.weui-grid__label{font-size: 0.5em;-webkit-margin-before:0;-webkit-margin-after:0;}
+	    	.weui-media-box__title{font-size: 1em;}
+	    	ul{padding-left: 1em;}
+	    	ul li.desc{font-size: 0.6em;}
+	    	.page__ft {
+			    padding-top: 40px;
+			    padding-bottom: 10px;
+			    text-align: center;
+			}
+			b{color: #000000;padding:0 0.2em;}
+			#race_date{text-indent: 0; border:none;}
+			.picker-calendar-day.picker-calendar-day-selected span{background: #1AAD19}
+			.icon-prev{
+				background-image: url(/static/images/icon_left.png);
+				color: #1AAD19;
+			}
+			.icon-next{
+				background-image: url(/static/images/icon_right.png);
+				color: #1AAD19;
+			}
+			.weui-cell_primary p{margin:0;}
+			blockquote{ color: #999999;margin: 0.5em 15px 1.5em;font-size:0.7em; text-align: left;}
+			span.mini{font-size: 0.7em;color: #999999}
+			#btn_getVDOT{margin-bottom: 1.5em;}
+			span.raceday{color:#ff0000;font-weight: bold;}
+			a.today{color: #2C6491;font-weight: bold;}
+			
+
+	    </style>
+	    {% if not data.planid%}
+	    <title>我的马拉松训练计划</title>
+	    {% else %}
+	    <title>{{data.user_info['name']}}的马拉松训练日程</title>
+	    {% endif %}
+	</head>
+
+	<body>
+		<div id="container" class="container">
+			<div class="page__hd">
+		        <h1 class="page__title">我的训练计划</h1>
+		    </div>
+		    <h1 class="page__title">
+				{% if data.user_info %}
+					<h3 class="nickname">
+						<img class="headimg" src="{{data.user_info['headimgurl']}}">{{data.user_info['nickname']}}
+					</h3>
+				{% endif%}
+	        </h1>
+
+	        {% if data.vdot_info %}
+	        	<div class="weui-cells__title">VDOT水平：{{data.vdot_info.vdots}}，对应配速如下（单位 分钟/公里）：</div>
+				<div class="weui-panel">
+					<div class="weui-panel__bd">
+	                <div class="weui-media-box weui-media-box_small-appmsg">
+	                    <div class="weui-cells">
+	                    	{% if data.vdot_info.paces.normal %}
+	                    	{% for pk,pv in data.vdot_info.paces.normal.items() %}
+		                        <a class="weui-cell weui-cell_access" href="javascript:;">
+		                        	{{pv['name']}}：{{pv['k']}}
+		                        </a>
+	                        {% endfor %}
+	                        {% endif%}
+	                        <div class="weui-btn-area">
+						    	<a href="javascript:void(0);" id="btn_getVDOT" class="weui-btn weui-btn_plain-primary">重新制定我的计划</a>
+						    </div>
+	                        <blockquote>
+	                        	VDOT 其实是最大摄氧量（V-dot-O2Max）的简称，单位是 ml/min/kg。表示一定时间(1分钟)单位体重(1公斤)，传输和使用氧气的最大值。<br>
+	                        	VDOT值是目前所有运动研究机构以及专业跑步教练都比较认可的一个可以衡量跑者跑步能力的重要指标。它直观的反映了跑者肌肉使用氧气和心脏承压能力的强弱。<br>
+	                        	原则上VDOT（跑力值）值愈高代表跑步实力愈好，可承受的训练配速和及相同训练配速下维持更长距离的能力越强。<br>
+	                        	VDOT（跑力值）是被量化出来的跑步实力，也可以拿它来预估自己没有跑过的距离的完成时间，在跑前了解自己完成该距离的跑步实力。
+	                        </blockquote>
+
+	                    </div>
+
+
+	                </div>
+				</div>
+
+				<div class="weui-cells__title">VDOT成绩预测（Mi表示英里）：</div>
+				<div class="weui-panel">
+					<div class="weui-panel__bd">
+		                <div class="weui-media-box weui-media-box_small-appmsg">
+		                    <div class="weui-cells">
+		                    	{% if data.vdot_info.paces.equivs %}
+		                    	{% for pv in data.vdot_info.paces.equivs %}
+			                        <a class="weui-cell weui-cell_access" href="javascript:;">
+			                        	{{pv['distance']}}，耗时：{{pv['time']}}，配速：{{pv['k']}}
+			                        </a>
+		                        {% endfor %}
+		                        {% endif%}
+		                    </div>
+		                </div>
+					</div>
+				</div>
+			</div>	
+			<!-- end of vdot -->
+				
+	        {% endif%}
+		    
+		    {%if data.plan %}
+		    <div class="weui-cells__title">我的全马训练计划：</div>
+		    <div class="weui-panel">
+		    {% for p in data.plan %}
+	            <div class="weui-panel__hd">第<b>{{p.week}}</b>/ {{data.weeks}} 周
+	            {% if p.week_dist%}
+	            本周跑量{{p.week_dist}}KM
+	            {% endif %}
+	            </div> 
+	            <!-- / 18 周，本周跑量{{p.week_distance}}KM -->
+	            {% if p.detail %}
+	            <div class="weui-panel__bd">
+	                <div class="weui-media-box weui-media-box_small-appmsg">
+	                    <div class="weui-cells">
+	                    	{% for d in p.detail %}
+	                        <a class="loca_click weui-cell weui-cell_access {% if d.date==data.today %} today {% endif %}" href="javascript:;">
+	                            <div class="weui-cell__bd weui-cell_primary ">
+	                                <p>
+	                                <span class="mini">{{d.day_name}}</span>
+	                                <span
+	                                {% if d.item.name=='X' %}
+	                                	class="raceday"
+	                                {% endif %}
+	                                
+	                                >
+	                                {{d.item.fName}} 
+	                            	</span>
+	                                {% if d.item.dist %}
+	                               	{{d.item.dist}}KM
+	                               	{% endif %}
+	                               	{% if d.item.mins%}
+	                               	{{d.item.mins}}分钟
+	                               	{% endif %}
+	                               	{% if d.item.name=='I'%}
+	                               	{{d.item.repeatTimes}}*{{ d.item.repeatDistance}}M
+	                               	{% endif%}
+	                               	{% if d.item.pace%}
+	                               	@{{d.item.pace}}
+	                               	{% endif %}
+	                               	<span class="mini get_date">{{d.date}}</span>
+	                               	</p>
+	                            </div>
+	                            <span class="weui-cell__ft"></span>
+	                        </a>
+	                        {% endfor %}
+	                    </div>
+	                </div>
+	            </div>
+	            {% endif %}
+	        {% endfor %}
+	        </div>
+
+		    {% endif %}
+
+
+		    <div class="weui-panel weui-panel_access">
+	            <div class="weui-panel__hd">说明：</div>
+	            <div class="weui-panel__bd">
+	                <div class="weui-media-box weui-media-box_text">
+	                    <p class="weui-media-box__desc">
+	                    <ul>
+		                    <li class="desc">
+		                    本训练计划，依照《汉森马拉松训练法》推导，以下简称“汉森训练法”
+		                    </li>
+		                    <li class="desc">
+		                    训练配速根据《丹尼尔斯经典跑步训练法》推导得出
+		                    </li>
+		                    <li class="desc">
+		                    各项赛事成绩预测根据《丹尼尔斯经典跑步训练法》推导得出
+		                    </li>
+	                	</ul>
+	                    </p>
+	                </div>
+	            </div>
+	        </div>
+
+
+		    <div class="page__bd page__bd_spacing">
+		    	<div class="weui-btn-area">
+			    	<a href="/ranker" class="weui-btn weui-btn_default">去测一测我超越了多少跑者</a>
+			    </div>
+			    <div class="weui-btn-area">
+			    	<a href="javascript:void(0);" id="btn_share" class="weui-btn weui-btn_plain-primary">分享给好友</a>
+			    </div>
+				<img src="/static/images/qrcode.jpg">
+				<h4>欢迎长按关注公众号</h4>
+				<!-- <img src="/static/images/running.jpg"> -->
+		    </div>
+			
+			
+			<div class="page__ft">
+		       	<div class="weui-footer">
+		            <p class="weui-footer__text">Copyright © 2016 lares.me</p>
+		        </div>
+		    </div>
+			
+		</div>
+		<div class="weui-mask" id="share_tips">
+			<img  src="/static/images/icon_wx_share.png" />
+		</div>
+		
+	<script type="text/javascript" src="/static/js/zepto.min.js"></script>
+	<script type="text/javascript" src="/static/js/fx.js"></script>
+	<script type="text/javascript" src="/static/js/fx_methods.js"></script>
+
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+	<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+	<script type="text/javascript">
+		$('#race_date').calendar({
+			value: ['{{data.race_date}}'],
+			onChange:function(p, values, displayValues){
+				$.getJSON('/racedate?date='+displayValues,function(r){
+					if(r.code<0){
+						//$('#racedate').values=
+						console.log(values);
+						//alert(r.msg);
+						$('#showTooltips').attr('href','javascript:;')
+						$.toast(r.msg);
+					}else{
+						$.toast(r.msg);
+						$('#showTooltips').attr('href','javascript:submit_form();')
+					}
+				});
+			}
+		});
+		$('#btn_getVDOT').click(function(){
+			// $('#getVDOT').val(1);
+
+			// $.toast("现在点击\"立即生成我的计划\"按钮即可");
+			// $('body').scrollTop(0);
+			window.location.href = '/vdot'
+		});
+    	function submit_form() {
+    		if($('#hour').val()=='00'&&$('#minute').val()=='00'&&$('#second').val()=='00'){
+    			$('#tips').fadeIn(500);
+    			$('#current_title').css('color','#ff0000').fadeIn(500);
+    			return;
+    		}
+    		$('#current_title').css('color','#000000');
+    		if($('#ihour').val()=='00'&&$('#iminute').val()=='00'&&$('#isecond').val()=='00'){
+    			$('#tips').fadeIn(500);
+    			$('#target_title').css('color','#ff0000').fadeIn(500);
+    			return;
+    		}    		
+    		$('#target_title').css('color','#000000');
+    		
+    		$('#form_ranker').submit();
+    		
+    	}
+
+		function getParams(){
+			var params = {};
+
+			params['project'] = $("#project").val();
+			params['hour'] = $("#hour").val();
+			params['minute'] = $("#minute").val();
+			params['second'] = $("#second").val();
+			params['ihour'] = $("#ihour").val();
+			params['iminute'] = $("#iminute").val();
+			params['isecond'] = $("#isecond").val();
+			params['race_date'] = $("#race_date").val();
+			console.log(params);
+			return params;
+		}
+		$('.loca_click').click(function(){
+			g_date = $(this).find('.get_date').text();
+			window.location.href = '/training?date_time='+g_date
+		});
+		$("#btn_plan").click(function(){
+
+			var params = getParams();
+
+			if(params['#hour']=='00'&& params['#minute'].val()=='00'&& params['#second'].val()=='00'){
+    			$('#tips').fadeIn(500);
+    			$('#current_title').css('color','#ff0000').fadeIn(500);
+    			return;
+    		}
+    		$('#current_title').css('color','#000000');
+    		if(params['#ihour']=='00'&& params['#iminute']=='00'&& params['#isecond']=='00'){
+    			$('#tips').fadeIn(500);
+    			$('#target_title').css('color','#ff0000').fadeIn(500);
+    			return;
+    		}    		
+    		$('#target_title').css('color','#000000');
+
+			$.ajax({
+				  type: 'POST',
+				  url: '/makeplan',
+				  data: params,
+				  dataType: 'json',
+				  success: function(rdata){
+					  console.log(rdata);
+					  alert(rdata.msg);
+					  if(rdata.code == 1){
+							window.location.href = '/plan?planid='+rdata.insert_id;
+					  }
+				  },
+				  error: function(xhr, type){
+					alert('Ajax error!');
+				  }
+			});
+		});
+    </script>
+	<script type="text/javascript">
+	{% if data.wx %}
+		wx.config({
+		    debug: false, 
+		    appId: '{{data.wx.appId}}', // 必填，公众号的唯一标识
+		    timestamp:{{data.wx.timestamp}} , // 必填，生成签名的时间戳
+		    nonceStr: '{{data.wx.nonceStr}}', // 必填，生成签名的随机串
+		    signature: '{{data.wx.signature}}',// 必填，签名，见附录1
+		    jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','showMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+		});
+		
+
+		wx.ready(function(){
+			{% if not data.planid %}
+		    share_title="定制我的马拉松训练计划";
+		    {% else %}
+		    share_title="{{data.user_info['name']}}的马拉松训练计划";
+		    {% endif %}
+		    share_desc = '依照《丹尼尔斯经典跑步训练法》和《汉森马拉松训练法》，结合跑者现状，生成个人训练计划，助飞马拉松';
+		    share_link = '{{data.wx.url}}';
+		    share_type = 'link';
+		    share_dataUrl = '';
+
+		    share_data = {
+		    	title: share_title, // 分享标题
+			    desc: share_desc,
+			    link: share_link, // 分享链接
+			    imgUrl: 'http://x.lares.me/static/images/running.jpg', // 分享图标
+			    type: share_type, // 分享类型,music、video或link，不填默认为link
+			    dataUrl: share_dataUrl, // 如果type是music或video，则要提供数据链接，默认为空
+
+		    }
+			$('#share_tips').click(function(){
+				$('#share_tips').fadeOut();
+			});
+			$('#btn_share').click(function(){
+				$('#share_tips').fadeIn();
+				// wx.onMenuShareAppMessage(share_data);
+			});
+		    wx.onMenuShareAppMessage({
+			    title: share_title, // 分享标题
+			    desc: share_desc, // 分享描述
+			    link: '{{data.wx.url}}', // 分享链接
+			    imgUrl: 'http://x.lares.me/static/images/running.jpg', // 分享图标
+			    type: 'link', // 分享类型,music、video或link，不填默认为link
+			    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+			    success: function () { 
+			        // 用户确认分享后执行的回调函数
+			    },
+			    cancel: function () { 
+			        // 用户取消分享后执行的回调函数
+			    }
+			});
+			wx.onMenuShareTimeline({
+			    title: share_title, // 分享标题
+			    link: '{{data.wx.url}}', // 分享链接
+			    imgUrl: 'http://x.lares.me/static/images/running.jpg', // 分享图标
+			    success: function () { 
+			        // 用户确认分享后执行的回调函数
+			    },
+			    cancel: function () { 
+			        // 用户取消分享后执行的回调函数
+			    }
+			});
+		});
+
+	{% endif %}
+	</script>
+	<script type="text/javascript" src="/static/js/ga.js"></script>
+	</body>
+</html>

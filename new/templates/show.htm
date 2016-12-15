@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	    <meta name="viewport" content="initial-scale=1, user-scalable=0, minimal-ui">
+	    <link rel="stylesheet" href="/static/css/weui.min.css"/>
+	    <style type="text/css">
+	    	body{font-family: '微软雅黑';vertical-align: text-bottom;background-color: #232227;color: white;}
+	    	h1,h3,h4,p{text-align: center;}
+	    	li{/*margin-left: 1em;*/}
+	    	span.red{color: #FF0000;font-weight: bold;padding:0 0.5em;}
+	    	img{width: 100%;margin:0;padding:0;}
+	    	a{text-decoration: none;color: blue}
+	    	img.headimg{width: 2.5em;height: 2.5em;border-radius: 1.5em;vertical-align: middle;}
+	    	h3.nickname{font-size: 1.5em;line-height: 1.5em;vertical-align: text-bottom; margin:0.5em auto;}
+	    	#header{margin:0;padding-top:20px;width:100%;display: block;clear:both;}
+	    	#middle{
+	    		margin:0;padding-top:20px;width:100%;display: block;clear:both;
+	    		height: 7rem;
+    		    background-color: #323548;
+			    width: 88%;
+			    margin: 5%;
+			    border-radius: 0.5rem;
+	    	}
+	    	#header div,#middle div,#plan div{margin:0;padding:0;float: left;}
+	    	#header div{width:33%;}
+	    	#header h4,#header span{margin:0;padding:0;font-size:13px;line-height: 35px;}
+	    	#header #age{margin-right: 0.8rem;}
+	    	#header #remaindays{font-weight:normal;padding-top:10px;width: 30%;margin-left: 3%;}
+	    	#header #days{font-weight:normal;font-size:20px;color: #ff3c00}
+	    	#middle{height:100px;}
+	    	/*#middle div{width:49%; height:80px;font-size:14px;}*/
+	    	#middle #left{margin:0;padding:0;}
+	    	#middle #left p{float: left;line-height: 25px;margin-left: 2rem;}
+	    	#middle #right{margin:0;padding-top:10px;}
+	    	p.vot{margin:5px 15px;width:70px; height:70px; border:solid 1px #F00; border-radius:35px;}
+			p.vot span{font-family:Arial, Helvetica;font-style: italic;font-size:25px;height:70px; line-height:70px; display:block; color:#F00; text-align:center;}
+			p.vot img{margin:10px 0;width:50px;}
+	    	p.baike,p.calc{
+	    		margin:0;padding:5px 0;
+	    		background: url('/static/images/icon_right.png') no-repeat 5px;
+	    		line-height: 20px
+	    	}
+	    	#plan #project,#plan #process{margin-top:20px;width:100%;font-size:14px;margin-bottom: -1rem;}
+	    	#plan #project div{float:left;width:35%;}
+	    	#plan #process div{margin:0;padding:0;width:40%;height:50px;}
+	    	#plan #process #left{margin-left:4rem;width:30%;}
+	    	#plan #process #right{padding-top:10px;}
+	    	#plan #pushstatus{margin:2% 5%;width:90%;font-size: 14px;text-align: center;line-height: 30px;}
+			#plan #pushstatus div{float:left;}
+	    	#plan p{margin:0;line-height: 25px}
+			p.start{
+	    		margin:0;padding:0 0 0 20px;
+	    		background: url('/static/images/icon_right.png') no-repeat 5px;
+	    		line-height: 20px
+	    	}
+	    	#plan{
+    		    background-color: #323548;
+			    height: 7rem;
+			    width: 88%;
+			    margin: 5%;
+			    border-radius: 0.5rem;
+	    	}
+	    	#plan #text{padding-left:20px;}
+	    	#milestone img{float:left;}
+			.dis_milestone{
+			  position:fixed;
+			  width:80%;
+			  height:200px;
+			  background:#fff;
+			  left:50%;
+			  top:50%;
+			  margin-left:-40%;
+			  margin-top:-150px;
+			  border: solid 1px #bbb;
+			  display: none
+			}
+			.dis_milestone img{height:80px;}
+			.dis_milestone dd{margin:0 auto;padding:0;padding-bottom:20px;width:60%;text-align: center}
+			#close{display: block;margin-top:-180px;float:right;}
+	    	#footer{clear:both;margin:0 auto 2rem;padding-top:20px;width:100%;text-align: center}
+	    	p.text{margin:0 auto;padding:1rem;width:75%;font-size: 14px;text-align: center}
+
+			#btnopen{
+			        width: 45px;
+			        height: 26px;
+			        border-radius: 15px;
+			        position: relative;
+			    }
+			    #btnclose{
+			        width: 25px;
+			        height: 25px;
+			        border-radius: 14px;
+			        position: absolute;
+			        background: white;
+			        box-shadow: 0px 2px 4px rgba(0,0,0,0.4);
+			    }
+			    .open1{
+			        background: rgba(0,184,0,0.8);
+			    }
+			    .open2{
+			        top: 1px;
+			        right: 1px;
+			    }
+			    .close1{
+			        background: rgba(255,255,255,0.4);
+			        border:1px solid rgba(0,0,0,0.15);
+			        border-left: transparent;
+			    }
+			    .close2{
+			        left: 0px;
+			        top: 0px;
+			        border:1px solid rgba(0,0,0,0.1);
+			    }
+	            .box{
+		        margin: 2rem auto 0;
+		        width:8rem; height:8rem;
+		        -webkit-border-radius:50px;
+		        -moz-border-radius:50px;
+		        -o-border-radius:50px;
+		        border-radius:50px;
+		        text-align: center;
+		        }
+	            .box_up{
+		        color:white;
+		        text-align: center;
+		        width: 50px;
+		        }
+
+		        .box_down{
+		        margin-left: 1.5rem;
+		        width:100px;
+		        height:30px;
+		        color:white;
+		        margin-top: -0.5rem;
+		        }
+		        .run_img{
+	        	width: 23%;
+    			margin: 1.5rem 1rem -0.5rem 2rem;
+		        }
+		        #mara_bk{
+    		    background-color: #323548;
+			    padding: 1rem;
+			    width: 30%;
+			    margin: 5%;
+			    border-radius: 0.5rem;
+		        }
+		        #bisai{
+	        	float: right;
+    		    background-color: #323548;
+			    padding: 1rem;
+			    width: 30%;
+			    margin: -4.9rem 1.5rem 0 0;
+			    border-radius: 0.5rem;
+		        }
+		        .shuxian{
+	        	float: left;
+			    margin: -4.5rem 0 0 49%;
+		        width: 1px;
+			    height: 2.5rem;
+			    background-color: #bababa;;
+		        }
+		        .cup{
+	        	width: 22%;
+	        	margin: 1.8rem 0 0 0.5rem;
+		        }
+		        .sex{
+	        	width: 9%;
+			    float: left;
+			    margin: 0.4rem 0 0 0.6rem;
+		        }
+		        .shuzi{
+        	    margin-left: 1rem;
+    			color: #ff622c;
+		        }
+		        .week_day{
+        	    color: #bababa;
+			    display: block;
+			    float: right;
+			    margin: -2px 4rem 0 0;
+		        }
+		        .zzcolor{
+	        	color: #bababa;
+		        }
+		        .dayshu{
+				font-size: 0.1rem;
+			    float: left;
+			    width: 2rem;
+			    margin: 2.5rem 0rem 0 -1.8rem;
+			    display: block;
+			    text-align: center;
+		        }
+	    </style>
+	    <title>我</title>
+	</head>
+
+	<body>
+		<div id="container" class="container">
+
+			<h1 class="page__title">
+				{% if data.user_info %}
+				<div id="header">
+					<div id="remaindays">
+						{% if data.plan_info['remaindays'] %}
+						<h4 class="zzcolor">目标日倒计时</h4>
+						<h4 id="days">{{data.plan_info['remaindays']}}</h4>
+						{% endif %}
+					</div>
+					<div style="margin-bottom: 1rem;">
+						<img class="headimg" src="{{data.user_info['headimgurl']}}">
+						<h4 style="float: left;width: 44%;">{{data.user_info['name']}}</h4>
+						{% if data.user_info['gender'] == 1%}
+						<img src="/static/images/man@2x.png" class='sex'>
+						{% elif data.user_info['gender'] == 2 %}
+						<img src="/static/images/woman@2x.png" class='sex'>
+						{% endif %}
+						{% if data.user_info['age'] %}<h4 id="age" style="float: right;font-size: 13px;">{{data.user_info['age']}}岁{% endif %}</h4>
+					</div>
+					<a href="/cuplist" style="color:white">
+					<div id='milestone'>
+					{% if data.plan_info['trainingdays'] %}
+						{% if data.plan_info['trainingdays'] =='bingo' %}
+							<img src="/static/images/done@2x.png" title="里程碑" class="cup">
+						{% elif data.plan_info['trainingdays'] >= 5%}
+							<img src="/static/images/rongyu_small@2x.png" title="里程碑" class="cup">
+							<font class="dayshu">
+							{{data.plan_info['trainingdays']}}
+							</font>
+						{% elif data.plan_info['trainingdays'] < 5%}
+						<img src="/static/images/rongyu_small_non@2x.png" title="里程碑" class="cup">
+						<font class="dayshu">
+						{{data.plan_info['trainingdays']}}
+						</font>
+						{% endif %}
+					{% endif %}
+					</div>
+					</a>
+				</div>
+				{% endif%}
+	        </h1>
+<!-- 			<div class="dis_milestone">
+				<dd><img src="/static/images/{{data.plan_info['milestone']}}" title="里程碑"></dd>
+				<dd>里程碑</dd>
+				<dd>坚持{{data.plan_info['trainingdays']}}日训练</dd>
+				<div id="close"><a href='#'>关闭</a></div>
+			</div> -->
+
+	        <div id="middle">
+	        	<div id="left">
+<!-- 	        		 <p class="vot"><a href='/vdot'>{% if data.plan_info['vdots'] %}<span id="t_vdot">{{data.plan_info['vdots']}}</span>{% else %}<img src='/static/images/icon_vdot.png' width="50px">{% endif %}</a></p> -->
+				{% if data.plan_info['ranker'] %}
+				<div class="box">
+        		     <img src="/static/images/ball@2x.png" style="width: 66%;float: left;margin-left: 3rem;">
+				    <div class="box_up" style="margin: -4rem 0rem 0 4rem;">
+				    <font id ='t_vdot'style="font-size: 1rem;">
+				    {{data.plan_info['vdots']}}
+				    </font>
+				    </div>
+				    <div class="box_down" style="margin: -2rem 0 0 2.5rem;font-size: 0.5rem;">跑力值</div>
+			    </div>
+			    {% else %}
+			    <a href="/vdot">
+				<div class="box">
+        		     <img src="/static/images/ball@2x.png" style="width: 66%;float: left;margin-left: 3rem;">
+				    <div class="box_up" style="margin: -4rem 0rem 0 4rem;"><font style="font-size: 1rem;">
+				    测一测
+				    </font>
+				    </div>
+				    <div class="box_down" style="margin: -2rem 0 0 2.5rem;font-size: 0.5rem;">跑力值</div>
+			    </div>
+			    </a>
+			    {% endif %}
+	        		 <p style="margin: 1rem 0 0 1rem;" class="zzcolor">跑力排力<br><span id="t_ranker" class="zzcolor">{% if data.plan_info['ranker'] %}{{data.plan_info['ranker']}}{% else %}? ? ?{% endif %}</span></p>
+	        	</div>
+	        	{% if data.plan_info['remaindays'] %}
+	        	<div style="width: 25%;margin-left: 1rem;">
+	        		<img src="/static/images/run@2x.png" class='run_img'>
+	        		<font style="font-size: 0.5rem;margin-left: 0.5rem;" class="zzcolor">分享跑力值</font>
+	        	</div>
+	        	{% endif %}
+<!-- 	        	<div id="right">
+	        		<p class="baike"><a href='http://x.lares.me/baikelist'>马拉松百科</a></p>
+	        		<p class="calc"><a href='http://x.lares.me/marathonlist'>比赛日程</a></p>
+	        	</div> -->
+	        </div>
+	        <div>
+	        	<a href="/baikelist">
+		        <div id="mara_bk">
+		        <img src="/static/images/baike@2x.png" style="width: 20%">
+		        <font class="zzcolor" style="display: block;float: right;">马拉松百科</font>
+		        </div>
+		        </a>
+		        <font class="shuxian">
+		        </font>
+		        <a href='/marathonlist'>
+		        <div id="bisai">
+		        <img src="/static/images/richeng@2x.png" style="width: 20%">
+		        <font class="zzcolor" style="display: block;float: right;margin-right: 1rem;">比赛日程</font>
+		        </div>
+		        </a>
+	        </div>
+	        {% if data.plan_info['remaindays'] %}
+	        <div id="plan">
+	        	<div id="project">
+	        		<div style="margin: -0.5rem -4rem 0 1rem;">
+	        		<img src="/static/images/time_me@2x.png" style="width: 12%">
+	        		<font class="week_day">{{data.plan_info['totalweek']}}周</font>
+	        		</div>
+	        		<div style="margin: -0.5rem 0 0 1rem;">
+	        		<img src="/static/images/xiangmu_me@2x.png" style="width: 12%">
+	        		<font class="week_day">{{data.plan_info['project']}}</font>
+	        		</div>
+	        	</div>
+	        	<div id="process">
+	        		<div id="left" style="font-size: 1rem;width: 40%;">
+		        		<p><font class="zzcolor">{{data.plan_info['project']}}训练</font> <font class="shuzi" style="margin-left: 0.5rem;">{{data.plan_info['progress']}}</font></p>
+		        		<p><font class="zzcolor">{% if data.plan_info['keepdays'] %}已坚持</font> <font class="shuzi"> {{data.plan_info['keepdays']}}天</font>{% else %}未开始{% endif %}</p>
+	        		</div>
+	 <!--        		<div id="right">
+	        			<p class="start"><a href="/training">开始训练</a></p>
+	        		</div> -->
+	        		<a href="/training">
+		        	<div style="width: 25%;margin-left: 1rem;">
+	        		<img src="/static/images/run@2x.png" class='run_img' style="margin: 0.5rem 1rem -0.5rem 2rem;">
+	        		<font style="font-size: 0.5rem;margin-left: 1rem;" class="zzcolor">开始训练</font>
+	        		</div>
+	        		</a>
+	        	</div>
+	        </div>
+	        {% endif %}
+        		<p class="text zzcolor">"把左脚放在右脚前面，再把右脚放在左脚前面，重复大约5万6000次，就是马拉松。"</p>
+	        	<div id="pushstatus" style="text-align: center;padding-left: 4rem;">
+	        		<font class="zzcolor">每日训练计划推送</font>
+	        		<div style="width:100px;float: right;">
+	        			<div id="btnopen" class="{{data.plan_info['push_class1_name']}}">
+       						<div id="btnclose" class="{{data.plan_info['push_class2_name']}}"></div>
+       					</div>
+	        		</div>
+	        	</div>
+	        <div id="footer">
+        		{% if data.plan_info['remaindays'] %}
+	        	<a class="weui-btn weui-btn_primary" href="/planlist_new">我的训练计划</a>
+	        	{% else %}
+	        	<a class="weui-btn weui-btn_primary" href="/vdot">制定训练计划</a>
+	        	{% endif %}
+	        </div>
+	    </div>
+	</body>
+	<script type="text/javascript" src="/static/js/ga.js"></script>
+	<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/static/js/jquery.color.min.js"></script>
+	<script type="text/javascript" src="/static/js/jquery.animateNumber.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$('#close').click(function(){
+			$(this).parent('div').css('display','none')
+		})
+		$('#milestone').click(function(){
+			$('.dis_milestone').css('display','block')
+		})
+		var t_vdot = $("#t_vdot").text();
+		var decimal_places = 1;
+		var decimal_factor = decimal_places === 0 ? 1 : decimal_places * 10;
+		var t_ranker = $("#t_ranker").text();
+		if(String(t_vdot).indexOf(".")>-1){
+			$('#t_vdot')
+			  .animateNumber(
+			    {
+			      number: t_vdot * decimal_factor,
+			      numberStep: function(now, tween) {
+			        var floored_number = Math.floor(now) / decimal_factor,
+			            target = $(tween.elem);
+			        if (decimal_places > 0) {
+			          floored_number = floored_number.toFixed(decimal_places);
+			          floored_number = floored_number.toString().replace('.', '.');
+			        }
+			        target.text(floored_number);
+			      }
+			    },
+			    500
+			  );
+		}else{
+			$('#t_vdot').animateNumber({ number: t_vdot })
+		}
+		if(Number(t_ranker)>0){$('#t_ranker').animateNumber({ number: t_ranker * 1.0 })}
+
+        var btnopen=document.getElementById("btnopen");
+        var btnclose=document.getElementById("btnclose");
+        btnclose.onclick=function(){
+          btnopen.className=(btnopen.className=="close1")?"open1":"close1";
+          btnclose.className=(btnclose.className=="close2")?"open2":"close2";
+          $.post("/showme/pushstatus",
+          {
+            pushstatus:$(this).attr('class')
+          },
+          function(data,status){
+          });
+        }
+
+	});
+	</script>
+</html>

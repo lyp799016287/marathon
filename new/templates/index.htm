@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	    <meta name="viewport" content="initial-scale=1, user-scalable=0, minimal-ui">
+	    <style type="text/css">
+	    	body{font-family: '微软雅黑'}
+	    	h1{text-align: center;}
+	    	li{/*margin-left: 1em;*/}
+	    	span.red{color: #FF0000;font-weight: bold;padding:0 0.5em;}
+	    	h3,h4,h5{text-align: center;}
+	    	img{width: 100%;margin:0;padding:0;}
+	    </style>
+	    <title>{{data.title}}</title>
+	</head>
+
+	<body>
+		<h1>{{data.title}}</h1>
+		
+		{% if data.user_info %}
+		<div class="userinfo">
+			<h3>
+				{{data.user_info["nickname"]}}，欢迎来到这里<br>
+				与众多小伙伴一起<br>
+				开启科学、安全的马拉松之旅!
+			</h3>
+			<img src='{{data.user_info["headimgurl"]}}'>
+		</div>
+		{% else %}
+		<h3>
+			欢迎来到这里<br>
+			与众多小伙伴一起<br>
+			开启科学、安全的马拉松之旅!
+		</h3>
+		{% endif %}
+		<h4>
+		这个小项目还在探索和调试中，<br>
+		欢迎给提建议哟~直接在公众号留言即可
+		</h4>
+		<img src="/static/images/running.jpg">
+		<h5>欢迎长按关注公众号</h5>
+		<img src="/static/images/qrcode.png">
+		<script type="text/javascript" src="/static/js/ga.js"></script>
+	</body>
+</html>

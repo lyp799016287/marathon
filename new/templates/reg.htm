@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	    <meta name="viewport" content="initial-scale=1, user-scalable=0, minimal-ui">
+	    <link rel="stylesheet" href="/static/css/sm.min.css"/>
+	    <link rel="stylesheet" href="/static/css/weui.min.css"/>
+	    <style type="text/css">
+	    	body{font-family: '微软雅黑';vertical-align: text-bottom;background: url('/static/images/bg.jpg');background-size:100%;color:white;}
+	    	h1,h3{text-align: center;}
+	    	li{/*margin-left: 1em;*/}
+	    	span.red{color: #FF0000;font-weight: bold;padding:0 0.5em;}
+	    	img{width: 100%;margin:0;padding:0;}
+	    	a{text-decoration: none;color: blue}
+	    	img.headimg{width: 3.5em;height: 3.5em;border-radius: 2.5em;vertical-align: middle; margin: 1.5em}
+	    	h3.nickname{font-size: 1.5em;line-height: 1.5em;vertical-align: text-bottom; margin:0.5em auto;}
+	    	p{text-align: center;}
+	    	input{
+	    		background-color:transparent; 
+	    	}
+	    	option{
+	    		color:black;
+	    	}
+	        .current-month-value,.picker-calendar-year-picker{
+            	color: #3d4145
+    		}
+	    </style>
+	    <title>{{data.title}}</title>
+	</head>
+
+	<body>
+		<div id="container" class="container">
+
+			<h1 class="page__title">
+				{% if data.user_info %}
+					<h3 class="nickname">
+						<img class="headimg" src="{{data.user_info['headimgurl']}}">
+					</h3>
+					<p>{{data.user_info['nickname']}}</p>
+				{% endif%}
+	        </h1>
+
+<!--         		<div class="weui-cell" style='position: initial;'>
+					<div class="weui-cell__hd">
+						<label for="" class="weui-label">昵称</label>
+					</div>
+					<div class="weui-cell__bd">
+						<label>
+						{{data.user_info['nickname']}}
+						</label>
+					</div>
+				</div> -->
+				<div class="weui-cell weui-cell_select weui-cell_select-after" style='position: initial;'>
+					<div class="weui-cell__hd">
+						<label for="" class="weui-label">性别</label>
+					</div>
+					<div class="weui-cell__bd">
+						<select id="gender" name="gender" class="weui-select">
+							<option value="1">男</option>
+							<option value="2">女</option>
+						</select>
+					</div>
+				</div>
+				<div class="weui-cell">
+					<div class="weui-cell__hd">
+						<label for="" class="weui-label" id="target_title">出生日期</label>
+					</div>
+					<div class="weui-cell__bd">
+						<input id="birth_date" name="birth_date" type="text" data-toggle='date' />
+					</div>
+				</div>
+				<div class="weui-cell">
+				</div>
+				<div style='margin-top: 3em;'>
+				<p style='text-align: center;'>你是谁?</p>
+				</div>
+			 <div class="weui-btn-area">
+				<a class="weui-btn weui-btn_primary" href="javascript:void(0);" id="btn_next" name="btnsubmit">下一步</a>
+			</div>
+		</div>
+	<script type="text/javascript" src="/static/js/zepto.min.js"></script>
+	<script type="text/javascript" src="/static/js/fx.js"></script>
+	<script type="text/javascript" src="/static/js/fx_methods.js"></script>
+	<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+	<script type="text/javascript" src="/static/js/ga.js"></script>
+	<script type="text/javascript">
+		var myDate = new Date();
+		var today = myDate.getFullYear()-31 + '-'+ (myDate.getMonth()+1) + '-' + myDate.getDate()
+
+		$('#birth_date').calendar({
+			value: [today],
+			/*onChange:function(p, values, displayValues){
+				$.getJSON('/racedate?date='+displayValues,function(r){
+					if(r.code<0){
+						//$('#racedate').values=
+						console.log(values);
+						//alert(r.msg);
+						$('#showTooltips').attr('href','javascript:;')
+						$.toast(r.msg);
+					}else{
+						$.toast(r.msg);
+						$('#showTooltips').attr('href','javascript:submit_form();')
+					}
+				});
+			}*/
+		});
+
+		$('#btn_next').click(function(){
+			var params = {};
+
+			params['gender'] = $("#gender").val();
+			params['birthday'] = $("#birth_date").val();
+
+			if($.trim(params['birthday']) == ''){
+				$.toast("请选择出生日期");
+			}
+
+			$.ajax({
+				  type: 'POST',
+				  url: '/reg',
+				  data: params,
+				  dataType: 'json',
+				  success: function(rdata){
+					  console.log(rdata);
+					  alert(rdata.msg);
+					  if(rdata.code == 1){
+							window.location.href = '/vdot';
+					  }
+				  },
+				  error: function(xhr, type){
+					alert('Ajax error!');
+				  }
+			});
+		});
+
+
+	</script>
+	</body>
+</html>
